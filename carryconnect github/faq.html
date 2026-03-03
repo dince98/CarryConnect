@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ · CarryConnect</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
+            padding: 1rem 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-size: 28px !important;
+            font-weight: 800 !important;
+            color: white !important;
+            letter-spacing: -0.5px;
+        }
+        
+        .navbar-brand span {
+            color: #3b82f6;
+        }
+        
+        .nav-link {
+            color: rgba(255,255,255,0.9) !important;
+            font-weight: 600;
+            margin: 0 5px;
+            padding: 8px 16px !important;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .nav-link:hover {
+            background: rgba(59, 130, 246, 0.2);
+            color: white !important;
+        }
+        
+        .nav-link.active {
+            background: #3b82f6 !important;
+            color: white !important;
+        }
+        
+        .dropdown-menu {
+            background: #1e293b;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 8px;
+            margin-top: 8px;
+        }
+        
+        .dropdown-item {
+            color: rgba(255,255,255,0.9);
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .dropdown-item:hover {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .dropdown-item i {
+            width: 20px;
+            margin-right: 10px;
+            color: #3b82f6;
+        }
+        
+        .dropdown-item:hover i {
+            color: white;
+        }
+        
+        .btn-account {
+            border: 2px solid rgba(255,255,255,0.2);
+            color: white !important;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-account:hover {
+            background: rgba(59, 130, 246, 0.2);
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 52px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.95;
+        }
+        
+        .intro {
+            padding: 80px 0;
+            text-align: center;
+            background: white;
+        }
+        
+        .intro h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #1e293b;
+        }
+        
+        .intro p {
+            font-size: 18px;
+            color: #64748b;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+        
+        .faq-section {
+            padding: 60px 0;
+            background: #f8fafc;
+        }
+        
+        .faq-item {
+            background: white;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        
+        .faq-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(102,126,234,0.1);
+        }
+        
+        .faq-question {
+            padding: 22px 30px;
+            background: white;
+            font-weight: 700;
+            font-size: 18px;
+            color: #1e293b;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .faq-question:hover {
+            background: #f8fafc;
+        }
+        
+        .faq-question i {
+            color: #667eea;
+            transition: transform 0.3s;
+            font-size: 18px;
+        }
+        
+        .faq-question[aria-expanded="true"] i {
+            transform: rotate(180deg);
+        }
+        
+        .faq-answer {
+            padding: 0 30px 22px 30px;
+            color: #64748b;
+            font-size: 16px;
+            line-height: 1.7;
+        }
+        
+        .faq-answer a {
+            color: #667eea;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        
+        .faq-answer a:hover {
+            text-decoration: underline;
+        }
+        
+        .faq-category {
+            margin: 40px 0 20px 0;
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e293b;
+            border-left: 5px solid #667eea;
+            padding-left: 20px;
+        }
+        
+        .faq-category:first-of-type {
+            margin-top: 0;
+        }
+        
+        .cta-section {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .cta-section h2 {
+            font-size: 40px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+        
+        .cta-section .btn-cta {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 700;
+            padding: 15px 45px;
+            border-radius: 50px;
+            font-size: 18px;
+            border: none;
+            margin-top: 30px;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .cta-section .btn-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        
+        footer {
+            background: #0f172a;
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+        
+        .social-icons a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+        
+        .social-icons a:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 30px;
+            margin-top: 40px;
+            text-align: center;
+            color: rgba(255,255,255,0.5);
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 36px; }
+            .intro h2 { font-size: 28px; }
+            .cta-section h2 { font-size: 28px; }
+            .faq-question { font-size: 16px; padding: 18px 20px; }
+            .faq-answer { padding: 0 20px 18px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+        <a class="navbar-brand" href="index.html">
+            <span>Carry</span>Connect
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="HowItWorks.html">How It Works</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link btn-account dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user-circle"></i> Account
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="LoginAndRegister.html?tab=login"><i class="fas fa-key"></i> Login</a></li>
+                        <li><a class="dropdown-item" href="LoginAndRegister.html?tab=register"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="container">
+        <h1>Frequently Asked Questions</h1>
+        <p class="lead">Got questions? We've got answers. Find everything you need to know about our boosting services.</p>
+    </div>
+</section>
+
+<section class="intro">
+    <div class="container">
+        <h2>How Can We Help?</h2>
+        <p>We've compiled the most common questions from our community. If you can't find what you're looking for, our support team is available 24/7 to assist you.</p>
+    </div>
+</section>
+
+<section class="faq-section">
+    <div class="container">
+        <div class="faq-category">General Questions</div>
+        
+        <div class="faq-item">
+            <div class="faq-question" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="false">
+                <span>What is CarryConnect?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div id="faq1" class="collapse faq-answer">
+                CarryConnect is a manual game boosting service run by passionate gamers. We help players reach their desired ranks in games like League of Legends, Valorant, and Roblox. No bots, no scripts—just pure skill and dedication.
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question" data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false">
+                <span>Which games do you support?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div id="faq2" class="collapse faq-answer">
+                We currently offer boosting for League of Legends, Valorant, and Roblox. This includes rank boosting, placement matches, farming services, and coaching sessions. More games coming soon!
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question" data-bs-toggle="collapse" data-bs-target="#faq3" aria-expanded="false">
+                <span>How long does a boost take?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div id="faq3" class="collapse faq-answer">
+                Delivery time varies based on the game, current rank, and desired rank. Most League of Legends boosts (e.g., Gold to Platinum) are completed within 1-3 days. You'll receive an estimated timeframe before ordering and updates throughout the process.
+            </div>
+        </div>
+        
+        <div class="faq-category">Safety & Security</div>
+        
+        <div class="faq-item">
+            <div class="faq-question" data-bs-toggle="collapse" data-bs-target="#faq4" aria-expanded="false">
+                <span>Is my account safe?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div id="faq4" class="collapse faq-answer">
+                <strong>Account safety is our top priority.</strong> We use VPNs that match your region, never chat with friends, never modify account details, and all boosters sign NDAs. We've completed thousands of orders with zero account issues.
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question" data-bs-toggle="collapse" data-bs-target="#faq5" aria-expanded="false">
+                <span>Do you use bots or cheats?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div id="faq5" class="collapse faq-answer">
+                Never. Every order is done manually by real, high-ranked players. No bots, no scripts, no cheats — just pure skill and game knowledge. We're gamers ourselves and take pride in honest work.
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question" data-bs-toggle="collapse" data-bs-target="#faq6" aria-expanded="false">
+                <span>Will Riot/Epic/Roblox ban my account?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div id="faq6" class="collapse faq-answer">
+                Boosting is against terms of service, but we take every precaution to avoid detection: natural play patterns, no win-trading, and region-matched VPNs. Our methods are discreet and proven safe over thousands of orders.
+            </div>
+        </div>
+        
+        <div class="faq-category">Payments</div>
+        
+        <div class="faq-item">
+            <div class="faq-question" data-bs-toggle="collapse" data-bs-target="#faq7" aria-expanded="false">
+                <span>What payment methods do you accept?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div id="faq7" class="collapse faq-answer">
+                We accept all major credit/debit cards, PayPal, and cryptocurrency (BTC/ETH). All payments are processed securely through encrypted gateways.
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question" data-bs-toggle="collapse" data-bs-target="#faq8" aria-expanded="false">
+                <span>Is there a refund policy?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div id="faq8" class="collapse faq-answer">
+                Yes, we offer a full refund if we cannot start your order within 48 hours. Partial refunds may be available if you cancel mid-boost. See our <a href="refund.html">Refund Policy</a> for complete details.
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question" data-bs-toggle="collapse" data-bs-target="#faq9" aria-expanded="false">
+                <span>When do I pay?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div id="faq9" class="collapse faq-answer">
+                Payment is required upfront to secure your order and booster. You'll only be asked for login details after payment is confirmed. We use secure payment processors to protect your information.
+            </div>
+        </div>
+        
+        <div class="faq-category">Boosting Process</div>
+        
+        <div class="faq-item">
+            <div class="faq-question" data-bs-toggle="collapse" data-bs-target="#faq10" aria-expanded="false">
+                <span>How do I place an order?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div id="faq10" class="collapse faq-answer">
+                Select your game, current rank, desired rank, and any extras like streaming or priority order. Complete checkout, and we'll match you with an available booster within 15 minutes. You'll receive confirmation and estimated start time.
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question" data-bs-toggle="collapse" data-bs-target="#faq11" aria-expanded="false">
+                <span>Can I play with the booster?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div id="faq11" class="collapse faq-answer">
+                Yes! For most games, you can select "duo boost" where you play alongside our pro. For solo boosting, we play on your account while you're offline. Both options are safe and effective.
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question" data-bs-toggle="collapse" data-bs-target="#faq12" aria-expanded="false">
+                <span>Can I get updates during the boost?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div id="faq12" class="collapse faq-answer">
+                Absolutely! You'll receive email/SMS updates, or you can check progress live on our dashboard. You can also message support anytime for status updates.
+            </div>
+        </div>
+        
+        <div class="faq-category">Warranty & Support</div>
+        
+        <div class="faq-item">
+            <div class="faq-question" data-bs-toggle="collapse" data-bs-target="#faq13" aria-expanded="false">
+                <span>Do you offer a rank warranty?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div id="faq13" class="collapse faq-answer">
+                Yes! We provide a 72-hour free refill warranty. If you drop below your target rank within 72 hours of completion, we'll boost you back up at no cost. Just contact support with proof.
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question" data-bs-toggle="collapse" data-bs-target="#faq14" aria-expanded="false">
+                <span>What if the booster loses games?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div id="faq14" class="collapse faq-answer">
+                Our boosters maintain a high win rate (80%+), but occasional losses happen. We track progress and extend playtime as needed to ensure you reach your target rank. No extra charges, ever.
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question" data-bs-toggle="collapse" data-bs-target="#faq15" aria-expanded="false">
+                <span>How do I contact support?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div id="faq15" class="collapse faq-answer">
+                Our support team is available 24/7 via Discord, email (support@carryconnect.com), or through our <a href="contact.html">contact page</a>. We typically reply within minutes, not hours.
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="container">
+        <h2>Still have questions?</h2>
+        <p class="lead mb-4">Our support team is ready to help you 24/7.</p>
+        <a href="contact.html" class="btn btn-cta">Contact Us Now</a>
+        <p class="mt-4" style="opacity: 0.7;"><i class="fas fa-shield-alt me-2"></i> We typically reply within minutes</p>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <a href="index.html" class="footer-logo">
+                    <span>Carry</span>Connect
+                </a>
+                <p class="mt-3" style="color: rgba(255,255,255,0.7);">A small, passionate team of gamers offering manual boosting services. No bots, just skill.</p>
+                <div class="social-icons mt-4">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-discord"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 mb-4 offset-lg-1">
+                <h5 style="color: white; font-weight: 700;">Company</h5>
+                <ul class="footer-links mt-3">
+                    <li><a href="about.html">About Us</a></li>
+                    <!-- Join the team and Blog removed as requested -->
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <!-- Services section removed as requested -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h5 style="color: white; font-weight: 700;">Support</h5>
+                <ul class="footer-links mt-3">
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="refund.html">Refund Policy</a></li>
+                    <li><a href="contact.html">Contact Support</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p class="mb-0">© 2026 CarryConnect. An indie boosting collective. All game trademarks belong to their respective owners.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

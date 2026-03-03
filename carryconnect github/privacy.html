@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy · CarryConnect</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
+            padding: 1rem 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-size: 28px !important;
+            font-weight: 800 !important;
+            color: white !important;
+            letter-spacing: -0.5px;
+        }
+        
+        .navbar-brand span {
+            color: #3b82f6;
+        }
+        
+        .nav-link {
+            color: rgba(255,255,255,0.9) !important;
+            font-weight: 600;
+            margin: 0 5px;
+            padding: 8px 16px !important;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .nav-link:hover {
+            background: rgba(59, 130, 246, 0.2);
+            color: white !important;
+        }
+        
+        .nav-link.active {
+            background: #3b82f6 !important;
+            color: white !important;
+        }
+        
+        .dropdown-menu {
+            background: #1e293b;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 8px;
+            margin-top: 8px;
+        }
+        
+        .dropdown-item {
+            color: rgba(255,255,255,0.9);
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .dropdown-item:hover {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .dropdown-item i {
+            width: 20px;
+            margin-right: 10px;
+            color: #3b82f6;
+        }
+        
+        .dropdown-item:hover i {
+            color: white;
+        }
+        
+        .btn-account {
+            border: 2px solid rgba(255,255,255,0.2);
+            color: white !important;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-account:hover {
+            background: rgba(59, 130, 246, 0.2);
+        }
+        
+        .page-hero {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .page-hero h1 {
+            font-size: 52px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+        
+        .page-hero p {
+            font-size: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.95;
+        }
+        
+        .legal-section {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .legal-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 30px;
+            padding: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+        }
+        
+        .legal-container h2 {
+            font-size: 28px;
+            font-weight: 700;
+            margin: 40px 0 20px 0;
+            color: #1e293b;
+        }
+        
+        .legal-container h2:first-of-type {
+            margin-top: 0;
+        }
+        
+        .legal-container h3 {
+            font-size: 22px;
+            font-weight: 600;
+            margin: 30px 0 15px 0;
+            color: #334155;
+        }
+        
+        .legal-container p {
+            font-size: 16px;
+            color: #475569;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+        
+        .legal-container ul, .legal-container ol {
+            margin-bottom: 20px;
+            color: #475569;
+            line-height: 1.8;
+            padding-left: 25px;
+        }
+        
+        .legal-container li {
+            margin-bottom: 8px;
+        }
+        
+        .legal-container strong {
+            color: #1e293b;
+            font-weight: 600;
+        }
+        
+        .legal-container a {
+            color: #667eea;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        
+        .legal-container a:hover {
+            text-decoration: underline;
+        }
+        
+        .legal-container .highlight {
+            background: #f1f5f9;
+            padding: 20px 25px;
+            border-radius: 16px;
+            border-left: 4px solid #667eea;
+            margin: 30px 0;
+        }
+        
+        .legal-container .highlight p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .last-updated {
+            display: inline-block;
+            background: #e2e8f0;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 30px;
+        }
+        
+        .cta-section {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .cta-section h2 {
+            font-size: 40px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+        
+        .cta-section .btn-cta {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 700;
+            padding: 15px 45px;
+            border-radius: 50px;
+            font-size: 18px;
+            border: none;
+            margin-top: 30px;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .cta-section .btn-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        
+        footer {
+            background: #0f172a;
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+        
+        .social-icons a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+        
+        .social-icons a:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 30px;
+            margin-top: 40px;
+            text-align: center;
+            color: rgba(255,255,255,0.5);
+        }
+        
+        @media (max-width: 768px) {
+            .page-hero h1 { font-size: 36px; }
+            .legal-container { padding: 30px 20px; }
+            .legal-container h2 { font-size: 24px; }
+            .cta-section h2 { font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+        <a class="navbar-brand" href="index.html">
+            <span>Carry</span>Connect
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="HowItWorks.html">How It Works</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link btn-account dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user-circle"></i> Account
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="LoginAndRegister.html?tab=login"><i class="fas fa-key"></i> Login</a></li>
+                        <li><a class="dropdown-item" href="LoginAndRegister.html?tab=register"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section class="page-hero">
+    <div class="container">
+        <h1>Privacy Policy</h1>
+        <p class="lead">How we protect and handle your personal information.</p>
+    </div>
+</section>
+
+<section class="legal-section">
+    <div class="container">
+        <div class="legal-container">
+            <div class="last-updated">
+                <i class="far fa-calendar-alt me-2"></i> Last Updated: February 25, 2026
+            </div>
+            
+            <h2>1. Introduction</h2>
+            <p>CarryConnect ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our game boosting services. Please read this policy carefully. If you do not agree with the terms, please do not access the site or use our services.</p>
+            
+            <div class="highlight">
+                <p><strong>Our commitment:</strong> We collect only the information necessary to provide our services, and we never sell your personal data to third parties. Your trust is essential to us.</p>
+            </div>
+            
+            <h2>2. Information We Collect</h2>
+            
+            <h3>2.1 Personal Information</h3>
+            <p>When you register, place an order, or contact us, we may collect:</p>
+            <ul>
+                <li><strong>Contact details:</strong> Name, email address, phone number (for SMS updates).</li>
+                <li><strong>Payment information:</strong> Credit/debit card details, PayPal email, or cryptocurrency wallet addresses (processed through secure third-party gateways; we do not store full payment credentials).</li>
+                <li><strong>Account credentials:</strong> Gaming account usernames and passwords (only when necessary to perform solo boosts; stored encrypted and deleted after service completion).</li>
+                <li><strong>Communication data:</strong> Messages sent via our contact form or email.</li>
+            </ul>
+            
+            <h3>2.2 Automatically Collected Information</h3>
+            <p>When you visit our website, we may automatically collect:</p>
+            <ul>
+                <li><strong>Usage data:</strong> IP address, browser type, operating system, pages visited, time spent, and referral source.</li>
+                <li><strong>Device data:</strong> Information about the device you use to access our site.</li>
+                <li><strong>Cookies:</strong> Small text files stored on your device to enhance your browsing experience (see Section 5).</li>
+            </ul>
+            
+            <h2>3. How We Use Your Information</h2>
+            <p>We use the information we collect for the following purposes:</p>
+            <ul>
+                <li><strong>To provide services:</strong> Process orders, match you with a booster, and complete boosting requests.</li>
+                <li><strong>To communicate:</strong> Send order confirmations, status updates, and respond to support inquiries.</li>
+                <li><strong>To improve our website:</strong> Analyze usage patterns to enhance user experience and fix technical issues.</li>
+                <li><strong>To prevent fraud:</strong> Verify payments and detect suspicious activity.</li>
+                <li><strong>To comply with legal obligations:</strong> Maintain records as required by applicable laws.</li>
+            </ul>
+            
+            <h2>4. Sharing Your Information</h2>
+            <p>We do not sell, trade, or rent your personal information to third parties. We may share information in the following limited circumstances:</p>
+            <ul>
+                <li><strong>With Boosters:</strong> Your gaming account credentials and order details are shared with the assigned booster solely to perform the service. Boosters sign confidentiality agreements and are prohibited from using your information for any other purpose.</li>
+                <li><strong>With Payment Processors:</strong> We share necessary payment information with trusted third-party processors (e.g., Stripe, PayPal) to complete transactions. These processors have their own privacy policies.</li>
+                <li><strong>For Legal Reasons:</strong> If required by law, regulation, or legal process, we may disclose your information to government authorities or law enforcement.</li>
+                <li><strong>Business Transfers:</strong> In the event of a merger, acquisition, or sale of assets, your information may be transferred to the new owner.</li>
+            </ul>
+            
+            <h2>5. Cookies and Tracking Technologies</h2>
+            <p>We use cookies and similar technologies to enhance your experience, analyze site traffic, and remember preferences. You can control cookies through your browser settings. However, disabling cookies may affect certain features of our website.</p>
+            <p><strong>Types of cookies we use:</strong></p>
+            <ul>
+                <li><strong>Essential cookies:</strong> Necessary for website functionality (e.g., maintaining login sessions).</li>
+                <li><strong>Analytics cookies:</strong> Help us understand how visitors interact with our site (e.g., Google Analytics).</li>
+                <li><strong>Preference cookies:</strong> Remember your settings and choices.</li>
+            </ul>
+            <p>Third-party services we use (like Google Analytics) may place their own cookies. We encourage you to review their privacy policies.</p>
+            
+            <h2>6. Data Security</h2>
+            <p>We implement appropriate technical and organizational measures to protect your personal information, including:</p>
+            <ul>
+                <li><strong>Encryption:</strong> All sensitive data (including passwords) is encrypted during transmission (SSL/TLS) and at rest.</li>
+                <li><strong>Access controls:</strong> Only authorized personnel and boosters have access to personal information, on a need-to-know basis.</li>
+                <li><strong>Regular security audits:</strong> We review our systems for vulnerabilities.</li>
+            </ul>
+            <p>However, no method of transmission over the Internet or electronic storage is 100% secure. While we strive to protect your data, we cannot guarantee absolute security.</p>
+            
+            <div class="highlight">
+                <p><strong>Account credentials:</strong> We delete your gaming login credentials within 7 days after order completion. For ongoing or multi-part orders, they are retained only until the service is fully delivered.</p>
+            </div>
+            
+            <h2>7. Data Retention</h2>
+            <p>We retain personal information for as long as necessary to fulfill the purposes outlined in this policy, unless a longer retention period is required or permitted by law. Specifically:</p>
+            <ul>
+                <li><strong>Order information:</strong> Retained for up to 3 years for record-keeping, tax, and warranty purposes.</li>
+                <li><strong>Account credentials:</strong> Deleted within 7 days of service completion.</li>
+                <li><strong>Communication logs:</strong> Retained for up to 1 year to improve customer support.</li>
+                <li><strong>Usage data:</strong> Retained in anonymized form indefinitely for analytical purposes.</li>
+            </ul>
+            
+            <h2>8. Your Rights and Choices</h2>
+            <p>Depending on your jurisdiction, you may have the following rights regarding your personal information:</p>
+            <ul>
+                <li><strong>Access:</strong> Request a copy of the data we hold about you.</li>
+                <li><strong>Correction:</strong> Request correction of inaccurate or incomplete data.</li>
+                <li><strong>Deletion:</strong> Request deletion of your personal data, subject to legal obligations (e.g., we may need to retain order records for tax purposes).</li>
+                <li><strong>Objection:</strong> Object to certain processing activities (e.g., marketing emails).</li>
+                <li><strong>Data portability:</strong> Request transfer of your data to another service provider.</li>
+            </ul>
+            <p>To exercise these rights, please contact us through our <a href="contact.html">contact page</a>. We will respond within 30 days.</p>
+            <p><strong>Opt-out of marketing:</strong> You can unsubscribe from promotional emails by clicking the "unsubscribe" link in any marketing message.</p>
+            
+            <h2>9. Children's Privacy</h2>
+            <p>Our services are not intended for individuals under the age of 13 (or 16 in certain jurisdictions). We do not knowingly collect personal information from children. If you become aware that a child has provided us with personal data, please contact us immediately through our <a href="contact.html">contact page</a>, and we will take steps to delete such information.</p>
+            
+            <h2>10. Third-Party Links</h2>
+            <p>Our website may contain links to third-party sites (e.g., payment processors). We are not responsible for the privacy practices or content of these external sites. We encourage you to review their privacy policies before providing any information.</p>
+            
+            <h2>11. International Data Transfers</h2>
+            <p>CarryConnect operates primarily in the United States. If you are accessing our services from outside the U.S., your information may be transferred to, stored, and processed in the United States. By using our services, you consent to such transfer. We take steps to ensure adequate protection for your data, including using standard contractual clauses where required.</p>
+            
+            <h2>12. Changes to This Privacy Policy</h2>
+            <p>We may update this Privacy Policy from time to time to reflect changes in our practices, legal requirements, or operational needs. We will notify you of material changes by posting the updated policy on this page with a revised "Last Updated" date. We encourage you to review this policy periodically.</p>
+            
+            <h2>13. Contact Us</h2>
+            <p>If you have questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact us through our <a href="contact.html">contact page</a>.</p>
+            
+            <div class="highlight">
+                <p><strong>By using CarryConnect services, you acknowledge that you have read and understood this Privacy Policy.</strong></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="container">
+        <h2>Your privacy matters to us</h2>
+        <p class="lead mb-4">Experience safe, manual boosting with transparent data practices.</p>
+        <a href="LoginAndRegister.html?tab=register" class="btn btn-cta">Create Your Account</a>
+        <p class="mt-4" style="opacity: 0.7;"><i class="fas fa-shield-alt me-2"></i> 100% manual · 24/7 support · Rank warranty</p>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <a href="index.html" class="footer-logo">
+                    <span>Carry</span>Connect
+                </a>
+                <p class="mt-3" style="color: rgba(255,255,255,0.7);">A small, passionate team of gamers offering manual boosting services. No bots, just skill.</p>
+                <div class="social-icons mt-4">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-discord"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 mb-4 offset-lg-1">
+                <h5 style="color: white; font-weight: 700;">Company</h5>
+                <ul class="footer-links mt-3">
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <!-- Services section intentionally omitted as per pattern -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h5 style="color: white; font-weight: 700;">Support</h5>
+                <ul class="footer-links mt-3">
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="refund.html">Refund Policy</a></li>
+                    <li><a href="contact.html">Contact Support</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p class="mb-0">© 2026 CarryConnect. An indie boosting collective. All game trademarks belong to their respective owners.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

@@ -100,34 +100,6 @@
             background: rgba(59, 130, 246, 0.2);
         }
         
-        /* Back Button */
-        .back-button-container {
-            padding: 20px 0 0 20px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .btn-back {
-            background: transparent;
-            color: #64748b;
-            border: 2px solid #e2e8f0;
-            padding: 10px 25px;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-        }
-
-        .btn-back:hover {
-            background: #f8fafc;
-            border-color: #667eea;
-            color: #667eea;
-            transform: translateX(-5px);
-        }
-        
         .page-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -192,6 +164,7 @@
             width: 100%;
             height: 300px;
             overflow: hidden;
+            position: relative;
         }
         
         .game-image img {
@@ -203,6 +176,17 @@
         
         .game-card:hover .game-image img {
             transform: scale(1.1);
+        }
+        
+        .game-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.3) 100%);
+            pointer-events: none;
         }
         
         .game-body {
@@ -393,13 +377,6 @@
     </div>
 </nav>
 
-<!-- Back Button -->
-<div class="back-button-container">
-    <a href="javascript:history.back()" class="btn-back">
-        <i class="fas fa-arrow-left"></i> Back
-    </a>
-</div>
-
 <section class="page-header">
     <div class="container">
         <h1>Our Games</h1>
@@ -419,7 +396,7 @@
             <div class="col-lg-4 col-md-6">
                 <div class="game-card lol">
                     <div class="game-image">
-                        <img src="https://images.contentstack.io/v3/assets/blt370612131b6e0756/blt57508f5d3f2a5ae8/62363e8361a3f34c380e8c66/League_of_Legends_2022_1920x1080.jpg" alt="League of Legends">
+                        <img src="leagueoflegends.jpg" alt="League of Legends">
                     </div>
                     <div class="game-body">
                         <span class="game-tag">Most Requested</span>
@@ -434,7 +411,7 @@
             <div class="col-lg-4 col-md-6">
                 <div class="game-card valorant">
                     <div class="game-image">
-                        <img src="https://images.contentstack.io/v3/assets/bltb6530b271fddd0b1/blt29fdd9b9e5aee005/6505c1ac4fb9e1148a1cc414/VALORANT_2023_1920x1080.jpg" alt="Valorant">
+                        <img src="valorant.jpg" alt="Valorant">
                     </div>
                     <div class="game-body">
                         <span class="game-tag">Popular Choice</span>
@@ -449,7 +426,7 @@
             <div class="col-lg-4 col-md-6">
                 <div class="game-card roblox">
                     <div class="game-image">
-                        <img src="https://images.rbxcdn.com/8b05e9b722b2b8dc8c64cc27cd1faaa7.jpg" alt="Roblox">
+                        <img src="roblox.jpg" alt="Roblox">
                     </div>
                     <div class="game-body">
                         <span class="game-tag">Great Value</span>
@@ -511,6 +488,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+    // Function to check remembered login
     function checkRememberedLogin() {
         const remembered = localStorage.getItem('rememberedUser');
         if (remembered && !sessionStorage.getItem('userId')) {
@@ -522,13 +500,16 @@
     }
     
     window.onload = function() {
+        // Check remembered login first
         checkRememberedLogin();
         
+        // Check URL params (for just logged in)
         const urlParams = new URLSearchParams(window.location.search);
         const justLoggedIn = urlParams.get('loggedin');
         const urlUserId = urlParams.get('user_id');
         const urlUsername = urlParams.get('username');
         
+        // If URL has user data but session doesn't, restore session
         if (justLoggedIn === 'true' && urlUserId && !sessionStorage.getItem('userId')) {
             sessionStorage.setItem('userId', urlUserId);
             sessionStorage.setItem('username', urlUsername);
@@ -543,8 +524,18 @@
         const username = sessionStorage.getItem('username');
         
         if (userId) {
+            // Show welcome banner if just logged in
             if (justLoggedIn === 'true') {
                 welcomeBanner.style.display = 'block';
+                // Remove the URL parameter without refreshing
+                const url = new URL(window.location);
+                url.searchParams.delete('loggedin');
+                url.searchParams.delete('user_id');
+                url.searchParams.delete('username');
+                url.searchParams.delete('role');
+                window.history.replaceState({}, document.title, url);
+                
+                // Auto-hide after 5 seconds
                 setTimeout(() => {
                     welcomeBanner.style.display = 'none';
                 }, 5000);
@@ -567,6 +558,7 @@
     };
     
     function logout() {
+        // Clear both session and localStorage
         sessionStorage.clear();
         localStorage.removeItem('rememberedUser');
         window.location.href = 'index.html';
@@ -579,8 +571,29 @@
             window.location.href = 'LoginAndRegister.html?tab=login';
             return;
         }
-        window.location.href = 'Orders.html';
+        // You can create an Orders.html page later
+        alert('Orders page coming soon!');
     }
+    
+    // Check login status when page becomes visible (in case user returns via back button)
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) {
+            // Page became visible again, check login status
+            const userId = sessionStorage.getItem('userId');
+            const accountText = document.getElementById('accountText');
+            const dropdown = document.getElementById('accountDropdown');
+            
+            if (userId && accountText) {
+                accountText.textContent = sessionStorage.getItem('username');
+                dropdown.innerHTML = `
+                    <li><a class="dropdown-item" href="#" onclick="viewOrders()"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="fas fa-user"></i> Profile</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                `;
+            }
+        }
+    });
 </script>
 </body>
 </html>

@@ -252,6 +252,18 @@
             border-radius: 10px;
             margin-bottom: 30px;
             display: none;
+            animation: slideDown 0.5s ease;
+        }
+        
+        @keyframes slideDown {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
         
         footer {
@@ -473,26 +485,41 @@
         const dropdown = document.getElementById('accountDropdown');
         const accountText = document.getElementById('accountText');
         
-        if (justLoggedIn === 'true') {
-            // Show welcome banner
-            welcomeBanner.style.display = 'block';
+        // Check if user is logged in from session
+        const userId = sessionStorage.getItem('userId');
+        const username = sessionStorage.getItem('username');
+        
+        if (userId) {
+            // User is logged in
+            if (justLoggedIn === 'true') {
+                welcomeBanner.style.display = 'block';
+                // Auto-hide after 5 seconds
+                setTimeout(() => {
+                    welcomeBanner.style.display = 'none';
+                }, 5000);
+            }
             
-            // Update dropdown to show logged-in options
+            accountText.textContent = username;
             dropdown.innerHTML = `
-                <li><a class="dropdown-item" href="#"><i class="fas fa-user"></i> My Profile</a></li>
-                <li><a class="dropdown-item" href="#"><i class="fas fa-shopping-cart"></i> My Orders</a></li>
+                <li><a class="dropdown-item" href="#"><i class="fas fa-user"></i> Profile</a></li>
+                <li><a class="dropdown-item" href="#"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             `;
-            accountText.textContent = 'My Account';
         } else {
-            // Show login/register options
+            // User is not logged in
+            accountText.textContent = 'Account';
             dropdown.innerHTML = `
                 <li><a class="dropdown-item" href="LoginAndRegister.html?tab=login"><i class="fas fa-key"></i> Login</a></li>
                 <li><a class="dropdown-item" href="LoginAndRegister.html?tab=register"><i class="fas fa-user-plus"></i> Sign Up</a></li>
             `;
         }
     };
+    
+    function logout() {
+        sessionStorage.clear();
+        window.location.href = 'index.html';
+    }
 </script>
 </body>
 </html>

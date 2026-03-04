@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment · CarryConnect</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f8fafc;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
+            padding: 1rem 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-size: 28px !important;
+            font-weight: 800 !important;
+            color: white !important;
+            letter-spacing: -0.5px;
+        }
+        
+        .navbar-brand span {
+            color: #3b82f6;
+        }
+        
+        .nav-link {
+            color: rgba(255,255,255,0.9) !important;
+            font-weight: 600;
+            margin: 0 5px;
+            padding: 8px 16px !important;
+            border-radius: 8px;
+        }
+        
+        .nav-link:hover {
+            background: rgba(59, 130, 246, 0.2);
+            color: white !important;
+        }
+        
+        .btn-account {
+            border: 2px solid rgba(255,255,255,0.2);
+            color: white !important;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-account:hover {
+            background: rgba(59, 130, 246, 0.2);
+        }
+        
+        .dropdown-menu {
+            background: #1e293b;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 8px;
+            margin-top: 8px;
+        }
+        
+        .dropdown-item {
+            color: rgba(255,255,255,0.9);
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .dropdown-item:hover {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .dropdown-item i {
+            width: 20px;
+            margin-right: 10px;
+            color: #3b82f6;
+        }
+        
+        .payment-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+        
+        .order-summary-card {
+            background: white;
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .order-header {
+            border-bottom: 2px solid #eef2f6;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .order-header h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        .fixed-service-notice {
+            background: #e6f3fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 14px;
+            color: #1e293b;
+            border: 1px solid #39b1e0;
+        }
+        
+        .fixed-service-notice i {
+            color: #39b1e0;
+            margin-right: 5px;
+        }
+        
+        .order-detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+        
+        .order-detail-label {
+            font-weight: 600;
+            color: #64748b;
+        }
+        
+        .order-detail-value {
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        .order-total {
+            font-size: 24px;
+            color: #39b1e0;
+            font-weight: 800;
+        }
+        
+        .payment-methods {
+            background: white;
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .payment-methods h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #1e293b;
+        }
+        
+        .payment-option {
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .payment-option:hover {
+            border-color: #39b1e0;
+            background: #f8fafc;
+        }
+        
+        .payment-option.selected {
+            border-color: #39b1e0;
+            background: #f0f9ff;
+        }
+        
+        .payment-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #39b1e0;
+        }
+        
+        .payment-logo {
+            width: 50px;
+            height: 50px;
+            background: #f1f5f9;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #39b1e0;
+        }
+        
+        .payment-details h4 {
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .payment-details p {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 0;
+        }
+        
+        .payment-instructions {
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 4px solid #39b1e0;
+        }
+        
+        .upload-section {
+            background: white;
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .upload-section h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #1e293b;
+        }
+        
+        .upload-area {
+            border: 2px dashed #e2e8f0;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #f8fafc;
+        }
+        
+        .upload-area:hover {
+            border-color: #39b1e0;
+            background: #f0f9ff;
+        }
+        
+        .upload-area i {
+            font-size: 48px;
+            color: #39b1e0;
+            margin-bottom: 15px;
+        }
+        
+        .upload-area p {
+            color: #64748b;
+            margin-bottom: 10px;
+        }
+        
+        .upload-area small {
+            color: #94a3b8;
+        }
+        
+        .file-info {
+            display: none;
+            background: #f0f9ff;
+            border-radius: 15px;
+            padding: 15px;
+            margin-top: 15px;
+            border: 1px solid #39b1e0;
+        }
+        
+        .btn-submit-payment {
+            background: linear-gradient(135deg, #39b1e0, #1e7e9f);
+            color: white;
+            font-weight: 700;
+            padding: 16px 30px;
+            border-radius: 50px;
+            border: none;
+            width: 100%;
+            font-size: 18px;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+        
+        .btn-submit-payment:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(57, 177, 224, 0.4);
+        }
+        
+        .btn-submit-payment:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .reference-input {
+            margin-top: 20px;
+        }
+        
+        .reference-input label {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+        
+        .reference-input input {
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 12px 15px;
+            width: 100%;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .reference-input input:focus {
+            border-color: #39b1e0;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(57, 177, 224, 0.1);
+        }
+        
+        footer {
+            background: #0f172a;
+            color: white;
+            padding: 50px 0 20px;
+            margin-top: 80px;
+        }
+        
+        .footer-logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .social-icons a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+        
+        .social-icons a:hover {
+            background: #39b1e0;
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 30px;
+            margin-top: 40px;
+            text-align: center;
+            color: rgba(255,255,255,0.5);
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+        <a class="navbar-brand" href="index.html">
+            <span>Carry</span>Connect
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="HowItWorks.html">How It Works</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link btn-account dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user-circle"></i> <span id="accountText">Account</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" id="accountDropdown"></ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="payment-container">
+    <!-- Order Summary Card (kagaya ng screenshot mo) -->
+    <div class="order-summary-card">
+        <div class="order-header">
+            <h2>Confirm Your Order</h2>
+        </div>
+        
+        <div class="fixed-service-notice">
+            <i class="fas fa-info-circle"></i> You're ordering a specific boost. To change ranks, please go back and select a different service.
+        </div>
+        
+        <div class="order-detail-row">
+            <span class="order-detail-label">Service</span>
+            <span class="order-detail-value" id="displayService">Bronze to Silver Boost</span>
+        </div>
+        
+        <div class="order-detail-row">
+            <span class="order-detail-label">Current Rank</span>
+            <span class="order-detail-value" id="displayCurrentRank">Bronze</span>
+        </div>
+        
+        <div class="order-detail-row">
+            <span class="order-detail-label">Target Rank</span>
+            <span class="order-detail-value" id="displayTargetRank">Silver</span>
+        </div>
+        
+        <div class="order-detail-row">
+            <span class="order-detail-label">Game</span>
+            <span class="order-detail-value" id="displayGame">League of Legends</span>
+        </div>
+        
+        <div class="order-detail-row">
+            <span class="order-detail-label">Total Price</span>
+            <span class="order-total" id="displayTotal">₱597</span>
+        </div>
+    </div>
+    
+    <!-- Payment Methods -->
+    <div class="payment-methods">
+        <h3>Select Payment Method</h3>
+        
+        <div class="payment-option" onclick="selectPayment('gcash')">
+            <input type="radio" name="payment" id="gcash" value="gcash">
+            <div class="payment-logo">
+                <i class="fas fa-mobile-alt"></i>
+            </div>
+            <div class="payment-details">
+                <h4>GCash</h4>
+                <p>Pay via GCash mobile wallet</p>
+            </div>
+        </div>
+        
+        <div class="payment-option" onclick="selectPayment('maya')">
+            <input type="radio" name="payment" id="maya" value="maya">
+            <div class="payment-logo">
+                <i class="fas fa-wallet"></i>
+            </div>
+            <div class="payment-details">
+                <h4>Maya</h4>
+                <p>Pay via Maya (formerly PayMaya)</p>
+            </div>
+        </div>
+        
+        <div class="payment-option" onclick="selectPayment('bank')">
+            <input type="radio" name="payment" id="bank" value="bank">
+            <div class="payment-logo">
+                <i class="fas fa-university"></i>
+            </div>
+            <div class="payment-details">
+                <h4>Bank Transfer</h4>
+                <p>BPI, BDO, Metrobank, etc.</p>
+            </div>
+        </div>
+        
+        <!-- Payment Instructions (dynamic based on selection) -->
+        <div class="payment-instructions" id="paymentInstructions" style="display: none;">
+            <h5>📱 Payment Instructions:</h5>
+            <p id="instructionsText"></p>
+        </div>
+        
+        <!-- Reference Number Input -->
+        <div class="reference-input" id="referenceInput" style="display: none;">
+            <label>Reference Number / Transaction ID</label>
+            <input type="text" id="referenceNumber" placeholder="e.g., GCASH-1234567890">
+        </div>
+    </div>
+    
+    <!-- Upload Receipt Section -->
+    <div class="upload-section">
+        <h3>Upload Payment Receipt</h3>
+        <p class="text-muted mb-3">Please upload a screenshot or photo of your payment confirmation.</p>
+        
+        <div class="upload-area" onclick="document.getElementById('receiptFile').click()">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <p>Click to upload or drag and drop</p>
+            <small>PNG, JPG, JPEG (Max 5MB)</small>
+            <input type="file" id="receiptFile" accept="image/*" style="display: none;" onchange="handleFileSelect(event)">
+        </div>
+        
+        <div class="file-info" id="fileInfo">
+            <i class="fas fa-check-circle text-success me-2"></i>
+            <span id="fileName"></span>
+        </div>
+    </div>
+    
+    <!-- Submit Button -->
+    <button class="btn-submit-payment" onclick="submitPayment()" id="submitBtn" disabled>
+        <i class="fas fa-check-circle me-2"></i> Submit Payment
+    </button>
+</div>
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <a href="index.html" class="footer-logo">
+                    <span>Carry</span>Connect
+                </a>
+                <p class="mt-3">A small, passionate team of gamers offering manual boosting services.</p>
+                <div class="social-icons mt-4">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 mb-4 offset-lg-1">
+                <h5>Company</h5>
+                <ul class="footer-links">
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h5>Support</h5>
+                <ul class="footer-links">
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="terms.html">Terms</a></li>
+                    <li><a href="privacy.html">Privacy</a></li>
+                    <li><a href="refund.html">Refund</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2026 CarryConnect. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const SUPABASE_URL = 'https://aozhkwvoqnyktsgrdtnw.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvemhrd3ZvcW55a3RzZ3JkdG53Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1NjUwNTYsImV4cCI6MjA4ODE0MTA1Nn0.-TjxEU-Qs0gPcO3h80wj0sRI37c6tT8FvTAyqteWqLc';
+    
+    // Get order data from URL or sessionStorage
+    let orderData = {};
+    let selectedPayment = '';
+    let selectedFile = null;
+    
+    window.onload = function() {
+        // Get order data from URL params
+        const urlParams = new URLSearchParams(window.location.search);
+        orderData = {
+            orderId: urlParams.get('order_id'),
+            game: urlParams.get('game'),
+            service: urlParams.get('service'),
+            fromRank: urlParams.get('from'),
+            toRank: urlParams.get('to'),
+            price: urlParams.get('price'),
+            gameId: urlParams.get('game_id')
+        };
+        
+        // Display order summary
+        document.getElementById('displayService').textContent = orderData.service || 'Bronze to Silver Boost';
+        document.getElementById('displayCurrentRank').textContent = orderData.fromRank || 'Bronze';
+        document.getElementById('displayTargetRank').textContent = orderData.toRank || 'Silver';
+        document.getElementById('displayGame').textContent = orderData.game || 'League of Legends';
+        document.getElementById('displayTotal').textContent = `₱${parseInt(orderData.price || 597).toLocaleString()}`;
+        
+        // Check login
+        checkRememberedLogin();
+        updateNavbar();
+    };
+    
+    function selectPayment(method) {
+        selectedPayment = method;
+        
+        // Update radio buttons
+        document.querySelectorAll('input[name="payment"]').forEach(radio => {
+            radio.checked = (radio.value === method);
+        });
+        
+        // Update payment option styles
+        document.querySelectorAll('.payment-option').forEach(opt => {
+            opt.classList.remove('selected');
+        });
+        event.currentTarget.classList.add('selected');
+        
+        // Show payment instructions
+        const instructionsDiv = document.getElementById('paymentInstructions');
+        const instructionsText = document.getElementById('instructionsText');
+        const referenceInput = document.getElementById('referenceInput');
+        
+        instructionsDiv.style.display = 'block';
+        
+        switch(method) {
+            case 'gcash':
+                instructionsText.innerHTML = `
+                    <strong>GCash:</strong> 0996 906 3181 (Patrick E.)<br>
+                    1. Open GCash app<br>
+                    2. Click "Send Money"<br>
+                    3. Enter number: 0996 906 3181<br>
+                    4. Send exact amount: ₱${parseInt(orderData.price || 597).toLocaleString()}<br>
+                    5. Save screenshot as proof
+                `;
+                referenceInput.style.display = 'block';
+                break;
+            case 'maya':
+                instructionsText.innerHTML = `
+                    <strong>Maya:</strong> 0996 906 3181 (Patrick E.)<br>
+                    1. Open Maya app<br>
+                    2. Click "Send Money"<br>
+                    3. Enter number: 0996 906 3181<br>
+                    4. Send exact amount: ₱${parseInt(orderData.price || 597).toLocaleString()}<br>
+                    5. Save screenshot as proof
+                `;
+                referenceInput.style.display = 'block';
+                break;
+            case 'bank':
+                instructionsText.innerHTML = `
+                    <strong>Bank Transfer:</strong><br>
+                    Bank: BDO<br>
+                    Account Name: Patrick E.<br>
+                    Account Number: 1234 5678 9012<br>
+                    Amount: ₱${parseInt(orderData.price || 597).toLocaleString()}<br>
+                    Upload deposit slip or screenshot
+                `;
+                referenceInput.style.display = 'block';
+                break;
+        }
+        
+        checkSubmitButton();
+    }
+    
+    function handleFileSelect(event) {
+        selectedFile = event.target.files[0];
+        if (selectedFile) {
+            document.getElementById('fileInfo').style.display = 'block';
+            document.getElementById('fileName').textContent = selectedFile.name;
+        }
+        checkSubmitButton();
+    }
+    
+    function checkSubmitButton() {
+        const submitBtn = document.getElementById('submitBtn');
+        const referenceNum = document.getElementById('referenceNumber').value;
+        
+        if (selectedPayment && selectedFile && referenceNum) {
+            submitBtn.disabled = false;
+        } else {
+            submitBtn.disabled = true;
+        }
+    }
+    
+    document.getElementById('referenceNumber').addEventListener('input', checkSubmitButton);
+    
+    async function submitPayment() {
+        if (!selectedPayment || !selectedFile) {
+            alert('Please select payment method and upload receipt');
+            return;
+        }
+        
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Processing...';
+        
+        try {
+            const userId = sessionStorage.getItem('userId');
+            if (!userId) {
+                alert('Please login first');
+                window.location.href = 'LoginAndRegister.html';
+                return;
+            }
+            
+            // 1. Upload image to Supabase Storage
+            const fileName = `receipt_${orderData.orderId}_${Date.now()}.${selectedFile.name.split('.').pop()}`;
+            const { data: uploadData, error: uploadError } = await supabase
+                .storage
+                .from('payment-receipts')
+                .upload(fileName, selectedFile);
+                
+            if (uploadError) throw uploadError;
+            
+            // Get public URL
+            const { data: urlData } = supabase
+                .storage
+                .from('payment-receipts')
+                .getPublicUrl(fileName);
+            
+            // 2. Save payment details to database
+            const paymentData = {
+                order_id: parseInt(orderData.orderId),
+                user_id: parseInt(userId),
+                payment_method: selectedPayment,
+                amount: parseInt(orderData.price || 597),
+                receipt_url: urlData.publicUrl,
+                reference_number: document.getElementById('referenceNumber').value,
+                status: 'pending'
+            };
+            
+            const response = await fetch(`${SUPABASE_URL}/rest/v1/payments`, {
+                method: 'POST',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': `Bearer ${SUPABASE_KEY}`,
+                    'Content-Type': 'application/json',
+                    'Prefer': 'return=representation'
+                },
+                body: JSON.stringify(paymentData)
+            });
+            
+            if (response.ok) {
+                // 3. Update order status
+                await fetch(`${SUPABASE_URL}/rest/v1/orders?order_id=eq.${orderData.orderId}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ payment_status: 'paid' })
+                });
+                
+                alert('✅ Payment submitted successfully! Your order is now pending verification.');
+                window.location.href = 'Games.html';
+            } else {
+                const error = await response.json();
+                alert('❌ Error submitting payment: ' + (error.message || 'Unknown error'));
+            }
+        } catch (error) {
+            alert('❌ Error: ' + error.message);
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fas fa-check-circle me-2"></i> Submit Payment';
+        }
+    }
+    
+    function checkRememberedLogin() {
+        const remembered = localStorage.getItem('rememberedUser');
+        if (remembered && !sessionStorage.getItem('userId')) {
+            const user = JSON.parse(remembered);
+            sessionStorage.setItem('userId', user.userId);
+            sessionStorage.setItem('username', user.username);
+            sessionStorage.setItem('role', user.role);
+        }
+    }
+    
+    function updateNavbar() {
+        const dropdown = document.getElementById('accountDropdown');
+        const accountText = document.getElementById('accountText');
+        const userId = sessionStorage.getItem('userId');
+        const username = sessionStorage.getItem('username');
+        
+        if (userId) {
+            accountText.textContent = username;
+            dropdown.innerHTML = `
+                <li><a class="dropdown-item" href="Games.html"><i class="fas fa-gamepad"></i> Games</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            `;
+        } else {
+            accountText.textContent = 'Account';
+            dropdown.innerHTML = `
+                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=login"><i class="fas fa-key"></i> Login</a></li>
+                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=register"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+            `;
+        }
+    }
+    
+    function logout() {
+        sessionStorage.clear();
+        localStorage.removeItem('rememberedUser');
+        window.location.href = 'index.html';
+    }
+</script>
+
+</body>
+</html>

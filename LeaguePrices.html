@@ -132,7 +132,7 @@
             text-shadow: 0 0 10px rgba(57, 177, 224, 0.3);
         }
         
-        /* Back Button */
+        /* Back Button - Integrated with hero */
         .back-button-container {
             position: absolute;
             top: 20px;
@@ -323,155 +323,10 @@
             box-shadow: 0 0 0 4px rgba(57, 177, 224, 0.1);
         }
         
-        .form-control[readonly] {
+        .form-control[readonly], .form-select[readonly] {
             background-color: #e9ecef;
             opacity: 0.8;
             cursor: not-allowed;
-        }
-        
-        /* Payment Section Styles */
-        .payment-section {
-            background: #f8fafc;
-            border-radius: 15px;
-            padding: 20px;
-            margin: 20px 0;
-            border: 2px dashed #39b1e0;
-        }
-        
-        .gcash-info {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        
-        .gcash-qr {
-            width: 200px;
-            height: 200px;
-            margin: 0 auto 15px;
-            background: #f0f0f0;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid #39b1e0;
-            overflow: hidden;
-        }
-        
-        .gcash-qr img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .gcash-details {
-            background: white;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 15px;
-            border: 1px solid #e2e8f0;
-        }
-        
-        .gcash-detail-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px dashed #e2e8f0;
-        }
-        
-        .gcash-detail-item:last-child {
-            border-bottom: none;
-        }
-        
-        .detail-label {
-            color: #64748b;
-            font-weight: 500;
-        }
-        
-        .detail-value {
-            font-weight: 700;
-            color: #1e293b;
-        }
-        
-        .copy-btn {
-            background: transparent;
-            border: 1px solid #39b1e0;
-            color: #39b1e0;
-            padding: 5px 15px;
-            border-radius: 50px;
-            font-size: 12px;
-            margin-left: 10px;
-            transition: all 0.3s;
-        }
-        
-        .copy-btn:hover {
-            background: #39b1e0;
-            color: white;
-        }
-        
-        .upload-area {
-            border: 2px dashed #cbd5e1;
-            border-radius: 15px;
-            padding: 30px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin: 20px 0;
-        }
-        
-        .upload-area:hover {
-            border-color: #39b1e0;
-            background: #f0f9ff;
-        }
-        
-        .upload-area i {
-            font-size: 48px;
-            color: #39b1e0;
-            margin-bottom: 15px;
-        }
-        
-        .upload-area p {
-            color: #64748b;
-            margin-bottom: 5px;
-        }
-        
-        .upload-area small {
-            color: #94a3b8;
-        }
-        
-        .file-preview {
-            display: none;
-            margin: 20px 0;
-            padding: 15px;
-            background: #f0f9ff;
-            border-radius: 10px;
-            border: 2px solid #39b1e0;
-        }
-        
-        .file-preview img {
-            max-width: 100px;
-            max-height: 100px;
-            border-radius: 10px;
-            margin-right: 15px;
-        }
-        
-        .file-info {
-            flex: 1;
-        }
-        
-        .file-name {
-            font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 5px;
-        }
-        
-        .file-size {
-            font-size: 12px;
-            color: #64748b;
-        }
-        
-        .remove-file {
-            color: #ef4444;
-            cursor: pointer;
-            font-size: 20px;
         }
         
         .btn-submit-order {
@@ -491,17 +346,12 @@
             transform: translateY(-2px);
         }
         
-        .btn-submit-order:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-        
         .order-summary {
             background: #f8fafc;
             border-radius: 15px;
             padding: 20px;
             margin: 20px 0;
-            border: 2px solid #39b1e0;
+            border: 2px dashed #39b1e0;
         }
         
         .summary-item {
@@ -545,34 +395,6 @@
         .fixed-service-notice i {
             color: #39b1e0;
             margin-right: 5px;
-        }
-        
-        /* Payment Status Badges */
-        .status-badge {
-            padding: 5px 10px;
-            border-radius: 50px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-        
-        .status-pending {
-            background: #fef3c7;
-            color: #92400e;
-        }
-        
-        .status-paid {
-            background: #d1fae5;
-            color: #065f46;
-        }
-        
-        .status-processing {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-        
-        .status-completed {
-            background: #dcfce7;
-            color: #166534;
         }
         
         footer {
@@ -674,7 +496,7 @@
 </nav>
 
 <section class="league-hero position-relative">
-    <!-- Back Button -->
+    <!-- Back Button - Integrated with hero -->
     <div class="back-button-container">
         <a href="javascript:history.back()" class="btn-back">
             <i class="fas fa-arrow-left"></i> Back to Games
@@ -870,12 +692,12 @@
     </div>
 </footer>
 
-<!-- Order Modal with Payment -->
+<!-- Order Modal - FIXED FORM -->
 <div class="modal fade" id="orderModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Complete Your Order</h5>
+                <h5 class="modal-title">Confirm Your Order</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
@@ -903,66 +725,9 @@
                         <input type="text" class="form-control" id="targetRankDisplay" readonly>
                     </div>
                     
-                    <!-- Payment Section -->
-                    <div class="payment-section">
-                        <h6 class="text-center mb-3" style="color: #39b1e0; font-weight: 700;">
-                            <i class="fas fa-qrcode"></i> Pay via GCash
-                        </h6>
-                        
-                        <div class="gcash-info">
-                            <div class="gcash-qr">
-                                <img src="https://your-qr-code-url.com/gcash.jpg" alt="GCash QR Code">
-                            </div>
-                            
-                            <div class="gcash-details">
-                                <div class="gcash-detail-item">
-                                    <span class="detail-label">Account Name:</span>
-                                    <span class="detail-value">CarryConnect</span>
-                                    <button class="copy-btn" onclick="copyToClipboard('CarryConnect')">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                </div>
-                                <div class="gcash-detail-item">
-                                    <span class="detail-label">Account Number:</span>
-                                    <span class="detail-value">0996 906 3181</span>
-                                    <button class="copy-btn" onclick="copyToClipboard('09969063181')">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                </div>
-                                <div class="gcash-detail-item">
-                                    <span class="detail-label">Amount to Pay:</span>
-                                    <span class="detail-value" id="paymentAmount">₱0</span>
-                                </div>
-                            </div>
-                            
-                            <p class="text-muted small mt-2">
-                                <i class="fas fa-info-circle"></i> Scan QR code or copy account number to pay via GCash
-                            </p>
-                        </div>
-                        
-                        <label class="form-label">Upload Proof of Payment</label>
-                        <div class="upload-area" onclick="document.getElementById('paymentProof').click()">
-                            <i class="fas fa-cloud-upload-alt"></i>
-                            <p>Click to upload screenshot</p>
-                            <p class="small">(JPG, PNG only | Max 5MB)</p>
-                        </div>
-                        <input type="file" id="paymentProof" accept="image/*" style="display: none;" onchange="handleFileUpload(this)">
-                        
-                        <div class="file-preview" id="filePreview">
-                            <div class="d-flex align-items-center">
-                                <img id="previewImage" src="" alt="Preview">
-                                <div class="file-info">
-                                    <div class="file-name" id="fileName"></div>
-                                    <div class="file-size" id="fileSize"></div>
-                                </div>
-                                <i class="fas fa-times-circle remove-file" onclick="removeFile()"></i>
-                            </div>
-                        </div>
-                        
-                        <div class="mb-3 mt-3">
-                            <label class="form-label">Reference Number (Optional)</label>
-                            <input type="text" class="form-control" id="referenceNumber" placeholder="Enter GCash reference number">
-                        </div>
+                    <div class="mb-3">
+                        <label class="form-label">Additional Notes (Optional)</label>
+                        <textarea class="form-control" id="notes" rows="3" placeholder="e.g., Specific champions, duo queue preference, etc."></textarea>
                     </div>
                     
                     <div class="order-summary">
@@ -980,8 +745,8 @@
                         </div>
                     </div>
                     
-                    <button type="submit" class="btn-submit-order" id="submitOrderBtn" disabled>
-                        <i class="fas fa-check-circle me-2"></i> Submit Order with Proof
+                    <button type="submit" class="btn-submit-order">
+                        <i class="fas fa-check-circle me-2"></i> Confirm Order
                     </button>
                 </form>
             </div>
@@ -1010,7 +775,6 @@
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvemhrd3ZvcW55a3RzZ3JkdG53Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1NjUwNTYsImV4cCI6MjA4ODE0MTA1Nn0.-TjxEU-Qs0gPcO3h80wj0sRI37c6tT8FvTAyqteWqLc';
     
     let currentService = {};
-    let selectedFile = null;
     
     function openOrderModal(gameId, fromRank, toRank, price, serviceName) {
         if (!sessionStorage.getItem('userId')) {
@@ -1029,61 +793,8 @@
         document.getElementById('targetRankDisplay').value = toRank;
         document.getElementById('summaryService').textContent = `${fromRank} → ${toRank}`;
         document.getElementById('summaryPrice').textContent = `₱${price.toLocaleString()}`;
-        document.getElementById('paymentAmount').textContent = `₱${price.toLocaleString()}`;
-        
-        // Reset file upload
-        selectedFile = null;
-        document.getElementById('filePreview').style.display = 'none';
-        document.getElementById('paymentProof').value = '';
-        document.getElementById('referenceNumber').value = '';
-        document.getElementById('submitOrderBtn').disabled = true;
         
         new bootstrap.Modal(document.getElementById('orderModal')).show();
-    }
-    
-    function handleFileUpload(input) {
-        const file = input.files[0];
-        if (!file) return;
-        
-        // Check file size (max 5MB)
-        if (file.size > 5 * 1024 * 1024) {
-            alert('File size must be less than 5MB');
-            input.value = '';
-            return;
-        }
-        
-        // Check file type
-        if (!file.type.startsWith('image/')) {
-            alert('Please upload an image file');
-            input.value = '';
-            return;
-        }
-        
-        selectedFile = file;
-        
-        // Show preview
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            document.getElementById('previewImage').src = e.target.result;
-            document.getElementById('fileName').textContent = file.name;
-            document.getElementById('fileSize').textContent = `${(file.size / 1024).toFixed(2)} KB`;
-            document.getElementById('filePreview').style.display = 'block';
-            document.getElementById('submitOrderBtn').disabled = false;
-        };
-        reader.readAsDataURL(file);
-    }
-    
-    function removeFile() {
-        selectedFile = null;
-        document.getElementById('paymentProof').value = '';
-        document.getElementById('filePreview').style.display = 'none';
-        document.getElementById('submitOrderBtn').disabled = true;
-    }
-    
-    function copyToClipboard(text) {
-        navigator.clipboard.writeText(text).then(function() {
-            alert('Copied to clipboard!');
-        });
     }
     
     document.getElementById('orderForm').onsubmit = async (e) => {
@@ -1095,15 +806,6 @@
             return;
         }
         
-        if (!selectedFile) {
-            alert('Please upload proof of payment');
-            return;
-        }
-        
-        // Here you would upload the file to Supabase Storage
-        // For now, we'll use a placeholder URL
-        const proofUrl = 'https://your-supabase-storage-url.com/' + selectedFile.name;
-        
         const orderData = {
             client_id: parseInt(userId),
             game_id: parseInt(document.getElementById('gameId').value),
@@ -1111,10 +813,7 @@
             target_rank: currentService.toRank,
             total_price: currentService.price,
             notes: document.getElementById('notes').value,
-            payment_method: 'GCash',
-            payment_proof_url: proofUrl,
-            payment_status: 'pending',
-            status: 'pending_payment'
+            status: 'pending'
         };
         
         try {
@@ -1131,9 +830,8 @@
             
             if (response.ok) {
                 const order = await response.json();
-                alert('✅ Order placed successfully! Waiting for payment approval.');
+                alert('✅ Order placed successfully!');
                 
-                // Create notification
                 await fetch(`${SUPABASE_URL}/rest/v1/notifications`, {
                     method: 'POST',
                     headers: {
@@ -1144,7 +842,7 @@
                     body: JSON.stringify({
                         user_id: parseInt(userId),
                         order_id: order[0].order_id,
-                        message: `Your order for ${currentService.serviceName} has been placed. Waiting for payment approval.`
+                        message: `Your League of Legends order from ${currentService.fromRank} to ${currentService.toRank} has been placed.`
                     })
                 });
                 
@@ -1183,36 +881,21 @@
             if (orders.length === 0) {
                 ordersHtml = '<p class="text-center text-muted">No orders yet.</p>';
             } else {
-                ordersHtml = orders.map(order => {
-                    let statusClass = 'status-pending';
-                    let statusText = order.status || 'pending';
-                    
-                    if (order.payment_status === 'approved' && order.status === 'in_progress') {
-                        statusClass = 'status-processing';
-                        statusText = 'Processing';
-                    } else if (order.payment_status === 'approved' && order.status === 'completed') {
-                        statusClass = 'status-completed';
-                        statusText = 'Completed';
-                    } else if (order.payment_status === 'approved') {
-                        statusClass = 'status-paid';
-                        statusText = 'Paid';
-                    }
-                    
-                    return `
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <h6 class="card-title">Order #${order.order_id}</h6>
-                                <p class="mb-1"><strong>Service:</strong> ${order.current_rank} → ${order.target_rank}</p>
-                                <p class="mb-1"><strong>Price:</strong> ₱${order.total_price}</p>
-                                <p class="mb-1"><strong>Payment:</strong> 
-                                    <span class="badge ${statusClass}">${statusText}</span>
-                                </p>
-                                ${order.payment_proof_url ? '<p class="mb-1"><small>✅ Proof uploaded</small></p>' : ''}
-                                <p class="mb-0"><small class="text-muted">Ordered: ${new Date(order.order_date).toLocaleString()}</small></p>
-                            </div>
+                ordersHtml = orders.map(order => `
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h6 class="card-title">Order #${order.order_id}</h6>
+                            <p class="mb-1"><strong>Service:</strong> ${order.current_rank} → ${order.target_rank}</p>
+                            <p class="mb-1"><strong>Price:</strong> ₱${order.total_price}</p>
+                            <p class="mb-1"><strong>Status:</strong> 
+                                <span class="badge bg-${order.status === 'pending' ? 'warning' : order.status === 'completed' ? 'success' : 'info'}">
+                                    ${order.status}
+                                </span>
+                            </p>
+                            <p class="mb-0"><small class="text-muted">Ordered: ${new Date(order.order_date).toLocaleString()}</small></p>
                         </div>
-                    `;
-                }).join('');
+                    </div>
+                `).join('');
             }
             
             document.getElementById('ordersList').innerHTML = ordersHtml;

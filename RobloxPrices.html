@@ -415,7 +415,7 @@
                             <span class="peso-sign">₱</span>
                             <span class="price-amount">49</span>
                         </div>
-                        <button class="btn-order" onclick="placeOrder(3, 'Robux Farming', '100 Robux', 49, 'Robux Farming', 'Roblox')">
+                        <button class="btn-order" onclick="placeOrder(3, 'Robux Farming', '100 Robux', 49, 'Robux Farming (per 100)', 'Roblox')">
                             <i class="fas fa-shopping-cart"></i> Place Order
                         </button>
                     </div>
@@ -437,7 +437,7 @@
                             <span class="peso-sign">₱</span>
                             <span class="price-amount">99</span>
                         </div>
-                        <button class="btn-order" onclick="placeOrder(3, 'Level Farming', '10 Levels', 99, 'Level Farming', 'Roblox')">
+                        <button class="btn-order" onclick="placeOrder(3, 'Level Farming', '10 Levels', 99, 'Level Farming (per 10)', 'Roblox')">
                             <i class="fas fa-shopping-cart"></i> Place Order
                         </button>
                     </div>
@@ -526,7 +526,7 @@
                             <span class="peso-sign">₱</span>
                             <span class="price-amount">??</span>
                         </div>
-                        <button class="btn-order" onclick="placeOrder(3, 'Custom Order', 'Custom', 0, 'Custom Order', 'Roblox')">
+                        <button class="btn-order" onclick="placeOrder(3, 'Custom Order', 'Custom', 0, 'Custom Order - Contact Us', 'Roblox')">
                             <i class="fas fa-headset"></i> Contact Us
                         </button>
                     </div>
@@ -596,17 +596,19 @@
         }
         
         try {
-            // Save order to database first
+            // Save order to database - WITHOUT service_id
             const orderData = {
                 client_id: parseInt(userId),
                 game_id: gameId,
                 current_rank: fromRank,
                 target_rank: toRank,
                 total_price: price,
-                notes: '',
+                notes: serviceName, // Store service name in notes
                 status: 'pending',
                 payment_status: 'unpaid'
             };
+            
+            console.log('Sending order:', orderData);
             
             const response = await fetch(`${SUPABASE_URL}/rest/v1/orders`, {
                 method: 'POST',
@@ -621,14 +623,17 @@
             
             if (response.ok) {
                 const order = await response.json();
+                console.log('Order created:', order);
                 
                 // Redirect to payment page with order details
                 window.location.href = `Payment.html?order_id=${order[0].order_id}&game=${encodeURIComponent(gameName)}&service=${encodeURIComponent(serviceName)}&from=${encodeURIComponent(fromRank)}&to=${encodeURIComponent(toRank)}&price=${price}&game_id=${gameId}`;
             } else {
                 const error = await response.json();
+                console.error('Error response:', error);
                 alert('❌ Error creating order: ' + (error.message || 'Unknown error'));
             }
         } catch (error) {
+            console.error('Error:', error);
             alert('❌ Error: ' + error.message);
         }
     }

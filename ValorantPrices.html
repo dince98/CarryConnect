@@ -5,11 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Valorant Rank Boost Prices | CarryConnect</title>
     
-    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
     
     <style>
@@ -24,7 +21,6 @@
             background: #f8fafc;
         }
         
-        /* === SAME NAVBAR AS HOMEPAGE - CLEANED === */
         .navbar {
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
             padding: 1rem 0;
@@ -55,17 +51,45 @@
             color: white !important;
         }
         
-        .btn-login {
+        .btn-account {
             border: 2px solid rgba(255,255,255,0.2);
-            margin-right: 8px;
-        }
-        
-        .btn-register {
-            background: #3b82f6;
             color: white !important;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
-        /* === VALORANT HERO - REALISTIC === */
+        .btn-account:hover {
+            background: rgba(59, 130, 246, 0.2);
+        }
+        
+        .dropdown-menu {
+            background: #1e293b;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 8px;
+            margin-top: 8px;
+        }
+        
+        .dropdown-item {
+            color: rgba(255,255,255,0.9);
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .dropdown-item:hover {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .dropdown-item i {
+            width: 20px;
+            margin-right: 10px;
+            color: #3b82f6;
+        }
+        
         .valorant-hero {
             background: linear-gradient(135deg, #0f1923 0%, #1f2c39 100%);
             color: white;
@@ -82,7 +106,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('https://c.tenor.com/bCqfXFzZnkEAAAAC/valorant-jett.gif');
+            background: url('https://images.contentstack.io/v3/assets/bltb6530b271fddd0b1/blt29fdd9b9e5aee005/6505c1ac4fb9e1148a1cc414/VALORANT_2023_1920x1080.jpg');
             background-size: cover;
             background-position: center;
             opacity: 0.1;
@@ -95,7 +119,6 @@
             text-shadow: 0 0 10px rgba(255, 70, 85, 0.3);
         }
         
-        /* === RANK CARD STYLES === */
         .section-header {
             text-align: center;
             margin-bottom: 50px;
@@ -143,23 +166,21 @@
             color: white;
             padding: 20px;
             text-align: center;
-            position: relative;
         }
         
         .rank-icon {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
             margin: 0 auto 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
-            padding: 15px;
         }
         
         .rank-icon i {
-            font-size: 60px;
+            font-size: 40px;
             color: #ff4655;
         }
         
@@ -175,7 +196,6 @@
             background: rgba(255,70,85,0.2);
             border-radius: 50px;
             font-size: 12px;
-            font-weight: 600;
             color: #ff4655;
         }
         
@@ -186,30 +206,21 @@
         .price-tag {
             text-align: center;
             margin-bottom: 20px;
-            padding-bottom: 20px;
-            border-bottom: 1px dashed #e2e8f0;
         }
         
         .price-amount {
-            font-size: 36px;
+            font-size: 32px;
             font-weight: 800;
             color: #1e293b;
         }
         
-        .price-amount span {
-            font-size: 18px;
-            font-weight: 400;
-            color: #64748b;
-        }
-        
         .peso-sign {
-            font-size: 24px;
-            font-weight: 700;
             color: #ff4655;
-            margin-right: 5px;
+            font-size: 20px;
+            margin-right: 2px;
         }
         
-        .btn-contact {
+        .btn-order {
             background: #ff4655;
             color: white;
             font-weight: 700;
@@ -218,16 +229,13 @@
             border: none;
             width: 100%;
             transition: all 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
         }
         
-        .btn-contact:hover {
+        .btn-order:hover {
             background: #d63a47;
             transform: scale(1.05);
         }
@@ -238,141 +246,99 @@
             right: 20px;
             background: #ff4655;
             color: white;
-            padding: 8px 16px;
+            padding: 5px 15px;
             border-radius: 50px;
             font-size: 12px;
             font-weight: 700;
             z-index: 10;
-            box-shadow: 0 5px 15px rgba(255,70,85,0.3);
         }
         
-        /* === PRICE TABLE === */
-        .price-table {
-            background: white;
+        /* Order Modal Styles */
+        .modal-content {
             border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
-            margin-top: 50px;
-        }
-        
-        .table-custom {
-            margin-bottom: 0;
-        }
-        
-        .table-custom th {
-            background: #0f1923;
-            color: white;
-            font-weight: 600;
             border: none;
-            padding: 15px;
         }
         
-        .table-custom td {
-            padding: 15px;
-            vertical-align: middle;
-            border-color: #e2e8f0;
+        .modal-header {
+            background: linear-gradient(135deg, #0f1923, #1f2c39);
+            color: white;
+            border-radius: 20px 20px 0 0;
+            padding: 20px 30px;
         }
         
-        .table-custom tr:hover {
-            background: #fff5f5;
+        .modal-body {
+            padding: 30px;
         }
         
-        .btn-contact-small {
+        .form-label {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+        
+        .form-control, .form-select {
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 12px 15px;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #ff4655;
+            box-shadow: 0 0 0 4px rgba(255,70,85,0.1);
+        }
+        
+        .btn-submit-order {
             background: #ff4655;
             color: white;
-            border: none;
-            padding: 8px 20px;
+            font-weight: 700;
+            padding: 14px 30px;
             border-radius: 50px;
-            font-size: 14px;
-            font-weight: 600;
+            border: none;
+            width: 100%;
+            font-size: 16px;
             transition: all 0.3s;
         }
         
-        .btn-contact-small:hover {
+        .btn-submit-order:hover {
             background: #d63a47;
+            transform: translateY(-2px);
         }
         
-        /* === CONTACT INFO SECTION - INDIE PRICE === */
-        .contact-info {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            border-radius: 20px;
-            padding: 40px;
-            color: white;
-            margin-top: 50px;
-        }
-        
-        .contact-card {
-            background: rgba(255,255,255,0.1);
+        .order-summary {
+            background: #f8fafc;
             border-radius: 15px;
-            padding: 25px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.2);
+            padding: 20px;
+            margin: 20px 0;
         }
         
-        .contact-item {
+        .summary-item {
             display: flex;
-            align-items: center;
-            gap: 20px;
-            padding: 15px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px dashed #e2e8f0;
         }
         
-        .contact-item:last-child {
+        .summary-item:last-child {
             border-bottom: none;
         }
         
-        .contact-icon {
-            width: 50px;
-            height: 50px;
-            background: #ff4655;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
+        .summary-label {
+            color: #64748b;
+            font-weight: 500;
         }
         
-        .contact-detail h4 {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-        
-        .contact-detail p {
-            font-size: 20px;
+        .summary-value {
             font-weight: 700;
-            margin-bottom: 0;
+            color: #1e293b;
+        }
+        
+        .total-price {
+            font-size: 24px;
             color: #ff4655;
+            font-weight: 800;
         }
         
-        .contact-detail small {
-            color: rgba(255,255,255,0.7);
-        }
-        
-        .copy-btn {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            padding: 5px 15px;
-            border-radius: 50px;
-            font-size: 12px;
-            margin-left: 15px;
-        }
-        
-        .copy-btn:hover {
-            background: #ff4655;
-        }
-        
-        /* === DISCLAIMER === */
-        .disclaimer {
-            background: #fff3cd;
-            border-left: 5px solid #ffc107;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 40px;
-        }
-        
-        /* === FOOTER - MATCHES HOMEPAGE === */
         footer {
             background: #0f172a;
             color: white;
@@ -399,12 +365,10 @@
         .footer-links a {
             color: rgba(255,255,255,0.7);
             text-decoration: none;
-            transition: all 0.3s;
         }
         
         .footer-links a:hover {
             color: white;
-            padding-left: 5px;
         }
         
         .social-icons a {
@@ -421,7 +385,7 @@
         }
         
         .social-icons a:hover {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #ff4655;
             transform: translateY(-3px);
         }
         
@@ -440,7 +404,6 @@
 </head>
 <body>
 
-<!-- === NAVIGATION - CONNECTED TO ALL HTML FILES: index, HowItWorks, LoginAndRegister === -->
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
         <a class="navbar-brand" href="index.html">
@@ -457,120 +420,38 @@
                 <li class="nav-item">
                     <a class="nav-link" href="HowItWorks.html">How It Works</a>
                 </li>
-                <!-- ✦ REMOVED: Services and Boosters - exactly as requested ✦ -->
-                <li class="nav-item">
-                    <a class="nav-link btn-login" href="LoginAndRegister.html">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link btn-register" href="LoginAndRegister.html">Sign Up</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link btn-account dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user-circle"></i> <span id="accountText">Account</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" id="accountDropdown"></ul>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
 
-<!-- === VALORANT HERO - REALISTIC, INDIE-FRIENDLY CLAIMS === -->
 <section class="valorant-hero">
-    <div class="container position-relative">
-        <div class="row align-items-center">
-            <div class="col-lg-8">
-                <h1 class="valorant-title">VALORANT</h1>
-                <h2 style="font-size: 36px; font-weight: 700; margin-bottom: 20px;">Rank Boosting Services</h2>
-                <p style="font-size: 18px; opacity: 0.9; max-width: 600px;">Climb the ranks with our experienced VALORANT boosters. We're a small team of high-rank players who actually care.</p>
-                <div class="d-flex gap-3 mt-4">
-                    <div class="bg-white bg-opacity-10 p-3 rounded-3">
-                        <i class="fas fa-bolt" style="color: #ff4655;"></i>
-                        <span class="ms-2">Manual play, no bots</span>
-                    </div>
-                    <div class="bg-white bg-opacity-10 p-3 rounded-3">
-                        <i class="fas fa-shield-alt" style="color: #ff4655;"></i>
-                        <span class="ms-2">Stream-proof mode</span>
-                    </div>
-                    <div class="bg-white bg-opacity-10 p-3 rounded-3">
-                        <i class="fas fa-trophy" style="color: #ff4655;"></i>
-                        <span class="ms-2">High-rank boosters</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 d-none d-lg-block text-center">
-                <i class="fas fa-crosshairs" style="font-size: 150px; color: rgba(255,70,85,0.3);"></i>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- === CONTACT INFORMATION - YOUR DIRECT CONTACT === -->
-<section class="py-4">
     <div class="container">
-        <div class="contact-info">
-            <div class="row align-items-center">
-                <div class="col-lg-4">
-                    <h3 style="font-size: 28px; font-weight: 700; margin-bottom: 10px;">📞 CONTACT US DIRECTLY</h3>
-                    <p style="color: rgba(255,255,255,0.8);">For orders and inquiries, message us now!</p>
-                    <div style="background: #ff4655; width: 80px; height: 5px; border-radius: 5px; margin-top: 20px;"></div>
-                </div>
-                <div class="col-lg-8">
-                    <div class="contact-card">
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <div class="contact-detail">
-                                <h4>EMAIL ADDRESS</h4>
-                                <p style="font-size: 24px;">patrickencinares231@gmail.com</p>
-                                <small>Click to copy or send us an email</small>
-                            </div>
-                            <button class="copy-btn ms-auto" onclick="copyToClipboard('patrickencinares231@gmail.com')">
-                                <i class="fas fa-copy"></i> Copy
-                            </button>
-                        </div>
-                        
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-phone-alt"></i>
-                            </div>
-                            <div class="contact-detail">
-                                <h4>PHONE NUMBER (SMART)</h4>
-                                <p style="font-size: 28px; letter-spacing: 2px;">0996 906 3181</p>
-                                <small>Smart/TNT - Available 24/7</small>
-                            </div>
-                            <button class="copy-btn ms-auto" onclick="copyToClipboard('09969063181')">
-                                <i class="fas fa-copy"></i> Copy
-                            </button>
-                        </div>
-                        
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-clock"></i>
-                            </div>
-                            <div class="contact-detail">
-                                <h4>RESPONSE TIME</h4>
-                                <p style="color: #10b981; font-size: 20px;">⏱️ Usually within 30 mins</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <h1 class="valorant-title">VALORANT</h1>
+        <h2 style="font-size: 36px; font-weight: 700;">Rank Boosting Services</h2>
+        <p class="lead">Click "Place Order" to start your boost</p>
     </div>
 </section>
 
-<!-- === RANK CARDS WITH REALISTIC PESO PRICES - INDIE FRIENDLY === -->
-<section class="py-5" style="padding: 40px 0 80px;">
+<section class="py-5">
     <div class="container">
         <div class="section-header">
-            <span class="badge bg-danger bg-gradient px-4 py-2 mb-3" style="border-radius: 50px; background: #ff4655 !important;">₱ PESO PRICES - INDIE RATES</span>
-            <h2>Rank Boosting Price List</h2>
-            <p class="text-muted mt-3" style="max-width: 600px; margin: 0 auto;">We're a small team, so we keep prices affordable. Click CONTACT TO ORDER.</p>
+            <h2>Select Your Boost</h2>
         </div>
         
         <div class="row g-4">
-            <!-- === IRON TO BRONZE - REALISTIC PRICE === -->
+            <!-- Iron to Bronze -->
             <div class="col-lg-4 col-md-6">
                 <div class="rank-card">
                     <div class="rank-header">
                         <div class="rank-icon">
-                            <i class="fas fa-shield" style="font-size: 60px; color: #a5acb0;"></i>
+                            <i class="fas fa-shield"></i>
                         </div>
                         <h3 class="rank-name">Iron → Bronze</h3>
                         <span class="rank-tier">3 DIVISIONS</span>
@@ -578,25 +459,22 @@
                     <div class="rank-body">
                         <div class="price-tag">
                             <span class="peso-sign">₱</span>
-                            <span class="price-amount">149 <span>per division</span></span>
+                            <span class="price-amount">447</span>
                         </div>
-                        <div style="text-align: center; margin-bottom: 20px; color: #64748b; font-size: 14px;">
-                            <i class="fas fa-arrow-right"></i> Total: ₱447 (3 divisions)
-                        </div>
-                        <button class="btn-contact" onclick="openContact()">
-                            <i class="fas fa-headset"></i> CONTACT TO ORDER
+                        <button class="btn-order" onclick="openOrderModal(2, 'Iron', 'Bronze', 447)">
+                            <i class="fas fa-shopping-cart"></i> Place Order
                         </button>
                     </div>
                 </div>
             </div>
             
-            <!-- === BRONZE TO SILVER === -->
+            <!-- Bronze to Silver -->
             <div class="col-lg-4 col-md-6">
                 <div class="rank-card">
                     <div class="popular-badge">POPULAR</div>
                     <div class="rank-header">
                         <div class="rank-icon">
-                            <i class="fas fa-shield" style="font-size: 60px; color: #cd7f32;"></i>
+                            <i class="fas fa-shield"></i>
                         </div>
                         <h3 class="rank-name">Bronze → Silver</h3>
                         <span class="rank-tier">3 DIVISIONS</span>
@@ -604,24 +482,21 @@
                     <div class="rank-body">
                         <div class="price-tag">
                             <span class="peso-sign">₱</span>
-                            <span class="price-amount">199 <span>per division</span></span>
+                            <span class="price-amount">597</span>
                         </div>
-                        <div style="text-align: center; margin-bottom: 20px; color: #64748b; font-size: 14px;">
-                            <i class="fas fa-arrow-right"></i> Total: ₱597 (3 divisions)
-                        </div>
-                        <button class="btn-contact" onclick="openContact()">
-                            <i class="fas fa-headset"></i> CONTACT TO ORDER
+                        <button class="btn-order" onclick="openOrderModal(2, 'Bronze', 'Silver', 597)">
+                            <i class="fas fa-shopping-cart"></i> Place Order
                         </button>
                     </div>
                 </div>
             </div>
             
-            <!-- === SILVER TO GOLD === -->
+            <!-- Silver to Gold -->
             <div class="col-lg-4 col-md-6">
                 <div class="rank-card">
                     <div class="rank-header">
                         <div class="rank-icon">
-                            <i class="fas fa-shield" style="font-size: 60px; color: #c0c0c0;"></i>
+                            <i class="fas fa-shield"></i>
                         </div>
                         <h3 class="rank-name">Silver → Gold</h3>
                         <span class="rank-tier">3 DIVISIONS</span>
@@ -629,24 +504,21 @@
                     <div class="rank-body">
                         <div class="price-tag">
                             <span class="peso-sign">₱</span>
-                            <span class="price-amount">249 <span>per division</span></span>
+                            <span class="price-amount">747</span>
                         </div>
-                        <div style="text-align: center; margin-bottom: 20px; color: #64748b; font-size: 14px;">
-                            <i class="fas fa-arrow-right"></i> Total: ₱747 (3 divisions)
-                        </div>
-                        <button class="btn-contact" onclick="openContact()">
-                            <i class="fas fa-headset"></i> CONTACT TO ORDER
+                        <button class="btn-order" onclick="openOrderModal(2, 'Silver', 'Gold', 747)">
+                            <i class="fas fa-shopping-cart"></i> Place Order
                         </button>
                     </div>
                 </div>
             </div>
             
-            <!-- === GOLD TO PLATINUM === -->
+            <!-- Gold to Platinum -->
             <div class="col-lg-4 col-md-6">
                 <div class="rank-card">
                     <div class="rank-header">
                         <div class="rank-icon">
-                            <i class="fas fa-shield" style="font-size: 60px; color: #ffd700;"></i>
+                            <i class="fas fa-shield"></i>
                         </div>
                         <h3 class="rank-name">Gold → Platinum</h3>
                         <span class="rank-tier">3 DIVISIONS</span>
@@ -654,24 +526,21 @@
                     <div class="rank-body">
                         <div class="price-tag">
                             <span class="peso-sign">₱</span>
-                            <span class="price-amount">349 <span>per division</span></span>
+                            <span class="price-amount">1,047</span>
                         </div>
-                        <div style="text-align: center; margin-bottom: 20px; color: #64748b; font-size: 14px;">
-                            <i class="fas fa-arrow-right"></i> Total: ₱1,047 (3 divisions)
-                        </div>
-                        <button class="btn-contact" onclick="openContact()">
-                            <i class="fas fa-headset"></i> CONTACT TO ORDER
+                        <button class="btn-order" onclick="openOrderModal(2, 'Gold', 'Platinum', 1047)">
+                            <i class="fas fa-shopping-cart"></i> Place Order
                         </button>
                     </div>
                 </div>
             </div>
             
-            <!-- === PLATINUM TO DIAMOND === -->
+            <!-- Platinum to Diamond -->
             <div class="col-lg-4 col-md-6">
                 <div class="rank-card">
                     <div class="rank-header">
                         <div class="rank-icon">
-                            <i class="fas fa-shield" style="font-size: 60px; color: #57b5e5;"></i>
+                            <i class="fas fa-shield"></i>
                         </div>
                         <h3 class="rank-name">Platinum → Diamond</h3>
                         <span class="rank-tier">3 DIVISIONS</span>
@@ -679,24 +548,21 @@
                     <div class="rank-body">
                         <div class="price-tag">
                             <span class="peso-sign">₱</span>
-                            <span class="price-amount">499 <span>per division</span></span>
+                            <span class="price-amount">1,497</span>
                         </div>
-                        <div style="text-align: center; margin-bottom: 20px; color: #64748b; font-size: 14px;">
-                            <i class="fas fa-arrow-right"></i> Total: ₱1,497 (3 divisions)
-                        </div>
-                        <button class="btn-contact" onclick="openContact()">
-                            <i class="fas fa-headset"></i> CONTACT TO ORDER
+                        <button class="btn-order" onclick="openOrderModal(2, 'Platinum', 'Diamond', 1497)">
+                            <i class="fas fa-shopping-cart"></i> Place Order
                         </button>
                     </div>
                 </div>
             </div>
             
-            <!-- === DIAMOND TO ASCENDANT === -->
+            <!-- Diamond to Ascendant -->
             <div class="col-lg-4 col-md-6">
                 <div class="rank-card">
                     <div class="rank-header">
                         <div class="rank-icon">
-                            <i class="fas fa-shield" style="font-size: 60px; color: #1e4b7c;"></i>
+                            <i class="fas fa-shield"></i>
                         </div>
                         <h3 class="rank-name">Diamond → Ascendant</h3>
                         <span class="rank-tier">3 DIVISIONS</span>
@@ -704,24 +570,22 @@
                     <div class="rank-body">
                         <div class="price-tag">
                             <span class="peso-sign">₱</span>
-                            <span class="price-amount">699 <span>per division</span></span>
+                            <span class="price-amount">2,097</span>
                         </div>
-                        <div style="text-align: center; margin-bottom: 20px; color: #64748b; font-size: 14px;">
-                            <i class="fas fa-arrow-right"></i> Total: ₱2,097 (3 divisions)
-                        </div>
-                        <button class="btn-contact" onclick="openContact()">
-                            <i class="fas fa-headset"></i> CONTACT TO ORDER
+                        <button class="btn-order" onclick="openOrderModal(2, 'Diamond', 'Ascendant', 2097)">
+                            <i class="fas fa-shopping-cart"></i> Place Order
                         </button>
                     </div>
                 </div>
             </div>
             
-            <!-- === ASCENDANT TO IMMORTAL === -->
+            <!-- Ascendant to Immortal -->
             <div class="col-lg-4 col-md-6">
                 <div class="rank-card">
+                    <div class="popular-badge">ELITE</div>
                     <div class="rank-header">
                         <div class="rank-icon">
-                            <i class="fas fa-shield" style="font-size: 60px; color: #9b4f96;"></i>
+                            <i class="fas fa-crown"></i>
                         </div>
                         <h3 class="rank-name">Ascendant → Immortal</h3>
                         <span class="rank-tier">3 DIVISIONS</span>
@@ -729,39 +593,10 @@
                     <div class="rank-body">
                         <div class="price-tag">
                             <span class="peso-sign">₱</span>
-                            <span class="price-amount">999 <span>per division</span></span>
+                            <span class="price-amount">2,997</span>
                         </div>
-                        <div style="text-align: center; margin-bottom: 20px; color: #64748b; font-size: 14px;">
-                            <i class="fas fa-arrow-right"></i> Total: ₱2,997 (3 divisions)
-                        </div>
-                        <button class="btn-contact" onclick="openContact()">
-                            <i class="fas fa-headset"></i> CONTACT TO ORDER
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- === IMMORTAL TO RADIANT === -->
-            <div class="col-lg-4 col-md-6">
-                <div class="rank-card">
-                    <div class="popular-badge">ELITE</div>
-                    <div class="rank-header">
-                        <div class="rank-icon">
-                            <i class="fas fa-crown" style="font-size: 60px; color: #ffd700;"></i>
-                        </div>
-                        <h3 class="rank-name">Immortal → Radiant</h3>
-                        <span class="rank-tier">TOP 500</span>
-                    </div>
-                    <div class="rank-body">
-                        <div class="price-tag">
-                            <span class="peso-sign">₱</span>
-                            <span class="price-amount">1,999 <span>per 100 RR</span></span>
-                        </div>
-                        <div style="text-align: center; margin-bottom: 20px; color: #64748b; font-size: 14px;">
-                            <i class="fas fa-arrow-right"></i> Min. order: 100 RR
-                        </div>
-                        <button class="btn-contact" onclick="openContact()">
-                            <i class="fas fa-headset"></i> CONTACT TO ORDER
+                        <button class="btn-order" onclick="openOrderModal(2, 'Ascendant', 'Immortal', 2997)">
+                            <i class="fas fa-shopping-cart"></i> Place Order
                         </button>
                     </div>
                 </div>
@@ -770,118 +605,294 @@
     </div>
 </section>
 
-<!-- === COMPLETE PRICE TABLE - REALISTIC INDIE PRICES === -->
-<section class="py-5 bg-light">
-    <div class="container">
-        <div class="price-table">
-            <div class="section-header mb-4">
-                <h2>Complete Rank Boost Price Table</h2>
-                <p class="text-muted">All prices are in Philippine Peso (₱). Per division = 3 ranks. Indie-friendly rates.</p>
-            </div>
-            
-            <div class="table-responsive">
-                <table class="table table-custom">
-                    <thead>
-                        <tr>
-                            <th>Current Rank</th>
-                            <th>Target Rank</th>
-                            <th>Price per Division</th>
-                            <th>Total Price (3 Divisions)</th>
-                            <th>Est. Time</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><i class="fas fa-shield" style="color: #a5acb0;"></i> Iron</td>
-                            <td>Bronze</td>
-                            <td>₱149</td>
-                            <td><strong>₱447</strong></td>
-                            <td>2-4 hours</td>
-                            <td><button class="btn-contact-small" onclick="openContact()">Contact</button></td>
-                        </tr>
-                        <tr>
-                            <td><i class="fas fa-shield" style="color: #cd7f32;"></i> Bronze</td>
-                            <td>Silver</td>
-                            <td>₱199</td>
-                            <td><strong>₱597</strong></td>
-                            <td>3-6 hours</td>
-                            <td><button class="btn-contact-small" onclick="openContact()">Contact</button></td>
-                        </tr>
-                        <tr>
-                            <td><i class="fas fa-shield" style="color: #c0c0c0;"></i> Silver</td>
-                            <td>Gold</td>
-                            <td>₱249</td>
-                            <td><strong>₱747</strong></td>
-                            <td>4-8 hours</td>
-                            <td><button class="btn-contact-small" onclick="openContact()">Contact</button></td>
-                        </tr>
-                        <tr>
-                            <td><i class="fas fa-shield" style="color: #ffd700;"></i> Gold</td>
-                            <td>Platinum</td>
-                            <td>₱349</td>
-                            <td><strong>₱1,047</strong></td>
-                            <td>6-12 hours</td>
-                            <td><button class="btn-contact-small" onclick="openContact()">Contact</button></td>
-                        </tr>
-                        <tr>
-                            <td><i class="fas fa-shield" style="color: #57b5e5;"></i> Platinum</td>
-                            <td>Diamond</td>
-                            <td>₱499</td>
-                            <td><strong>₱1,497</strong></td>
-                            <td>8-16 hours</td>
-                            <td><button class="btn-contact-small" onclick="openContact()">Contact</button></td>
-                        </tr>
-                        <tr>
-                            <td><i class="fas fa-shield" style="color: #1e4b7c;"></i> Diamond</td>
-                            <td>Ascendant</td>
-                            <td>₱699</td>
-                            <td><strong>₱2,097</strong></td>
-                            <td>12-24 hours</td>
-                            <td><button class="btn-contact-small" onclick="openContact()">Contact</button></td>
-                        </tr>
-                        <tr>
-                            <td><i class="fas fa-shield" style="color: #9b4f96;"></i> Ascendant</td>
-                            <td>Immortal</td>
-                            <td>₱999</td>
-                            <td><strong>₱2,997</strong></td>
-                            <td>20-40 hours</td>
-                            <td><button class="btn-contact-small" onclick="openContact()">Contact</button></td>
-                        </tr>
-                        <tr>
-                            <td><i class="fas fa-crown" style="color: #ffd700;"></i> Immortal</td>
-                            <td>Radiant</td>
-                            <td>₱1,999 (per 100 RR)</td>
-                            <td><strong>₱5,997</strong> (300 RR)</td>
-                            <td>40-80 hours</td>
-                            <td><button class="btn-contact-small" onclick="openContact()">Contact</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        
-        <!-- === CONTACT REMINDER === -->
-        <div class="disclaimer">
-            <div class="d-flex align-items-center">
-                <i class="fas fa-info-circle" style="font-size: 24px; color: #ffc107; margin-right: 20px;"></i>
-                <div>
-                    <h5 style="font-weight: 700; margin-bottom: 5px;">📱 HOW TO ORDER</h5>
-                    <p style="margin-bottom: 0; color: #856404;">
-                        <strong>Step 1:</strong> Click "CONTACT TO ORDER" • 
-                        <strong>Step 2:</strong> Send your current rank + target rank to <strong>patrickencinares231@gmail.com</strong> or text <strong>0996 906 3181</strong> • 
-                        <strong>Step 3:</strong> We'll confirm and send payment details.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- === CONTACT SECTION AGAIN (BOTTOM) === -->
-<section class="py-5">
+<footer>
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 mx-auto text-center">
-                <div style="background: linear-gradient(145deg, #0f172a, #1e293b); border-radius: 30px; padding: 50px; color: white;">
-                    <i
+            <div class="col-lg-4 mb-4">
+                <a href="index.html" class="footer-logo">
+                    <span>Carry</span>Connect
+                </a>
+                <p class="mt-3">A small, passionate team of gamers offering manual boosting services.</p>
+                <div class="social-icons mt-4">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 mb-4 offset-lg-1">
+                <h5>Company</h5>
+                <ul class="footer-links">
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h5>Support</h5>
+                <ul class="footer-links">
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="terms.html">Terms</a></li>
+                    <li><a href="privacy.html">Privacy</a></li>
+                    <li><a href="refund.html">Refund</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2026 CarryConnect. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Order Modal -->
+<div class="modal fade" id="orderModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Place Your Order</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="orderForm">
+                    <input type="hidden" id="gameId">
+                    <input type="hidden" id="servicePrice">
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Current Rank</label>
+                        <select class="form-select" id="currentRank" required>
+                            <option value="">Select rank</option>
+                            <option value="Iron">Iron</option>
+                            <option value="Bronze">Bronze</option>
+                            <option value="Silver">Silver</option>
+                            <option value="Gold">Gold</option>
+                            <option value="Platinum">Platinum</option>
+                            <option value="Diamond">Diamond</option>
+                            <option value="Ascendant">Ascendant</option>
+                            <option value="Immortal">Immortal</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Target Rank</label>
+                        <select class="form-select" id="targetRank" required>
+                            <option value="">Select rank</option>
+                            <option value="Bronze">Bronze</option>
+                            <option value="Silver">Silver</option>
+                            <option value="Gold">Gold</option>
+                            <option value="Platinum">Platinum</option>
+                            <option value="Diamond">Diamond</option>
+                            <option value="Ascendant">Ascendant</option>
+                            <option value="Immortal">Immortal</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Additional Notes</label>
+                        <textarea class="form-control" id="notes" rows="3" placeholder="e.g., Specific agents, duo queue preference, etc."></textarea>
+                    </div>
+                    
+                    <div class="order-summary">
+                        <div class="summary-item">
+                            <span class="summary-label">Game:</span>
+                            <span class="summary-value">Valorant</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Service:</span>
+                            <span class="summary-value" id="summaryService">-</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Total Price:</span>
+                            <span class="total-price" id="summaryPrice">₱0</span>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn-submit-order">
+                        <i class="fas fa-check-circle me-2"></i> Confirm Order
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Orders Modal -->
+<div class="modal fade" id="ordersModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">My Orders</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="ordersList"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const SUPABASE_URL = 'https://aozhkwvoqnyktsgrdtnw.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvemhrd3ZvcW55a3RzZ3JkdG53Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1NjUwNTYsImV4cCI6MjA4ODE0MTA1Nn0.-TjxEU-Qs0gPcO3h80wj0sRI37c6tT8FvTAyqteWqLc';
+    
+    let currentService = {};
+    
+    function openOrderModal(gameId, fromRank, toRank, price) {
+        if (!sessionStorage.getItem('userId')) {
+            alert('Please login first to place an order');
+            window.location.href = 'LoginAndRegister.html?tab=login';
+            return;
+        }
+        
+        currentService = { gameId, fromRank, toRank, price };
+        
+        document.getElementById('gameId').value = gameId;
+        document.getElementById('currentRank').value = fromRank;
+        document.getElementById('targetRank').value = toRank;
+        document.getElementById('servicePrice').value = price;
+        document.getElementById('summaryService').textContent = `${fromRank} → ${toRank}`;
+        document.getElementById('summaryPrice').textContent = `₱${price.toLocaleString()}`;
+        
+        new bootstrap.Modal(document.getElementById('orderModal')).show();
+    }
+    
+    document.getElementById('orderForm').onsubmit = async (e) => {
+        e.preventDefault();
+        
+        const userId = sessionStorage.getItem('userId');
+        if (!userId) {
+            alert('Please login first');
+            return;
+        }
+        
+        const orderData = {
+            client_id: parseInt(userId),
+            game_id: parseInt(document.getElementById('gameId').value),
+            current_rank: document.getElementById('currentRank').value,
+            target_rank: document.getElementById('targetRank').value,
+            total_price: currentService.price,
+            notes: document.getElementById('notes').value,
+            status: 'pending'
+        };
+        
+        try {
+            const response = await fetch(`${SUPABASE_URL}/rest/v1/orders`, {
+                method: 'POST',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': `Bearer ${SUPABASE_KEY}`,
+                    'Content-Type': 'application/json',
+                    'Prefer': 'return=representation'
+                },
+                body: JSON.stringify(orderData)
+            });
+            
+            if (response.ok) {
+                const order = await response.json();
+                alert('✅ Order placed successfully!');
+                
+                await fetch(`${SUPABASE_URL}/rest/v1/notifications`, {
+                    method: 'POST',
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        user_id: parseInt(userId),
+                        order_id: order[0].order_id,
+                        message: `Your Valorant order from ${orderData.current_rank} to ${orderData.target_rank} has been placed.`
+                    })
+                });
+                
+                bootstrap.Modal.getInstance(document.getElementById('orderModal')).hide();
+            } else {
+                const error = await response.json();
+                alert('❌ Error placing order: ' + (error.message || 'Unknown error'));
+            }
+        } catch (error) {
+            alert('❌ Error: ' + error.message);
+        }
+    };
+    
+    async function viewOrders() {
+        const userId = sessionStorage.getItem('userId');
+        if (!userId) {
+            alert('Please login first');
+            window.location.href = 'LoginAndRegister.html?tab=login';
+            return;
+        }
+        
+        try {
+            const response = await fetch(
+                `${SUPABASE_URL}/rest/v1/orders?client_id=eq.${userId}&order=order_id.desc`,
+                {
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`
+                    }
+                }
+            );
+            
+            const orders = await response.json();
+            
+            let ordersHtml = '';
+            if (orders.length === 0) {
+                ordersHtml = '<p class="text-center text-muted">No orders yet.</p>';
+            } else {
+                ordersHtml = orders.map(order => `
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h6 class="card-title">Order #${order.order_id}</h6>
+                            <p class="mb-1"><strong>Service:</strong> ${order.current_rank} → ${order.target_rank}</p>
+                            <p class="mb-1"><strong>Price:</strong> ₱${order.total_price}</p>
+                            <p class="mb-1"><strong>Status:</strong> 
+                                <span class="badge bg-${order.status === 'pending' ? 'warning' : order.status === 'completed' ? 'success' : 'info'}">
+                                    ${order.status}
+                                </span>
+                            </p>
+                            <p class="mb-0"><small class="text-muted">Ordered: ${new Date(order.order_date).toLocaleString()}</small></p>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            document.getElementById('ordersList').innerHTML = ordersHtml;
+            new bootstrap.Modal(document.getElementById('ordersModal')).show();
+            
+        } catch (error) {
+            alert('Error loading orders: ' + error.message);
+        }
+    }
+    
+    window.onload = function() {
+        const dropdown = document.getElementById('accountDropdown');
+        const accountText = document.getElementById('accountText');
+        
+        const userId = sessionStorage.getItem('userId');
+        const username = sessionStorage.getItem('username');
+        
+        if (userId) {
+            accountText.textContent = username;
+            dropdown.innerHTML = `
+                <li><a class="dropdown-item" href="#" onclick="viewOrders()"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
+                <li><a class="dropdown-item" href="#"><i class="fas fa-user"></i> Profile</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            `;
+        } else {
+            accountText.textContent = 'Account';
+            dropdown.innerHTML = `
+                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=login"><i class="fas fa-key"></i> Login</a></li>
+                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=register"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+            `;
+        }
+    };
+    
+    function logout() {
+        sessionStorage.clear();
+        window.location.href = 'index.html';
+    }
+</script>
+
+</body>
+</html>

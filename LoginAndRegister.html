@@ -100,6 +100,34 @@
             background: rgba(59, 130, 246, 0.2);
         }
         
+        /* Back Button */
+        .back-button-container {
+            padding: 20px 0 0 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .btn-back {
+            background: transparent;
+            color: #64748b;
+            border: 2px solid #e2e8f0;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .btn-back:hover {
+            background: #f8fafc;
+            border-color: #667eea;
+            color: #667eea;
+            transform: translateX(-5px);
+        }
+        
         .auth-hero {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -197,21 +225,6 @@
             font-size: 14px;
         }
         
-        .social-btn {
-            border-radius: 50px;
-            padding: 12px;
-            font-weight: 600;
-            border: 1.5px solid #e2e8f0;
-            background: white;
-            color: #1e293b;
-            transition: all 0.2s;
-        }
-        
-        .social-btn:hover {
-            background: #f8fafc;
-            border-color: #94a3b8;
-        }
-        
         .auth-footer {
             text-align: center;
             margin-top: 25px;
@@ -283,6 +296,13 @@
         </div>
     </div>
 </nav>
+
+<!-- Back Button -->
+<div class="back-button-container">
+    <a href="javascript:history.back()" class="btn-back">
+        <i class="fas fa-arrow-left"></i> Back
+    </a>
+</div>
 
 <section class="auth-hero">
     <div class="container">
@@ -389,7 +409,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    // Supabase configuration
     const SUPABASE_URL = 'https://aozhkwvoqnyktsgrdtnw.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvemhrd3ZvcW55a3RzZ3JkdG53Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1NjUwNTYsImV4cCI6MjA4ODE0MTA1Nn0.-TjxEU-Qs0gPcO3h80wj0sRI37c6tT8FvTAyqteWqLc';
     
@@ -401,7 +420,6 @@
         const password = form.password.value;
         const confirmPassword = form.confirmPassword.value;
         
-        // Check if passwords match
         if (password !== confirmPassword) {
             alert('❌ Passwords do not match!');
             return;
@@ -441,16 +459,16 @@
         }
     }
     
-    // FIXED LOGIN FUNCTION - WITH PASSWORD VERIFICATION!
+    // UPDATED LOGIN FUNCTION WITH REMEMBER ME
     async function handleLogin(event) {
         event.preventDefault();
         
         const form = event.target;
         const username = form.username.value;
         const password = form.password.value;
+        const rememberMe = document.getElementById('rememberMe').checked;
         
         try {
-            // Step 1: Find user by username or email (NO PASSWORD IN URL)
             const response = await fetch(
                 `${SUPABASE_URL}/rest/v1/users?or=(username.eq.${username},email.eq.${username})`,
                 {
@@ -463,17 +481,23 @@
             
             const users = await response.json();
             
-            // Step 2: Check if user exists AND password matches
             if (users.length > 0) {
-                // Compare the password from form with password in database
                 if (users[0].password === password) {
                     alert('✅ Login successful!');
-                    // Save user info to session
+                    
                     sessionStorage.setItem('userId', users[0].user_id);
                     sessionStorage.setItem('username', users[0].username);
                     sessionStorage.setItem('role', users[0].role);
                     
-                    window.location.href = 'Games.html?loggedin=true';
+                    if (rememberMe) {
+                        localStorage.setItem('rememberedUser', JSON.stringify({
+                            userId: users[0].user_id,
+                            username: users[0].username,
+                            role: users[0].role
+                        }));
+                    }
+                    
+                    window.location.href = `Games.html?loggedin=true&user_id=${users[0].user_id}&username=${users[0].username}&role=${users[0].role}`;
                 } else {
                     alert('❌ Invalid password');
                 }
@@ -485,7 +509,6 @@
         }
     }
     
-    // Function to switch tabs
     function switchTab(tab) {
         const loginForm = document.getElementById('loginForm');
         const registerForm = document.getElementById('registerForm');
@@ -505,8 +528,19 @@
         }
     }
     
-    // Initialize on page load
+    function checkRememberedLogin() {
+        const remembered = localStorage.getItem('rememberedUser');
+        if (remembered && !sessionStorage.getItem('userId')) {
+            const user = JSON.parse(remembered);
+            sessionStorage.setItem('userId', user.userId);
+            sessionStorage.setItem('username', user.username);
+            sessionStorage.setItem('role', user.role);
+        }
+    }
+    
     window.onload = function() {
+        checkRememberedLogin();
+        
         const urlParams = new URLSearchParams(window.location.search);
         const tab = urlParams.get('tab');
         
@@ -516,21 +550,17 @@
             switchTab('login');
         }
         
-        // Update account dropdown based on login status
         const dropdown = document.getElementById('accountDropdown');
         const accountText = document.getElementById('accountText');
         
         if (sessionStorage.getItem('userId')) {
-            // User is logged in
             accountText.textContent = sessionStorage.getItem('username');
             dropdown.innerHTML = `
-                <li><a class="dropdown-item" href="#"><i class="fas fa-user"></i> Profile</a></li>
-                <li><a class="dropdown-item" href="#"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
+                <li><a class="dropdown-item" href="#" onclick="window.location.href='Games.html'"><i class="fas fa-gamepad"></i> Games</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             `;
         } else {
-            // User is not logged in
             accountText.textContent = 'Account';
             dropdown.innerHTML = `
                 <li><a class="dropdown-item" href="LoginAndRegister.html?tab=login"><i class="fas fa-key"></i> Login</a></li>
@@ -539,13 +569,12 @@
         }
     };
     
-    // Logout function
     function logout() {
         sessionStorage.clear();
+        localStorage.removeItem('rememberedUser');
         window.location.href = 'index.html';
     }
     
-    // Attach form handlers
     document.addEventListener('DOMContentLoaded', function() {
         const loginForm = document.getElementById('loginFormElement');
         const registerForm = document.getElementById('registerFormElement');

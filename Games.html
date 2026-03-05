@@ -164,7 +164,6 @@
             width: 100%;
             height: 300px;
             overflow: hidden;
-            position: relative;
         }
         
         .game-image img {
@@ -176,17 +175,6 @@
         
         .game-card:hover .game-image img {
             transform: scale(1.1);
-        }
-        
-        .game-image::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.3) 100%);
-            pointer-events: none;
         }
         
         .game-body {
@@ -487,8 +475,13 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
 <script>
-    // Function to check remembered login
+    const SUPABASE_URL = 'https://aozhkwvoqnyktsgrdtnw.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvemhrd3ZvcW55a3RzZ3JkdG53Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MjU2NTA1NiwiZXhwIjoyMDg4MTQxMDU2fQ.lbr0-PCymnj241Vwso6yJYzch7HOJ5utB-pPsWpkABc';
+    
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    
     function checkRememberedLogin() {
         const remembered = localStorage.getItem('rememberedUser');
         if (remembered && !sessionStorage.getItem('userId')) {
@@ -500,16 +493,13 @@
     }
     
     window.onload = function() {
-        // Check remembered login first
         checkRememberedLogin();
         
-        // Check URL params (for just logged in)
         const urlParams = new URLSearchParams(window.location.search);
         const justLoggedIn = urlParams.get('loggedin');
         const urlUserId = urlParams.get('user_id');
         const urlUsername = urlParams.get('username');
         
-        // If URL has user data but session doesn't, restore session
         if (justLoggedIn === 'true' && urlUserId && !sessionStorage.getItem('userId')) {
             sessionStorage.setItem('userId', urlUserId);
             sessionStorage.setItem('username', urlUsername);
@@ -524,18 +514,8 @@
         const username = sessionStorage.getItem('username');
         
         if (userId) {
-            // Show welcome banner if just logged in
             if (justLoggedIn === 'true') {
                 welcomeBanner.style.display = 'block';
-                // Remove the URL parameter without refreshing
-                const url = new URL(window.location);
-                url.searchParams.delete('loggedin');
-                url.searchParams.delete('user_id');
-                url.searchParams.delete('username');
-                url.searchParams.delete('role');
-                window.history.replaceState({}, document.title, url);
-                
-                // Auto-hide after 5 seconds
                 setTimeout(() => {
                     welcomeBanner.style.display = 'none';
                 }, 5000);
@@ -543,8 +523,8 @@
             
             accountText.textContent = username;
             dropdown.innerHTML = `
-                <li><a class="dropdown-item" href="#" onclick="viewOrders()"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
-                <li><a class="dropdown-item" href="#"><i class="fas fa-user"></i> Profile</a></li>
+                <li><a class="dropdown-item" href="Games.html"><i class="fas fa-gamepad"></i> Games</a></li>
+                <li><a class="dropdown-item" href="Orders.html"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             `;
@@ -558,42 +538,10 @@
     };
     
     function logout() {
-        // Clear both session and localStorage
         sessionStorage.clear();
         localStorage.removeItem('rememberedUser');
         window.location.href = 'index.html';
     }
-    
-    function viewOrders() {
-        const userId = sessionStorage.getItem('userId');
-        if (!userId) {
-            alert('Please login first');
-            window.location.href = 'LoginAndRegister.html?tab=login';
-            return;
-        }
-        // You can create an Orders.html page later
-        alert('Orders page coming soon!');
-    }
-    
-    // Check login status when page becomes visible (in case user returns via back button)
-    document.addEventListener('visibilitychange', function() {
-        if (!document.hidden) {
-            // Page became visible again, check login status
-            const userId = sessionStorage.getItem('userId');
-            const accountText = document.getElementById('accountText');
-            const dropdown = document.getElementById('accountDropdown');
-            
-            if (userId && accountText) {
-                accountText.textContent = sessionStorage.getItem('username');
-                dropdown.innerHTML = `
-                    <li><a class="dropdown-item" href="#" onclick="viewOrders()"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
-                    <li><a class="dropdown-item" href="#"><i class="fas fa-user"></i> Profile</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-                `;
-            }
-        }
-    });
 </script>
 </body>
 </html>

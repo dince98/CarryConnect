@@ -596,6 +596,8 @@
             gameId: urlParams.get('game_id')
         };
         
+        console.log('Order data loaded:', orderData);
+        
         // Display order summary
         document.getElementById('displayService').textContent = orderData.service || 'N/A';
         document.getElementById('displayCurrentRank').textContent = orderData.fromRank || 'N/A';
@@ -610,6 +612,7 @@
     
     function selectPayment(method) {
         selectedPayment = method;
+        console.log('Selected payment method:', selectedPayment);
         
         // Update radio buttons
         document.querySelectorAll('input[name="payment"]').forEach(radio => {
@@ -675,6 +678,7 @@
         if (selectedFile) {
             document.getElementById('fileInfo').style.display = 'block';
             document.getElementById('fileName').textContent = selectedFile.name;
+            console.log('File selected:', selectedFile.name);
         }
         checkSubmitButton();
     }
@@ -716,22 +720,33 @@
                 return;
             }
             
+            console.log('Selected payment method:', selectedPayment);
+            console.log('Order ID:', orderData.orderId);
+            console.log('User ID:', userId);
+            
             // 1. Upload image to Supabase Storage
             const fileName = `receipt_${orderData.orderId}_${Date.now()}.${selectedFile.name.split('.').pop()}`;
             const filePath = `${userId}/${fileName}`;
+            
+            console.log('Uploading to:', filePath);
             
             const { data: uploadData, error: uploadError } = await supabase
                 .storage
                 .from('payment-receipts')
                 .upload(filePath, selectedFile);
                 
-            if (uploadError) throw uploadError;
+            if (uploadError) {
+                console.error('Upload error:', uploadError);
+                throw uploadError;
+            }
             
             // Get public URL
             const { data: urlData } = supabase
                 .storage
                 .from('payment-receipts')
                 .getPublicUrl(filePath);
+            
+            console.log('Upload successful, URL:', urlData.publicUrl);
             
             // 2. Save payment details to database
             const paymentData = {
@@ -743,6 +758,8 @@
                 reference_number: referenceNum,
                 status: 'pending'
             };
+            
+            console.log('Sending payment data:', paymentData);
             
             const response = await fetch(`${SUPABASE_URL}/rest/v1/payments`, {
                 method: 'POST',
@@ -756,6 +773,9 @@
             });
             
             if (response.ok) {
+                const payment = await response.json();
+                console.log('Payment saved:', payment);
+                
                 // 3. Update order status
                 await fetch(`${SUPABASE_URL}/rest/v1/orders?order_id=eq.${orderData.orderId}`, {
                     method: 'PATCH',
@@ -771,6 +791,7 @@
                 window.location.href = 'Games.html';
             } else {
                 const error = await response.json();
+                console.error('Payment submission error:', error);
                 alert('❌ Error submitting payment: ' + (error.message || 'Unknown error'));
             }
         } catch (error) {

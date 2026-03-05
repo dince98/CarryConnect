@@ -672,17 +672,33 @@
                 return;
             }
             
-            // Save payment details to database (without image URL muna)
+            // 1. Upload image to Supabase Storage
+            const fileName = `receipt_${orderData.orderId}_${Date.now()}.${selectedFile.name.split('.').pop()}`;
+            const filePath = `${userId}/${fileName}`;
+            
+            const { data: uploadData, error: uploadError } = await supabase
+                .storage
+                .from('payment-receipts')
+                .upload(filePath, selectedFile);
+                
+            if (uploadError) throw uploadError;
+            
+            // Get public URL
+            const { data: urlData } = supabase
+                .storage
+                .from('payment-receipts')
+                .getPublicUrl(filePath);
+            
+            // 2. Save payment details to database
             const paymentData = {
                 order_id: parseInt(orderData.orderId),
                 user_id: parseInt(userId),
                 payment_method: selectedPayment,
                 amount: parseInt(orderData.price || 0),
+                receipt_url: urlData.publicUrl,
                 reference_number: referenceNum,
                 status: 'pending'
             };
-            
-            console.log('Saving payment:', paymentData);
             
             const { data, error } = await supabase
                 .from('payments')
@@ -690,13 +706,13 @@
             
             if (error) throw error;
             
-            // Update order status
+            // 3. Update order status
             await supabase
                 .from('orders')
                 .update({ payment_status: 'paid' })
                 .eq('order_id', orderData.orderId);
             
-            alert('✅ Payment submitted successfully!');
+            alert('✅ Payment submitted successfully! Your receipt has been saved.');
             window.location.href = 'Games.html';
             
         } catch (error) {

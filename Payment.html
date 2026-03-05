@@ -748,7 +748,7 @@
             
             console.log('Upload successful, URL:', urlData.publicUrl);
             
-            // 2. Save payment details to database
+            // 2. Save payment details to database using supabase client
             const paymentData = {
                 order_id: parseInt(orderData.orderId),
                 user_id: parseInt(userId),
@@ -761,39 +761,31 @@
             
             console.log('Sending payment data:', paymentData);
             
-            const response = await fetch(`${SUPABASE_URL}/rest/v1/payments`, {
-                method: 'POST',
-                headers: {
-                    'apikey': SUPABASE_KEY,
-                    'Authorization': `Bearer ${SUPABASE_KEY}`,
-                    'Content-Type': 'application/json',
-                    'Prefer': 'return=representation'
-                },
-                body: JSON.stringify(paymentData)
-            });
+            const { data, error } = await supabase
+                .from('payments')
+                .insert([paymentData])
+                .select();
             
-            if (response.ok) {
-                const payment = await response.json();
-                console.log('Payment saved:', payment);
-                
-                // 3. Update order status
-                await fetch(`${SUPABASE_URL}/rest/v1/orders?order_id=eq.${orderData.orderId}`, {
-                    method: 'PATCH',
-                    headers: {
-                        'apikey': SUPABASE_KEY,
-                        'Authorization': `Bearer ${SUPABASE_KEY}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ payment_status: 'paid' })
-                });
-                
-                alert('✅ Payment submitted successfully! Your order is now pending verification.');
-                window.location.href = 'Games.html';
-            } else {
-                const error = await response.json();
-                console.error('Payment submission error:', error);
-                alert('❌ Error submitting payment: ' + (error.message || 'Unknown error'));
+            if (error) {
+                console.error('Supabase insert error:', error);
+                throw error;
             }
+            
+            console.log('Payment saved:', data);
+            
+            // 3. Update order status
+            const { error: orderError } = await supabase
+                .from('orders')
+                .update({ payment_status: 'paid' })
+                .eq('order_id', orderData.orderId);
+            
+            if (orderError) {
+                console.error('Order update error:', orderError);
+            }
+            
+            alert('✅ Payment submitted successfully! Your order is now pending verification.');
+            window.location.href = 'Games.html';
+            
         } catch (error) {
             console.error('Error:', error);
             alert('❌ Error: ' + error.message);

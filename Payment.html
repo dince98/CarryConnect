@@ -116,22 +116,6 @@
             color: #1e293b;
         }
         
-        .fixed-service-notice {
-            background: #e6f3fa;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 25px;
-            text-align: center;
-            font-size: 14px;
-            color: #1e293b;
-            border: 1px solid #39b1e0;
-        }
-        
-        .fixed-service-notice i {
-            color: #39b1e0;
-            margin-right: 5px;
-        }
-        
         .order-detail-row {
             display: flex;
             justify-content: space-between;
@@ -427,10 +411,6 @@
             <h2>Confirm Your Order</h2>
         </div>
         
-        <div class="fixed-service-notice">
-            <i class="fas fa-info-circle"></i> You're ordering a specific boost. To change ranks, please go back and select a different service.
-        </div>
-        
         <div class="order-detail-row">
             <span class="order-detail-label">Service</span>
             <span class="order-detail-value" id="displayService">Loading...</span>
@@ -479,7 +459,7 @@
             </div>
             <div class="payment-details">
                 <h4>Maya</h4>
-                <p>Pay via Maya (formerly PayMaya)</p>
+                <p>Pay via Maya</p>
             </div>
         </div>
         
@@ -572,11 +552,9 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
 <script>
-    // Supabase configuration
     const SUPABASE_URL = 'https://aozhkwvoqnyktsgrdtnw.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvemhrd3ZvcW55a3RzZ3JkdG53Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1NjUwNTYsImV4cCI6MjA4ODE0MTA1Nn0.-TjxEU-Qs0gPcO3h80wj0sRI37c6tT8FvTAyqteWqLc';
     
-    // Initialize Supabase client
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     
     let orderData = {};
@@ -584,7 +562,6 @@
     let selectedFile = null;
     
     window.onload = function() {
-        // Get order data from URL
         const urlParams = new URLSearchParams(window.location.search);
         orderData = {
             orderId: urlParams.get('order_id'),
@@ -592,83 +569,52 @@
             service: urlParams.get('service'),
             fromRank: urlParams.get('from'),
             toRank: urlParams.get('to'),
-            price: urlParams.get('price'),
-            gameId: urlParams.get('game_id')
+            price: urlParams.get('price')
         };
         
-        console.log('Order data loaded:', orderData);
-        
-        // Display order summary
         document.getElementById('displayService').textContent = orderData.service || 'N/A';
         document.getElementById('displayCurrentRank').textContent = orderData.fromRank || 'N/A';
         document.getElementById('displayTargetRank').textContent = orderData.toRank || 'N/A';
         document.getElementById('displayGame').textContent = orderData.game || 'N/A';
         document.getElementById('displayTotal').textContent = `₱${parseInt(orderData.price || 0).toLocaleString()}`;
         
-        // Check login
-        checkRememberedLogin();
         updateNavbar();
     };
     
     function selectPayment(method) {
         selectedPayment = method;
-        console.log('Selected payment method:', selectedPayment);
-        
-        // Update radio buttons
         document.querySelectorAll('input[name="payment"]').forEach(radio => {
             radio.checked = (radio.value === method);
         });
         
-        // Update payment option styles
         document.querySelectorAll('.payment-option').forEach(opt => {
             opt.classList.remove('selected');
         });
         event.currentTarget.classList.add('selected');
         
-        // Show payment instructions
-        const instructionsDiv = document.getElementById('paymentInstructions');
-        const instructionsText = document.getElementById('instructionsText');
-        const referenceInput = document.getElementById('referenceInput');
-        
-        instructionsDiv.style.display = 'block';
+        document.getElementById('paymentInstructions').style.display = 'block';
+        document.getElementById('referenceInput').style.display = 'block';
         
         const amount = parseInt(orderData.price || 0).toLocaleString();
         
-        switch(method) {
-            case 'gcash':
-                instructionsText.innerHTML = `
-                    <strong>GCash:</strong> 0996 906 3181 (Patrick E.)<br>
-                    1. Open GCash app<br>
-                    2. Click "Send Money"<br>
-                    3. Enter number: 0996 906 3181<br>
-                    4. Send exact amount: ₱${amount}<br>
-                    5. Save screenshot as proof
-                `;
-                referenceInput.style.display = 'block';
-                break;
-            case 'maya':
-                instructionsText.innerHTML = `
-                    <strong>Maya:</strong> 0996 906 3181 (Patrick E.)<br>
-                    1. Open Maya app<br>
-                    2. Click "Send Money"<br>
-                    3. Enter number: 0996 906 3181<br>
-                    4. Send exact amount: ₱${amount}<br>
-                    5. Save screenshot as proof
-                `;
-                referenceInput.style.display = 'block';
-                break;
-            case 'bank':
-                instructionsText.innerHTML = `
-                    <strong>Bank Transfer:</strong><br>
-                    Bank: BDO<br>
-                    Account Name: Patrick E.<br>
-                    Account Number: 1234 5678 9012<br>
-                    Amount: ₱${amount}<br>
-                    Upload deposit slip or screenshot
-                `;
-                referenceInput.style.display = 'block';
-                break;
+        let instructions = '';
+        if (method === 'gcash' || method === 'maya') {
+            instructions = `
+                <strong>${method.toUpperCase()}:</strong> 0996 906 3181 (Patrick E.)<br>
+                1. Open app<br>
+                2. Send ₱${amount}<br>
+                3. Save screenshot
+            `;
+        } else {
+            instructions = `
+                <strong>Bank Transfer:</strong><br>
+                Bank: BDO<br>
+                Account: 1234 5678 9012<br>
+                Name: Patrick E.<br>
+                Amount: ₱${amount}
+            `;
         }
+        document.getElementById('instructionsText').innerHTML = instructions;
         
         checkSubmitButton();
     }
@@ -678,7 +624,6 @@
         if (selectedFile) {
             document.getElementById('fileInfo').style.display = 'block';
             document.getElementById('fileName').textContent = selectedFile.name;
-            console.log('File selected:', selectedFile.name);
         }
         checkSubmitButton();
     }
@@ -686,12 +631,7 @@
     function checkSubmitButton() {
         const submitBtn = document.getElementById('submitBtn');
         const referenceNum = document.getElementById('referenceNumber')?.value || '';
-        
-        if (selectedPayment && selectedFile && referenceNum) {
-            submitBtn.disabled = false;
-        } else {
-            submitBtn.disabled = true;
-        }
+        submitBtn.disabled = !(selectedPayment && selectedFile && referenceNum);
     }
     
     document.getElementById('referenceNumber')?.addEventListener('input', checkSubmitButton);
@@ -710,7 +650,7 @@
         
         const submitBtn = document.getElementById('submitBtn');
         submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Processing...';
+        submitBtn.innerHTML = 'Processing...';
         
         try {
             const userId = sessionStorage.getItem('userId');
@@ -720,88 +660,28 @@
                 return;
             }
             
-            console.log('Selected payment method:', selectedPayment);
-            console.log('Order ID:', orderData.orderId);
-            console.log('User ID:', userId);
-            
-            // 1. Upload image to Supabase Storage
-            const fileName = `receipt_${orderData.orderId}_${Date.now()}.${selectedFile.name.split('.').pop()}`;
-            const filePath = `${userId}/${fileName}`;
-            
-            console.log('Uploading to:', filePath);
-            
-            const { data: uploadData, error: uploadError } = await supabase
-                .storage
-                .from('payment-receipts')
-                .upload(filePath, selectedFile);
-                
-            if (uploadError) {
-                console.error('Upload error:', uploadError);
-                throw uploadError;
-            }
-            
-            // Get public URL
-            const { data: urlData } = supabase
-                .storage
-                .from('payment-receipts')
-                .getPublicUrl(filePath);
-            
-            console.log('Upload successful, URL:', urlData.publicUrl);
-            
-            // 2. Save payment details to database using supabase client
+            // Simple insert without storage first (para ma-test)
             const paymentData = {
                 order_id: parseInt(orderData.orderId),
                 user_id: parseInt(userId),
                 payment_method: selectedPayment,
                 amount: parseInt(orderData.price || 0),
-                receipt_url: urlData.publicUrl,
                 reference_number: referenceNum,
                 status: 'pending'
             };
             
-            console.log('Sending payment data:', paymentData);
-            
             const { data, error } = await supabase
                 .from('payments')
-                .insert([paymentData])
-                .select();
+                .insert([paymentData]);
             
-            if (error) {
-                console.error('Supabase insert error:', error);
-                throw error;
-            }
+            if (error) throw error;
             
-            console.log('Payment saved:', data);
-            
-            // 3. Update order status
-            const { error: orderError } = await supabase
-                .from('orders')
-                .update({ payment_status: 'paid' })
-                .eq('order_id', orderData.orderId);
-            
-            if (orderError) {
-                console.error('Order update error:', orderError);
-            }
-            
-            alert('✅ Payment submitted successfully! Your order is now pending verification.');
+            alert('✅ Payment submitted successfully!');
             window.location.href = 'Games.html';
             
         } catch (error) {
             console.error('Error:', error);
             alert('❌ Error: ' + error.message);
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = '<i class="fas fa-check-circle me-2"></i> Submit Payment';
-        }
-    }
-    
-    function checkRememberedLogin() {
-        const remembered = localStorage.getItem('rememberedUser');
-        if (remembered && !sessionStorage.getItem('userId')) {
-            const user = JSON.parse(remembered);
-            sessionStorage.setItem('userId', user.userId);
-            sessionStorage.setItem('username', user.username);
-            sessionStorage.setItem('role', user.role);
         }
     }
     
@@ -814,15 +694,15 @@
         if (userId) {
             accountText.textContent = username;
             dropdown.innerHTML = `
-                <li><a class="dropdown-item" href="Games.html"><i class="fas fa-gamepad"></i> Games</a></li>
+                <li><a class="dropdown-item" href="Games.html">Games</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                <li><a class="dropdown-item" href="#" onclick="logout()">Logout</a></li>
             `;
         } else {
             accountText.textContent = 'Account';
             dropdown.innerHTML = `
-                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=login"><i class="fas fa-key"></i> Login</a></li>
-                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=register"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=login">Login</a></li>
+                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=register">Sign Up</a></li>
             `;
         }
     }

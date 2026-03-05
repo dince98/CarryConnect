@@ -598,20 +598,32 @@
         const amount = parseInt(orderData.price || 0).toLocaleString();
         
         let instructions = '';
-        if (method === 'gcash' || method === 'maya') {
+        if (method === 'gcash') {
             instructions = `
-                <strong>${method.toUpperCase()}:</strong> 0996 906 3181 (Patrick E.)<br>
-                1. Open app<br>
-                2. Send ₱${amount}<br>
-                3. Save screenshot
+                <strong>GCash:</strong> 0996 906 3181 (Patrick E.)<br>
+                1. Open GCash app<br>
+                2. Click "Send Money"<br>
+                3. Enter number: 0996 906 3181<br>
+                4. Send exact amount: ₱${amount}<br>
+                5. Save screenshot as proof
+            `;
+        } else if (method === 'maya') {
+            instructions = `
+                <strong>Maya:</strong> 0996 906 3181 (Patrick E.)<br>
+                1. Open Maya app<br>
+                2. Click "Send Money"<br>
+                3. Enter number: 0996 906 3181<br>
+                4. Send exact amount: ₱${amount}<br>
+                5. Save screenshot as proof
             `;
         } else {
             instructions = `
                 <strong>Bank Transfer:</strong><br>
                 Bank: BDO<br>
-                Account: 1234 5678 9012<br>
-                Name: Patrick E.<br>
-                Amount: ₱${amount}
+                Account Name: Patrick E.<br>
+                Account Number: 1234 5678 9012<br>
+                Amount: ₱${amount}<br>
+                Upload deposit slip or screenshot
             `;
         }
         document.getElementById('instructionsText').innerHTML = instructions;
@@ -650,7 +662,7 @@
         
         const submitBtn = document.getElementById('submitBtn');
         submitBtn.disabled = true;
-        submitBtn.innerHTML = 'Processing...';
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Processing...';
         
         try {
             const userId = sessionStorage.getItem('userId');
@@ -660,15 +672,43 @@
                 return;
             }
             
-            // Simple insert without storage first (para ma-test)
+            // 1. Upload image to Supabase Storage
+            const fileName = `receipt_${orderData.orderId}_${Date.now()}.${selectedFile.name.split('.').pop()}`;
+            const filePath = `${userId}/${fileName}`;
+            
+            console.log('Uploading to:', filePath);
+            
+            const { data: uploadData, error: uploadError } = await supabase
+                .storage
+                .from('payment-receipts')
+                .upload(filePath, selectedFile);
+                
+            if (uploadError) {
+                console.error('Upload error:', uploadError);
+                alert('Upload failed: ' + uploadError.message);
+                return;
+            }
+            
+            // Get public URL
+            const { data: urlData } = supabase
+                .storage
+                .from('payment-receipts')
+                .getPublicUrl(filePath);
+            
+            console.log('Upload successful, URL:', urlData.publicUrl);
+            
+            // 2. Save payment details to database
             const paymentData = {
                 order_id: parseInt(orderData.orderId),
                 user_id: parseInt(userId),
                 payment_method: selectedPayment,
                 amount: parseInt(orderData.price || 0),
+                receipt_url: urlData.publicUrl,
                 reference_number: referenceNum,
                 status: 'pending'
             };
+            
+            console.log('Saving payment:', paymentData);
             
             const { data, error } = await supabase
                 .from('payments')
@@ -676,12 +716,21 @@
             
             if (error) throw error;
             
-            alert('✅ Payment submitted successfully!');
+            // 3. Update order status
+            await supabase
+                .from('orders')
+                .update({ payment_status: 'paid' })
+                .eq('order_id', orderData.orderId);
+            
+            alert('✅ Payment submitted successfully! Your receipt has been saved.');
             window.location.href = 'Games.html';
             
         } catch (error) {
             console.error('Error:', error);
             alert('❌ Error: ' + error.message);
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fas fa-check-circle me-2"></i> Submit Payment';
         }
     }
     
@@ -694,15 +743,15 @@
         if (userId) {
             accountText.textContent = username;
             dropdown.innerHTML = `
-                <li><a class="dropdown-item" href="Games.html">Games</a></li>
+                <li><a class="dropdown-item" href="Games.html"><i class="fas fa-gamepad"></i> Games</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#" onclick="logout()">Logout</a></li>
+                <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             `;
         } else {
             accountText.textContent = 'Account';
             dropdown.innerHTML = `
-                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=login">Login</a></li>
-                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=register">Sign Up</a></li>
+                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=login"><i class="fas fa-key"></i> Login</a></li>
+                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=register"><i class="fas fa-user-plus"></i> Sign Up</a></li>
             `;
         }
     }

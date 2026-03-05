@@ -524,7 +524,18 @@
     let gamesMap = {};
     let paymentsMap = {};
     
+    function checkRememberedLogin() {
+        const remembered = localStorage.getItem('rememberedUser');
+        if (remembered && !sessionStorage.getItem('userId')) {
+            const user = JSON.parse(remembered);
+            sessionStorage.setItem('userId', user.userId);
+            sessionStorage.setItem('username', user.username);
+            sessionStorage.setItem('role', user.role);
+        }
+    }
+    
     window.onload = function() {
+        checkRememberedLogin();
         checkLogin();
         loadGames();
         loadOrders();
@@ -558,7 +569,6 @@
         const userId = sessionStorage.getItem('userId');
         
         try {
-            // Load orders
             const { data: orders, error: ordersError } = await supabase
                 .from('orders')
                 .select('*')
@@ -569,7 +579,6 @@
             
             allOrders = orders || [];
             
-            // Load payments for these orders
             if (allOrders.length > 0) {
                 const orderIds = allOrders.map(o => o.order_id);
                 const { data: payments, error: paymentsError } = await supabase
@@ -713,7 +722,6 @@
     }
     
     function filterOrders(filter) {
-        // Update active tab
         document.querySelectorAll('.filter-tab').forEach(tab => {
             tab.classList.remove('active');
         });
@@ -735,19 +743,7 @@
         displayOrders(filtered);
     }
     
-    function checkRememberedLogin() {
-        const remembered = localStorage.getItem('rememberedUser');
-        if (remembered && !sessionStorage.getItem('userId')) {
-            const user = JSON.parse(remembered);
-            sessionStorage.setItem('userId', user.userId);
-            sessionStorage.setItem('username', user.username);
-            sessionStorage.setItem('role', user.role);
-        }
-    }
-    
     function updateNavbar() {
-        checkRememberedLogin();
-        
         const dropdown = document.getElementById('accountDropdown');
         const accountText = document.getElementById('accountText');
         const userId = sessionStorage.getItem('userId');

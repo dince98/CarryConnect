@@ -553,7 +553,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
 <script>
     const SUPABASE_URL = 'https://aozhkwvoqnyktsgrdtnw.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvemhrd3ZvcW55a3RzZ3JkdG53Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1NjUwNTYsImV4cCI6MjA4ODE0MTA1Nn0.-TjxEU-Qs0gPcO3h80wj0sRI37c6tT8FvTAyqteWqLc';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvemhrd3ZvcW55a3RzZ3JkdG53Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MjU2NTA1NiwiZXhwIjoyMDg4MTQxMDU2fQ.lbr0-PCymnj241Vwso6yJYzch7HOJ5utB-pPsWpkABc';
     
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     
@@ -676,18 +676,26 @@
             const fileName = `receipt_${orderData.orderId}_${Date.now()}.${selectedFile.name.split('.').pop()}`;
             const filePath = `${userId}/${fileName}`;
             
+            console.log('Uploading to:', filePath);
+            
             const { data: uploadData, error: uploadError } = await supabase
                 .storage
                 .from('payment-receipts')
                 .upload(filePath, selectedFile);
                 
-            if (uploadError) throw uploadError;
+            if (uploadError) {
+                console.error('Upload error:', uploadError);
+                alert('Upload failed: ' + uploadError.message);
+                return;
+            }
             
             // Get public URL
             const { data: urlData } = supabase
                 .storage
                 .from('payment-receipts')
                 .getPublicUrl(filePath);
+            
+            console.log('Upload successful, URL:', urlData.publicUrl);
             
             // 2. Save payment details to database
             const paymentData = {
@@ -699,6 +707,8 @@
                 reference_number: referenceNum,
                 status: 'pending'
             };
+            
+            console.log('Saving payment:', paymentData);
             
             const { data, error } = await supabase
                 .from('payments')

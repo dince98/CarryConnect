@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard · CarryConnect</title>
+    <!-- Same styles as Orders.html -->
+</head>
+<body>
+    <!-- Similar to Orders.html but may Verify buttons -->
+    <div class="container">
+        <h2>Pending Payments</h2>
+        <div id="pendingPayments"></div>
+        
+        <h2>All Orders</h2>
+        <div id="allOrders"></div>
+    </div>
+
+    <script>
+        const SUPABASE_URL = 'https://aozhkwvoqnyktsgrdtnw.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvemhrd3ZvcW55a3RzZ3JkdG53Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MjU2NTA1NiwiZXhwIjoyMDg4MTQxMDU2fQ.lbr0-PCymnj241Vwso6yJYzch7HOJ5utB-pPsWpkABc';
+        
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
+        async function loadPendingPayments() {
+            const { data, error } = await supabase
+                .from('payments')
+                .select('*, orders(*)')
+                .eq('status', 'pending');
+            
+            if (error) console.error(error);
+            
+            // Display with verify buttons
+            displayPayments(data);
+        }
+        
+        async function verifyPayment(paymentId, orderId) {
+            // Update payment status to 'verified'
+            await supabase
+                .from('payments')
+                .update({ status: 'verified' })
+                .eq('payment_id', paymentId);
+            
+            // Update order payment_status to 'verified'
+            await supabase
+                .from('orders')
+                .update({ payment_status: 'verified' })
+                .eq('order_id', orderId);
+            
+            alert('✅ Payment verified!');
+            location.reload();
+        }
+    </script>
+</body>
+</html>

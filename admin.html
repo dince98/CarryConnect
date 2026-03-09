@@ -40,6 +40,53 @@
         .nav-link {
             color: rgba(255,255,255,0.9) !important;
             font-weight: 600;
+            margin: 0 5px;
+            padding: 8px 16px !important;
+            border-radius: 8px;
+        }
+        
+        .nav-link:hover {
+            background: rgba(59, 130, 246, 0.2);
+            color: white !important;
+        }
+        
+        .btn-account {
+            border: 2px solid rgba(255,255,255,0.2);
+            color: white !important;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-account:hover {
+            background: rgba(59, 130, 246, 0.2);
+        }
+        
+        .dropdown-menu {
+            background: #1e293b;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 8px;
+            margin-top: 8px;
+        }
+        
+        .dropdown-item {
+            color: rgba(255,255,255,0.9);
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .dropdown-item:hover {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .dropdown-item i {
+            width: 20px;
+            margin-right: 10px;
+            color: #3b82f6;
         }
         
         .admin-header {
@@ -52,6 +99,11 @@
         .admin-header h1 {
             font-size: 36px;
             font-weight: 800;
+        }
+        
+        .admin-header p {
+            font-size: 18px;
+            opacity: 0.9;
         }
         
         .stats-grid {
@@ -81,6 +133,35 @@
             font-size: 32px;
             font-weight: 700;
             color: #1e293b;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+            border: 2px solid #e2e8f0;
+            color: #64748b;
+        }
+        
+        .tab:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: transparent;
         }
         
         .section-title {
@@ -125,6 +206,15 @@
             font-weight: 600;
         }
         
+        .badge-verified {
+            background: #d4edda;
+            color: #155724;
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
         .payment-details {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -139,6 +229,7 @@
         .detail-label {
             color: #64748b;
             margin-bottom: 3px;
+            font-size: 12px;
         }
         
         .detail-value {
@@ -148,14 +239,18 @@
         
         .receipt-image {
             max-width: 200px;
+            max-height: 150px;
             border-radius: 10px;
             margin-top: 10px;
+            cursor: pointer;
+            border: 1px solid #e2e8f0;
         }
         
         .action-buttons {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
+            margin-top: 15px;
         }
         
         .btn-verify {
@@ -190,7 +285,7 @@
             transform: translateY(-2px);
         }
         
-        .btn-view {
+        .btn-assign {
             background: #667eea;
             color: white;
             border: none;
@@ -199,42 +294,48 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
-            text-decoration: none;
-            display: inline-block;
         }
         
-        .btn-view:hover {
+        .btn-assign:hover {
             background: #5a67d8;
             transform: translateY(-2px);
         }
         
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
+        .booster-select {
+            padding: 8px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+            margin-right: 10px;
         }
         
-        .tab {
-            padding: 10px 25px;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
+        .no-data {
+            text-align: center;
+            padding: 60px 20px;
             background: white;
-            border: 2px solid #e2e8f0;
+            border-radius: 20px;
+            border: 2px dashed #e2e8f0;
             color: #64748b;
         }
         
-        .tab:hover {
-            border-color: #667eea;
-            color: #667eea;
+        .loading-spinner {
+            text-align: center;
+            padding: 60px 20px;
         }
         
-        .tab.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-color: transparent;
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         
         footer {
@@ -242,6 +343,57 @@
             color: white;
             padding: 30px 0;
             margin-top: 50px;
+        }
+        
+        .footer-logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .social-icons a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+        
+        .social-icons a:hover {
+            background: #667eea;
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 30px;
+            margin-top: 40px;
+            text-align: center;
+            color: rgba(255,255,255,0.5);
         }
     </style>
 </head>
@@ -277,7 +429,7 @@
 <div class="admin-header">
     <div class="container">
         <h1>Admin Dashboard</h1>
-        <p>Manage payments, boosters, and orders</p>
+        <p class="lead">Manage payments, boosters, and orders</p>
     </div>
 </div>
 
@@ -312,28 +464,38 @@
     <!-- Content Sections -->
     <div id="payments-section">
         <h2 class="section-title">Payments Awaiting Verification</h2>
-        <div id="paymentsList"></div>
+        <div id="paymentsList">
+            <div class="loading-spinner">
+                <div class="spinner"></div>
+                <p>Loading payments...</p>
+            </div>
+        </div>
     </div>
 
     <div id="boosters-section" style="display: none;">
         <h2 class="section-title">Manage Boosters</h2>
-        <div class="mb-3">
-            <button class="btn-verify" onclick="showAddBoosterForm()">
-                <i class="fas fa-plus"></i> Add New Booster
-            </button>
+        <div id="boostersList">
+            <div class="loading-spinner">
+                <div class="spinner"></div>
+                <p>Loading boosters...</p>
+            </div>
         </div>
-        <div id="boostersList"></div>
     </div>
 
     <div id="orders-section" style="display: none;">
         <h2 class="section-title">All Orders</h2>
-        <div id="allOrdersList"></div>
+        <div id="ordersList">
+            <div class="loading-spinner">
+                <div class="spinner"></div>
+                <p>Loading orders...</p>
+            </div>
+        </div>
     </div>
 </div>
 
 <footer>
     <div class="container">
-        <p class="mb-0 text-center">© 2026 CarryConnect Admin Panel</p>
+        <p class="text-center mb-0">© 2026 CarryConnect · Admin Panel</p>
     </div>
 </footer>
 
@@ -345,21 +507,120 @@
     
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     
-    // Check if user is admin
-    window.onload = function() {
-        checkAdmin();
-        loadStats();
-        loadPendingPayments();
-        loadBoosters();
-        loadAllOrders();
-        updateNavbar();
-    };
+    let gamesMap = {};
+    let boostersMap = {};
     
-    function checkAdmin() {
+    function checkRememberedLogin() {
+        const remembered = localStorage.getItem('rememberedUser');
+        if (remembered && !sessionStorage.getItem('userId')) {
+            const user = JSON.parse(remembered);
+            sessionStorage.setItem('userId', user.userId);
+            sessionStorage.setItem('username', user.username);
+            sessionStorage.setItem('role', user.role);
+        }
+    }
+    
+    function updateNavbar() {
+        const dropdown = document.getElementById('accountDropdown');
+        const accountText = document.getElementById('accountText');
+        const userId = sessionStorage.getItem('userId');
+        const username = sessionStorage.getItem('username');
+        const role = sessionStorage.getItem('role');
+
+        if (userId) {
+            accountText.textContent = username;
+            
+            let menuItems = `
+                <li><a class="dropdown-item" href="Games.html"><i class="fas fa-gamepad"></i> Games</a></li>
+                <li><a class="dropdown-item" href="Orders.html"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
+            `;
+
+            if (role === 'booster') {
+                menuItems += `
+                    <li><a class="dropdown-item" href="Booster.html"><i class="fas fa-bolt"></i> Booster Dashboard</a></li>
+                `;
+            }
+
+            if (role === 'admin') {
+                menuItems += `
+                    <li><a class="dropdown-item" href="Admin.html"><i class="fas fa-cog"></i> Admin Panel</a></li>
+                `;
+            }
+
+            menuItems += `
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            `;
+
+            dropdown.innerHTML = menuItems;
+        } else {
+            accountText.textContent = 'Account';
+            dropdown.innerHTML = `
+                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=login"><i class="fas fa-key"></i> Login</a></li>
+                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=register"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+            `;
+        }
+    }
+    
+    window.onload = function() {
+        checkRememberedLogin();
+        
+        // Check if user is admin
         const role = sessionStorage.getItem('role');
         if (role !== 'admin') {
             alert('Access denied. Admin only.');
             window.location.href = 'index.html';
+            return;
+        }
+        
+        loadGames();
+        loadBoosters();
+        loadStats();
+        loadPendingPayments();
+        loadAllOrders();
+        updateNavbar();
+    };
+    
+    async function loadGames() {
+        try {
+            const { data, error } = await supabase
+                .from('games')
+                .select('*');
+            
+            if (error) throw error;
+            
+            data.forEach(game => {
+                gamesMap[game.game_id] = game.game_name;
+            });
+        } catch (error) {
+            console.error('Error loading games:', error);
+        }
+    }
+    
+    async function loadBoosters() {
+        try {
+            const { data, error } = await supabase
+                .from('users')
+                .select('*')
+                .eq('role', 'booster');
+            
+            if (error) throw error;
+            
+            boostersMap = data.reduce((map, booster) => {
+                map[booster.user_id] = booster;
+                return map;
+            }, {});
+            
+            displayBoosters(data);
+        } catch (error) {
+            console.error('Error loading boosters:', error);
+            document.getElementById('boostersList').innerHTML = `
+                <div class="no-data">
+                    <i class="fas fa-exclamation-circle fa-3x mb-3"></i>
+                    <h3>Error Loading Boosters</h3>
+                    <p>${error.message}</p>
+                </div>
+            `;
         }
     }
     
@@ -407,7 +668,9 @@
                         client_id,
                         current_rank,
                         target_rank,
-                        total_price
+                        total_price,
+                        game_id,
+                        notes
                     )
                 `)
                 .eq('status', 'pending')
@@ -418,6 +681,13 @@
             displayPayments(data);
         } catch (error) {
             console.error('Error loading payments:', error);
+            document.getElementById('paymentsList').innerHTML = `
+                <div class="no-data">
+                    <i class="fas fa-exclamation-circle fa-3x mb-3"></i>
+                    <h3>Error Loading Payments</h3>
+                    <p>${error.message}</p>
+                </div>
+            `;
         }
     }
     
@@ -425,12 +695,21 @@
         const container = document.getElementById('paymentsList');
         
         if (!payments || payments.length === 0) {
-            container.innerHTML = '<p class="text-muted">No pending payments.</p>';
+            container.innerHTML = `
+                <div class="no-data">
+                    <i class="fas fa-check-circle fa-3x mb-3" style="color: #10b981;"></i>
+                    <h3>No Pending Payments</h3>
+                    <p>All payments have been processed.</p>
+                </div>
+            `;
             return;
         }
         
         let html = '';
         payments.forEach(payment => {
+            const order = payment.orders;
+            const gameName = order?.game_id ? (gamesMap[order.game_id] || 'Unknown Game') : 'Unknown';
+            
             html += `
                 <div class="payment-card">
                     <div class="payment-header">
@@ -443,21 +722,33 @@
                             <div class="detail-value">${payment.order_id}</div>
                         </div>
                         <div class="detail-item">
+                            <div class="detail-label">Game</div>
+                            <div class="detail-value">${gameName}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Service</div>
+                            <div class="detail-value">${order?.notes || 'Standard Boost'}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Rank</div>
+                            <div class="detail-value">${order?.current_rank || '?'} → ${order?.target_rank || '?'}</div>
+                        </div>
+                        <div class="detail-item">
                             <div class="detail-label">Amount</div>
-                            <div class="detail-value">₱${payment.amount.toLocaleString()}</div>
+                            <div class="detail-value">₱${payment.amount?.toLocaleString() || '0'}</div>
                         </div>
                         <div class="detail-item">
                             <div class="detail-label">Method</div>
-                            <div class="detail-value">${payment.payment_method.toUpperCase()}</div>
+                            <div class="detail-value">${payment.payment_method?.toUpperCase() || 'N/A'}</div>
                         </div>
                         <div class="detail-item">
                             <div class="detail-label">Reference</div>
-                            <div class="detail-value">${payment.reference_number}</div>
+                            <div class="detail-value">${payment.reference_number || 'N/A'}</div>
                         </div>
                     </div>
                     
                     ${payment.receipt_url ? `
-                        <img src="${payment.receipt_url}" class="receipt-image" alt="Receipt">
+                        <img src="${payment.receipt_url}" class="receipt-image" alt="Receipt" onclick="window.open('${payment.receipt_url}', '_blank')">
                     ` : ''}
                     
                     <div class="action-buttons">
@@ -484,8 +775,7 @@
                 .from('payments')
                 .update({ 
                     status: 'verified',
-                    verified_at: new Date().toISOString(),
-                    verified_by: sessionStorage.getItem('userId')
+                    verified_at: new Date().toISOString()
                 })
                 .eq('payment_id', paymentId);
             
@@ -525,27 +815,17 @@
         }
     }
     
-    async function loadBoosters() {
-        try {
-            const { data, error } = await supabase
-                .from('users')
-                .select('*')
-                .eq('role', 'booster')
-                .order('user_id');
-            
-            if (error) throw error;
-            
-            displayBoosters(data);
-        } catch (error) {
-            console.error('Error loading boosters:', error);
-        }
-    }
-    
     function displayBoosters(boosters) {
         const container = document.getElementById('boostersList');
         
         if (!boosters || boosters.length === 0) {
-            container.innerHTML = '<p class="text-muted">No boosters yet.</p>';
+            container.innerHTML = `
+                <div class="no-data">
+                    <i class="fas fa-users fa-3x mb-3"></i>
+                    <h3>No Boosters Yet</h3>
+                    <p>Add boosters to assign them to orders.</p>
+                </div>
+            `;
             return;
         }
         
@@ -555,37 +835,23 @@
                 <div class="payment-card">
                     <div class="payment-header">
                         <span class="payment-id">${booster.username}</span>
-                        <span class="badge-pending">Booster</span>
+                        <span class="badge-verified">Booster</span>
                     </div>
                     <div class="payment-details">
                         <div class="detail-item">
                             <div class="detail-label">Name</div>
-                            <div class="detail-value">${booster.first_name} ${booster.last_name}</div>
+                            <div class="detail-value">${booster.first_name || ''} ${booster.last_name || ''}</div>
                         </div>
                         <div class="detail-item">
                             <div class="detail-label">Email</div>
                             <div class="detail-value">${booster.email}</div>
                         </div>
                     </div>
-                    <div class="action-buttons">
-                        <button onclick="removeBooster(${booster.user_id})" class="btn-reject">
-                            <i class="fas fa-trash"></i> Remove
-                        </button>
-                    </div>
                 </div>
             `;
         });
         
         container.innerHTML = html;
-    }
-    
-    function showAddBoosterForm() {
-        // Simple prompt for adding booster (can be enhanced with modal)
-        const email = prompt('Enter booster email:');
-        if (email) {
-            // Redirect to user management or implement add functionality
-            alert('Feature coming soon!');
-        }
     }
     
     async function loadAllOrders() {
@@ -600,32 +866,54 @@
             displayAllOrders(data);
         } catch (error) {
             console.error('Error loading orders:', error);
+            document.getElementById('ordersList').innerHTML = `
+                <div class="no-data">
+                    <i class="fas fa-exclamation-circle fa-3x mb-3"></i>
+                    <h3>Error Loading Orders</h3>
+                    <p>${error.message}</p>
+                </div>
+            `;
         }
     }
     
     function displayAllOrders(orders) {
-        const container = document.getElementById('allOrdersList');
+        const container = document.getElementById('ordersList');
         
         if (!orders || orders.length === 0) {
-            container.innerHTML = '<p class="text-muted">No orders yet.</p>';
+            container.innerHTML = `
+                <div class="no-data">
+                    <i class="fas fa-shopping-bag fa-3x mb-3"></i>
+                    <h3>No Orders Yet</h3>
+                    <p>Orders will appear here once clients place them.</p>
+                </div>
+            `;
             return;
         }
         
         let html = '';
         orders.forEach(order => {
-            const statusClass = order.status === 'completed' ? 'status-completed' : 
-                               order.status === 'in_progress' ? 'status-paid' : 'status-pending';
+            const gameName = gamesMap[order.game_id] || 'Unknown Game';
+            const boosterName = boostersMap[order.booster_id]?.username || 'Not Assigned';
+            const statusClass = order.payment_status === 'verified' ? 'badge-verified' : 'badge-pending';
             
             html += `
                 <div class="payment-card">
                     <div class="payment-header">
                         <span class="payment-id">Order #${order.order_id}</span>
-                        <span class="badge-pending">${order.status}</span>
+                        <span class="${statusClass}">${order.payment_status?.toUpperCase() || 'UNPAID'}</span>
                     </div>
                     <div class="payment-details">
                         <div class="detail-item">
                             <div class="detail-label">Client ID</div>
                             <div class="detail-value">${order.client_id}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Game</div>
+                            <div class="detail-value">${gameName}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Service</div>
+                            <div class="detail-value">${order.notes || 'Standard Boost'}</div>
                         </div>
                         <div class="detail-item">
                             <div class="detail-label">Rank</div>
@@ -636,10 +924,28 @@
                             <div class="detail-value">₱${order.total_price?.toLocaleString() || '0'}</div>
                         </div>
                         <div class="detail-item">
-                            <div class="detail-label">Payment</div>
-                            <div class="detail-value">${order.payment_status || 'unpaid'}</div>
+                            <div class="detail-label">Booster</div>
+                            <div class="detail-value">${boosterName}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Status</div>
+                            <div class="detail-value">${order.status || 'pending'}</div>
                         </div>
                     </div>
+                    
+                    ${order.payment_status === 'verified' && !order.booster_id ? `
+                        <div class="action-buttons">
+                            <select class="booster-select" id="booster-select-${order.order_id}">
+                                <option value="">Select Booster</option>
+                                ${Object.values(boostersMap).map(b => 
+                                    `<option value="${b.user_id}">${b.username}</option>`
+                                ).join('')}
+                            </select>
+                            <button onclick="assignBooster(${order.order_id})" class="btn-assign">
+                                <i class="fas fa-user-plus"></i> Assign Booster
+                            </button>
+                        </div>
+                    ` : ''}
                 </div>
             `;
         });
@@ -647,42 +953,48 @@
         container.innerHTML = html;
     }
     
+    async function assignBooster(orderId) {
+        const select = document.getElementById(`booster-select-${orderId}`);
+        const boosterId = select.value;
+        
+        if (!boosterId) {
+            alert('Please select a booster');
+            return;
+        }
+        
+        if (!confirm('Assign this booster to the order?')) return;
+        
+        try {
+            const { error } = await supabase
+                .from('orders')
+                .update({ 
+                    booster_id: parseInt(boosterId),
+                    status: 'assigned',
+                    assigned_at: new Date().toISOString()
+                })
+                .eq('order_id', orderId);
+            
+            if (error) throw error;
+            
+            alert('✅ Booster assigned!');
+            loadAllOrders();
+        } catch (error) {
+            alert('❌ Error: ' + error.message);
+        }
+    }
+    
     function switchTab(tab) {
-        // Update tab styles
         document.getElementById('tab-payments').classList.remove('active');
         document.getElementById('tab-boosters').classList.remove('active');
         document.getElementById('tab-orders').classList.remove('active');
         document.getElementById(`tab-${tab}`).classList.add('active');
         
-        // Show/hide sections
         document.getElementById('payments-section').style.display = tab === 'payments' ? 'block' : 'none';
         document.getElementById('boosters-section').style.display = tab === 'boosters' ? 'block' : 'none';
         document.getElementById('orders-section').style.display = tab === 'orders' ? 'block' : 'none';
-    }
-    
-    function updateNavbar() {
-        const dropdown = document.getElementById('accountDropdown');
-        const accountText = document.getElementById('accountText');
-        const username = sessionStorage.getItem('username');
-        const userId = sessionStorage.getItem('userId');
-        const role = sessionStorage.getItem('role');
         
-        if (userId) {
-            accountText.textContent = username;
-            dropdown.innerHTML = `
-                <li><a class="dropdown-item" href="Games.html"><i class="fas fa-gamepad"></i> Games</a></li>
-                <li><a class="dropdown-item" href="Orders.html"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
-                ${role === 'admin' ? '<li><a class="dropdown-item" href="Admin.html"><i class="fas fa-cog"></i> Admin</a></li>' : ''}
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-            `;
-        } else {
-            accountText.textContent = 'Account';
-            dropdown.innerHTML = `
-                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=login"><i class="fas fa-key"></i> Login</a></li>
-                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=register"><i class="fas fa-user-plus"></i> Sign Up</a></li>
-            `;
-        }
+        if (tab === 'boosters') loadBoosters();
+        if (tab === 'orders') loadAllOrders();
     }
     
     function logout() {

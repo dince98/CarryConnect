@@ -543,6 +543,7 @@
         const dropdown = document.getElementById('accountDropdown');
         const accountText = document.getElementById('accountText');
         const username = sessionStorage.getItem('username');
+        const role = sessionStorage.getItem('role');
 
         if (userId) {
             accountText.textContent = username;
@@ -552,13 +553,13 @@
                 <li><a class="dropdown-item" href="Orders.html"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
             `;
 
-            if (userRole === 'booster') {
+            if (role === 'booster') {
                 menuItems += `
                     <li><a class="dropdown-item" href="Booster.html"><i class="fas fa-bolt"></i> Booster Dashboard</a></li>
                 `;
             }
 
-            if (userRole === 'admin') {
+            if (role === 'admin') {
                 menuItems += `
                     <li><a class="dropdown-item" href="Admin.html"><i class="fas fa-cog"></i> Admin Panel</a></li>
                 `;

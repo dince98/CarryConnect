@@ -582,7 +582,58 @@
     
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     
-    // Place order and redirect to payment
+    function checkRememberedLogin() {
+        const remembered = localStorage.getItem('rememberedUser');
+        if (remembered && !sessionStorage.getItem('userId')) {
+            const user = JSON.parse(remembered);
+            sessionStorage.setItem('userId', user.userId);
+            sessionStorage.setItem('username', user.username);
+            sessionStorage.setItem('role', user.role);
+        }
+    }
+    
+    function updateNavbar() {
+        const dropdown = document.getElementById('accountDropdown');
+        const accountText = document.getElementById('accountText');
+        const userId = sessionStorage.getItem('userId');
+        const username = sessionStorage.getItem('username');
+        const role = sessionStorage.getItem('role');
+
+        if (userId) {
+            accountText.textContent = username;
+            
+            let menuItems = `
+                <li><a class="dropdown-item" href="Games.html"><i class="fas fa-gamepad"></i> Games</a></li>
+                <li><a class="dropdown-item" href="Orders.html"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
+            `;
+
+            if (role === 'booster') {
+                menuItems += `
+                    <li><a class="dropdown-item" href="Booster.html"><i class="fas fa-bolt"></i> Booster Dashboard</a></li>
+                `;
+            }
+
+            if (role === 'admin') {
+                menuItems += `
+                    <li><a class="dropdown-item" href="Admin.html"><i class="fas fa-cog"></i> Admin Panel</a></li>
+                `;
+            }
+
+            menuItems += `
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            `;
+
+            dropdown.innerHTML = menuItems;
+        } else {
+            accountText.textContent = 'Account';
+            dropdown.innerHTML = `
+                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=login"><i class="fas fa-key"></i> Login</a></li>
+                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=register"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+            `;
+        }
+    }
+    
     async function placeOrder(gameId, fromRank, toRank, price, serviceName, gameName) {
         if (!sessionStorage.getItem('userId')) {
             alert('Please login first to place an order');
@@ -590,16 +641,14 @@
             return;
         }
         
-        const userId = sessionStorage.getItem('userId');
-        
-        // For custom order with price 0
         if (price === 0) {
             alert('Please contact us directly for custom orders');
             return;
         }
         
+        const userId = sessionStorage.getItem('userId');
+        
         try {
-            // Save order to database
             const orderData = {
                 client_id: parseInt(userId),
                 game_id: gameId,
@@ -610,8 +659,6 @@
                 status: 'pending',
                 payment_status: 'unpaid'
             };
-            
-            console.log('Sending order:', orderData);
             
             const response = await fetch(`${SUPABASE_URL}/rest/v1/orders`, {
                 method: 'POST',
@@ -626,71 +673,25 @@
             
             if (response.ok) {
                 const order = await response.json();
-                console.log('Order created:', order);
-                
-                // Redirect to payment page
                 window.location.href = `Payment.html?order_id=${order[0].order_id}&game=${encodeURIComponent(gameName)}&service=${encodeURIComponent(serviceName)}&from=${encodeURIComponent(fromRank)}&to=${encodeURIComponent(toRank)}&price=${price}&game_id=${gameId}`;
             } else {
                 const error = await response.json();
-                console.error('Error response:', error);
                 alert('❌ Error creating order: ' + (error.message || 'Unknown error'));
             }
         } catch (error) {
-            console.error('Error:', error);
             alert('❌ Error: ' + error.message);
-        }
-    }
-    
-    function checkRememberedLogin() {
-        const remembered = localStorage.getItem('rememberedUser');
-        if (remembered && !sessionStorage.getItem('userId')) {
-            const user = JSON.parse(remembered);
-            sessionStorage.setItem('userId', user.userId);
-            sessionStorage.setItem('username', user.username);
-            sessionStorage.setItem('role', user.role);
         }
     }
     
     window.onload = function() {
         checkRememberedLogin();
-        
-        const dropdown = document.getElementById('accountDropdown');
-        const accountText = document.getElementById('accountText');
-        
-        const userId = sessionStorage.getItem('userId');
-        const username = sessionStorage.getItem('username');
-        
-        if (userId) {
-            accountText.textContent = username;
-            dropdown.innerHTML = `
-                <li><a class="dropdown-item" href="Games.html"><i class="fas fa-gamepad"></i> Games</a></li>
-                <li><a class="dropdown-item" href="#" onclick="viewOrders()"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-            `;
-        } else {
-            accountText.textContent = 'Account';
-            dropdown.innerHTML = `
-                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=login"><i class="fas fa-key"></i> Login</a></li>
-                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=register"><i class="fas fa-user-plus"></i> Sign Up</a></li>
-            `;
-        }
+        updateNavbar();
     };
     
     function logout() {
         sessionStorage.clear();
         localStorage.removeItem('rememberedUser');
         window.location.href = 'index.html';
-    }
-    
-    function viewOrders() {
-        const userId = sessionStorage.getItem('userId');
-        if (!userId) {
-            alert('Please login first');
-            window.location.href = 'LoginAndRegister.html?tab=login';
-            return;
-        }
-        alert('Orders page coming soon!');
     }
 </script>
 

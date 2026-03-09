@@ -171,13 +171,13 @@
         }
         
         .status-paid {
-            background: #d4edda;
-            color: #155724;
+            background: #cce5ff;
+            color: #004085;
         }
         
         .status-verified {
-            background: #cce5ff;
-            color: #004085;
+            background: #d4edda;
+            color: #155724;
         }
         
         .status-completed {
@@ -358,6 +358,107 @@
             border-color: transparent;
         }
         
+        .booster-info {
+            background: #f0f9ff;
+            border-radius: 15px;
+            padding: 15px;
+            margin-top: 15px;
+            border: 1px solid #667eea;
+        }
+        
+        .booster-info h6 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 10px;
+        }
+        
+        .booster-details {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .btn-verify {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-verify:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+        
+        .btn-assign {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-assign:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+        
+        .btn-start {
+            background: #f59e0b;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-start:hover {
+            background: #d97706;
+            transform: translateY(-2px);
+        }
+        
+        .btn-complete {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-complete:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+        
         footer {
             background: #0f172a;
             color: white;
@@ -523,6 +624,9 @@
     let allOrders = [];
     let gamesMap = {};
     let paymentsMap = {};
+    let boostersMap = {};
+    let userRole = sessionStorage.getItem('role') || 'client';
+    let userId = sessionStorage.getItem('userId');
     
     function checkRememberedLogin() {
         const remembered = localStorage.getItem('rememberedUser');
@@ -531,6 +635,8 @@
             sessionStorage.setItem('userId', user.userId);
             sessionStorage.setItem('username', user.username);
             sessionStorage.setItem('role', user.role);
+            userRole = user.role;
+            userId = user.userId;
         }
     }
     
@@ -538,13 +644,13 @@
         checkRememberedLogin();
         checkLogin();
         loadGames();
+        loadBoosters();
         loadOrders();
         updateNavbar();
     };
     
     function checkLogin() {
-        const userId = sessionStorage.getItem('userId');
-        if (!userId) {
+        if (!sessionStorage.getItem('userId')) {
             window.location.href = 'LoginAndRegister.html?tab=login';
         }
     }
@@ -565,15 +671,36 @@
         }
     }
     
-    async function loadOrders() {
-        const userId = sessionStorage.getItem('userId');
-        
+    async function loadBoosters() {
         try {
-            const { data: orders, error: ordersError } = await supabase
+            const { data, error } = await supabase
+                .from('users')
+                .select('user_id, username')
+                .eq('role', 'booster');
+            
+            if (error) throw error;
+            
+            data.forEach(booster => {
+                boostersMap[booster.user_id] = booster.username;
+            });
+        } catch (error) {
+            console.error('Error loading boosters:', error);
+        }
+    }
+    
+    async function loadOrders() {
+        try {
+            let query = supabase
                 .from('orders')
                 .select('*')
-                .eq('client_id', userId)
                 .order('order_id', { ascending: false });
+            
+            // If client, show only their orders
+            if (userRole === 'client') {
+                query = query.eq('client_id', userId);
+            }
+            
+            const { data: orders, error: ordersError } = await query;
             
             if (ordersError) throw ordersError;
             
@@ -609,6 +736,89 @@
         }
     }
     
+    async function verifyPayment(paymentId, orderId) {
+        try {
+            // Update payment status to verified
+            const { error: paymentError } = await supabase
+                .from('payments')
+                .update({ status: 'verified' })
+                .eq('payment_id', paymentId);
+            
+            if (paymentError) throw paymentError;
+            
+            // Update order payment_status to verified
+            const { error: orderError } = await supabase
+                .from('orders')
+                .update({ payment_status: 'verified' })
+                .eq('order_id', orderId);
+            
+            if (orderError) throw orderError;
+            
+            alert('✅ Payment verified successfully!');
+            location.reload();
+        } catch (error) {
+            alert('❌ Error: ' + error.message);
+        }
+    }
+    
+    async function assignBooster(orderId, boosterId) {
+        try {
+            const { error } = await supabase
+                .from('orders')
+                .update({ 
+                    booster_id: boosterId,
+                    status: 'assigned',
+                    assigned_at: new Date().toISOString()
+                })
+                .eq('order_id', orderId);
+            
+            if (error) throw error;
+            
+            alert('✅ Booster assigned successfully!');
+            location.reload();
+        } catch (error) {
+            alert('❌ Error: ' + error.message);
+        }
+    }
+    
+    async function startBoost(orderId) {
+        try {
+            const { error } = await supabase
+                .from('orders')
+                .update({ 
+                    status: 'in_progress',
+                    started_at: new Date().toISOString()
+                })
+                .eq('order_id', orderId);
+            
+            if (error) throw error;
+            
+            alert('✅ Boost started!');
+            location.reload();
+        } catch (error) {
+            alert('❌ Error: ' + error.message);
+        }
+    }
+    
+    async function completeOrder(orderId) {
+        try {
+            const { error } = await supabase
+                .from('orders')
+                .update({ 
+                    status: 'completed',
+                    completed_date: new Date().toISOString()
+                })
+                .eq('order_id', orderId);
+            
+            if (error) throw error;
+            
+            alert('✅ Order completed!');
+            location.reload();
+        } catch (error) {
+            alert('❌ Error: ' + error.message);
+        }
+    }
+    
     function displayOrders(orders) {
         const ordersList = document.getElementById('ordersList');
         
@@ -630,6 +840,7 @@
             const gameName = gamesMap[order.game_id] || 'Unknown Game';
             const orderDate = new Date(order.order_date).toLocaleDateString();
             const statusClass = getStatusClass(order.status, order.payment_status);
+            const boosterName = boostersMap[order.booster_id] || 'Not assigned';
             
             html += `
                 <div class="order-card" data-order-id="${order.order_id}">
@@ -684,7 +895,66 @@
                                     <i class="fas fa-clock"></i>
                                     <span>${new Date(payment.created_at).toLocaleString()}</span>
                                 </div>
+                                ${payment.status === 'pending' && userRole === 'admin' ? `
+                                    <button onclick="verifyPayment(${payment.payment_id}, ${order.order_id})" class="btn-verify">
+                                        <i class="fas fa-check-circle"></i> Verify Payment
+                                    </button>
+                                ` : ''}
                             </div>
+                        </div>
+                    ` : ''}
+                    
+                    ${order.booster_id ? `
+                        <div class="booster-info">
+                            <h6>Booster Information</h6>
+                            <div class="booster-details">
+                                <div class="payment-detail">
+                                    <i class="fas fa-user"></i>
+                                    <span>Booster: ${boosterName}</span>
+                                </div>
+                                ${order.assigned_at ? `
+                                    <div class="payment-detail">
+                                        <i class="fas fa-clock"></i>
+                                        <span>Assigned: ${new Date(order.assigned_at).toLocaleString()}</span>
+                                    </div>
+                                ` : ''}
+                                ${order.started_at ? `
+                                    <div class="payment-detail">
+                                        <i class="fas fa-play"></i>
+                                        <span>Started: ${new Date(order.started_at).toLocaleString()}</span>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    ` : ''}
+                    
+                    ${userRole === 'admin' && order.payment_status === 'verified' && !order.booster_id ? `
+                        <div style="margin-top: 15px; display: flex; gap: 10px;">
+                            <select id="booster-select-${order.order_id}" class="form-select" style="width: auto;">
+                                <option value="">Select Booster</option>
+                                ${Object.entries(boostersMap).map(([id, name]) => 
+                                    `<option value="${id}">${name}</option>`
+                                ).join('')}
+                            </select>
+                            <button onclick="assignBooster(${order.order_id}, document.getElementById('booster-select-${order.order_id}').value)" class="btn-assign">
+                                <i class="fas fa-user-plus"></i> Assign Booster
+                            </button>
+                        </div>
+                    ` : ''}
+                    
+                    ${userRole === 'booster' && order.booster_id == userId && order.status === 'assigned' ? `
+                        <div style="margin-top: 15px;">
+                            <button onclick="startBoost(${order.order_id})" class="btn-start">
+                                <i class="fas fa-play"></i> Start Boost
+                            </button>
+                        </div>
+                    ` : ''}
+                    
+                    ${userRole === 'booster' && order.booster_id == userId && order.status === 'in_progress' ? `
+                        <div style="margin-top: 15px;">
+                            <button onclick="completeOrder(${order.order_id})" class="btn-complete">
+                                <i class="fas fa-check"></i> Complete Order
+                            </button>
                         </div>
                     ` : ''}
                 </div>
@@ -705,8 +975,10 @@
     
     function getStatusText(orderStatus, paymentStatus) {
         if (paymentStatus === 'unpaid') return 'AWAITING PAYMENT';
-        if (paymentStatus === 'paid') return 'PAYMENT VERIFYING';
+        if (paymentStatus === 'paid') return 'PAYMENT RECEIVED';
         if (paymentStatus === 'verified') return 'PAYMENT VERIFIED';
+        if (orderStatus === 'assigned') return 'BOOSTER ASSIGNED';
+        if (orderStatus === 'in_progress') return 'BOOST IN PROGRESS';
         if (orderStatus === 'completed') return 'COMPLETED';
         if (orderStatus === 'cancelled') return 'CANCELLED';
         return orderStatus.toUpperCase();
@@ -746,17 +1018,27 @@
     function updateNavbar() {
         const dropdown = document.getElementById('accountDropdown');
         const accountText = document.getElementById('accountText');
-        const userId = sessionStorage.getItem('userId');
         const username = sessionStorage.getItem('username');
         
         if (userId) {
             accountText.textContent = username;
-            dropdown.innerHTML = `
+            let menuItems = `
                 <li><a class="dropdown-item" href="Games.html"><i class="fas fa-gamepad"></i> Games</a></li>
                 <li><a class="dropdown-item" href="Orders.html"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
+            `;
+            
+            if (userRole === 'admin') {
+                menuItems += `
+                    <li><a class="dropdown-item" href="Admin.html"><i class="fas fa-cog"></i> Admin Panel</a></li>
+                `;
+            }
+            
+            menuItems += `
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             `;
+            
+            dropdown.innerHTML = menuItems;
         } else {
             accountText.textContent = 'Account';
             dropdown.innerHTML = `

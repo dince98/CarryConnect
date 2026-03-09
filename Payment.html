@@ -561,7 +561,61 @@
     let selectedPayment = '';
     let selectedFile = null;
     
+    function checkRememberedLogin() {
+        const remembered = localStorage.getItem('rememberedUser');
+        if (remembered && !sessionStorage.getItem('userId')) {
+            const user = JSON.parse(remembered);
+            sessionStorage.setItem('userId', user.userId);
+            sessionStorage.setItem('username', user.username);
+            sessionStorage.setItem('role', user.role);
+        }
+    }
+    
+    function updateNavbar() {
+        const dropdown = document.getElementById('accountDropdown');
+        const accountText = document.getElementById('accountText');
+        const userId = sessionStorage.getItem('userId');
+        const username = sessionStorage.getItem('username');
+        const role = sessionStorage.getItem('role');
+
+        if (userId) {
+            accountText.textContent = username;
+            
+            let menuItems = `
+                <li><a class="dropdown-item" href="Games.html"><i class="fas fa-gamepad"></i> Games</a></li>
+                <li><a class="dropdown-item" href="Orders.html"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
+            `;
+
+            if (role === 'booster') {
+                menuItems += `
+                    <li><a class="dropdown-item" href="Booster.html"><i class="fas fa-bolt"></i> Booster Dashboard</a></li>
+                `;
+            }
+
+            if (role === 'admin') {
+                menuItems += `
+                    <li><a class="dropdown-item" href="Admin.html"><i class="fas fa-cog"></i> Admin Panel</a></li>
+                `;
+            }
+
+            menuItems += `
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            `;
+
+            dropdown.innerHTML = menuItems;
+        } else {
+            accountText.textContent = 'Account';
+            dropdown.innerHTML = `
+                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=login"><i class="fas fa-key"></i> Login</a></li>
+                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=register"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+            `;
+        }
+    }
+    
     window.onload = function() {
+        checkRememberedLogin();
+        
         const urlParams = new URLSearchParams(window.location.search);
         orderData = {
             orderId: urlParams.get('order_id'),
@@ -676,26 +730,18 @@
             const fileName = `receipt_${orderData.orderId}_${Date.now()}.${selectedFile.name.split('.').pop()}`;
             const filePath = `${userId}/${fileName}`;
             
-            console.log('Uploading to:', filePath);
-            
             const { data: uploadData, error: uploadError } = await supabase
                 .storage
                 .from('payment-receipts')
                 .upload(filePath, selectedFile);
                 
-            if (uploadError) {
-                console.error('Upload error:', uploadError);
-                alert('Upload failed: ' + uploadError.message);
-                return;
-            }
+            if (uploadError) throw uploadError;
             
             // Get public URL
             const { data: urlData } = supabase
                 .storage
                 .from('payment-receipts')
                 .getPublicUrl(filePath);
-            
-            console.log('Upload successful, URL:', urlData.publicUrl);
             
             // 2. Save payment details to database
             const paymentData = {
@@ -707,8 +753,6 @@
                 reference_number: referenceNum,
                 status: 'pending'
             };
-            
-            console.log('Saving payment:', paymentData);
             
             const { data, error } = await supabase
                 .from('payments')
@@ -723,7 +767,7 @@
                 .eq('order_id', orderData.orderId);
             
             alert('✅ Payment submitted successfully! Your receipt has been saved.');
-            window.location.href = 'Games.html';
+            window.location.href = 'Orders.html';
             
         } catch (error) {
             console.error('Error:', error);
@@ -731,28 +775,6 @@
         } finally {
             submitBtn.disabled = false;
             submitBtn.innerHTML = '<i class="fas fa-check-circle me-2"></i> Submit Payment';
-        }
-    }
-    
-    function updateNavbar() {
-        const dropdown = document.getElementById('accountDropdown');
-        const accountText = document.getElementById('accountText');
-        const userId = sessionStorage.getItem('userId');
-        const username = sessionStorage.getItem('username');
-        
-        if (userId) {
-            accountText.textContent = username;
-            dropdown.innerHTML = `
-                <li><a class="dropdown-item" href="Games.html"><i class="fas fa-gamepad"></i> Games</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-            `;
-        } else {
-            accountText.textContent = 'Account';
-            dropdown.innerHTML = `
-                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=login"><i class="fas fa-key"></i> Login</a></li>
-                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=register"><i class="fas fa-user-plus"></i> Sign Up</a></li>
-            `;
         }
     }
     

@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booster Dashboard · CarryConnect</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f8fafc;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
+            padding: 1rem 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-size: 28px !important;
+            font-weight: 800 !important;
+            color: white !important;
+            letter-spacing: -0.5px;
+        }
+        
+        .navbar-brand span {
+            color: #3b82f6;
+        }
+        
+        .nav-link {
+            color: rgba(255,255,255,0.9) !important;
+            font-weight: 600;
+        }
+        
+        .btn-account {
+            border: 2px solid rgba(255,255,255,0.2);
+            color: white !important;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .dropdown-menu {
+            background: #1e293b;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .dropdown-item {
+            color: rgba(255,255,255,0.9);
+            font-weight: 600;
+        }
+        
+        .dropdown-item:hover {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .page-header {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+        
+        .page-header h1 {
+            font-size: 48px;
+            font-weight: 800;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .stat-card h3 {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 40px 0 20px;
+            color: #1e293b;
+        }
+        
+        .order-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eef2f6;
+        }
+        
+        .order-id {
+            font-size: 18px;
+            font-weight: 700;
+        }
+        
+        .status-badge {
+            padding: 6px 15px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .status-assigned {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-progress {
+            background: #cce5ff;
+            color: #004085;
+        }
+        
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .order-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .detail-label {
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 5px;
+        }
+        
+        .detail-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+        
+        .price-value {
+            color: #10b981;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .btn-start {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-start:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+        
+        .btn-complete {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-complete:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+        
+        .btn-view {
+            background: #64748b;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-view:hover {
+            background: #475569;
+            transform: translateY(-2px);
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+            border: 2px solid #e2e8f0;
+            color: #64748b;
+        }
+        
+        .tab:hover {
+            border-color: #10b981;
+            color: #10b981;
+        }
+        
+        .tab.active {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+        
+        footer {
+            background: #0f172a;
+            color: white;
+            padding: 30px 0;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+        <a class="navbar-brand" href="index.html">
+            <span>Carry</span>Connect
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="HowItWorks.html">How It Works</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link btn-account dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user-circle"></i> <span id="accountText">Account</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" id="accountDropdown"></ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="page-header">
+    <div class="container">
+        <h1>Booster Dashboard</h1>
+        <p class="lead">Manage your assigned boosts and track progress</p>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Statistics -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>Assigned to me</h3>
+            <div class="stat-number" id="assignedCount">0</div>
+        </div>
+        <div class="stat-card">
+            <h3>In Progress</h3>
+            <div class="stat-number" id="inProgressCount">0</div>
+        </div>
+        <div class="stat-card">
+            <h3>Completed</h3>
+            <div class="stat-number" id="completedCount">0</div>
+        </div>
+        <div class="stat-card">
+            <h3>Total Earnings</h3>
+            <div class="stat-number" id="totalEarnings">₱0</div>
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+        <div class="tab active" onclick="switchTab('assigned')" id="tab-assigned">Assigned to Me</div>
+        <div class="tab" onclick="switchTab('progress')" id="tab-progress">In Progress</div>
+        <div class="tab" onclick="switchTab('completed')" id="tab-completed">Completed</div>
+    </div>
+
+    <!-- Orders Lists -->
+    <div id="assigned-section">
+        <h2 class="section-title">Orders Assigned to You</h2>
+        <div id="assignedOrders"></div>
+    </div>
+
+    <div id="progress-section" style="display: none;">
+        <h2 class="section-title">Orders In Progress</h2>
+        <div id="progressOrders"></div>
+    </div>
+
+    <div id="completed-section" style="display: none;">
+        <h2 class="section-title">Completed Orders</h2>
+        <div id="completedOrders"></div>
+    </div>
+</div>
+
+<footer>
+    <div class="container">
+        <p class="mb-0 text-center">© 2026 CarryConnect · Booster Portal</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+<script>
+    const SUPABASE_URL = 'https://aozhkwvoqnyktsgrdtnw.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvemhrd3ZvcW55a3RzZ3JkdG53Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MjU2NTA1NiwiZXhwIjoyMDg4MTQxMDU2fQ.lbr0-PCymnj241Vwso6yJYzch7HOJ5utB-pPsWpkABc';
+    
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    let boosterId = sessionStorage.getItem('userId');
+    let gamesMap = {};
+
+    window.onload = function() {
+        checkBooster();
+        loadGames();
+        loadBoosterStats();
+        loadAssignedOrders();
+        updateNavbar();
+    };
+
+    function checkBooster() {
+        const role = sessionStorage.getItem('role');
+        if (role !== 'booster') {
+            alert('Access denied. Boosters only.');
+            window.location.href = 'index.html';
+        }
+    }
+
+    async function loadGames() {
+        const { data } = await supabase.from('games').select('*');
+        data.forEach(game => gamesMap[game.game_id] = game.game_name);
+    }
+
+    async function loadBoosterStats() {
+        // Assigned count
+        const { count: assigned } = await supabase
+            .from('orders')
+            .select('*', { count: 'exact', head: true })
+            .eq('booster_id', boosterId)
+            .eq('status', 'assigned');
+
+        // In progress count
+        const { count: progress } = await supabase
+            .from('orders')
+            .select('*', { count: 'exact', head: true })
+            .eq('booster_id', boosterId)
+            .eq('status', 'in_progress');
+
+        // Completed count
+        const { count: completed } = await supabase
+            .from('orders')
+            .select('*', { count: 'exact', head: true })
+            .eq('booster_id', boosterId)
+            .eq('status', 'completed');
+
+        // Total earnings
+        const { data: completedOrders } = await supabase
+            .from('orders')
+            .select('total_price')
+            .eq('booster_id', boosterId)
+            .eq('status', 'completed');
+
+        const totalEarnings = completedOrders?.reduce((sum, order) => sum + (order.total_price || 0), 0) || 0;
+
+        document.getElementById('assignedCount').textContent = assigned || 0;
+        document.getElementById('inProgressCount').textContent = progress || 0;
+        document.getElementById('completedCount').textContent = completed || 0;
+        document.getElementById('totalEarnings').textContent = `₱${totalEarnings.toLocaleString()}`;
+    }
+
+    async function loadAssignedOrders() {
+        const { data } = await supabase
+            .from('orders')
+            .select('*')
+            .eq('booster_id', boosterId)
+            .eq('status', 'assigned')
+            .order('order_id', { ascending: false });
+
+        displayOrders(data, 'assignedOrders', 'assigned');
+    }
+
+    async function loadProgressOrders() {
+        const { data } = await supabase
+            .from('orders')
+            .select('*')
+            .eq('booster_id', boosterId)
+            .eq('status', 'in_progress')
+            .order('order_id', { ascending: false });
+
+        displayOrders(data, 'progressOrders', 'progress');
+    }
+
+    async function loadCompletedOrders() {
+        const { data } = await supabase
+            .from('orders')
+            .select('*')
+            .eq('booster_id', boosterId)
+            .eq('status', 'completed')
+            .order('order_id', { ascending: false });
+
+        displayOrders(data, 'completedOrders', 'completed');
+    }
+
+    function displayOrders(orders, elementId, type) {
+        const container = document.getElementById(elementId);
+        
+        if (!orders || orders.length === 0) {
+            container.innerHTML = '<p class="text-muted">No orders found.</p>';
+            return;
+        }
+
+        let html = '';
+        orders.forEach(order => {
+            const gameName = gamesMap[order.game_id] || 'Unknown Game';
+            
+            html += `
+                <div class="order-card">
+                    <div class="order-header">
+                        <span class="order-id">Order #${order.order_id}</span>
+                        <span class="status-badge status-${type === 'assigned' ? 'assigned' : type === 'progress' ? 'progress' : 'completed'}">
+                            ${order.status.toUpperCase()}
+                        </span>
+                    </div>
+                    <div class="order-details">
+                        <div>
+                            <div class="detail-label">Game</div>
+                            <div class="detail-value">${gameName}</div>
+                        </div>
+                        <div>
+                            <div class="detail-label">Service</div>
+                            <div class="detail-value">${order.notes || 'Standard Boost'}</div>
+                        </div>
+                        <div>
+                            <div class="detail-label">Rank</div>
+                            <div class="detail-value">${order.current_rank || '?'} → ${order.target_rank || '?'}</div>
+                        </div>
+                        <div>
+                            <div class="detail-label">Price</div>
+                            <div class="price-value">₱${order.total_price?.toLocaleString() || '0'}</div>
+                        </div>
+                    </div>
+                    <div class="action-buttons">
+                        ${type === 'assigned' ? 
+                            `<button onclick="startBoost(${order.order_id})" class="btn-start">
+                                <i class="fas fa-play"></i> Start Boost
+                            </button>` : 
+                        type === 'progress' ?
+                            `<button onclick="completeBoost(${order.order_id})" class="btn-complete">
+                                <i class="fas fa-check"></i> Complete Boost
+                            </button>` :
+                            `<button onclick="viewDetails(${order.order_id})" class="btn-view">
+                                <i class="fas fa-eye"></i> View Details
+                            </button>`
+                        }
+                    </div>
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
+    }
+
+    async function startBoost(orderId) {
+        if (!confirm('Start this boost now?')) return;
+
+        try {
+            const { error } = await supabase
+                .from('orders')
+                .update({ 
+                    status: 'in_progress',
+                    started_at: new Date().toISOString()
+                })
+                .eq('order_id', orderId);
+
+            if (error) throw error;
+
+            alert('✅ Boost started!');
+            refreshData();
+        } catch (error) {
+            alert('❌ Error: ' + error.message);
+        }
+    }
+
+    async function completeBoost(orderId) {
+        if (!confirm('Mark this boost as completed?')) return;
+
+        try {
+            const { error } = await supabase
+                .from('orders')
+                .update({ 
+                    status: 'completed',
+                    completed_date: new Date().toISOString()
+                })
+                .eq('order_id', orderId);
+
+            if (error) throw error;
+
+            alert('✅ Boost completed!');
+            refreshData();
+        } catch (error) {
+            alert('❌ Error: ' + error.message);
+        }
+    }
+
+    function viewDetails(orderId) {
+        window.location.href = `OrderDetails.html?order_id=${orderId}`;
+    }
+
+    function refreshData() {
+        loadBoosterStats();
+        loadAssignedOrders();
+        loadProgressOrders();
+        loadCompletedOrders();
+    }
+
+    function switchTab(tab) {
+        document.getElementById('tab-assigned').classList.remove('active');
+        document.getElementById('tab-progress').classList.remove('active');
+        document.getElementById('tab-completed').classList.remove('active');
+        document.getElementById(`tab-${tab}`).classList.add('active');
+
+        document.getElementById('assigned-section').style.display = tab === 'assigned' ? 'block' : 'none';
+        document.getElementById('progress-section').style.display = tab === 'progress' ? 'block' : 'none';
+        document.getElementById('completed-section').style.display = tab === 'completed' ? 'block' : 'none';
+
+        if (tab === 'progress') loadProgressOrders();
+        if (tab === 'completed') loadCompletedOrders();
+    }
+
+    function updateNavbar() {
+        const dropdown = document.getElementById('accountDropdown');
+        const accountText = document.getElementById('accountText');
+        const username = sessionStorage.getItem('username');
+        const role = sessionStorage.getItem('role');
+
+        if (boosterId) {
+            accountText.textContent = username;
+            dropdown.innerHTML = `
+                <li><a class="dropdown-item" href="Games.html"><i class="fas fa-gamepad"></i> Games</a></li>
+                <li><a class="dropdown-item" href="Orders.html"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
+                <li><a class="dropdown-item" href="Booster.html"><i class="fas fa-bolt"></i> Booster Dashboard</a></li>
+                ${role === 'admin' ? '<li><a class="dropdown-item" href="Admin.html"><i class="fas fa-cog"></i> Admin</a></li>' : ''}
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            `;
+        }
+    }
+
+    function logout() {
+        sessionStorage.clear();
+        localStorage.removeItem('rememberedUser');
+        window.location.href = 'index.html';
+    }
+</script>
+
+</body>
+</html>

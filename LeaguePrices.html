@@ -582,6 +582,62 @@
     
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     
+    function checkRememberedLogin() {
+        const remembered = localStorage.getItem('rememberedUser');
+        if (remembered && !sessionStorage.getItem('userId')) {
+            const user = JSON.parse(remembered);
+            sessionStorage.setItem('userId', user.userId);
+            sessionStorage.setItem('username', user.username);
+            sessionStorage.setItem('role', user.role);
+        }
+    }
+    
+    function updateNavbar() {
+        const dropdown = document.getElementById('accountDropdown');
+        const accountText = document.getElementById('accountText');
+        const userId = sessionStorage.getItem('userId');
+        const username = sessionStorage.getItem('username');
+        const role = sessionStorage.getItem('role');
+
+        if (userId) {
+            accountText.textContent = username;
+            
+            // Base menu for all logged-in users
+            let menuItems = `
+                <li><a class="dropdown-item" href="Games.html"><i class="fas fa-gamepad"></i> Games</a></li>
+                <li><a class="dropdown-item" href="Orders.html"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
+            `;
+
+            // Booster menu
+            if (role === 'booster') {
+                menuItems += `
+                    <li><a class="dropdown-item" href="Booster.html"><i class="fas fa-bolt"></i> Booster Dashboard</a></li>
+                `;
+            }
+
+            // Admin menu
+            if (role === 'admin') {
+                menuItems += `
+                    <li><a class="dropdown-item" href="Admin.html"><i class="fas fa-cog"></i> Admin Panel</a></li>
+                `;
+            }
+
+            // Logout
+            menuItems += `
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            `;
+
+            dropdown.innerHTML = menuItems;
+        } else {
+            accountText.textContent = 'Account';
+            dropdown.innerHTML = `
+                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=login"><i class="fas fa-key"></i> Login</a></li>
+                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=register"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+            `;
+        }
+    }
+    
     // Place order and redirect to payment
     async function placeOrder(gameId, fromRank, toRank, price, serviceName, gameName) {
         if (!sessionStorage.getItem('userId')) {
@@ -593,7 +649,6 @@
         const userId = sessionStorage.getItem('userId');
         
         try {
-            // Save order to database
             const orderData = {
                 client_id: parseInt(userId),
                 game_id: gameId,
@@ -622,7 +677,6 @@
                 const order = await response.json();
                 console.log('Order created:', order);
                 
-                // Redirect to payment page with order details
                 window.location.href = `Payment.html?order_id=${order[0].order_id}&game=${encodeURIComponent(gameName)}&service=${encodeURIComponent(serviceName)}&from=${encodeURIComponent(fromRank)}&to=${encodeURIComponent(toRank)}&price=${price}&game_id=${gameId}`;
             } else {
                 const error = await response.json();
@@ -635,40 +689,9 @@
         }
     }
     
-    function checkRememberedLogin() {
-        const remembered = localStorage.getItem('rememberedUser');
-        if (remembered && !sessionStorage.getItem('userId')) {
-            const user = JSON.parse(remembered);
-            sessionStorage.setItem('userId', user.userId);
-            sessionStorage.setItem('username', user.username);
-            sessionStorage.setItem('role', user.role);
-        }
-    }
-    
     window.onload = function() {
         checkRememberedLogin();
-        
-        const dropdown = document.getElementById('accountDropdown');
-        const accountText = document.getElementById('accountText');
-        
-        const userId = sessionStorage.getItem('userId');
-        const username = sessionStorage.getItem('username');
-        
-        if (userId) {
-            accountText.textContent = username;
-            dropdown.innerHTML = `
-                <li><a class="dropdown-item" href="Games.html"><i class="fas fa-gamepad"></i> Games</a></li>
-                <li><a class="dropdown-item" href="#" onclick="viewOrders()"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-            `;
-        } else {
-            accountText.textContent = 'Account';
-            dropdown.innerHTML = `
-                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=login"><i class="fas fa-key"></i> Login</a></li>
-                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=register"><i class="fas fa-user-plus"></i> Sign Up</a></li>
-            `;
-        }
+        updateNavbar();
     };
     
     function logout() {
@@ -678,13 +701,7 @@
     }
     
     function viewOrders() {
-        const userId = sessionStorage.getItem('userId');
-        if (!userId) {
-            alert('Please login first');
-            window.location.href = 'LoginAndRegister.html?tab=login';
-            return;
-        }
-        alert('Orders page coming soon!');
+        window.location.href = 'Orders.html';
     }
 </script>
 

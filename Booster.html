@@ -40,6 +40,14 @@
         .nav-link {
             color: rgba(255,255,255,0.9) !important;
             font-weight: 600;
+            margin: 0 5px;
+            padding: 8px 16px !important;
+            border-radius: 8px;
+        }
+        
+        .nav-link:hover {
+            background: rgba(59, 130, 246, 0.2);
+            color: white !important;
         }
         
         .btn-account {
@@ -50,19 +58,35 @@
             gap: 8px;
         }
         
+        .btn-account:hover {
+            background: rgba(59, 130, 246, 0.2);
+        }
+        
         .dropdown-menu {
             background: #1e293b;
             border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 8px;
+            margin-top: 8px;
         }
         
         .dropdown-item {
             color: rgba(255,255,255,0.9);
             font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: all 0.3s;
         }
         
         .dropdown-item:hover {
             background: #3b82f6;
             color: white;
+        }
+        
+        .dropdown-item i {
+            width: 20px;
+            margin-right: 10px;
+            color: #3b82f6;
         }
         
         .page-header {
@@ -77,11 +101,16 @@
             font-weight: 800;
         }
         
+        .page-header p {
+            font-size: 20px;
+            opacity: 0.95;
+        }
+        
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
-            margin: 30px 0;
+            margin: 40px 0;
         }
         
         .stat-card {
@@ -105,18 +134,44 @@
             color: #1e293b;
         }
         
-        .section-title {
-            font-size: 24px;
-            font-weight: 700;
-            margin: 40px 0 20px;
-            color: #1e293b;
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+            border: 2px solid #e2e8f0;
+            color: #64748b;
+        }
+        
+        .tab:hover {
+            border-color: #10b981;
+            color: #10b981;
+        }
+        
+        .tab.active {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+        
+        .orders-grid {
+            display: grid;
+            gap: 20px;
         }
         
         .order-card {
             background: white;
             border-radius: 20px;
             padding: 25px;
-            margin-bottom: 20px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.05);
             border: 1px solid #e2e8f0;
         }
@@ -160,7 +215,7 @@
         .order-details {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
+            gap: 15px;
             margin-bottom: 20px;
         }
         
@@ -173,7 +228,6 @@
         .detail-value {
             font-size: 16px;
             font-weight: 600;
-            color: #1e293b;
         }
         
         .price-value {
@@ -236,33 +290,32 @@
             transform: translateY(-2px);
         }
         
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-        
-        .tab {
-            padding: 10px 25px;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
+        .no-orders {
+            text-align: center;
+            padding: 60px 20px;
             background: white;
-            border: 2px solid #e2e8f0;
-            color: #64748b;
+            border-radius: 20px;
+            border: 2px dashed #e2e8f0;
         }
         
-        .tab:hover {
-            border-color: #10b981;
-            color: #10b981;
+        .loading-spinner {
+            text-align: center;
+            padding: 60px 20px;
         }
         
-        .tab.active {
-            background: #10b981;
-            color: white;
-            border-color: #10b981;
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #10b981;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         
         footer {
@@ -337,26 +390,23 @@
         <div class="tab" onclick="switchTab('completed')" id="tab-completed">Completed</div>
     </div>
 
-    <!-- Orders Lists -->
+    <!-- Content Sections -->
     <div id="assigned-section">
-        <h2 class="section-title">Orders Assigned to You</h2>
-        <div id="assignedOrders"></div>
+        <div class="orders-grid" id="assignedOrders"></div>
     </div>
 
     <div id="progress-section" style="display: none;">
-        <h2 class="section-title">Orders In Progress</h2>
-        <div id="progressOrders"></div>
+        <div class="orders-grid" id="progressOrders"></div>
     </div>
 
     <div id="completed-section" style="display: none;">
-        <h2 class="section-title">Completed Orders</h2>
-        <div id="completedOrders"></div>
+        <div class="orders-grid" id="completedOrders"></div>
     </div>
 </div>
 
 <footer>
     <div class="container">
-        <p class="mb-0 text-center">© 2026 CarryConnect · Booster Portal</p>
+        <p class="text-center mb-0">© 2026 CarryConnect · Booster Portal</p>
     </div>
 </footer>
 
@@ -367,31 +417,98 @@
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvemhrd3ZvcW55a3RzZ3JkdG53Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MjU2NTA1NiwiZXhwIjoyMDg4MTQxMDU2fQ.lbr0-PCymnj241Vwso6yJYzch7HOJ5utB-pPsWpkABc';
     
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    
     let boosterId = sessionStorage.getItem('userId');
+    let boosterRole = sessionStorage.getItem('role');
     let gamesMap = {};
 
-    window.onload = function() {
-        checkBooster();
-        loadGames();
-        loadBoosterStats();
-        loadAssignedOrders();
-        updateNavbar();
-    };
-
-    function checkBooster() {
-        const role = sessionStorage.getItem('role');
-        if (role !== 'booster') {
-            alert('Access denied. Boosters only.');
-            window.location.href = 'index.html';
+    function checkRememberedLogin() {
+        const remembered = localStorage.getItem('rememberedUser');
+        if (remembered && !sessionStorage.getItem('userId')) {
+            const user = JSON.parse(remembered);
+            sessionStorage.setItem('userId', user.userId);
+            sessionStorage.setItem('username', user.username);
+            sessionStorage.setItem('role', user.role);
+            boosterId = user.userId;
+            boosterRole = user.role;
         }
     }
+    
+    function updateNavbar() {
+        const dropdown = document.getElementById('accountDropdown');
+        const accountText = document.getElementById('accountText');
+        const username = sessionStorage.getItem('username');
+        const role = sessionStorage.getItem('role');
+
+        if (boosterId) {
+            accountText.textContent = username;
+            
+            let menuItems = `
+                <li><a class="dropdown-item" href="Games.html"><i class="fas fa-gamepad"></i> Games</a></li>
+                <li><a class="dropdown-item" href="Orders.html"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
+            `;
+
+            if (role === 'booster') {
+                menuItems += `
+                    <li><a class="dropdown-item" href="Booster.html"><i class="fas fa-bolt"></i> Booster Dashboard</a></li>
+                `;
+            }
+
+            if (role === 'admin') {
+                menuItems += `
+                    <li><a class="dropdown-item" href="Admin.html"><i class="fas fa-cog"></i> Admin Panel</a></li>
+                `;
+            }
+
+            menuItems += `
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            `;
+
+            dropdown.innerHTML = menuItems;
+        } else {
+            accountText.textContent = 'Account';
+            dropdown.innerHTML = `
+                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=login"><i class="fas fa-key"></i> Login</a></li>
+                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=register"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+            `;
+        }
+    }
+    
+    window.onload = function() {
+        checkRememberedLogin();
+        
+        if (!boosterId) {
+            window.location.href = 'LoginAndRegister.html?tab=login';
+            return;
+        }
+        
+        if (boosterRole !== 'booster') {
+            alert('Access denied. Boosters only.');
+            window.location.href = 'index.html';
+            return;
+        }
+        
+        loadGames();
+        loadBoosterData();
+        updateNavbar();
+    };
 
     async function loadGames() {
         const { data } = await supabase.from('games').select('*');
         data.forEach(game => gamesMap[game.game_id] = game.game_name);
     }
 
-    async function loadBoosterStats() {
+    async function loadBoosterData() {
+        await Promise.all([
+            loadStats(),
+            loadAssignedOrders(),
+            loadProgressOrders(),
+            loadCompletedOrders()
+        ]);
+    }
+
+    async function loadStats() {
         // Assigned count
         const { count: assigned } = await supabase
             .from('orders')
@@ -465,7 +582,7 @@
         const container = document.getElementById(elementId);
         
         if (!orders || orders.length === 0) {
-            container.innerHTML = '<p class="text-muted">No orders found.</p>';
+            container.innerHTML = '<p class="text-muted text-center">No orders found.</p>';
             return;
         }
 
@@ -477,7 +594,7 @@
                 <div class="order-card">
                     <div class="order-header">
                         <span class="order-id">Order #${order.order_id}</span>
-                        <span class="status-badge status-${type === 'assigned' ? 'assigned' : type === 'progress' ? 'progress' : 'completed'}">
+                        <span class="status-badge status-${type}">
                             ${order.status.toUpperCase()}
                         </span>
                     </div>
@@ -563,11 +680,11 @@
     }
 
     function viewDetails(orderId) {
-        window.location.href = `OrderDetails.html?order_id=${orderId}`;
+        window.location.href = `Orders.html?order_id=${orderId}`;
     }
 
     function refreshData() {
-        loadBoosterStats();
+        loadStats();
         loadAssignedOrders();
         loadProgressOrders();
         loadCompletedOrders();
@@ -585,25 +702,6 @@
 
         if (tab === 'progress') loadProgressOrders();
         if (tab === 'completed') loadCompletedOrders();
-    }
-
-    function updateNavbar() {
-        const dropdown = document.getElementById('accountDropdown');
-        const accountText = document.getElementById('accountText');
-        const username = sessionStorage.getItem('username');
-        const role = sessionStorage.getItem('role');
-
-        if (boosterId) {
-            accountText.textContent = username;
-            dropdown.innerHTML = `
-                <li><a class="dropdown-item" href="Games.html"><i class="fas fa-gamepad"></i> Games</a></li>
-                <li><a class="dropdown-item" href="Orders.html"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
-                <li><a class="dropdown-item" href="Booster.html"><i class="fas fa-bolt"></i> Booster Dashboard</a></li>
-                ${role === 'admin' ? '<li><a class="dropdown-item" href="Admin.html"><i class="fas fa-cog"></i> Admin</a></li>' : ''}
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-            `;
-        }
     }
 
     function logout() {

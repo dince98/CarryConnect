@@ -244,6 +244,52 @@
             font-weight: 700;
         }
         
+        .account-info {
+            background: #fff3cd;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .account-info h6 {
+            color: #856404;
+            margin-bottom: 10px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+        
+        .account-info p {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .account-info strong {
+            color: #856404;
+        }
+        
+        .password-hidden {
+            font-family: monospace;
+            letter-spacing: 2px;
+            background: #f8f9fa;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+        
+        .btn-show {
+            background: none;
+            border: none;
+            color: #667eea;
+            cursor: pointer;
+            font-size: 12px;
+            margin-left: 5px;
+            text-decoration: underline;
+        }
+        
+        .btn-show:hover {
+            color: #5a67d8;
+        }
+        
         .action-buttons {
             display: flex;
             gap: 15px;
@@ -497,6 +543,15 @@
     let boosterRole = sessionStorage.getItem('role');
     let gamesMap = {};
 
+    function togglePassword(orderId, password) {
+        const span = document.getElementById(`password-${orderId}`);
+        if (span.textContent === '••••••••') {
+            span.textContent = password;
+        } else {
+            span.textContent = '••••••••';
+        }
+    }
+
     function checkRememberedLogin() {
         const remembered = localStorage.getItem('rememberedUser');
         if (remembered && !sessionStorage.getItem('userId')) {
@@ -523,314 +578,4 @@
                 <li><a class="dropdown-item" href="Orders.html"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
             `;
 
-            if (role === 'booster') {
-                menuItems += `
-                    <li><a class="dropdown-item" href="Booster.html"><i class="fas fa-bolt"></i> Booster Dashboard</a></li>
-                `;
-            }
-
-            if (role === 'admin') {
-                menuItems += `
-                    <li><a class="dropdown-item" href="Admin.html"><i class="fas fa-cog"></i> Admin Panel</a></li>
-                `;
-            }
-
-            menuItems += `
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-            `;
-
-            dropdown.innerHTML = menuItems;
-        } else {
-            accountText.textContent = 'Account';
-            dropdown.innerHTML = `
-                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=login"><i class="fas fa-key"></i> Login</a></li>
-                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=register"><i class="fas fa-user-plus"></i> Sign Up</a></li>
-            `;
-        }
-    }
-    
-    window.onload = function() {
-        checkRememberedLogin();
-        
-        if (!boosterId) {
-            window.location.href = 'LoginAndRegister.html?tab=login';
-            return;
-        }
-        
-        if (boosterRole !== 'booster') {
-            alert('Access denied. Boosters only.');
-            window.location.href = 'index.html';
-            return;
-        }
-        
-        loadGames();
-        loadBoosterData();
-        updateNavbar();
-    };
-
-    async function loadGames() {
-        const { data } = await supabase.from('games').select('*');
-        data.forEach(game => gamesMap[game.game_id] = game.game_name);
-    }
-
-    async function loadBoosterData() {
-        await Promise.all([
-            loadStats(),
-            loadAssignedOrders(),
-            loadProgressOrders(),
-            loadCompletedOrders()
-        ]);
-    }
-
-    async function loadStats() {
-        try {
-            // Assigned count
-            const { count: assigned } = await supabase
-                .from('orders')
-                .select('*', { count: 'exact', head: true })
-                .eq('booster_id', boosterId)
-                .eq('status', 'assigned');
-
-            // In progress count
-            const { count: progress } = await supabase
-                .from('orders')
-                .select('*', { count: 'exact', head: true })
-                .eq('booster_id', boosterId)
-                .eq('status', 'in_progress');
-
-            // Completed count
-            const { count: completed } = await supabase
-                .from('orders')
-                .select('*', { count: 'exact', head: true })
-                .eq('booster_id', boosterId)
-                .eq('status', 'completed');
-
-            // Total earnings
-            const { data: completedOrders } = await supabase
-                .from('orders')
-                .select('total_price')
-                .eq('booster_id', boosterId)
-                .eq('status', 'completed');
-
-            const totalEarnings = completedOrders?.reduce((sum, order) => sum + (order.total_price || 0), 0) || 0;
-
-            document.getElementById('assignedCount').textContent = assigned || 0;
-            document.getElementById('inProgressCount').textContent = progress || 0;
-            document.getElementById('completedCount').textContent = completed || 0;
-            document.getElementById('totalEarnings').textContent = `₱${totalEarnings.toLocaleString()}`;
-        } catch (error) {
-            console.error('Error loading stats:', error);
-        }
-    }
-
-    async function loadAssignedOrders() {
-        try {
-            const { data, error } = await supabase
-                .from('orders')
-                .select('*')
-                .eq('booster_id', boosterId)
-                .eq('status', 'assigned')
-                .order('order_id', { ascending: false });
-
-            if (error) throw error;
-            displayOrders(data, 'assignedOrders', 'assigned');
-        } catch (error) {
-            console.error('Error loading assigned orders:', error);
-            document.getElementById('assignedOrders').innerHTML = `
-                <div class="no-data">
-                    <i class="fas fa-exclamation-circle fa-3x mb-3"></i>
-                    <h3>Error Loading Orders</h3>
-                    <p>${error.message}</p>
-                </div>
-            `;
-        }
-    }
-
-    async function loadProgressOrders() {
-        try {
-            const { data, error } = await supabase
-                .from('orders')
-                .select('*')
-                .eq('booster_id', boosterId)
-                .eq('status', 'in_progress')
-                .order('order_id', { ascending: false });
-
-            if (error) throw error;
-            displayOrders(data, 'progressOrders', 'progress');
-        } catch (error) {
-            console.error('Error loading progress orders:', error);
-            document.getElementById('progressOrders').innerHTML = `
-                <div class="no-data">
-                    <i class="fas fa-exclamation-circle fa-3x mb-3"></i>
-                    <h3>Error Loading Orders</h3>
-                    <p>${error.message}</p>
-                </div>
-            `;
-        }
-    }
-
-    async function loadCompletedOrders() {
-        try {
-            const { data, error } = await supabase
-                .from('orders')
-                .select('*')
-                .eq('booster_id', boosterId)
-                .eq('status', 'completed')
-                .order('order_id', { ascending: false });
-
-            if (error) throw error;
-            displayOrders(data, 'completedOrders', 'completed');
-        } catch (error) {
-            console.error('Error loading completed orders:', error);
-            document.getElementById('completedOrders').innerHTML = `
-                <div class="no-data">
-                    <i class="fas fa-exclamation-circle fa-3x mb-3"></i>
-                    <h3>Error Loading Orders</h3>
-                    <p>${error.message}</p>
-                </div>
-            `;
-        }
-    }
-
-    function displayOrders(orders, elementId, type) {
-        const container = document.getElementById(elementId);
-        
-        if (!orders || orders.length === 0) {
-            container.innerHTML = `
-                <div class="no-data">
-                    <i class="fas fa-inbox fa-3x mb-3"></i>
-                    <h3>No Orders Found</h3>
-                    <p>You don't have any ${type} orders at the moment.</p>
-                </div>
-            `;
-            return;
-        }
-
-        let html = '';
-        orders.forEach(order => {
-            const gameName = gamesMap[order.game_id] || 'Unknown Game';
-            
-            html += `
-                <div class="order-card">
-                    <div class="order-header">
-                        <span class="order-id">Order #${order.order_id}</span>
-                        <span class="status-badge status-${type}">
-                            ${order.status.toUpperCase()}
-                        </span>
-                    </div>
-                    <div class="order-details">
-                        <div>
-                            <div class="detail-label">Game</div>
-                            <div class="detail-value">${gameName}</div>
-                        </div>
-                        <div>
-                            <div class="detail-label">Service</div>
-                            <div class="detail-value">${order.notes || 'Standard Boost'}</div>
-                        </div>
-                        <div>
-                            <div class="detail-label">Rank</div>
-                            <div class="detail-value">${order.current_rank || '?'} → ${order.target_rank || '?'}</div>
-                        </div>
-                        <div>
-                            <div class="detail-label">Price</div>
-                            <div class="price-value">₱${order.total_price?.toLocaleString() || '0'}</div>
-                        </div>
-                    </div>
-                    <div class="action-buttons">
-                        ${type === 'assigned' ? 
-                            `<button onclick="startBoost(${order.order_id})" class="btn-start">
-                                <i class="fas fa-play"></i> Start Boost
-                            </button>` : 
-                        type === 'progress' ?
-                            `<button onclick="completeBoost(${order.order_id})" class="btn-complete">
-                                <i class="fas fa-check"></i> Complete Boost
-                            </button>` :
-                            `<button onclick="viewDetails(${order.order_id})" class="btn-view">
-                                <i class="fas fa-eye"></i> View Details
-                            </button>`
-                        }
-                    </div>
-                </div>
-            `;
-        });
-
-        container.innerHTML = html;
-    }
-
-    async function startBoost(orderId) {
-        if (!confirm('Start this boost now?')) return;
-
-        try {
-            const { error } = await supabase
-                .from('orders')
-                .update({ 
-                    status: 'in_progress',
-                    started_at: new Date().toISOString()
-                })
-                .eq('order_id', orderId);
-
-            if (error) throw error;
-
-            alert('✅ Boost started!');
-            refreshData();
-        } catch (error) {
-            alert('❌ Error: ' + error.message);
-        }
-    }
-
-    async function completeBoost(orderId) {
-        if (!confirm('Mark this boost as completed?')) return;
-
-        try {
-            const { error } = await supabase
-                .from('orders')
-                .update({ 
-                    status: 'completed',
-                    completed_date: new Date().toISOString()
-                })
-                .eq('order_id', orderId);
-
-            if (error) throw error;
-
-            alert('✅ Boost completed!');
-            refreshData();
-        } catch (error) {
-            alert('❌ Error: ' + error.message);
-        }
-    }
-
-    function viewDetails(orderId) {
-        window.location.href = `Orders.html?order_id=${orderId}`;
-    }
-
-    function refreshData() {
-        loadStats();
-        loadAssignedOrders();
-        loadProgressOrders();
-        loadCompletedOrders();
-    }
-
-    function switchTab(tab) {
-        document.getElementById('tab-assigned').classList.remove('active');
-        document.getElementById('tab-progress').classList.remove('active');
-        document.getElementById('tab-completed').classList.remove('active');
-        document.getElementById(`tab-${tab}`).classList.add('active');
-
-        document.getElementById('assigned-section').style.display = tab === 'assigned' ? 'block' : 'none';
-        document.getElementById('progress-section').style.display = tab === 'progress' ? 'block' : 'none';
-        document.getElementById('completed-section').style.display = tab === 'completed' ? 'block' : 'none';
-
-        if (tab === 'progress') loadProgressOrders();
-        if (tab === 'completed') loadCompletedOrders();
-    }
-
-    function logout() {
-        sessionStorage.clear();
-        localStorage.removeItem('rememberedUser');
-        window.location.href = 'index.html';
-    }
-</script>
-
-</body>
-</html>
+           

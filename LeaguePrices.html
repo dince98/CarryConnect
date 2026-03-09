@@ -602,27 +602,23 @@
         if (userId) {
             accountText.textContent = username;
             
-            // Base menu for all logged-in users
             let menuItems = `
                 <li><a class="dropdown-item" href="Games.html"><i class="fas fa-gamepad"></i> Games</a></li>
                 <li><a class="dropdown-item" href="Orders.html"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
             `;
 
-            // Booster menu
             if (role === 'booster') {
                 menuItems += `
                     <li><a class="dropdown-item" href="Booster.html"><i class="fas fa-bolt"></i> Booster Dashboard</a></li>
                 `;
             }
 
-            // Admin menu
             if (role === 'admin') {
                 menuItems += `
                     <li><a class="dropdown-item" href="Admin.html"><i class="fas fa-cog"></i> Admin Panel</a></li>
                 `;
             }
 
-            // Logout
             menuItems += `
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
@@ -638,7 +634,6 @@
         }
     }
     
-    // Place order and redirect to payment
     async function placeOrder(gameId, fromRank, toRank, price, serviceName, gameName) {
         if (!sessionStorage.getItem('userId')) {
             alert('Please login first to place an order');
@@ -660,8 +655,6 @@
                 payment_status: 'unpaid'
             };
             
-            console.log('Sending order:', orderData);
-            
             const response = await fetch(`${SUPABASE_URL}/rest/v1/orders`, {
                 method: 'POST',
                 headers: {
@@ -675,16 +668,12 @@
             
             if (response.ok) {
                 const order = await response.json();
-                console.log('Order created:', order);
-                
                 window.location.href = `Payment.html?order_id=${order[0].order_id}&game=${encodeURIComponent(gameName)}&service=${encodeURIComponent(serviceName)}&from=${encodeURIComponent(fromRank)}&to=${encodeURIComponent(toRank)}&price=${price}&game_id=${gameId}`;
             } else {
                 const error = await response.json();
-                console.error('Error response:', error);
                 alert('❌ Error creating order: ' + (error.message || 'Unknown error'));
             }
         } catch (error) {
-            console.error('Error:', error);
             alert('❌ Error: ' + error.message);
         }
     }
@@ -698,10 +687,6 @@
         sessionStorage.clear();
         localStorage.removeItem('rememberedUser');
         window.location.href = 'index.html';
-    }
-    
-    function viewOrders() {
-        window.location.href = 'Orders.html';
     }
 </script>
 

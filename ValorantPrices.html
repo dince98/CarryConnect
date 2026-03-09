@@ -637,7 +637,7 @@
 
             if (role === 'admin') {
                 menuItems += `
-                    <li><a class="dropdown-item" href="Admin.html"><i class="fas fa-cog"></i> Admin Panel</a></li>
+                    <li><a class="dropdown-item" href="admin.html"><i class="fas fa-cog"></i> Admin Panel</a></li>
                 `;
             }
 
@@ -663,6 +663,21 @@
             return;
         }
         
+        // Get game account details
+        const gameUsername = prompt('Enter your game username/email:');
+        if (!gameUsername) {
+            alert('Game username is required!');
+            return;
+        }
+        
+        const gamePassword = prompt('Enter your game password:');
+        if (!gamePassword) {
+            alert('Game password is required!');
+            return;
+        }
+        
+        const additionalInfo = prompt('Additional info? (e.g., server, region, specific instructions)', '');
+        
         const userId = sessionStorage.getItem('userId');
         
         try {
@@ -673,6 +688,9 @@
                 target_rank: toRank,
                 total_price: price,
                 notes: serviceName,
+                game_username: gameUsername,
+                game_password: gamePassword,
+                additional_info: additionalInfo || '',
                 status: 'pending',
                 payment_status: 'unpaid'
             };

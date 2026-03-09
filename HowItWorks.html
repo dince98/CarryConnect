@@ -493,27 +493,23 @@
         if (userId) {
             accountText.textContent = username;
             
-            // Base menu for all logged-in users
             let menuItems = `
                 <li><a class="dropdown-item" href="Games.html"><i class="fas fa-gamepad"></i> Games</a></li>
                 <li><a class="dropdown-item" href="Orders.html"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
             `;
 
-            // Booster menu
             if (role === 'booster') {
                 menuItems += `
                     <li><a class="dropdown-item" href="Booster.html"><i class="fas fa-bolt"></i> Booster Dashboard</a></li>
                 `;
             }
 
-            // Admin menu
             if (role === 'admin') {
                 menuItems += `
                     <li><a class="dropdown-item" href="Admin.html"><i class="fas fa-cog"></i> Admin Panel</a></li>
                 `;
             }
 
-            // Logout
             menuItems += `
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>

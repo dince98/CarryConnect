@@ -267,6 +267,57 @@
             text-decoration: underline;
         }
         
+        .account-info {
+            background: #fff3cd;
+            border-radius: 15px;
+            padding: 15px;
+            margin-top: 15px;
+            border: 1px solid #ffc107;
+        }
+        
+        .account-info h6 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #856404;
+            margin-bottom: 10px;
+        }
+        
+        .account-details {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .account-detail {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #856404;
+        }
+        
+        .account-detail i {
+            color: #856404;
+        }
+        
+        .password-hidden {
+            font-family: monospace;
+            letter-spacing: 2px;
+        }
+        
+        .btn-show {
+            background: none;
+            border: none;
+            color: #667eea;
+            cursor: pointer;
+            font-size: 12px;
+            margin-left: 5px;
+        }
+        
+        .btn-show:hover {
+            text-decoration: underline;
+        }
+        
         .no-orders {
             text-align: center;
             padding: 60px 20px;
@@ -561,7 +612,7 @@
 
             if (role === 'admin') {
                 menuItems += `
-                    <li><a class="dropdown-item" href="Admin.html"><i class="fas fa-cog"></i> Admin Panel</a></li>
+                    <li><a class="dropdown-item" href="admin.html"><i class="fas fa-cog"></i> Admin Panel</a></li>
                 `;
             }
 
@@ -672,6 +723,19 @@
         }
     }
     
+    function togglePassword(orderId, password) {
+        const passwordSpan = document.getElementById(`password-${orderId}`);
+        const passwordHidden = document.getElementById(`password-hidden-${orderId}`);
+        
+        if (passwordHidden.style.display === 'none') {
+            passwordHidden.style.display = 'inline';
+            passwordSpan.style.display = 'none';
+        } else {
+            passwordHidden.style.display = 'none';
+            passwordSpan.style.display = 'inline';
+        }
+    }
+    
     function displayOrders(orders) {
         const ordersList = document.getElementById('ordersList');
         
@@ -725,6 +789,33 @@
                             <span class="detail-value price">₱${parseInt(order.total_price).toLocaleString()}</span>
                         </div>
                     </div>
+                    
+                    <!-- Game Account Details -->
+                    ${order.game_username ? `
+                        <div class="account-info">
+                            <h6><i class="fas fa-gamepad"></i> Game Account Details</h6>
+                            <div class="account-details">
+                                <div class="account-detail">
+                                    <i class="fas fa-user"></i>
+                                    <span>Username: ${order.game_username}</span>
+                                </div>
+                                <div class="account-detail">
+                                    <i class="fas fa-lock"></i>
+                                    <span>Password: 
+                                        <span id="password-hidden-${order.order_id}" style="display: none;">${order.game_password}</span>
+                                        <span id="password-${order.order_id}" class="password-hidden">••••••••</span>
+                                        <button onclick="togglePassword(${order.order_id}, '${order.game_password}')" class="btn-show">Show</button>
+                                    </span>
+                                </div>
+                                ${order.additional_info ? `
+                                    <div class="account-detail">
+                                        <i class="fas fa-info-circle"></i>
+                                        <span>${order.additional_info}</span>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    ` : ''}
                     
                     ${payment ? `
                         <div class="payment-info">

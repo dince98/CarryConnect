@@ -1,4 +1,3 @@
-92% of storage used … If you run out, you can't create, edit and upload files. Get 30 GB for ₱10 for 3 months ₱49.
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -181,6 +180,8 @@
             height: 100%;
             border: 1px solid rgba(255,70,85,0.1);
             position: relative;
+            display: flex;
+            flex-direction: column;
         }
         
         .rank-card:hover {
@@ -189,51 +190,61 @@
             border-color: #ff4655;
         }
         
-        .rank-header {
-            background: linear-gradient(145deg, #0f1923, #1a2632);
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-        
-        .rank-icon {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 15px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
+        .rank-image-container {
+            width: 100%;
+            height: 200px;
             display: flex;
             align-items: center;
             justify-content: center;
+            background: linear-gradient(145deg, #0f1923, #1a2632);
+            padding: 30px 20px;
         }
         
-        .rank-icon i {
-            font-size: 40px;
-            color: #ff4655;
+        .rank-image-container img {
+            width: 150px;
+            height: 150px;
+            object-fit: contain;
+            filter: drop-shadow(0 5px 15px rgba(255,70,85,0.3));
+            transition: transform 0.3s;
+        }
+        
+        .rank-card:hover .rank-image-container img {
+            transform: scale(1.1);
+        }
+        
+        .rank-body {
+            padding: 25px 20px;
+            text-align: center;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
         
         .rank-name {
             font-size: 24px;
             font-weight: 700;
             margin-bottom: 5px;
+            color: #1e293b;
         }
         
         .rank-tier {
             display: inline-block;
             padding: 5px 15px;
-            background: rgba(255,70,85,0.2);
+            background: rgba(255,70,85,0.1);
             border-radius: 50px;
             font-size: 12px;
+            font-weight: 600;
             color: #ff4655;
-        }
-        
-        .rank-body {
-            padding: 25px 20px;
+            margin-bottom: 20px;
+            align-self: center;
         }
         
         .price-tag {
             text-align: center;
             margin-bottom: 20px;
+            padding: 15px 0;
+            border-top: 1px dashed #e2e8f0;
+            border-bottom: 1px dashed #e2e8f0;
         }
         
         .price-amount {
@@ -261,6 +272,7 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
+            margin-top: auto;
         }
         
         .btn-order:hover {
@@ -274,11 +286,30 @@
             right: 20px;
             background: #ff4655;
             color: white;
-            padding: 5px 15px;
+            padding: 8px 16px;
             border-radius: 50px;
             font-size: 12px;
             font-weight: 700;
             z-index: 10;
+            box-shadow: 0 5px 15px rgba(255,70,85,0.3);
+        }
+        
+        .from-to {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .from-to span {
+            font-size: 14px;
+            color: #64748b;
+        }
+        
+        .from-to i {
+            color: #ff4655;
+            font-size: 12px;
         }
         
         footer {
@@ -347,6 +378,13 @@
                 left: 0;
                 padding: 20px;
             }
+            .rank-image-container {
+                height: 150px;
+            }
+            .rank-image-container img {
+                width: 100px;
+                height: 100px;
+            }
         }
     </style>
 </head>
@@ -403,14 +441,12 @@
             <!-- Iron to Bronze -->
             <div class="col-lg-4 col-md-6">
                 <div class="rank-card">
-                    <div class="rank-header">
-                        <div class="rank-icon">
-                            <i class="fas fa-shield"></i>
-                        </div>
-                        <h3 class="rank-name">Iron → Bronze</h3>
-                        <span class="rank-tier">3 DIVISIONS</span>
+                    <div class="rank-image-container">
+                        <img src="iron.png" alt="Iron Rank">
                     </div>
                     <div class="rank-body">
+                        <h3 class="rank-name">Iron → Bronze</h3>
+                        <span class="rank-tier">3 DIVISIONS</span>
                         <div class="price-tag">
                             <span class="peso-sign">₱</span>
                             <span class="price-amount">447</span>
@@ -426,14 +462,12 @@
             <div class="col-lg-4 col-md-6">
                 <div class="rank-card">
                     <div class="popular-badge">POPULAR</div>
-                    <div class="rank-header">
-                        <div class="rank-icon">
-                            <i class="fas fa-shield"></i>
-                        </div>
-                        <h3 class="rank-name">Bronze → Silver</h3>
-                        <span class="rank-tier">3 DIVISIONS</span>
+                    <div class="rank-image-container">
+                        <img src="bronze.png" alt="Bronze Rank">
                     </div>
                     <div class="rank-body">
+                        <h3 class="rank-name">Bronze → Silver</h3>
+                        <span class="rank-tier">3 DIVISIONS</span>
                         <div class="price-tag">
                             <span class="peso-sign">₱</span>
                             <span class="price-amount">597</span>
@@ -448,14 +482,12 @@
             <!-- Silver to Gold -->
             <div class="col-lg-4 col-md-6">
                 <div class="rank-card">
-                    <div class="rank-header">
-                        <div class="rank-icon">
-                            <i class="fas fa-shield"></i>
-                        </div>
-                        <h3 class="rank-name">Silver → Gold</h3>
-                        <span class="rank-tier">3 DIVISIONS</span>
+                    <div class="rank-image-container">
+                        <img src="silver.png" alt="Silver Rank">
                     </div>
                     <div class="rank-body">
+                        <h3 class="rank-name">Silver → Gold</h3>
+                        <span class="rank-tier">3 DIVISIONS</span>
                         <div class="price-tag">
                             <span class="peso-sign">₱</span>
                             <span class="price-amount">747</span>
@@ -470,14 +502,12 @@
             <!-- Gold to Platinum -->
             <div class="col-lg-4 col-md-6">
                 <div class="rank-card">
-                    <div class="rank-header">
-                        <div class="rank-icon">
-                            <i class="fas fa-shield"></i>
-                        </div>
-                        <h3 class="rank-name">Gold → Platinum</h3>
-                        <span class="rank-tier">3 DIVISIONS</span>
+                    <div class="rank-image-container">
+                        <img src="gold.png" alt="Gold Rank">
                     </div>
                     <div class="rank-body">
+                        <h3 class="rank-name">Gold → Platinum</h3>
+                        <span class="rank-tier">3 DIVISIONS</span>
                         <div class="price-tag">
                             <span class="peso-sign">₱</span>
                             <span class="price-amount">1,047</span>
@@ -492,14 +522,12 @@
             <!-- Platinum to Diamond -->
             <div class="col-lg-4 col-md-6">
                 <div class="rank-card">
-                    <div class="rank-header">
-                        <div class="rank-icon">
-                            <i class="fas fa-shield"></i>
-                        </div>
-                        <h3 class="rank-name">Platinum → Diamond</h3>
-                        <span class="rank-tier">3 DIVISIONS</span>
+                    <div class="rank-image-container">
+                        <img src="platinum.png" alt="Platinum Rank">
                     </div>
                     <div class="rank-body">
+                        <h3 class="rank-name">Platinum → Diamond</h3>
+                        <span class="rank-tier">3 DIVISIONS</span>
                         <div class="price-tag">
                             <span class="peso-sign">₱</span>
                             <span class="price-amount">1,497</span>
@@ -514,14 +542,12 @@
             <!-- Diamond to Ascendant -->
             <div class="col-lg-4 col-md-6">
                 <div class="rank-card">
-                    <div class="rank-header">
-                        <div class="rank-icon">
-                            <i class="fas fa-shield"></i>
-                        </div>
-                        <h3 class="rank-name">Diamond → Ascendant</h3>
-                        <span class="rank-tier">3 DIVISIONS</span>
+                    <div class="rank-image-container">
+                        <img src="diamond.png" alt="Diamond Rank">
                     </div>
                     <div class="rank-body">
+                        <h3 class="rank-name">Diamond → Ascendant</h3>
+                        <span class="rank-tier">3 DIVISIONS</span>
                         <div class="price-tag">
                             <span class="peso-sign">₱</span>
                             <span class="price-amount">2,097</span>
@@ -536,15 +562,12 @@
             <!-- Ascendant to Immortal -->
             <div class="col-lg-4 col-md-6">
                 <div class="rank-card">
-                    <div class="popular-badge">ELITE</div>
-                    <div class="rank-header">
-                        <div class="rank-icon">
-                            <i class="fas fa-crown"></i>
-                        </div>
-                        <h3 class="rank-name">Ascendant → Immortal</h3>
-                        <span class="rank-tier">3 DIVISIONS</span>
+                    <div class="rank-image-container">
+                        <img src="ascendant.png" alt="Ascendant Rank">
                     </div>
                     <div class="rank-body">
+                        <h3 class="rank-name">Ascendant → Immortal</h3>
+                        <span class="rank-tier">3 DIVISIONS</span>
                         <div class="price-tag">
                             <span class="peso-sign">₱</span>
                             <span class="price-amount">2,997</span>

@@ -190,30 +190,59 @@
             border-color: #ff4655;
         }
         
-        .rank-image-container {
+        .rank-images-container {
             width: 100%;
-            height: 200px;
             display: flex;
             align-items: center;
             justify-content: center;
             background: linear-gradient(145deg, #0f1923, #1a2632);
-            padding: 30px 20px;
+            padding: 20px;
+            gap: 15px;
         }
         
-        .rank-image-container img {
-            width: 150px;
-            height: 150px;
+        .rank-image-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .rank-image-wrapper img {
+            width: 100px;
+            height: 100px;
             object-fit: contain;
-            filter: drop-shadow(0 5px 15px rgba(255,70,85,0.3));
+            filter: drop-shadow(0 5px 10px rgba(255,70,85,0.3));
             transition: transform 0.3s;
         }
         
-        .rank-card:hover .rank-image-container img {
+        .rank-card:hover .rank-image-wrapper img {
             transform: scale(1.1);
         }
         
+        .rank-label {
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: rgba(255,255,255,0.1);
+            padding: 4px 12px;
+            border-radius: 50px;
+        }
+        
+        .arrow-icon {
+            color: #ff4655;
+            font-size: 24px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
         .rank-body {
-            padding: 25px 20px;
+            padding: 20px;
             text-align: center;
             flex: 1;
             display: flex;
@@ -221,7 +250,7 @@
         }
         
         .rank-name {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 700;
             margin-bottom: 5px;
             color: #1e293b;
@@ -229,33 +258,33 @@
         
         .rank-tier {
             display: inline-block;
-            padding: 5px 15px;
+            padding: 4px 12px;
             background: rgba(255,70,85,0.1);
             border-radius: 50px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             color: #ff4655;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             align-self: center;
         }
         
         .price-tag {
             text-align: center;
-            margin-bottom: 20px;
-            padding: 15px 0;
+            margin-bottom: 15px;
+            padding: 10px 0;
             border-top: 1px dashed #e2e8f0;
             border-bottom: 1px dashed #e2e8f0;
         }
         
         .price-amount {
-            font-size: 32px;
+            font-size: 28px;
             font-weight: 800;
             color: #1e293b;
         }
         
         .peso-sign {
             color: #ff4655;
-            font-size: 20px;
+            font-size: 18px;
             margin-right: 2px;
         }
         
@@ -263,7 +292,7 @@
             background: #ff4655;
             color: white;
             font-weight: 700;
-            padding: 12px 25px;
+            padding: 10px 20px;
             border-radius: 50px;
             border: none;
             width: 100%;
@@ -271,7 +300,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
+            font-size: 14px;
             margin-top: auto;
         }
         
@@ -282,34 +312,16 @@
         
         .popular-badge {
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 10px;
+            right: 10px;
             background: #ff4655;
             color: white;
-            padding: 8px 16px;
+            padding: 5px 12px;
             border-radius: 50px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
             z-index: 10;
             box-shadow: 0 5px 15px rgba(255,70,85,0.3);
-        }
-        
-        .from-to {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        
-        .from-to span {
-            font-size: 14px;
-            color: #64748b;
-        }
-        
-        .from-to i {
-            color: #ff4655;
-            font-size: 12px;
         }
         
         footer {
@@ -378,12 +390,9 @@
                 left: 0;
                 padding: 20px;
             }
-            .rank-image-container {
-                height: 150px;
-            }
-            .rank-image-container img {
-                width: 100px;
-                height: 100px;
+            .rank-image-wrapper img {
+                width: 70px;
+                height: 70px;
             }
         }
     </style>
@@ -441,8 +450,17 @@
             <!-- Iron to Bronze -->
             <div class="col-lg-4 col-md-6">
                 <div class="rank-card">
-                    <div class="rank-image-container">
-                        <img src="iron.png" alt="Iron Rank">
+                    <div class="popular-badge">START HERE</div>
+                    <div class="rank-images-container">
+                        <div class="rank-image-wrapper">
+                            <img src="iron.png" alt="Iron Rank">
+                            <span class="rank-label">IRON</span>
+                        </div>
+                        <div class="arrow-icon">→</div>
+                        <div class="rank-image-wrapper">
+                            <img src="bronze.png" alt="Bronze Rank">
+                            <span class="rank-label">BRONZE</span>
+                        </div>
                     </div>
                     <div class="rank-body">
                         <h3 class="rank-name">Iron → Bronze</h3>
@@ -462,8 +480,16 @@
             <div class="col-lg-4 col-md-6">
                 <div class="rank-card">
                     <div class="popular-badge">POPULAR</div>
-                    <div class="rank-image-container">
-                        <img src="bronze.png" alt="Bronze Rank">
+                    <div class="rank-images-container">
+                        <div class="rank-image-wrapper">
+                            <img src="bronze.png" alt="Bronze Rank">
+                            <span class="rank-label">BRONZE</span>
+                        </div>
+                        <div class="arrow-icon">→</div>
+                        <div class="rank-image-wrapper">
+                            <img src="silver.png" alt="Silver Rank">
+                            <span class="rank-label">SILVER</span>
+                        </div>
                     </div>
                     <div class="rank-body">
                         <h3 class="rank-name">Bronze → Silver</h3>
@@ -482,8 +508,16 @@
             <!-- Silver to Gold -->
             <div class="col-lg-4 col-md-6">
                 <div class="rank-card">
-                    <div class="rank-image-container">
-                        <img src="silver.png" alt="Silver Rank">
+                    <div class="rank-images-container">
+                        <div class="rank-image-wrapper">
+                            <img src="silver.png" alt="Silver Rank">
+                            <span class="rank-label">SILVER</span>
+                        </div>
+                        <div class="arrow-icon">→</div>
+                        <div class="rank-image-wrapper">
+                            <img src="gold.png" alt="Gold Rank">
+                            <span class="rank-label">GOLD</span>
+                        </div>
                     </div>
                     <div class="rank-body">
                         <h3 class="rank-name">Silver → Gold</h3>
@@ -502,8 +536,16 @@
             <!-- Gold to Platinum -->
             <div class="col-lg-4 col-md-6">
                 <div class="rank-card">
-                    <div class="rank-image-container">
-                        <img src="gold.png" alt="Gold Rank">
+                    <div class="rank-images-container">
+                        <div class="rank-image-wrapper">
+                            <img src="gold.png" alt="Gold Rank">
+                            <span class="rank-label">GOLD</span>
+                        </div>
+                        <div class="arrow-icon">→</div>
+                        <div class="rank-image-wrapper">
+                            <img src="platinum.png" alt="Platinum Rank">
+                            <span class="rank-label">PLATINUM</span>
+                        </div>
                     </div>
                     <div class="rank-body">
                         <h3 class="rank-name">Gold → Platinum</h3>
@@ -522,8 +564,16 @@
             <!-- Platinum to Diamond -->
             <div class="col-lg-4 col-md-6">
                 <div class="rank-card">
-                    <div class="rank-image-container">
-                        <img src="platinum.png" alt="Platinum Rank">
+                    <div class="rank-images-container">
+                        <div class="rank-image-wrapper">
+                            <img src="platinum.png" alt="Platinum Rank">
+                            <span class="rank-label">PLATINUM</span>
+                        </div>
+                        <div class="arrow-icon">→</div>
+                        <div class="rank-image-wrapper">
+                            <img src="diamond.png" alt="Diamond Rank">
+                            <span class="rank-label">DIAMOND</span>
+                        </div>
                     </div>
                     <div class="rank-body">
                         <h3 class="rank-name">Platinum → Diamond</h3>
@@ -542,8 +592,16 @@
             <!-- Diamond to Ascendant -->
             <div class="col-lg-4 col-md-6">
                 <div class="rank-card">
-                    <div class="rank-image-container">
-                        <img src="diamond.png" alt="Diamond Rank">
+                    <div class="rank-images-container">
+                        <div class="rank-image-wrapper">
+                            <img src="diamond.png" alt="Diamond Rank">
+                            <span class="rank-label">DIAMOND</span>
+                        </div>
+                        <div class="arrow-icon">→</div>
+                        <div class="rank-image-wrapper">
+                            <img src="ascendant.png" alt="Ascendant Rank">
+                            <span class="rank-label">ASCENDANT</span>
+                        </div>
                     </div>
                     <div class="rank-body">
                         <h3 class="rank-name">Diamond → Ascendant</h3>
@@ -562,8 +620,17 @@
             <!-- Ascendant to Immortal -->
             <div class="col-lg-4 col-md-6">
                 <div class="rank-card">
-                    <div class="rank-image-container">
-                        <img src="ascendant.png" alt="Ascendant Rank">
+                    <div class="popular-badge">ELITE</div>
+                    <div class="rank-images-container">
+                        <div class="rank-image-wrapper">
+                            <img src="ascendant.png" alt="Ascendant Rank">
+                            <span class="rank-label">ASCENDANT</span>
+                        </div>
+                        <div class="arrow-icon">→</div>
+                        <div class="rank-image-wrapper">
+                            <img src="immortal.png" alt="Immortal Rank">
+                            <span class="rank-label">IMMORTAL</span>
+                        </div>
                     </div>
                     <div class="rank-body">
                         <h3 class="rank-name">Ascendant → Immortal</h3>

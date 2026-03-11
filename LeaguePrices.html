@@ -1,4 +1,3 @@
-92% of storage used … If you run out, you can't create, edit and upload files. Get 30 GB for ₱10 for 3 months ₱49.
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -181,6 +180,8 @@
             height: 100%;
             border: 1px solid rgba(57, 177, 224, 0.1);
             position: relative;
+            display: flex;
+            flex-direction: column;
         }
         
         .rank-card:hover {
@@ -189,62 +190,101 @@
             border-color: #39b1e0;
         }
         
-        .rank-header {
+        .rank-images-container {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             background: linear-gradient(145deg, #0a1a2f, #102a40);
-            color: white;
             padding: 20px;
-            text-align: center;
+            gap: 15px;
         }
         
-        .rank-icon {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 15px;
+        .rank-image-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .rank-image-wrapper img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            filter: drop-shadow(0 5px 10px rgba(57, 177, 224, 0.3));
+            transition: transform 0.3s;
+        }
+        
+        .rank-card:hover .rank-image-wrapper img {
+            transform: scale(1.1);
+        }
+        
+        .rank-label {
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
             background: rgba(255,255,255,0.1);
-            border-radius: 50%;
+            padding: 4px 12px;
+            border-radius: 50px;
+        }
+        
+        .arrow-icon {
+            color: #39b1e0;
+            font-size: 24px;
+            font-weight: 700;
             display: flex;
             align-items: center;
             justify-content: center;
         }
         
-        .rank-icon i {
-            font-size: 40px;
-            color: #39b1e0;
+        .rank-body {
+            padding: 20px;
+            text-align: center;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
         
         .rank-name {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 700;
             margin-bottom: 5px;
+            color: #1e293b;
         }
         
         .rank-tier {
             display: inline-block;
-            padding: 5px 15px;
-            background: rgba(57, 177, 224, 0.2);
+            padding: 4px 12px;
+            background: rgba(57, 177, 224, 0.1);
             border-radius: 50px;
-            font-size: 12px;
+            font-size: 11px;
+            font-weight: 600;
             color: #39b1e0;
-        }
-        
-        .rank-body {
-            padding: 25px 20px;
+            margin-bottom: 15px;
+            align-self: center;
         }
         
         .price-tag {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            padding: 10px 0;
+            border-top: 1px dashed #e2e8f0;
+            border-bottom: 1px dashed #e2e8f0;
         }
         
         .price-amount {
-            font-size: 32px;
+            font-size: 28px;
             font-weight: 800;
             color: #1e293b;
         }
         
         .peso-sign {
             color: #39b1e0;
-            font-size: 20px;
+            font-size: 18px;
             margin-right: 2px;
         }
         
@@ -252,7 +292,7 @@
             background: #39b1e0;
             color: white;
             font-weight: 700;
-            padding: 12px 25px;
+            padding: 10px 20px;
             border-radius: 50px;
             border: none;
             width: 100%;
@@ -260,7 +300,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
+            font-size: 14px;
+            margin-top: auto;
         }
         
         .btn-order:hover {
@@ -270,15 +312,16 @@
         
         .popular-badge {
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 10px;
+            right: 10px;
             background: #39b1e0;
             color: white;
-            padding: 5px 15px;
+            padding: 5px 12px;
             border-radius: 50px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
             z-index: 10;
+            box-shadow: 0 5px 15px rgba(57, 177, 224, 0.3);
         }
         
         footer {
@@ -347,6 +390,10 @@
                 left: 0;
                 padding: 20px;
             }
+            .rank-image-wrapper img {
+                width: 70px;
+                height: 70px;
+            }
         }
     </style>
 </head>
@@ -403,19 +450,26 @@
             <!-- Iron to Bronze -->
             <div class="col-lg-4 col-md-6">
                 <div class="rank-card">
-                    <div class="rank-header">
-                        <div class="rank-icon">
-                            <i class="fas fa-shield"></i>
+                    <div class="popular-badge">START HERE</div>
+                    <div class="rank-images-container">
+                        <div class="rank-image-wrapper">
+                            <img src="ironleague.png" alt="Iron Rank">
+                            <span class="rank-label">IRON</span>
                         </div>
-                        <h3 class="rank-name">Iron → Bronze</h3>
-                        <span class="rank-tier">3 DIVISIONS</span>
+                        <div class="arrow-icon">→</div>
+                        <div class="rank-image-wrapper">
+                            <img src="bronzeleague.png" alt="Bronze Rank">
+                            <span class="rank-label">BRONZE</span>
+                        </div>
                     </div>
                     <div class="rank-body">
+                        <h3 class="rank-name">Iron → Bronze</h3>
+                        <span class="rank-tier">4 DIVISIONS</span>
                         <div class="price-tag">
                             <span class="peso-sign">₱</span>
-                            <span class="price-amount">447</span>
+                            <span class="price-amount">596</span>
                         </div>
-                        <button class="btn-order" onclick="placeOrder(1, 'Iron', 'Bronze', 447, 'Iron to Bronze Boost', 'League of Legends')">
+                        <button class="btn-order" onclick="placeOrder(1, 'Iron', 'Bronze', 596, 'Iron to Bronze Boost', 'League of Legends')">
                             <i class="fas fa-shopping-cart"></i> Place Order
                         </button>
                     </div>
@@ -426,19 +480,25 @@
             <div class="col-lg-4 col-md-6">
                 <div class="rank-card">
                     <div class="popular-badge">POPULAR</div>
-                    <div class="rank-header">
-                        <div class="rank-icon">
-                            <i class="fas fa-shield"></i>
+                    <div class="rank-images-container">
+                        <div class="rank-image-wrapper">
+                            <img src="bronzeleague.png" alt="Bronze Rank">
+                            <span class="rank-label">BRONZE</span>
                         </div>
-                        <h3 class="rank-name">Bronze → Silver</h3>
-                        <span class="rank-tier">3 DIVISIONS</span>
+                        <div class="arrow-icon">→</div>
+                        <div class="rank-image-wrapper">
+                            <img src="silverleague.png" alt="Silver Rank">
+                            <span class="rank-label">SILVER</span>
+                        </div>
                     </div>
                     <div class="rank-body">
+                        <h3 class="rank-name">Bronze → Silver</h3>
+                        <span class="rank-tier">4 DIVISIONS</span>
                         <div class="price-tag">
                             <span class="peso-sign">₱</span>
-                            <span class="price-amount">597</span>
+                            <span class="price-amount">796</span>
                         </div>
-                        <button class="btn-order" onclick="placeOrder(1, 'Bronze', 'Silver', 597, 'Bronze to Silver Boost', 'League of Legends')">
+                        <button class="btn-order" onclick="placeOrder(1, 'Bronze', 'Silver', 796, 'Bronze to Silver Boost', 'League of Legends')">
                             <i class="fas fa-shopping-cart"></i> Place Order
                         </button>
                     </div>
@@ -448,19 +508,25 @@
             <!-- Silver to Gold -->
             <div class="col-lg-4 col-md-6">
                 <div class="rank-card">
-                    <div class="rank-header">
-                        <div class="rank-icon">
-                            <i class="fas fa-shield"></i>
+                    <div class="rank-images-container">
+                        <div class="rank-image-wrapper">
+                            <img src="silverleague.png" alt="Silver Rank">
+                            <span class="rank-label">SILVER</span>
                         </div>
-                        <h3 class="rank-name">Silver → Gold</h3>
-                        <span class="rank-tier">3 DIVISIONS</span>
+                        <div class="arrow-icon">→</div>
+                        <div class="rank-image-wrapper">
+                            <img src="goldleague.png" alt="Gold Rank">
+                            <span class="rank-label">GOLD</span>
+                        </div>
                     </div>
                     <div class="rank-body">
+                        <h3 class="rank-name">Silver → Gold</h3>
+                        <span class="rank-tier">4 DIVISIONS</span>
                         <div class="price-tag">
                             <span class="peso-sign">₱</span>
-                            <span class="price-amount">747</span>
+                            <span class="price-amount">996</span>
                         </div>
-                        <button class="btn-order" onclick="placeOrder(1, 'Silver', 'Gold', 747, 'Silver to Gold Boost', 'League of Legends')">
+                        <button class="btn-order" onclick="placeOrder(1, 'Silver', 'Gold', 996, 'Silver to Gold Boost', 'League of Legends')">
                             <i class="fas fa-shopping-cart"></i> Place Order
                         </button>
                     </div>
@@ -470,19 +536,25 @@
             <!-- Gold to Platinum -->
             <div class="col-lg-4 col-md-6">
                 <div class="rank-card">
-                    <div class="rank-header">
-                        <div class="rank-icon">
-                            <i class="fas fa-shield"></i>
+                    <div class="rank-images-container">
+                        <div class="rank-image-wrapper">
+                            <img src="goldleague.png" alt="Gold Rank">
+                            <span class="rank-label">GOLD</span>
                         </div>
-                        <h3 class="rank-name">Gold → Platinum</h3>
-                        <span class="rank-tier">3 DIVISIONS</span>
+                        <div class="arrow-icon">→</div>
+                        <div class="rank-image-wrapper">
+                            <img src="platinumleague.png" alt="Platinum Rank">
+                            <span class="rank-label">PLATINUM</span>
+                        </div>
                     </div>
                     <div class="rank-body">
+                        <h3 class="rank-name">Gold → Platinum</h3>
+                        <span class="rank-tier">4 DIVISIONS</span>
                         <div class="price-tag">
                             <span class="peso-sign">₱</span>
-                            <span class="price-amount">1,047</span>
+                            <span class="price-amount">1,396</span>
                         </div>
-                        <button class="btn-order" onclick="placeOrder(1, 'Gold', 'Platinum', 1047, 'Gold to Platinum Boost', 'League of Legends')">
+                        <button class="btn-order" onclick="placeOrder(1, 'Gold', 'Platinum', 1396, 'Gold to Platinum Boost', 'League of Legends')">
                             <i class="fas fa-shopping-cart"></i> Place Order
                         </button>
                     </div>
@@ -492,19 +564,25 @@
             <!-- Platinum to Diamond -->
             <div class="col-lg-4 col-md-6">
                 <div class="rank-card">
-                    <div class="rank-header">
-                        <div class="rank-icon">
-                            <i class="fas fa-shield"></i>
+                    <div class="rank-images-container">
+                        <div class="rank-image-wrapper">
+                            <img src="platinumleague.png" alt="Platinum Rank">
+                            <span class="rank-label">PLATINUM</span>
                         </div>
-                        <h3 class="rank-name">Platinum → Diamond</h3>
-                        <span class="rank-tier">3 DIVISIONS</span>
+                        <div class="arrow-icon">→</div>
+                        <div class="rank-image-wrapper">
+                            <img src="diamondleague.png" alt="Diamond Rank">
+                            <span class="rank-label">DIAMOND</span>
+                        </div>
                     </div>
                     <div class="rank-body">
+                        <h3 class="rank-name">Platinum → Diamond</h3>
+                        <span class="rank-tier">4 DIVISIONS</span>
                         <div class="price-tag">
                             <span class="peso-sign">₱</span>
-                            <span class="price-amount">1,497</span>
+                            <span class="price-amount">1,996</span>
                         </div>
-                        <button class="btn-order" onclick="placeOrder(1, 'Platinum', 'Diamond', 1497, 'Platinum to Diamond Boost', 'League of Legends')">
+                        <button class="btn-order" onclick="placeOrder(1, 'Platinum', 'Diamond', 1996, 'Platinum to Diamond Boost', 'League of Legends')">
                             <i class="fas fa-shopping-cart"></i> Place Order
                         </button>
                     </div>
@@ -515,14 +593,20 @@
             <div class="col-lg-4 col-md-6">
                 <div class="rank-card">
                     <div class="popular-badge">ELITE</div>
-                    <div class="rank-header">
-                        <div class="rank-icon">
-                            <i class="fas fa-crown"></i>
+                    <div class="rank-images-container">
+                        <div class="rank-image-wrapper">
+                            <img src="diamondleague.png" alt="Diamond Rank">
+                            <span class="rank-label">DIAMOND</span>
                         </div>
-                        <h3 class="rank-name">Diamond → Master</h3>
-                        <span class="rank-tier">200 LP</span>
+                        <div class="arrow-icon">→</div>
+                        <div class="rank-image-wrapper">
+                            <img src="masterleague.png" alt="Master Rank">
+                            <span class="rank-label">MASTER</span>
+                        </div>
                     </div>
                     <div class="rank-body">
+                        <h3 class="rank-name">Diamond → Master</h3>
+                        <span class="rank-tier">200 LP</span>
                         <div class="price-tag">
                             <span class="peso-sign">₱</span>
                             <span class="price-amount">1,998</span>

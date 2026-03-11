@@ -290,6 +290,52 @@
             color: #5a67d8;
         }
         
+        .proof-section {
+            margin: 15px 0;
+            padding: 15px;
+            background: #f0f9ff;
+            border-radius: 10px;
+            border: 1px solid #39b1e0;
+        }
+        
+        .proof-section h6 {
+            color: #1e293b;
+            margin-bottom: 10px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+        
+        .upload-area-small {
+            border: 2px dashed #e2e8f0;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .upload-area-small:hover {
+            border-color: #10b981;
+            background: #f0fdf4;
+        }
+        
+        .upload-area-small i {
+            font-size: 24px;
+            color: #10b981;
+        }
+        
+        .upload-area-small p {
+            margin: 5px 0 0;
+            font-size: 12px;
+            color: #64748b;
+        }
+        
+        .file-info {
+            margin-top: 5px;
+            font-size: 12px;
+            color: #10b981;
+        }
+        
         .action-buttons {
             display: flex;
             gap: 15px;
@@ -542,6 +588,7 @@
     let boosterId = sessionStorage.getItem('userId');
     let boosterRole = sessionStorage.getItem('role');
     let gamesMap = {};
+    let selectedProofFiles = {};
 
     function togglePassword(orderId, password) {
         const span = document.getElementById(`password-${orderId}`);
@@ -549,6 +596,112 @@
             span.textContent = password;
         } else {
             span.textContent = '••••••••';
+        }
+    }
+
+    function handleProofFileSelect(orderId, type) {
+        const input = document.getElementById(`${type}-file-${orderId}`);
+        const file = input.files[0];
+        
+        if (!file) return;
+        
+        if (!selectedProofFiles[orderId]) {
+            selectedProofFiles[orderId] = {};
+        }
+        
+        selectedProofFiles[orderId][type] = file;
+        
+        const infoDiv = document.getElementById(`${type}-file-info-${orderId}`);
+        infoDiv.style.display = 'block';
+        infoDiv.querySelector('span').textContent = file.name;
+    }
+
+    async function uploadProofs(orderId) {
+        const beforeFile = selectedProofFiles[orderId]?.before;
+        const afterFile = selectedProofFiles[orderId]?.after;
+        
+        if (!beforeFile || !afterFile) {
+            alert('Please upload both before and after screenshots');
+            return;
+        }
+        
+        const description = document.getElementById(`proof-description-${orderId}`).value;
+        const btn = document.getElementById(`proof-btn-${orderId}`);
+        
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
+        
+        try {
+            const userId = sessionStorage.getItem('userId');
+            
+            // Upload before image
+            const beforeFileName = `proof_${orderId}_before_${Date.now()}.${beforeFile.name.split('.').pop()}`;
+            const beforePath = `proofs/${orderId}/${beforeFileName}`;
+            
+            const { error: beforeError } = await supabase
+                .storage
+                .from('proofs')
+                .upload(beforePath, beforeFile);
+            
+            if (beforeError) throw beforeError;
+            
+            const { data: beforeUrl } = supabase
+                .storage
+                .from('proofs')
+                .getPublicUrl(beforePath);
+            
+            // Upload after image
+            const afterFileName = `proof_${orderId}_after_${Date.now()}.${afterFile.name.split('.').pop()}`;
+            const afterPath = `proofs/${orderId}/${afterFileName}`;
+            
+            const { error: afterError } = await supabase
+                .storage
+                .from('proofs')
+                .upload(afterPath, afterFile);
+            
+            if (afterError) throw afterError;
+            
+            const { data: afterUrl } = supabase
+                .storage
+                .from('proofs')
+                .getPublicUrl(afterPath);
+            
+            // Save to proofs table
+            const { error: proofError } = await supabase
+                .from('proofs')
+                .insert([
+                    {
+                        order_id: orderId,
+                        booster_id: parseInt(userId),
+                        proof_type: 'before',
+                        image_url: beforeUrl.publicUrl,
+                        description: description
+                    },
+                    {
+                        order_id: orderId,
+                        booster_id: parseInt(userId),
+                        proof_type: 'after',
+                        image_url: afterUrl.publicUrl,
+                        description: description
+                    }
+                ]);
+            
+            if (proofError) throw proofError;
+            
+            // Update order status
+            await supabase
+                .from('orders')
+                .update({ proof_uploaded: true })
+                .eq('order_id', orderId);
+            
+            alert('✅ Proof uploaded successfully!');
+            location.reload();
+            
+        } catch (error) {
+            console.error('Error uploading proofs:', error);
+            alert('❌ Error: ' + error.message);
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-upload"></i> Submit Proof';
         }
     }
 
@@ -640,28 +793,24 @@
 
     async function loadStats() {
         try {
-            // Assigned count
             const { count: assigned } = await supabase
                 .from('orders')
                 .select('*', { count: 'exact', head: true })
                 .eq('booster_id', boosterId)
                 .eq('status', 'assigned');
 
-            // In progress count
             const { count: progress } = await supabase
                 .from('orders')
                 .select('*', { count: 'exact', head: true })
                 .eq('booster_id', boosterId)
                 .eq('status', 'in_progress');
 
-            // Completed count
             const { count: completed } = await supabase
                 .from('orders')
                 .select('*', { count: 'exact', head: true })
                 .eq('booster_id', boosterId)
                 .eq('status', 'completed');
 
-            // Total earnings
             const { data: completedOrders } = await supabase
                 .from('orders')
                 .select('total_price')
@@ -802,6 +951,45 @@
                                 <button onclick="togglePassword(${order.order_id}, '${order.game_password}')" class="btn-show">Show</button>
                             </p>
                             ${order.additional_info ? `<p><strong>Info:</strong> ${order.additional_info}</p>` : ''}
+                        </div>
+                    ` : ''}
+                    
+                    ${type === 'completed' ? `
+                        <div class="proof-section">
+                            <h6><i class="fas fa-camera"></i> Upload Proof of Work</h6>
+                            
+                            <div style="margin-bottom: 15px;">
+                                <label style="font-weight: 600; font-size: 14px; margin-bottom: 5px; display: block;">Before Screenshot</label>
+                                <div class="upload-area-small" onclick="document.getElementById('before-file-${order.order_id}').click()">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <p>Click to upload before screenshot</p>
+                                    <input type="file" id="before-file-${order.order_id}" accept="image/*" style="display: none;" onchange="handleProofFileSelect(${order.order_id}, 'before')">
+                                </div>
+                                <div id="before-file-info-${order.order_id}" class="file-info" style="display: none;">
+                                    <i class="fas fa-check-circle"></i> <span></span>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-bottom: 15px;">
+                                <label style="font-weight: 600; font-size: 14px; margin-bottom: 5px; display: block;">After Screenshot</label>
+                                <div class="upload-area-small" onclick="document.getElementById('after-file-${order.order_id}').click()">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <p>Click to upload after screenshot</p>
+                                    <input type="file" id="after-file-${order.order_id}" accept="image/*" style="display: none;" onchange="handleProofFileSelect(${order.order_id}, 'after')">
+                                </div>
+                                <div id="after-file-info-${order.order_id}" class="file-info" style="display: none;">
+                                    <i class="fas fa-check-circle"></i> <span></span>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-bottom: 15px;">
+                                <label style="font-weight: 600; font-size: 14px; margin-bottom: 5px; display: block;">Description (optional)</label>
+                                <textarea id="proof-description-${order.order_id}" class="form-control" rows="2" placeholder="e.g., Boost completed successfully, rank achieved"></textarea>
+                            </div>
+                            
+                            <button onclick="uploadProofs(${order.order_id})" class="btn-start" style="width: 100%;" id="proof-btn-${order.order_id}">
+                                <i class="fas fa-upload"></i> Submit Proof
+                            </button>
                         </div>
                     ` : ''}
                     

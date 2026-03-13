@@ -238,13 +238,13 @@
         }
         
         .receipt-image {
-            max-width: 200px;
-            max-height: 150px;
+            max-width: 300px;
+            max-height: 200px;
             border-radius: 10px;
             margin-top: 10px;
             cursor: pointer;
             border: 2px solid #e2e8f0;
-            transition: transform 0.2s;
+            transition: transform 0.3s;
         }
         
         .receipt-image:hover {
@@ -344,43 +344,6 @@
             100% { transform: rotate(360deg); }
         }
         
-        .image-modal {
-            display: none;
-            position: fixed;
-            z-index: 9999;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.9);
-            cursor: pointer;
-        }
-        
-        .image-modal-content {
-            margin: auto;
-            display: block;
-            max-width: 90%;
-            max-height: 90%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        
-        .image-modal-close {
-            position: absolute;
-            top: 20px;
-            right: 35px;
-            color: #f1f1f1;
-            font-size: 40px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        
-        .image-modal-close:hover {
-            color: #bbb;
-        }
-        
         footer {
             background: #0f172a;
             color: white;
@@ -441,12 +404,6 @@
     </style>
 </head>
 <body>
-
-<!-- Image Modal -->
-<div id="imageModal" class="image-modal" onclick="closeImageModal()">
-    <span class="image-modal-close">&times;</span>
-    <img class="image-modal-content" id="modalImage">
-</div>
 
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
@@ -558,16 +515,6 @@
     
     let gamesMap = {};
     let boostersMap = {};
-    
-    // Image modal functions
-    function openImageModal(src) {
-        document.getElementById('modalImage').src = src;
-        document.getElementById('imageModal').style.display = 'block';
-    }
-    
-    function closeImageModal() {
-        document.getElementById('imageModal').style.display = 'none';
-    }
     
     function checkRememberedLogin() {
         const remembered = localStorage.getItem('rememberedUser');
@@ -808,11 +755,11 @@
                     
                     ${payment.receipt_url ? `
                         <div style="margin: 15px 0;">
-                            <strong>Receipt:</strong><br>
-                            <img src="${payment.receipt_url}" 
-                                 class="receipt-image"
-                                 onclick="openImageModal('${payment.receipt_url}')"
-                                 title="Click to view full size">
+                            <p style="font-weight: 600; margin-bottom: 5px;">Receipt:</p>
+                            <img src="${payment.receipt_url}" class="receipt-image" 
+                                 style="max-width: 300px; max-height: 200px; border-radius: 10px; cursor: pointer; border: 2px solid #e2e8f0;"
+                                 onclick="window.open('${payment.receipt_url}', '_blank')"
+                                 onerror="this.style.display='none'">
                         </div>
                     ` : ''}
                     

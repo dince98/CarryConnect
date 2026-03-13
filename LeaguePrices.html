@@ -762,8 +762,10 @@
             <div class="col-lg-3 col-md-6 mb-4">
                 <h5 style="color: #a58be0;">Support</h5>
                 <ul class="footer-links">
+                    <li><a href="faq.html">FAQ</a></li>
                     <li><a href="terms.html">Terms</a></li>
                     <li><a href="privacy.html">Privacy</a></li>
+                    <li><a href="refund.html">Refund</a></li>
                 </ul>
             </div>
         </div>
@@ -896,4 +898,34 @@
                     'apikey': SUPABASE_KEY,
                     'Authorization': `Bearer ${SUPABASE_KEY}`,
                     'Content-Type': 'application/json',
-                    'Prefer': 'return=
+                    'Prefer': 'return=representation'
+                },
+                body: JSON.stringify(orderData)
+            });
+            
+            if (response.ok) {
+                const order = await response.json();
+                window.location.href = `Payment.html?order_id=${order[0].order_id}&game=${encodeURIComponent(gameName)}&service=${encodeURIComponent(serviceName)}&from=${encodeURIComponent(fromRank)}&to=${encodeURIComponent(toRank)}&price=${price}&game_id=${gameId}`;
+            } else {
+                const error = await response.json();
+                alert('❌ Error creating order: ' + (error.message || 'Unknown error'));
+            }
+        } catch (error) {
+            alert('❌ Error: ' + error.message);
+        }
+    }
+    
+    window.onload = function() {
+        checkRememberedLogin();
+        updateNavbar();
+    };
+    
+    function logout() {
+        sessionStorage.clear();
+        localStorage.removeItem('rememberedUser');
+        window.location.href = 'index.html';
+    }
+</script>
+
+</body>
+</html>

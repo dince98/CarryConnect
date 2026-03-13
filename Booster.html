@@ -175,7 +175,6 @@
             padding: 25px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.05);
             border: 1px solid #e2e8f0;
-            transition: all 0.3s;
         }
         
         .order-card:hover {
@@ -636,38 +635,58 @@
             const userId = sessionStorage.getItem('userId');
             
             // Upload before image
-            const beforeFileName = `proof_${orderId}_before_${Date.now()}.${beforeFile.name.split('.').pop()}`;
+            const beforeFileName = `before_${Date.now()}.${beforeFile.name.split('.').pop()}`;
             const beforePath = `proofs/${orderId}/${beforeFileName}`;
             
             const { error: beforeError } = await supabase
                 .storage
                 .from('proofs')
-                .upload(beforePath, beforeFile);
+                .upload(beforePath, beforeFile, {
+                    cacheControl: '3600',
+                    upsert: false
+                });
             
             if (beforeError) throw beforeError;
             
-            const { data: beforeUrl } = supabase
+            const { data: beforeUrlData } = supabase
                 .storage
                 .from('proofs')
                 .getPublicUrl(beforePath);
             
             // Upload after image
-            const afterFileName = `proof_${orderId}_after_${Date.now()}.${afterFile.name.split('.').pop()}`;
+            const afterFileName = `after_${Date.now()}.${afterFile.name.split('.').pop()}`;
             const afterPath = `proofs/${orderId}/${afterFileName}`;
             
             const { error: afterError } = await supabase
                 .storage
                 .from('proofs')
-                .upload(afterPath, afterFile);
+                .upload(afterPath, afterFile, {
+                    cacheControl: '3600',
+                    upsert: false
+                });
             
             if (afterError) throw afterError;
             
-            const { data: afterUrl } = supabase
+            const { data: afterUrlData } = supabase
                 .storage
                 .from('proofs')
                 .getPublicUrl(afterPath);
             
-            // Save to proofs table
+            // Delete old proofs if they exist
+            const { data: oldProofs } = await supabase
+                .from('proofs')
+                .select('proof_id, image_url')
+                .eq('order_id', orderId);
+            
+            if (oldProofs && oldProofs.length > 0) {
+                // Delete from database
+                await supabase
+                    .from('proofs')
+                    .delete()
+                    .eq('order_id', orderId);
+            }
+            
+            // Save new proofs to proofs table
             const { error: proofError } = await supabase
                 .from('proofs')
                 .insert([
@@ -675,25 +694,21 @@
                         order_id: orderId,
                         booster_id: parseInt(userId),
                         proof_type: 'before',
-                        image_url: beforeUrl.publicUrl,
-                        description: description
+                        image_url: beforeUrlData.publicUrl,
+                        description: description,
+                        uploaded_at: new Date().toISOString()
                     },
                     {
                         order_id: orderId,
                         booster_id: parseInt(userId),
                         proof_type: 'after',
-                        image_url: afterUrl.publicUrl,
-                        description: description
+                        image_url: afterUrlData.publicUrl,
+                        description: description,
+                        uploaded_at: new Date().toISOString()
                     }
                 ]);
             
             if (proofError) throw proofError;
-            
-            // Update order status
-            await supabase
-                .from('orders')
-                .update({ proof_uploaded: true })
-                .eq('order_id', orderId);
             
             alert('✅ Proof uploaded successfully!');
             location.reload();

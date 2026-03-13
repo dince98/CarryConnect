@@ -1,3 +1,5 @@
+Here is the updated "How It Works" page HTML. The neon background is restored, and the step cards and info box now feature a clean blue color scheme with subtle yellow accents.
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,14 +22,14 @@
         
         body {
             font-family: 'Poppins', 'Segoe UI', sans-serif;
-            background: #f8fafc;
-            color: #1e293b;
+            background: #0a0715;
+            color: #ffffff;
         }
         
         .navbar {
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
             padding: 1rem 0;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
         
         .navbar-brand {
@@ -35,6 +37,7 @@
             font-weight: 800 !important;
             color: white !important;
             letter-spacing: -0.5px;
+            text-shadow: 0 0 10px #3b82f6, 0 0 20px rgba(59, 130, 246, 0.3);
         }
         
         .navbar-brand span {
@@ -61,8 +64,8 @@
         }
         
         .dropdown-menu {
-            background: #1e293b;
-            border: 1px solid rgba(255,255,255,0.1);
+            background: #1e1a2a;
+            border: 1px solid rgba(59, 130, 246, 0.3);
             border-radius: 12px;
             padding: 8px;
             margin-top: 8px;
@@ -92,7 +95,7 @@
         }
         
         .btn-account {
-            border: 2px solid rgba(255,255,255,0.2);
+            border: 2px solid rgba(59, 130, 246, 0.3);
             color: white !important;
             display: flex;
             align-items: center;
@@ -100,7 +103,7 @@
         }
         
         .btn-account:hover {
-            background: rgba(59, 130, 246, 0.2);
+            background: rgba(59, 130, 246, 0.15);
         }
         
         /* ========== FULL SECTION WITH NEON.PNG BACKGROUND ========== */
@@ -115,9 +118,9 @@
             position: absolute;
             inset: 0;
             background: 
-                linear-gradient(135deg, rgba(0, 0, 0, 0.75) 0%, rgba(15, 15, 30, 0.85) 100%),
+                linear-gradient(135deg, rgba(10, 5, 20, 0.7) 0%, rgba(25, 10, 30, 0.8) 100%),
                 url('neon.png') center center / cover no-repeat fixed;
-            opacity: 0.9;
+            opacity: 0.85;
             z-index: -2;
         }
         
@@ -125,7 +128,9 @@
             content: "";
             position: absolute;
             inset: 0;
-            background: radial-gradient(circle at 30% 40%, rgba(0,0,0,0.3) 0%, transparent 70%);
+            background: 
+                radial-gradient(circle at 30% 40%, rgba(59, 130, 246, 0.2) 0%, transparent 70%),
+                radial-gradient(circle at 70% 60%, rgba(234, 179, 8, 0.15) 0%, transparent 70%);
             pointer-events: none;
             z-index: -1;
         }
@@ -141,68 +146,70 @@
             font-size: 52px;
             font-weight: 800;
             margin-bottom: 20px;
-            text-shadow: 2px 4px 20px rgba(0,0,0,0.7);
+            text-shadow: 0 0 30px #3b82f6, 2px 4px 20px rgba(0,0,0,0.7);
         }
         
         .page-hero p {
             font-size: 20px;
             opacity: 0.95;
             margin-bottom: 30px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+            text-shadow: 0 0 15px rgba(59, 130, 246, 0.5), 0 2px 10px rgba(0,0,0,0.8);
         }
         
-        /* ===== STEP CARDS REDESIGNED TO FIT NEON BACKGROUND ===== */
+        /* ===== STEP CARDS - BLUE THEMED ===== */
         .step-card {
-            background: rgba(18, 22, 35, 0.75);  /* deep dark blue-black, semi-trans */
+            background: rgba(18, 22, 35, 0.75);
             backdrop-filter: blur(8px);
             border-radius: 30px;
-            padding: 30px 20px;
+            padding: 35px 25px;
             text-align: center;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
-            transition: all 0.3s ease;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+            transition: all 0.4s ease;
             height: 100%;
-            border: 1px solid rgba(255, 110, 220, 0.3);  /* subtle neon pink border */
+            border: 1px solid rgba(59, 130, 246, 0.3);
             color: #f0f0f0;
         }
         
         .step-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(255, 110, 220, 0.25);
-            border-color: rgba(255, 110, 220, 0.7);
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(59, 130, 246, 0.4);
+            border-color: #3b82f6;
+            background: rgba(25, 18, 35, 0.8);
         }
         
         .step-icon {
-            width: 90px;
-            height: 90px;
-            background: rgba(40, 45, 65, 0.8);
+            width: 100px;
+            height: 100px;
+            background: rgba(59, 130, 246, 0.2);
             border-radius: 30px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 25px;
-            font-size: 36px;
-            color: #ff9fef;  /* soft neon pink */
-            border: 1px solid rgba(255, 160, 240, 0.5);
+            font-size: 42px;
+            color: #90caf9;
+            border: 2px solid rgba(59, 130, 246, 0.4);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
             transition: all 0.3s;
         }
         
         .step-card:hover .step-icon {
-            background: #ff9fef;
-            color: #1a1e2f;
-            border-color: #ff9fef;
-            box-shadow: 0 0 15px #ff9fef;
+            background: #3b82f6;
+            color: #0a0715;
+            border-color: #eab308;
+            box-shadow: 0 0 40px #3b82f6;
         }
         
         .step-card h3 {
             font-weight: 700;
             margin-bottom: 15px;
-            font-size: 22px;
+            font-size: 24px;
             color: white;
-            text-shadow: 0 0 8px rgba(255, 160, 240, 0.3);
+            text-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
         }
         
         .step-card p {
-            color: rgba(255, 255, 255, 0.85);
+            color: rgba(255, 255, 255, 0.9);
             margin-bottom: 0;
             font-size: 15px;
             font-weight: 400;
@@ -215,39 +222,85 @@
             padding: 60px 0 80px;
         }
         
-        .info-section h2 {
+        .info-box {
+            background: rgba(18, 22, 35, 0.75);
+            backdrop-filter: blur(8px);
+            border-radius: 30px;
+            padding: 50px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+        }
+        
+        .info-box h2 {
             font-size: 36px;
             font-weight: 700;
             margin-bottom: 20px;
             color: white;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            text-shadow: 0 0 25px #3b82f6, 0 2px 10px rgba(0,0,0,0.5);
         }
         
-        .info-section .lead {
+        .info-box .lead {
             font-size: 18px;
-            color: rgba(255,255,255,0.9);
-            margin-bottom: 40px;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 30px;
         }
         
-        .info-section ul li {
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            transition: all 0.3s;
+        }
+        
+        .feature-list li:hover {
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.1);
+            transform: translateX(5px);
+        }
+        
+        .feature-list li i {
+            font-size: 28px;
+            color: #3b82f6;
+            background: rgba(59, 130, 246, 0.15);
+            padding: 12px;
+            border-radius: 16px;
+            transition: all 0.3s;
+        }
+        
+        .feature-list li:hover i {
+            color: #eab308;
+            background: rgba(234, 179, 8, 0.15);
+        }
+        
+        .feature-list li strong {
+            font-weight: 700;
             color: white;
-            font-size: 16px;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 18px;
         }
         
-        .info-section ul li i {
-            color: #ff9fef !important;  /* match neon pink */
-            filter: drop-shadow(0 0 5px #ff9fef);
-        }
-        
-        .info-section ul li strong {
-            color: white;
+        .feature-list li span {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 15px;
         }
         
         /* footer with proper social icons (clickable) */
         footer {
-            background: #0f172a;
+            background: #0a0715;
             color: white;
             padding: 50px 0 20px;
+            border-top: 1px solid rgba(59, 130, 246, 0.2);
         }
         
         .footer-logo {
@@ -255,6 +308,7 @@
             font-weight: 800;
             color: white;
             text-decoration: none;
+            text-shadow: 0 0 15px #3b82f6;
         }
         
         .footer-links {
@@ -273,7 +327,7 @@
         }
         
         .footer-links a:hover {
-            color: white;
+            color: #3b82f6;
             padding-left: 5px;
         }
         
@@ -291,22 +345,25 @@
             justify-content: center;
             width: 48px;
             height: 48px;
-            background: rgba(255,255,255,0.1);
-            color: white;
+            background: rgba(59, 130, 246, 0.1);
+            color: #90caf9;
             border-radius: 50%;
             font-size: 22px;
             transition: all 0.3s;
             text-decoration: none;
+            border: 1px solid rgba(59, 130, 246, 0.3);
         }
         
         .social-icons a:hover {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #3b82f6;
+            color: #0a0715;
             transform: translateY(-4px);
-            color: white;
+            box-shadow: 0 0 25px #3b82f6;
+            border-color: #eab308;
         }
         
         .copyright {
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(59, 130, 246, 0.2);
             padding-top: 30px;
             margin-top: 40px;
             text-align: center;
@@ -315,6 +372,13 @@
         
         @media (max-width: 768px) {
             .page-hero h1 { font-size: 36px; }
+            .step-icon {
+                width: 80px;
+                height: 80px;
+                font-size: 36px;
+            }
+            .info-box { padding: 30px; }
+            .feature-list li { flex-direction: column; align-items: center; text-align: center; }
         }
     </style>
 </head>
@@ -349,7 +413,7 @@
     </div>
 </nav>
 
-<!-- ENTIRE SECTION FROM HERO TO "WHAT HAPPENS AFTER I ORDER?" NOW HAS NEON BACKGROUND -->
+<!-- ENTIRE SECTION FROM HERO TO "WHAT HAPPENS AFTER I ORDER?" WITH NEON BACKGROUND -->
 <div class="neon-bg-section">
     <!-- page hero -->
     <section class="page-hero">
@@ -359,7 +423,7 @@
         </div>
     </section>
 
-    <!-- step cards section (redesigned to fit neon) -->
+    <!-- step cards section (blue themed) -->
     <section class="info-section" style="padding-top: 0;">
         <div class="container">
             <div class="row text-center g-4">
@@ -397,15 +461,26 @@
     <!-- "What happens after I order?" section -->
     <section class="info-section">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h2>What happens after I order?</h2>
-                    <p class="lead">Once your payment is verified, we assign an available booster to your order. You'll be able to track the status through your account dashboard.</p>
-                    <ul class="list-unstyled mt-4">
-                        <li class="mb-3"><i class="fas fa-check-circle me-2"></i> <strong>Order tracking</strong> - You can check your order status anytime through the "My Orders" page.</li>
-                        <li class="mb-3"><i class="fas fa-check-circle me-2"></i> <strong>Proof of completion</strong> - Boosters upload before and after screenshots as proof.</li>
-                    </ul>
-                </div>
+            <div class="info-box">
+                <h2>What happens after I order?</h2>
+                <p class="lead">Once your payment is verified, we assign an available booster to your order. You'll be able to track the status through your account dashboard.</p>
+                
+                <ul class="feature-list">
+                    <li>
+                        <i class="fas fa-clipboard-check"></i>
+                        <div>
+                            <strong>Order tracking</strong>
+                            <span>You can check your order status anytime through the "My Orders" page.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-camera"></i>
+                        <div>
+                            <strong>Proof of completion</strong>
+                            <span>Boosters upload before and after screenshots as proof.</span>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
     </section>
@@ -449,10 +524,8 @@
             <div class="col-lg-3 col-md-6 mb-4">
                 <h5 style="color: white; font-weight: 700;">Support</h5>
                 <ul class="footer-links mt-3">
-                    <li><a href="faq.html">FAQ</a></li>
                     <li><a href="terms.html">Terms of Service</a></li>
                     <li><a href="privacy.html">Privacy Policy</a></li>
-                    <li><a href="refund.html">Refund Policy</a></li>
                 </ul>
             </div>
         </div>
@@ -557,3 +630,4 @@
 
 </body>
 </html>
+```

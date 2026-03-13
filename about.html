@@ -139,54 +139,11 @@
             margin-bottom: 40px;
         }
         
-        .values-section {
-            padding: 80px 0;
-            background: #f8fafc;
-        }
-        
-        .values-section h2 {
-            font-size: 36px;
-            font-weight: 700;
-            margin-bottom: 50px;
-            text-align: center;
-            color: #1e293b;
-        }
-        
-        .value-card {
-            text-align: center;
-            padding: 20px;
-        }
-        
-        .value-icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            color: white;
-            margin: 0 auto 25px;
-        }
-        
-        .value-card h4 {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: #1e293b;
-        }
-        
-        .value-card p {
-            color: #64748b;
-            font-size: 15px;
-            line-height: 1.6;
-            margin-bottom: 0;
-        }
-        
         .services-section {
             padding: 80px 0;
-            background: white;
+            background: #f8fafc;
+            border-top: 1px solid rgba(0,0,0,0.03);
+            border-bottom: 1px solid rgba(0,0,0,0.03);
         }
         
         .services-section h2 {
@@ -204,36 +161,6 @@
             line-height: 1.8;
             max-width: 900px;
             margin: 0 auto;
-        }
-        
-        .cta-section {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            color: white;
-            padding: 80px 0;
-            text-align: center;
-        }
-        
-        .cta-section h2 {
-            font-size: 40px;
-            font-weight: 800;
-            margin-bottom: 20px;
-        }
-        
-        .cta-section .btn-cta {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            font-weight: 700;
-            padding: 15px 45px;
-            border-radius: 50px;
-            font-size: 18px;
-            border: none;
-            margin-top: 30px;
-            transition: all 0.3s;
-        }
-        
-        .cta-section .btn-cta:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
         }
         
         footer {
@@ -275,17 +202,26 @@
             font-weight: 700;
         }
         
+        .social-icons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            margin-top: 20px;
+        }
+        
         .social-icons a {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             width: 40px;
             height: 40px;
             background: rgba(255,255,255,0.1);
             color: white;
             border-radius: 50%;
-            text-align: center;
-            line-height: 40px;
-            margin-right: 10px;
+            font-size: 18px;
             transition: all 0.3s;
+            text-decoration: none;
         }
         
         .social-icons a:hover {
@@ -303,8 +239,7 @@
         
         @media (max-width: 768px) {
             .page-hero h1 { font-size: 36px; }
-            .about-section h2, .services-section h2, .values-section h2 { font-size: 28px; }
-            .cta-section h2 { font-size: 32px; }
+            .about-section h2, .services-section h2 { font-size: 28px; }
         }
     </style>
 </head>
@@ -328,11 +263,10 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link btn-account dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-user-circle"></i> Account
+                        <i class="fas fa-user-circle"></i> <span id="accountText">Account</span>
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="LoginAndRegister.html?tab=login"><i class="fas fa-key"></i> Login</a></li>
-                        <li><a class="dropdown-item" href="LoginAndRegister.html?tab=register"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+                    <ul class="dropdown-menu dropdown-menu-end" id="accountDropdown">
+                        <!-- Will be populated by JavaScript -->
                     </ul>
                 </li>
             </ul>
@@ -362,56 +296,12 @@
     </div>
 </section>
 
-<section class="values-section">
-    <div class="container">
-        <h2>Our Core Values</h2>
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="value-card">
-                    <div class="value-icon">
-                        <i class="fas fa-lock"></i>
-                    </div>
-                    <h4>Security First</h4>
-                    <p>Your account safety is our top priority. We never ask for unnecessary information and treat your credentials with the utmost care.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="value-card">
-                    <div class="value-icon">
-                        <i class="fas fa-handshake"></i>
-                    </div>
-                    <h4>Transparency</h4>
-                    <p>No hidden fees, no bots, no shortcuts. We communicate clearly about our process and keep you updated every step of the way.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="value-card">
-                    <div class="value-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <h4>Community Focus</h4>
-                    <p>We're gamers helping gamers. We build lasting relationships with our clients and genuinely care about your success.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
 <section class="services-section">
     <div class="container">
         <h2>Our Services</h2>
         <div class="services-description">
             <p>We offer professional boosting services across multiple games including League of Legends (rank boosting, placement matches, and division climbs), Valorant (rank boosts from Iron to your desired rank with players specializing in all roles), and Roblox (level boosting, item farming, and achievement completion across popular games). All services are performed manually by our experienced players.</p>
         </div>
-    </div>
-</section>
-
-<section class="cta-section">
-    <div class="container">
-        <h2>Join Our Gaming Family</h2>
-        <p class="lead mb-4">Experience the difference of working with real gamers who care about your success.</p>
-        <a href="LoginAndRegister.html?tab=register" class="btn btn-cta">Start Your Journey</a>
-        <p class="mt-4" style="opacity: 0.7;"><i class="fas fa-shield-alt me-2"></i> 100% manual boosting · 24/7 support · Money-back guarantee</p>
     </div>
 </section>
 
@@ -423,23 +313,21 @@
                     <span>Carry</span>Connect
                 </a>
                 <p class="mt-3" style="color: rgba(255,255,255,0.7);">A small, passionate team of gamers offering manual boosting services. No bots, just skill.</p>
-                <div class="social-icons mt-4">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-discord"></i></a>
-                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/profile.php?id=61586466966459" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://x.com/CarryConnectGG" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="https://www.instagram.com/carryconnect.gg/" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://discord.gg/Yw25jFP54s" target="_blank"><i class="fab fa-discord"></i></a>
+                    <a href="https://www.tiktok.com/@carryconnect" target="_blank"><i class="fab fa-tiktok"></i></a>
                 </div>
             </div>
             <div class="col-lg-2 col-md-6 mb-4 offset-lg-1">
                 <h5 style="color: white; font-weight: 700;">Company</h5>
                 <ul class="footer-links mt-3">
                     <li><a href="about.html">About Us</a></li>
-                    <!-- Join the team and Blog removed as requested -->
                     <li><a href="contact.html">Contact</a></li>
                 </ul>
             </div>
-            <!-- Services section removed as requested -->
             <div class="col-lg-3 col-md-6 mb-4">
                 <h5 style="color: white; font-weight: 700;">Support</h5>
                 <ul class="footer-links mt-3">
@@ -455,7 +343,94 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+
+<!-- X icon fallback -->
+<script>
+    (function() {
+        window.addEventListener('load', function() {
+            document.querySelectorAll('.fa-x-twitter').forEach(function(xSpan) {
+                if (xSpan) {
+                    var before = window.getComputedStyle(xSpan, ':before');
+                    var content = before.getPropertyValue('content');
+                    if (!content || content === 'none' || content === '') {
+                        xSpan.className = 'fa-brands fa-twitter';
+                    }
+                }
+            });
+        });
+    })();
+</script>
+
+<script>
+    const SUPABASE_URL = 'https://aozhkwvoqnyktsgrdtnw.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvemhrd3ZvcW55a3RzZ3JkdG53Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MjU2NTA1NiwiZXhwIjoyMDg4MTQxMDU2fQ.lbr0-PCymnj241Vwso6yJYzch7HOJ5utB-pPsWpkABc';
+    
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    
+    function checkRememberedLogin() {
+        const remembered = localStorage.getItem('rememberedUser');
+        if (remembered && !sessionStorage.getItem('userId')) {
+            const user = JSON.parse(remembered);
+            sessionStorage.setItem('userId', user.userId);
+            sessionStorage.setItem('username', user.username);
+            sessionStorage.setItem('role', user.role);
+        }
+    }
+    
+    function updateNavbar() {
+        const dropdown = document.getElementById('accountDropdown');
+        const accountText = document.getElementById('accountText');
+        const userId = sessionStorage.getItem('userId');
+        const username = sessionStorage.getItem('username');
+        const role = sessionStorage.getItem('role');
+
+        if (userId) {
+            accountText.textContent = username;
+            
+            let menuItems = `
+                <li><a class="dropdown-item" href="Games.html"><i class="fas fa-gamepad"></i> Games</a></li>
+                <li><a class="dropdown-item" href="Orders.html"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
+            `;
+
+            if (role === 'booster') {
+                menuItems += `
+                    <li><a class="dropdown-item" href="Booster.html"><i class="fas fa-bolt"></i> Booster Dashboard</a></li>
+                `;
+            }
+
+            if (role === 'admin') {
+                menuItems += `
+                    <li><a class="dropdown-item" href="admin.html"><i class="fas fa-cog"></i> Admin Panel</a></li>
+                `;
+            }
+
+            menuItems += `
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            `;
+
+            dropdown.innerHTML = menuItems;
+        } else {
+            accountText.textContent = 'Account';
+            dropdown.innerHTML = `
+                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=login"><i class="fas fa-key"></i> Login</a></li>
+                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=register"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+            `;
+        }
+    }
+    
+    window.onload = function() {
+        checkRememberedLogin();
+        updateNavbar();
+    };
+    
+    function logout() {
+        sessionStorage.clear();
+        localStorage.removeItem('rememberedUser');
+        window.location.href = 'index.html';
+    }
+</script>
 
 </body>
 </html>
-

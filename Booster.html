@@ -633,10 +633,14 @@
         
         try {
             const userId = sessionStorage.getItem('userId');
+            if (!userId) {
+                alert('User not authenticated');
+                return;
+            }
             
-            // Upload before image
-            const beforeFileName = `before_${Date.now()}.${beforeFile.name.split('.').pop()}`;
-            const beforePath = `proofs/${orderId}/${beforeFileName}`;
+            // Upload before image - store in user's folder to match policy
+            const beforeFileName = `proof_${orderId}_before_${Date.now()}.${beforeFile.name.split('.').pop()}`;
+            const beforePath = `${userId}/${beforeFileName}`;
             
             const { error: beforeError } = await supabase
                 .storage
@@ -653,9 +657,9 @@
                 .from('proofs')
                 .getPublicUrl(beforePath);
             
-            // Upload after image
-            const afterFileName = `after_${Date.now()}.${afterFile.name.split('.').pop()}`;
-            const afterPath = `proofs/${orderId}/${afterFileName}`;
+            // Upload after image - store in user's folder to match policy
+            const afterFileName = `proof_${orderId}_after_${Date.now()}.${afterFile.name.split('.').pop()}`;
+            const afterPath = `${userId}/${afterFileName}`;
             
             const { error: afterError } = await supabase
                 .storage

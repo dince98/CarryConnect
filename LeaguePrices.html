@@ -21,26 +21,26 @@
             background: #0c0819;
         }
         
+        /* ===== ORIGINAL NAVBAR - UNTOUCHED ===== */
         .navbar {
-            background: linear-gradient(135deg, #141024 0%, #1e1830 100%) !important;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
             padding: 1rem 0;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
         
         .navbar-brand {
             font-size: 28px !important;
             font-weight: 800 !important;
-            color: #f0eaff !important;
+            color: white !important;
             letter-spacing: -0.5px;
-            text-shadow: 0 0 15px #a58be0, 0 0 30px rgba(165, 139, 224, 0.3);
         }
         
         .navbar-brand span {
-            color: #c3b2f0;
+            color: #3b82f6;
         }
         
         .nav-link {
-            color: rgba(240, 234, 255, 0.9) !important;
+            color: rgba(255,255,255,0.9) !important;
             font-weight: 600;
             margin: 0 5px;
             padding: 8px 16px !important;
@@ -49,37 +49,25 @@
         }
         
         .nav-link:hover {
-            background: rgba(165, 139, 224, 0.15);
-            color: #f0eaff !important;
+            background: rgba(59, 130, 246, 0.2);
+            color: white !important;
         }
         
         .nav-link.active {
-            background: #a58be0 !important;
-            color: #0c0819 !important;
-        }
-        
-        .btn-account {
-            border: 2px solid rgba(165, 139, 224, 0.3);
-            color: #f0eaff !important;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .btn-account:hover {
-            background: rgba(165, 139, 224, 0.15);
+            background: #3b82f6 !important;
+            color: white !important;
         }
         
         .dropdown-menu {
-            background: #1a1528;
-            border: 1px solid rgba(165, 139, 224, 0.3);
+            background: #1e293b;
+            border: 1px solid rgba(255,255,255,0.1);
             border-radius: 12px;
             padding: 8px;
             margin-top: 8px;
         }
         
         .dropdown-item {
-            color: rgba(240, 234, 255, 0.9);
+            color: rgba(255,255,255,0.9);
             font-weight: 600;
             padding: 10px 20px;
             border-radius: 8px;
@@ -87,18 +75,30 @@
         }
         
         .dropdown-item:hover {
-            background: #a58be0;
-            color: #0c0819;
+            background: #3b82f6;
+            color: white;
         }
         
         .dropdown-item i {
             width: 20px;
             margin-right: 10px;
-            color: #a58be0;
+            color: #3b82f6;
         }
         
         .dropdown-item:hover i {
-            color: #0c0819;
+            color: white;
+        }
+        
+        .btn-account {
+            border: 2px solid rgba(255,255,255,0.2);
+            color: white !important;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-account:hover {
+            background: rgba(59, 130, 246, 0.2);
         }
         
         /* ===== EMPYREAN KAYLE THEME - PEARL WHITE & SOFT BLUE ===== */
@@ -428,9 +428,13 @@
         .footer-logo {
             font-size: 28px;
             font-weight: 800;
-            color: #f0eaff;
+            color: white !important;
             text-decoration: none;
             text-shadow: 0 0 15px #a58be0;
+        }
+        
+        .footer-logo span {
+            color: #3b82f6 !important;
         }
         
         .footer-links {
@@ -892,35 +896,4 @@
                     'apikey': SUPABASE_KEY,
                     'Authorization': `Bearer ${SUPABASE_KEY}`,
                     'Content-Type': 'application/json',
-                    'Prefer': 'return=representation'
-                },
-                body: JSON.stringify(orderData)
-            });
-            
-            if (response.ok) {
-                const order = await response.json();
-                window.location.href = `Payment.html?order_id=${order[0].order_id}&game=${encodeURIComponent(gameName)}&service=${encodeURIComponent(serviceName)}&from=${encodeURIComponent(fromRank)}&to=${encodeURIComponent(toRank)}&price=${price}&game_id=${gameId}`;
-            } else {
-                const error = await response.json();
-                alert('❌ Error creating order: ' + (error.message || 'Unknown error'));
-            }
-        } catch (error) {
-            alert('❌ Error: ' + error.message);
-        }
-    }
-    
-    window.onload = function() {
-        checkRememberedLogin();
-        updateNavbar();
-    };
-    
-    function logout() {
-        sessionStorage.clear();
-        localStorage.removeItem('rememberedUser');
-        window.location.href = 'index.html';
-    }
-</script>
-
-</body>
-</html>
-
+                    'Prefer': 'return=

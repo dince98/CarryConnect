@@ -728,12 +728,15 @@
             
             // 1. Upload image to Supabase Storage
             const fileName = `receipt_${orderData.orderId}_${Date.now()}.${selectedFile.name.split('.').pop()}`;
-            const filePath = `${userId}/${fileName}`;
+            const filePath = `receipts/${orderData.orderId}/${fileName}`;
             
             const { data: uploadData, error: uploadError } = await supabase
                 .storage
                 .from('payment-receipts')
-                .upload(filePath, selectedFile);
+                .upload(filePath, selectedFile, {
+                    cacheControl: '3600',
+                    upsert: false
+                });
                 
             if (uploadError) throw uploadError;
             
@@ -751,7 +754,8 @@
                 amount: parseInt(orderData.price || 0),
                 receipt_url: urlData.publicUrl,
                 reference_number: referenceNum,
-                status: 'pending'
+                status: 'pending',
+                created_at: new Date().toISOString()
             };
             
             const { data, error } = await supabase

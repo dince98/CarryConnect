@@ -254,17 +254,20 @@
             color: #667eea;
         }
         
-        .receipt-link {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
+        .receipt-thumbnail {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s;
         }
         
-        .receipt-link:hover {
-            text-decoration: underline;
+        .receipt-thumbnail:hover {
+            transform: scale(1.1);
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102,126,234,0.3);
         }
         
         .account-info {
@@ -335,39 +338,46 @@
         
         .proof-images {
             display: flex;
-            gap: 15px;
+            gap: 20px;
             flex-wrap: wrap;
         }
         
         .proof-image-container {
             flex: 1;
             min-width: 150px;
+            text-align: center;
         }
         
         .proof-image-container p {
             font-size: 12px;
             color: #64748b;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            font-weight: 600;
         }
         
-        .proof-image {
+        .proof-thumbnail {
             width: 100%;
-            max-width: 200px;
-            border-radius: 10px;
-            border: 2px solid #e2e8f0;
+            max-width: 180px;
+            height: 120px;
+            border-radius: 12px;
+            object-fit: cover;
             cursor: pointer;
-            transition: transform 0.3s;
+            border: 3px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
         }
         
-        .proof-image:hover {
+        .proof-thumbnail:hover {
             transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border-color: #39b1e0;
+            box-shadow: 0 8px 25px rgba(57,177,224,0.3);
         }
         
         .proof-description {
             font-size: 12px;
             color: #64748b;
             margin-top: 10px;
+            font-style: italic;
         }
         
         .no-orders {
@@ -461,6 +471,47 @@
             border-color: transparent;
         }
         
+        /* Modal for image preview */
+        .modal-preview {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            padding-top: 50px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+        }
+        
+        .modal-content-preview {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+            animation: zoom 0.3s;
+        }
+        
+        @keyframes zoom {
+            from {transform: scale(0.1)} 
+            to {transform: scale(1)}
+        }
+        
+        .close-preview {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close-preview:hover {
+            color: #bbb;
+        }
+        
         footer {
             background: #0f172a;
             color: white;
@@ -520,6 +571,12 @@
     </style>
 </head>
 <body>
+
+<!-- Image Preview Modal -->
+<div id="imagePreviewModal" class="modal-preview" onclick="closeImagePreview()">
+    <span class="close-preview">&times;</span>
+    <img class="modal-content-preview" id="previewImage" onclick="event.stopPropagation()">
+</div>
 
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
@@ -630,6 +687,25 @@
     let proofsMap = {};
     let userRole = sessionStorage.getItem('role') || 'client';
     let userId = sessionStorage.getItem('userId');
+    
+    // Image preview function
+    function showImagePreview(imageUrl) {
+        const modal = document.getElementById('imagePreviewModal');
+        const previewImg = document.getElementById('previewImage');
+        previewImg.src = imageUrl;
+        modal.style.display = 'block';
+    }
+    
+    function closeImagePreview() {
+        document.getElementById('imagePreviewModal').style.display = 'none';
+    }
+    
+    // Close modal with ESC key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            closeImagePreview();
+        }
+    });
     
     function checkRememberedLogin() {
         const remembered = localStorage.getItem('rememberedUser');
@@ -822,20 +898,19 @@
                 <div class="proof-images">
                     ${beforeProof ? `
                         <div class="proof-image-container">
-                            <p>Before</p>
-                            <img src="${beforeProof.image_url}" class="proof-image" onclick="window.open('${beforeProof.image_url}', '_blank')">
+                            <p><i class="fas fa-camera"></i> Before</p>
+                            <img src="${beforeProof.image_url}" class="proof-thumbnail" onclick="showImagePreview('${beforeProof.image_url}')" title="Click to enlarge">
+                            ${beforeProof.description ? `<div class="proof-description">${beforeProof.description}</div>` : ''}
                         </div>
                     ` : ''}
                     ${afterProof ? `
                         <div class="proof-image-container">
-                            <p>After</p>
-                            <img src="${afterProof.image_url}" class="proof-image" onclick="window.open('${afterProof.image_url}', '_blank')">
+                            <p><i class="fas fa-camera"></i> After</p>
+                            <img src="${afterProof.image_url}" class="proof-thumbnail" onclick="showImagePreview('${afterProof.image_url}')" title="Click to enlarge">
+                            ${afterProof.description ? `<div class="proof-description">${afterProof.description}</div>` : ''}
                         </div>
                     ` : ''}
                 </div>
-                ${beforeProof?.description ? `
-                    <p class="proof-description"><i class="fas fa-comment"></i> ${beforeProof.description}</p>
-                ` : ''}
             </div>
         `;
     }
@@ -909,7 +984,7 @@
                                     <span>Password: 
                                         <span id="password-hidden-${order.order_id}" style="display: none;">${order.game_password}</span>
                                         <span id="password-${order.order_id}" class="password-hidden">••••••••</span>
-                                        <button onclick="togglePassword(${order.order_id}, '${order.game_password}')" class="btn-show">Show</button>
+                                        <button onclick="togglePassword(${order.order_id})" class="btn-show">Show</button>
                                     </span>
                                 </div>
                                 ${order.additional_info ? `
@@ -924,7 +999,7 @@
                     
                     ${payment ? `
                         <div class="payment-info">
-                            <h6>Payment Details</h6>
+                            <h6><i class="fas fa-credit-card"></i> Payment Details</h6>
                             <div class="payment-details">
                                 <div class="payment-detail">
                                     <i class="fas fa-${getPaymentIcon(payment.payment_method)}"></i>
@@ -937,7 +1012,7 @@
                                 ${payment.receipt_url ? `
                                     <div class="payment-detail">
                                         <i class="fas fa-image"></i>
-                                        <a href="${payment.receipt_url}" target="_blank" class="receipt-link">View Receipt</a>
+                                        <img src="${payment.receipt_url}" class="receipt-thumbnail" onclick="showImagePreview('${payment.receipt_url}')" title="Click to enlarge receipt">
                                     </div>
                                 ` : ''}
                                 <div class="payment-detail">
@@ -952,7 +1027,7 @@
                     
                     ${order.booster_id ? `
                         <div class="payment-info">
-                            <h6>Booster Information</h6>
+                            <h6><i class="fas fa-user"></i> Booster Information</h6>
                             <div class="payment-details">
                                 <div class="payment-detail">
                                     <i class="fas fa-user"></i>

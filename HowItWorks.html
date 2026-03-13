@@ -103,33 +103,38 @@
             background: rgba(59, 130, 246, 0.2);
         }
         
-        /* ========== PAGE HERO WITH NEON.PNG + DARK OVERLAY ========== */
-        .page-hero {
+        /* ========== FULL SECTION WITH NEON.PNG BACKGROUND ========== */
+        .neon-bg-section {
             position: relative;
-            color: white;
-            padding: 80px 0 100px;
             isolation: isolate;
-            text-align: center;
+            color: white;
         }
         
-        .page-hero::before {
+        .neon-bg-section::before {
             content: "";
             position: absolute;
             inset: 0;
             background: 
-                linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(15, 15, 30, 0.8) 100%),
-                url('neon.png') center center / cover no-repeat;
+                linear-gradient(135deg, rgba(0, 0, 0, 0.75) 0%, rgba(15, 15, 30, 0.85) 100%),
+                url('neon.png') center center / cover no-repeat fixed;
             opacity: 0.9;
             z-index: -2;
         }
         
-        .page-hero::after {
+        .neon-bg-section::after {
             content: "";
             position: absolute;
             inset: 0;
             background: radial-gradient(circle at 30% 40%, rgba(0,0,0,0.3) 0%, transparent 70%);
             pointer-events: none;
             z-index: -1;
+        }
+        /* ============================================================ */
+        
+        /* hero part inside neon section */
+        .page-hero {
+            padding: 80px 0 60px;
+            text-align: center;
         }
         
         .page-hero h1 {
@@ -145,74 +150,97 @@
             margin-bottom: 30px;
             text-shadow: 0 2px 10px rgba(0,0,0,0.8);
         }
-        /* ============================================================ */
         
+        /* ===== STEP CARDS REDESIGNED TO FIT NEON BACKGROUND ===== */
         .step-card {
-            background: white;
+            background: rgba(18, 22, 35, 0.75);  /* deep dark blue-black, semi-trans */
+            backdrop-filter: blur(8px);
             border-radius: 30px;
             padding: 30px 20px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            transition: all 0.3s;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
             height: 100%;
-            border: 1px solid rgba(255,255,255,0.3);
-            backdrop-filter: blur(4px);
-            position: relative;
-            overflow: hidden;
+            border: 1px solid rgba(255, 110, 220, 0.3);  /* subtle neon pink border */
+            color: #f0f0f0;
         }
         
         .step-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(102,126,234,0.15);
+            box-shadow: 0 20px 40px rgba(255, 110, 220, 0.25);
+            border-color: rgba(255, 110, 220, 0.7);
         }
         
         .step-icon {
             width: 90px;
             height: 90px;
-            background: linear-gradient(145deg, #f1f1f1, #e0e0e0);
+            background: rgba(40, 45, 65, 0.8);
             border-radius: 30px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 25px;
             font-size: 36px;
-            color: #667eea;
+            color: #ff9fef;  /* soft neon pink */
+            border: 1px solid rgba(255, 160, 240, 0.5);
             transition: all 0.3s;
         }
         
         .step-card:hover .step-icon {
-            background: linear-gradient(145deg, #667eea, #764ba2);
-            color: white;
+            background: #ff9fef;
+            color: #1a1e2f;
+            border-color: #ff9fef;
+            box-shadow: 0 0 15px #ff9fef;
         }
         
         .step-card h3 {
             font-weight: 700;
             margin-bottom: 15px;
             font-size: 22px;
+            color: white;
+            text-shadow: 0 0 8px rgba(255, 160, 240, 0.3);
         }
         
         .step-card p {
-            color: #64748b;
+            color: rgba(255, 255, 255, 0.85);
             margin-bottom: 0;
             font-size: 15px;
+            font-weight: 400;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.5);
         }
+        /* ======================================================== */
         
+        /* info section inside neon background */
         .info-section {
-            padding: 80px 0;
-            background: white;
+            padding: 60px 0 80px;
         }
         
         .info-section h2 {
             font-size: 36px;
             font-weight: 700;
             margin-bottom: 20px;
-            color: #1e293b;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
         
         .info-section .lead {
             font-size: 18px;
-            color: #64748b;
+            color: rgba(255,255,255,0.9);
             margin-bottom: 40px;
+        }
+        
+        .info-section ul li {
+            color: white;
+            font-size: 16px;
+        }
+        
+        .info-section ul li i {
+            color: #ff9fef !important;  /* match neon pink */
+            filter: drop-shadow(0 0 5px #ff9fef);
+        }
+        
+        .info-section ul li strong {
+            color: white;
         }
         
         /* footer with proper social icons (clickable) */
@@ -321,62 +349,68 @@
     </div>
 </nav>
 
-<!-- page hero with neon.png + dark overlay (exactly like index, but with neon) -->
-<section class="page-hero">
-    <div class="container position-relative">
-        <h1>How It Works</h1>
-        <p class="lead">Simple, straightforward process to get your account boosted.</p>
-    </div>
-</section>
+<!-- ENTIRE SECTION FROM HERO TO "WHAT HAPPENS AFTER I ORDER?" NOW HAS NEON BACKGROUND -->
+<div class="neon-bg-section">
+    <!-- page hero -->
+    <section class="page-hero">
+        <div class="container position-relative">
+            <h1>How It Works</h1>
+            <p class="lead">Simple, straightforward process to get your account boosted.</p>
+        </div>
+    </section>
 
-<section class="info-section">
-    <div class="container">
-        <div class="row text-center">
-            <div class="col-lg-4">
-                <div class="step-card">
-                    <div class="step-icon">
-                        <i class="fas fa-clipboard-list"></i>
+    <!-- step cards section (redesigned to fit neon) -->
+    <section class="info-section" style="padding-top: 0;">
+        <div class="container">
+            <div class="row text-center g-4">
+                <div class="col-lg-4">
+                    <div class="step-card">
+                        <div class="step-icon">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <h3>1. Choose Your Service</h3>
+                        <p>Select your game, current rank, and target rank. Place your order.</p>
                     </div>
-                    <h3>1. Choose Your Service</h3>
-                    <p>Select your game, current rank, and target rank. Place your order.</p>
                 </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="step-card">
-                    <div class="step-icon">
-                        <i class="fas fa-lock"></i>
+                <div class="col-lg-4">
+                    <div class="step-card">
+                        <div class="step-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <h3>2. Submit Payment</h3>
+                        <p>Upload proof of payment. After verification, you'll be asked for your game login details.</p>
                     </div>
-                    <h3>2. Submit Payment</h3>
-                    <p>Upload proof of payment. After verification, you'll be asked for your game login details.</p>
                 </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="step-card">
-                    <div class="step-icon">
-                        <i class="fas fa-trophy"></i>
+                <div class="col-lg-4">
+                    <div class="step-card">
+                        <div class="step-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <h3>3. Boost Complete</h3>
+                        <p>Booster completes your order. You can track progress and view proof in your dashboard.</p>
                     </div>
-                    <h3>3. Boost Complete</h3>
-                    <p>Booster completes your order. You can track progress and view proof in your dashboard.</p>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<section class="info-section bg-light">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <h2>What happens after I order?</h2>
-                <p class="lead">Once your payment is verified, we assign an available booster to your order. You'll be able to track the status through your account dashboard.</p>
-                <ul class="list-unstyled mt-4">
-                    <li class="mb-3"><i class="fas fa-check-circle text-success me-2"></i> <strong>Order tracking</strong> - You can check your order status anytime through the "My Orders" page.</li>
-                    <li class="mb-3"><i class="fas fa-check-circle text-success me-2"></i> <strong>Proof of completion</strong> - Boosters upload before and after screenshots as proof.</li>
-                </ul>
+    <!-- "What happens after I order?" section -->
+    <section class="info-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>What happens after I order?</h2>
+                    <p class="lead">Once your payment is verified, we assign an available booster to your order. You'll be able to track the status through your account dashboard.</p>
+                    <ul class="list-unstyled mt-4">
+                        <li class="mb-3"><i class="fas fa-check-circle me-2"></i> <strong>Order tracking</strong> - You can check your order status anytime through the "My Orders" page.</li>
+                        <li class="mb-3"><i class="fas fa-check-circle me-2"></i> <strong>Proof of completion</strong> - Boosters upload before and after screenshots as proof.</li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+</div>
+<!-- end of neon background section -->
 
 <footer>
     <div class="container">

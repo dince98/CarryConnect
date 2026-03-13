@@ -3,44 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>How It Works · CarryConnect Boosting</title>
+    <title>CarryConnect · Game Boosting</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome 6 (primary) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Font Awesome 5 fallback -->
+    <!-- Font Awesome 5 fallback for older browsers -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
-    
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Poppins', 'Segoe UI', sans-serif;
             background: #f8fafc;
             color: #1e293b;
         }
-        
+
         .navbar {
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
             padding: 1rem 0;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
-        
+
         .navbar-brand {
             font-size: 28px !important;
             font-weight: 800 !important;
             color: white !important;
             letter-spacing: -0.5px;
         }
-        
+
         .navbar-brand span {
             color: #3b82f6;
         }
-        
+
         .nav-link {
             color: rgba(255,255,255,0.9) !important;
             font-weight: 600;
@@ -49,17 +48,17 @@
             border-radius: 8px;
             transition: all 0.3s;
         }
-        
+
         .nav-link:hover {
             background: rgba(59, 130, 246, 0.2);
             color: white !important;
         }
-        
+
         .nav-link.active {
             background: #3b82f6 !important;
             color: white !important;
         }
-        
+
         .dropdown-menu {
             background: #1e293b;
             border: 1px solid rgba(255,255,255,0.1);
@@ -67,7 +66,7 @@
             padding: 8px;
             margin-top: 8px;
         }
-        
+
         .dropdown-item {
             color: rgba(255,255,255,0.9);
             font-weight: 600;
@@ -75,22 +74,22 @@
             border-radius: 8px;
             transition: all 0.3s;
         }
-        
+
         .dropdown-item:hover {
             background: #3b82f6;
             color: white;
         }
-        
+
         .dropdown-item i {
             width: 20px;
             margin-right: 10px;
             color: #3b82f6;
         }
-        
+
         .dropdown-item:hover i {
             color: white;
         }
-        
+
         .btn-account {
             border: 2px solid rgba(255,255,255,0.2);
             color: white !important;
@@ -98,185 +97,223 @@
             align-items: center;
             gap: 8px;
         }
-        
+
         .btn-account:hover {
             background: rgba(59, 130, 246, 0.2);
         }
-        
-        /* ========== FULL SECTION WITH NEON.PNG BACKGROUND ========== */
-        .neon-bg-section {
+
+        /* ========== FULL COVER BACKGROUND FROM TOP THROUGH PILLARS ========== */
+        .full-bg-section {
             position: relative;
             isolation: isolate;
             color: white;
         }
-        
-        .neon-bg-section::before {
+
+        .full-bg-section::before {
             content: "";
             position: absolute;
             inset: 0;
             background: 
                 linear-gradient(135deg, rgba(0, 0, 0, 0.75) 0%, rgba(15, 15, 30, 0.85) 100%),
-                url('neon.png') center center / cover no-repeat fixed;
-            opacity: 0.9;
+                url('hero-bg.png') center center / cover no-repeat fixed;
+            opacity: 0.95;
             z-index: -2;
         }
-        
-        .neon-bg-section::after {
+
+        .full-bg-section::after {
             content: "";
             position: absolute;
             inset: 0;
-            background: radial-gradient(circle at 30% 40%, rgba(0,0,0,0.3) 0%, transparent 70%);
+            background: radial-gradient(circle at 30% 40%, rgba(255, 110, 220, 0.15) 0%, transparent 70%);
             pointer-events: none;
             z-index: -1;
         }
-        /* ============================================================ */
-        
-        /* hero part inside neon section */
-        .page-hero {
-            padding: 80px 0 60px;
+        /* ================================================================ */
+
+        /* Hero part (inside full bg) */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
             text-align: center;
+            color: white;
         }
-        
-        .page-hero h1 {
+
+        .hero h1 {
             font-size: 52px;
             font-weight: 800;
             margin-bottom: 20px;
-            text-shadow: 2px 4px 20px rgba(0,0,0,0.7);
+            text-shadow: 0 0 20px rgba(255, 110, 220, 0.5), 2px 4px 20px rgba(0,0,0,0.7);
         }
-        
-        .page-hero p {
+
+        .hero p {
             font-size: 20px;
+            max-width: 600px;
+            margin: 0 auto;
             opacity: 0.95;
-            margin-bottom: 30px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+            text-shadow: 0 0 15px rgba(255, 110, 220, 0.4), 0 2px 10px rgba(0,0,0,0.8);
         }
-        
-        /* ===== STEP CARDS REDESIGNED TO FIT NEON BACKGROUND ===== */
-        .step-card {
-            background: rgba(18, 22, 35, 0.75);  /* deep dark blue-black, semi-trans */
+
+        /* intro section (inside full bg) - with fancy box */
+        .intro {
+            padding: 80px 0 40px;
+            text-align: center;
+        }
+
+        .fancy-box {
+            background: rgba(18, 22, 35, 0.7);
+            backdrop-filter: blur(8px);
+            border-radius: 40px;
+            padding: 50px 40px;
+            border: 1px solid rgba(255, 110, 220, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .fancy-box h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: white;
+            text-shadow: 0 0 15px rgba(255, 110, 220, 0.5);
+        }
+
+        .fancy-box p {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.95);
+            line-height: 1.8;
+            margin-bottom: 0;
+        }
+
+        /* ===== TRUST PILLARS (LIGHTER, INSIDE FULL BG) ===== */
+        .trust-strip {
+            padding: 50px 0 80px;
+        }
+
+        .trust-item {
+            text-align: center;
+            padding: 30px 25px;
+            background: rgba(255, 255, 255, 0.12);  /* lighter, more transparent */
             backdrop-filter: blur(8px);
             border-radius: 30px;
-            padding: 30px 20px;
-            text-align: center;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             transition: all 0.3s ease;
             height: 100%;
-            border: 1px solid rgba(255, 110, 220, 0.3);  /* subtle neon pink border */
-            color: #f0f0f0;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
         }
-        
-        .step-card:hover {
+
+        .trust-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 110, 220, 0.4);
             transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(255, 110, 220, 0.25);
-            border-color: rgba(255, 110, 220, 0.7);
         }
-        
-        .step-icon {
-            width: 90px;
-            height: 90px;
-            background: rgba(40, 45, 65, 0.8);
-            border-radius: 30px;
+
+        .trust-item .trust-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 25px;
-            font-size: 36px;
-            color: #ff9fef;  /* soft neon pink */
-            border: 1px solid rgba(255, 160, 240, 0.5);
+            font-size: 32px;
+            color: #ffb8f0;  /* soft neon pink */
+            border: 1px solid rgba(255, 110, 220, 0.5);
             transition: all 0.3s;
         }
-        
-        .step-card:hover .step-icon {
-            background: #ff9fef;
+
+        .trust-item:hover .trust-icon {
+            background: #ffb8f0;
             color: #1a1e2f;
-            border-color: #ff9fef;
-            box-shadow: 0 0 15px #ff9fef;
+            border-color: #ffb8f0;
+            box-shadow: 0 0 20px #ffb8f0;
         }
-        
-        .step-card h3 {
+
+        .trust-item h4 {
+            font-size: 20px;
             font-weight: 700;
-            margin-bottom: 15px;
-            font-size: 22px;
+            margin-bottom: 12px;
             color: white;
-            text-shadow: 0 0 8px rgba(255, 160, 240, 0.3);
+            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
         }
-        
-        .step-card p {
-            color: rgba(255, 255, 255, 0.85);
-            margin-bottom: 0;
+
+        .trust-item p {
+            color: rgba(255, 255, 255, 0.9);
             font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 0;
             font-weight: 400;
-            text-shadow: 0 1px 4px rgba(0,0,0,0.5);
         }
-        /* ======================================================== */
-        
-        /* info section inside neon background */
-        .info-section {
-            padding: 60px 0 80px;
+        /* ================================================== */
+
+        .cta-section {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
         }
-        
-        .info-section h2 {
-            font-size: 36px;
-            font-weight: 700;
+
+        .cta-section h2 {
+            font-size: 40px;
+            font-weight: 800;
             margin-bottom: 20px;
-            color: white;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
-        
-        .info-section .lead {
+
+        .cta-section .btn-cta {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 700;
+            padding: 15px 45px;
+            border-radius: 50px;
             font-size: 18px;
-            color: rgba(255,255,255,0.9);
-            margin-bottom: 40px;
+            border: none;
+            margin-top: 30px;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
         }
-        
-        .info-section ul li {
-            color: white;
-            font-size: 16px;
+
+        .cta-section .btn-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102,126,234,0.4);
         }
-        
-        .info-section ul li i {
-            color: #ff9fef !important;  /* match neon pink */
-            filter: drop-shadow(0 0 5px #ff9fef);
-        }
-        
-        .info-section ul li strong {
-            color: white;
-        }
-        
-        /* footer with proper social icons (clickable) */
+
         footer {
             background: #0f172a;
             color: white;
             padding: 50px 0 20px;
         }
-        
+
         .footer-logo {
             font-size: 28px;
             font-weight: 800;
             color: white;
             text-decoration: none;
         }
-        
+
         .footer-links {
             list-style: none;
             padding: 0;
         }
-        
+
         .footer-links li {
             margin-bottom: 12px;
         }
-        
+
         .footer-links a {
             color: rgba(255,255,255,0.7);
             text-decoration: none;
             transition: all 0.3s;
         }
-        
+
         .footer-links a:hover {
             color: white;
             padding-left: 5px;
         }
-        
+
         .social-icons {
             display: flex;
             flex-wrap: wrap;
@@ -284,7 +321,7 @@
             align-items: center;
             margin-top: 20px;
         }
-        
+
         .social-icons a {
             display: inline-flex;
             align-items: center;
@@ -298,13 +335,13 @@
             transition: all 0.3s;
             text-decoration: none;
         }
-        
+
         .social-icons a:hover {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             transform: translateY(-4px);
             color: white;
         }
-        
+
         .copyright {
             border-top: 1px solid rgba(255,255,255,0.1);
             padding-top: 30px;
@@ -312,9 +349,11 @@
             text-align: center;
             color: rgba(255,255,255,0.5);
         }
-        
+
         @media (max-width: 768px) {
-            .page-hero h1 { font-size: 36px; }
+            .hero h1 { font-size: 36px; }
+            .fancy-box h2 { font-size: 28px; }
+            .fancy-box { padding: 30px 20px; }
         }
     </style>
 </head>
@@ -331,146 +370,149 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html">Home</a>
+                    <a class="nav-link active" href="index.html">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="HowItWorks.html">How It Works</a>
+                    <a class="nav-link" href="HowItWorks.html">How It Works</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link btn-account dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-user-circle"></i> <span id="accountText">Account</span>
+                    <a class="nav-link btn-account dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-user-circle"></i>
+                        <span id="accountText">Account</span>
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end" id="accountDropdown">
-                        <!-- Will be populated by JavaScript -->
-                    </ul>
+                    <ul class="dropdown-menu dropdown-menu-end" id="accountDropdown"></ul>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
 
-<!-- ENTIRE SECTION FROM HERO TO "WHAT HAPPENS AFTER I ORDER?" NOW HAS NEON BACKGROUND -->
-<div class="neon-bg-section">
-    <!-- page hero -->
-    <section class="page-hero">
-        <div class="container position-relative">
-            <h1>How It Works</h1>
-            <p class="lead">Simple, straightforward process to get your account boosted.</p>
+<!-- FULL BACKGROUND SECTION: from hero through pillars -->
+<div class="full-bg-section">
+    <!-- Hero part -->
+    <section class="hero">
+        <div class="container">
+            <h1>Level Up Your Game</h1>
+            <p class="lead">Boosting services by skilled gamers. Achieve your dream rank safely and efficiently.</p>
         </div>
     </section>
 
-    <!-- step cards section (redesigned to fit neon) -->
-    <section class="info-section" style="padding-top: 0;">
+    <!-- Intro section with fancy box -->
+    <section class="intro">
         <div class="container">
-            <div class="row text-center g-4">
-                <div class="col-lg-4">
-                    <div class="step-card">
-                        <div class="step-icon">
-                            <i class="fas fa-clipboard-list"></i>
-                        </div>
-                        <h3>1. Choose Your Service</h3>
-                        <p>Select your game, current rank, and target rank. Place your order.</p>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="step-card">
-                        <div class="step-icon">
-                            <i class="fas fa-lock"></i>
-                        </div>
-                        <h3>2. Submit Payment</h3>
-                        <p>Upload proof of payment. After verification, you'll be asked for your game login details.</p>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="step-card">
-                        <div class="step-icon">
-                            <i class="fas fa-trophy"></i>
-                        </div>
-                        <h3>3. Boost Complete</h3>
-                        <p>Booster completes your order. You can track progress and view proof in your dashboard.</p>
-                    </div>
-                </div>
+            <div class="fancy-box">
+                <h2>Why Choose CarryConnect?</h2>
+                <p>We're gamers helping gamers. Our team of skilled players provides manual boosting services for popular competitive games. No bots, no scripts—just pure skill and dedication.</p>
             </div>
         </div>
     </section>
 
-    <!-- "What happens after I order?" section -->
-    <section class="info-section">
+    <!-- trust pillars (now inside full bg, lighter design) -->
+    <section class="trust-strip">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h2>What happens after I order?</h2>
-                    <p class="lead">Once your payment is verified, we assign an available booster to your order. You'll be able to track the status through your account dashboard.</p>
-                    <ul class="list-unstyled mt-4">
-                        <li class="mb-3"><i class="fas fa-check-circle me-2"></i> <strong>Order tracking</strong> - You can check your order status anytime through the "My Orders" page.</li>
-                        <li class="mb-3"><i class="fas fa-check-circle me-2"></i> <strong>Proof of completion</strong> - Boosters upload before and after screenshots as proof.</li>
-                    </ul>
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-3 col-md-6">
+                    <div class="trust-item">
+                        <div class="trust-icon"><i class="fas fa-user-check"></i></div>
+                        <h4>100% manual</h4>
+                        <p>Every game played by our players — no cheats, just raw skill.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="trust-item">
+                        <div class="trust-icon"><i class="fas fa-rocket"></i></div>
+                        <h4>fast & transparent</h4>
+                        <p>We keep you in the loop. Average completion? we'll update you daily.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="trust-item">
+                        <div class="trust-icon"><i class="fas fa-comment-dots"></i></div>
+                        <h4>live support</h4>
+                        <p>in our social media accounts.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="trust-item">
+                        <div class="trust-icon"><i class="fas fa-shield-alt"></i></div>
+                        <h4>account safety</h4>
+                        <p>Your account stays safe.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 </div>
-<!-- end of neon background section -->
+<!-- End of full background section -->
+
+<section class="cta-section">
+    <div class="container">
+        <h2>Ready to climb the ranks?</h2>
+        <p class="lead mb-4">Get your dream rank now.</p>
+        <a href="LoginAndRegister.html?tab=register" class="btn btn-cta">Get Started Now</a>
+    </div>
+</section>
 
 <footer>
     <div class="container">
         <div class="row">
             <div class="col-lg-4 mb-4">
-                <a href="index.html" class="footer-logo">
-                    <span>Carry</span>Connect
-                </a>
-                <p class="mt-3" style="color: rgba(255,255,255,0.7);">A small team of gamers offering manual boosting services. No bots, just skill.</p>
-                <!-- SOCIAL ICONS with all required links (clickable) -->
+                <a href="index.html" class="footer-logo"><span>Carry</span>Connect</a>
+                <p class="mt-3" style="color: rgba(255,255,255,0.7);">
+                    A small, passionate team of gamers offering manual boosting services. No bots, just skill.
+                </p>
                 <div class="social-icons">
-                    <a href="https://x.com/CarryConnectGG" target="_blank" rel="noopener noreferrer">
+                    <a href="https://x.com/CarryConnectGG" target="_blank">
                         <span class="fa-brands fa-x-twitter"></span>
                     </a>
-                    <a href="https://www.tiktok.com/@carryconnect" target="_blank" rel="noopener noreferrer">
+                    <a href="https://www.tiktok.com/@carryconnect" target="_blank">
                         <i class="fa-brands fa-tiktok"></i>
                     </a>
-                    <a href="https://www.instagram.com/carryconnect.gg/" target="_blank" rel="noopener noreferrer">
+                    <a href="https://www.instagram.com/carryconnect.gg/" target="_blank">
                         <i class="fa-brands fa-instagram"></i>
                     </a>
-                    <a href="https://discord.gg/Yw25jFP54s" target="_blank" rel="noopener noreferrer">
+                    <a href="https://discord.gg/Yw25jFP54s" target="_blank">
                         <i class="fa-brands fa-discord"></i>
                     </a>
-                    <a href="https://www.facebook.com/profile.php?id=61586466966459" target="_blank" rel="noopener noreferrer">
+                    <a href="https://www.facebook.com/profile.php?id=61586466966459" target="_blank">
                         <i class="fa-brands fa-facebook-f"></i>
                     </a>
                 </div>
             </div>
             <div class="col-lg-2 col-md-6 mb-4 offset-lg-1">
-                <h5 style="color: white; font-weight: 700;">Company</h5>
+                <h5 style="color:white;font-weight:700;">Company</h5>
                 <ul class="footer-links mt-3">
                     <li><a href="about.html">About Us</a></li>
                     <li><a href="contact.html">Contact</a></li>
                 </ul>
             </div>
             <div class="col-lg-3 col-md-6 mb-4">
-                <h5 style="color: white; font-weight: 700;">Support</h5>
+                <h5 style="color:white;font-weight:700;">Support</h5>
                 <ul class="footer-links mt-3">
                     <li><a href="faq.html">FAQ</a></li>
                     <li><a href="terms.html">Terms of Service</a></li>
                     <li><a href="privacy.html">Privacy Policy</a></li>
                     <li><a href="refund.html">Refund Policy</a></li>
+                    <li><a href="contact.html">Contact Support</a></li>
                 </ul>
             </div>
         </div>
         <div class="copyright">
-            <p class="mb-0">&copy; 2026 CarryConnect. An indie boosting collective. All game trademarks belong to their respective owners.</p>
+            <p class="mb-0">
+                © 2026 CarryConnect. An indie boosting collective. All game trademarks belong to their respective owners.
+            </p>
         </div>
     </div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
 
-<!-- X icon fallback script (ensures bird shows if x-twitter fails) -->
 <script>
     (function() {
         window.addEventListener('load', function() {
             var xLink = document.querySelector('a[href="https://x.com/CarryConnectGG"]');
             if (!xLink) return;
+            
             var xSpan = xLink.querySelector('.fa-x-twitter');
             if (xSpan) {
                 var before = window.getComputedStyle(xSpan, ':before');
@@ -486,55 +528,11 @@
 </script>
 
 <script>
-    const SUPABASE_URL = 'https://aozhkwvoqnyktsgrdtnw.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvemhrd3ZvcW55a3RzZ3JkdG53Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MjU2NTA1NiwiZXhwIjoyMDg4MTQxMDU2fQ.lbr0-PCymnj241Vwso6yJYzch7HOJ5utB-pPsWpkABc';
-    
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-    
-    function checkRememberedLogin() {
-        const remembered = localStorage.getItem('rememberedUser');
-        if (remembered && !sessionStorage.getItem('userId')) {
-            const user = JSON.parse(remembered);
-            sessionStorage.setItem('userId', user.userId);
-            sessionStorage.setItem('username', user.username);
-            sessionStorage.setItem('role', user.role);
-        }
-    }
-    
     function updateNavbar() {
         const dropdown = document.getElementById('accountDropdown');
         const accountText = document.getElementById('accountText');
         const userId = sessionStorage.getItem('userId');
-        const username = sessionStorage.getItem('username');
-        const role = sessionStorage.getItem('role');
-
-        if (userId) {
-            accountText.textContent = username;
-            
-            let menuItems = `
-                <li><a class="dropdown-item" href="Games.html"><i class="fas fa-gamepad"></i> Games</a></li>
-                <li><a class="dropdown-item" href="Orders.html"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
-            `;
-
-            if (role === 'booster') {
-                menuItems += `
-                    <li><a class="dropdown-item" href="Booster.html"><i class="fas fa-bolt"></i> Booster Dashboard</a></li>
-                `;
-            }
-
-            if (role === 'admin') {
-                menuItems += `
-                    <li><a class="dropdown-item" href="admin.html"><i class="fas fa-cog"></i> Admin Panel</a></li>
-                `;
-            }
-
-            menuItems += `
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-            `;
-
-            dropdown.innerHTML = menuItems;
-        } else {
+        if (!userId) {
             accountText.textContent = 'Account';
             dropdown.innerHTML = `
                 <li><a class="dropdown-item" href="LoginAndRegister.html?tab=login"><i class="fas fa-key"></i> Login</a></li>
@@ -542,17 +540,7 @@
             `;
         }
     }
-    
-    window.onload = function() {
-        checkRememberedLogin();
-        updateNavbar();
-    };
-    
-    function logout() {
-        sessionStorage.clear();
-        localStorage.removeItem('rememberedUser');
-        window.location.href = 'index.html';
-    }
+    window.onload = updateNavbar;
 </script>
 
 </body>

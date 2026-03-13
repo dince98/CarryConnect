@@ -45,11 +45,17 @@
             margin: 0 5px;
             padding: 8px 16px !important;
             border-radius: 8px;
+            transition: all 0.3s;
         }
         
         .nav-link:hover {
             background: rgba(165, 139, 224, 0.15);
             color: #f0eaff !important;
+        }
+        
+        .nav-link.active {
+            background: #a58be0 !important;
+            color: #0c0819 !important;
         }
         
         .btn-account {
@@ -171,6 +177,11 @@
             text-decoration: none;
             border: 2px solid;
             backdrop-filter: blur(5px);
+        }
+        
+        .btn-back:hover {
+            background: rgba(165, 139, 224, 0.3);
+            transform: translateX(-5px);
         }
         
         .section-header {
@@ -377,6 +388,7 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6);
+            cursor: pointer;
         }
         
         .btn-order:hover {
@@ -433,10 +445,12 @@
         .footer-links a {
             color: rgba(240, 234, 255, 0.7);
             text-decoration: none;
+            transition: all 0.3s;
         }
         
         .footer-links a:hover {
             color: #a58be0;
+            padding-left: 5px;
         }
         
         .social-icons {
@@ -748,6 +762,7 @@
                     <li><a href="terms.html">Terms</a></li>
                     <li><a href="privacy.html">Privacy</a></li>
                     <li><a href="refund.html">Refund</a></li>
+                    <li><a href="contact.html">Contact Support</a></li>
                 </ul>
             </div>
         </div>
@@ -885,4 +900,29 @@
                 body: JSON.stringify(orderData)
             });
             
-            if (response.ok
+            if (response.ok) {
+                const order = await response.json();
+                window.location.href = `Payment.html?order_id=${order[0].order_id}&game=${encodeURIComponent(gameName)}&service=${encodeURIComponent(serviceName)}&from=${encodeURIComponent(fromRank)}&to=${encodeURIComponent(toRank)}&price=${price}&game_id=${gameId}`;
+            } else {
+                const error = await response.json();
+                alert('❌ Error creating order: ' + (error.message || 'Unknown error'));
+            }
+        } catch (error) {
+            alert('❌ Error: ' + error.message);
+        }
+    }
+    
+    window.onload = function() {
+        checkRememberedLogin();
+        updateNavbar();
+    };
+    
+    function logout() {
+        sessionStorage.clear();
+        localStorage.removeItem('rememberedUser');
+        window.location.href = 'index.html';
+    }
+</script>
+
+</body>
+</html>

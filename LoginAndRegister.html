@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login & Register · CarryConnect</title>
+    <title>CarryConnect · Login & Register</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome 6 + fallback -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Add bcrypt library -->
+    <!-- Add bcrypt for password hashing -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bcryptjs/2.4.3/bcrypt.min.js"></script>
     
     <style>
@@ -19,126 +21,167 @@
         }
         
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
         }
         
-        .auth-container {
-            max-width: 500px;
-            width: 100%;
-            background: white;
-            border-radius: 30px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            overflow: hidden;
-            animation: slideUp 0.5s ease;
+        .navbar {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
+            padding: 1rem 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
         
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .navbar-brand {
+            font-size: 28px !important;
+            font-weight: 800 !important;
+            color: white !important;
+            letter-spacing: -0.5px;
         }
         
-        .auth-header {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            color: white;
-            padding: 40px 30px;
-            text-align: center;
-        }
-        
-        .auth-header h1 {
-            font-size: 32px;
-            font-weight: 800;
-            margin-bottom: 10px;
-        }
-        
-        .auth-header h1 span {
+        .navbar-brand span {
             color: #3b82f6;
         }
         
-        .auth-header p {
-            opacity: 0.9;
-            font-size: 16px;
+        .nav-link {
+            color: rgba(255,255,255,0.9) !important;
+            font-weight: 600;
+            margin: 0 5px;
+            padding: 8px 16px !important;
+            border-radius: 8px;
+            transition: all 0.3s;
         }
         
+        .nav-link:hover {
+            background: rgba(59, 130, 246, 0.2);
+            color: white !important;
+        }
+        
+        .nav-link.active {
+            background: #3b82f6 !important;
+            color: white !important;
+        }
+        
+        .dropdown-menu {
+            background: #1e293b;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 8px;
+            margin-top: 8px;
+        }
+        
+        .dropdown-item {
+            color: rgba(255,255,255,0.9);
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .dropdown-item:hover {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .dropdown-item i {
+            width: 20px;
+            margin-right: 10px;
+            color: #3b82f6;
+        }
+        
+        .dropdown-item:hover i {
+            color: white;
+        }
+        
+        .btn-account {
+            border: 2px solid rgba(255,255,255,0.2);
+            color: white !important;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-account:hover {
+            background: rgba(59, 130, 246, 0.2);
+        }
+        
+        /* ===== FULL PAGE AUTH BACKGROUND WITH VIPER.PNG ===== */
+        .auth-page {
+            background: 
+                linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(20, 10, 30, 0.6) 100%),
+                url('viper.png') center center / cover no-repeat fixed;
+            min-height: calc(100vh - 76px - 140px); /* fill space between navbar and footer */
+            display: flex;
+            align-items: center;
+            padding: 40px 0;
+        }
+        
+        .auth-card {
+            border: none;
+            border-radius: 30px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(6px);
+            padding: 30px 25px;
+            width: 100%;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        /* keep the tabs and forms readable on light background */
         .auth-tabs {
             display: flex;
             border-bottom: 2px solid #eef2f6;
+            margin-bottom: 25px;
         }
         
         .auth-tab {
             flex: 1;
             text-align: center;
-            padding: 20px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
+            padding: 15px 0;
+            font-weight: 700;
+            font-size: 18px;
             color: #64748b;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
         }
         
         .auth-tab.active {
             color: #667eea;
             border-bottom: 3px solid #667eea;
-            background: linear-gradient(to bottom, rgba(102,126,234,0.05), transparent);
         }
         
         .auth-tab i {
             margin-right: 8px;
         }
         
-        .auth-body {
-            padding: 40px 30px;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 8px;
-            display: block;
-            font-size: 14px;
-        }
-        
-        .input-group {
-            position: relative;
-        }
-        
-        .input-icon {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #94a3b8;
-            z-index: 10;
-        }
-        
         .form-control {
-            width: 100%;
-            padding: 15px 15px 15px 45px;
-            border: 2px solid #e2e8f0;
-            border-radius: 15px;
+            border-radius: 16px;
+            border: 1.5px solid #e2e8f0;
+            padding: 12px 18px;
             font-family: 'Poppins', sans-serif;
-            font-size: 14px;
             transition: all 0.3s;
         }
         
         .form-control:focus {
             border-color: #667eea;
-            outline: none;
             box-shadow: 0 0 0 4px rgba(102,126,234,0.1);
+        }
+        
+        /* Validation styles (keeping your design, just adding borders) */
+        .form-control.is-invalid {
+            border-color: #dc3545;
+            background-image: none;
+        }
+        
+        .form-control.is-valid {
+            border-color: #28a745;
+            background-image: none;
+        }
+        
+        /* Password toggle button (new but matches your design) */
+        .password-wrapper {
+            position: relative;
         }
         
         .password-toggle {
@@ -146,8 +189,8 @@
             right: 15px;
             top: 50%;
             transform: translateY(-50%);
-            color: #94a3b8;
             cursor: pointer;
+            color: #64748b;
             z-index: 10;
         }
         
@@ -155,533 +198,763 @@
             color: #667eea;
         }
         
-        .btn-auth {
+        /* Validation messages (minimal, matches your design) */
+        .validation-feedback {
+            font-size: 12px;
+            margin-top: 5px;
+            color: #64748b;
+        }
+        
+        .validation-feedback small {
+            display: block;
+            margin-bottom: 2px;
+        }
+        
+        .validation-feedback i {
+            margin-right: 5px;
+            width: 14px;
+        }
+        
+        .text-success {
+            color: #28a745 !important;
+        }
+        
+        .text-danger {
+            color: #dc3545 !important;
+        }
+        
+        /* Strength bar (subtle, matches your design) */
+        .password-strength {
+            height: 4px;
+            border-radius: 2px;
+            background: #e2e8f0;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+        
+        .strength-bar {
+            height: 100%;
+            width: 0;
+            transition: all 0.3s;
+        }
+        
+        .strength-bar.weak {
+            width: 25%;
+            background: #dc3545;
+        }
+        
+        .strength-bar.medium {
+            width: 50%;
+            background: #ffc107;
+        }
+        
+        .strength-bar.strong {
+            width: 75%;
+            background: #28a745;
+        }
+        
+        .strength-bar.very-strong {
             width: 100%;
-            padding: 15px;
+            background: #20c997;
+        }
+        
+        /* Tooltip styling (minimal, matches your design) */
+        .tooltip-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 12px;
+            padding: 12px 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border-left: 4px solid #667eea;
+            z-index: 9999;
+            animation: slideIn 0.3s ease;
+            font-size: 14px;
+        }
+        
+        .tooltip-message.error {
+            border-left-color: #dc3545;
+        }
+        
+        .tooltip-message.success {
+            border-left-color: #28a745;
+        }
+        
+        .tooltip-message.warning {
+            border-left-color: #ffc107;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .btn-auth {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            border: none;
-            border-radius: 15px;
             font-weight: 700;
-            font-size: 16px;
-            cursor: pointer;
+            padding: 14px 20px;
+            border-radius: 50px;
+            font-size: 18px;
+            border: none;
+            width: 100%;
             transition: all 0.3s;
-            margin-top: 20px;
         }
         
         .btn-auth:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(102,126,234,0.4);
+            box-shadow: 0 12px 30px rgba(102,126,234,0.4);
         }
         
         .btn-auth:disabled {
-            opacity: 0.7;
+            opacity: 0.6;
             cursor: not-allowed;
             transform: none;
         }
         
-        .alert {
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            display: none;
-        }
-        
-        .alert-error {
-            background: #fee2e2;
-            border: 1px solid #fecaca;
-            color: #dc2626;
-        }
-        
-        .alert-success {
-            background: #d1fae5;
-            border: 1px solid #a7f3d0;
-            color: #059669;
-        }
-        
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 20px 0;
-        }
-        
-        .checkbox-group input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            accent-color: #667eea;
-        }
-        
-        .checkbox-group label {
-            color: #64748b;
-            font-size: 14px;
-        }
-        
-        .back-link {
+        .auth-footer {
             text-align: center;
-            margin-top: 20px;
-        }
-        
-        .back-link a {
+            margin-top: 25px;
             color: #64748b;
-            text-decoration: none;
-            font-size: 14px;
-            transition: color 0.3s;
         }
         
-        .back-link a:hover {
+        .auth-footer a {
+            color: #667eea;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        /* =================================================== */
+        
+        footer {
+            background: #0f172a;
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+        }
+        
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .footer-logo span {
             color: #667eea;
         }
         
-        .back-link i {
-            margin-right: 5px;
+        .copyright {
+            margin-top: 20px;
+            color: rgba(255,255,255,0.5);
+            font-size: 14px;
         }
         
-        .password-strength {
-            margin-top: 8px;
-            font-size: 12px;
-        }
-        
-        .strength-bar {
-            height: 4px;
-            background: #e2e8f0;
-            border-radius: 2px;
-            margin-top: 5px;
-        }
-        
-        .strength-bar-fill {
-            height: 100%;
-            border-radius: 2px;
-            transition: all 0.3s;
-            width: 0;
-        }
-        
-        .strength-weak {
-            background: #ef4444;
-        }
-        
-        .strength-medium {
-            background: #f59e0b;
-        }
-        
-        .strength-strong {
-            background: #10b981;
+        @media (max-width: 768px) {
+            .auth-card { padding: 20px 15px; }
         }
     </style>
 </head>
 <body>
-    <div class="auth-container">
-        <div class="auth-header">
-            <h1><span>Carry</span>Connect</h1>
-            <p>Your trusted gaming boost service</p>
+
+<!-- Tooltip Container -->
+<div id="tooltipContainer"></div>
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+        <a class="navbar-brand" href="index.html">
+            <span>Carry</span>Connect
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="HowItWorks.html">How It Works</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link btn-account dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user-circle"></i> <span id="accountText">Account</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" id="accountDropdown">
+                        <!-- Will be populated by JavaScript -->
+                    </ul>
+                </li>
+            </ul>
         </div>
-        
-        <div class="auth-tabs">
-            <div class="auth-tab active" id="loginTab" onclick="switchTab('login')">
-                <i class="fas fa-key"></i> Login
-            </div>
-            <div class="auth-tab" id="registerTab" onclick="switchTab('register')">
-                <i class="fas fa-user-plus"></i> Register
-            </div>
-        </div>
-        
-        <div class="auth-body">
-            <!-- Alert Message -->
-            <div id="alertMessage" class="alert"></div>
-            
-            <!-- Login Form -->
-            <div id="loginForm">
-                <form onsubmit="handleLogin(event)">
-                    <div class="form-group">
-                        <label>Email</label>
-                        <div class="input-group">
-                            <i class="fas fa-envelope input-icon"></i>
-                            <input type="email" class="form-control" id="loginEmail" placeholder="Enter your email" required>
+    </div>
+</nav>
+
+<!-- Entire auth section with viper.png background (replaces blue/white) -->
+<div class="auth-page">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8">
+                <div class="auth-card">
+                    
+                    <div class="auth-tabs">
+                        <div class="auth-tab active" id="loginTabBtn" onclick="switchTab('login')">
+                            <i class="fas fa-key"></i> Login
+                        </div>
+                        <div class="auth-tab" id="registerTabBtn" onclick="switchTab('register')">
+                            <i class="fas fa-user-plus"></i> Sign Up
                         </div>
                     </div>
-                    
-                    <div class="form-group">
-                        <label>Password</label>
-                        <div class="input-group">
-                            <i class="fas fa-lock input-icon"></i>
-                            <input type="password" class="form-control" id="loginPassword" placeholder="Enter your password" required>
-                            <i class="fas fa-eye password-toggle" onclick="togglePassword('loginPassword')"></i>
-                        </div>
-                    </div>
-                    
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="rememberMe">
-                        <label for="rememberMe">Remember me</label>
-                    </div>
-                    
-                    <button type="submit" class="btn-auth" id="loginBtn">
-                        <i class="fas fa-sign-in-alt me-2"></i> Login
-                    </button>
-                </form>
-            </div>
-            
-            <!-- Register Form -->
-            <div id="registerForm" style="display: none;">
-                <form onsubmit="handleRegister(event)">
-                    <div class="form-group">
-                        <label>Username</label>
-                        <div class="input-group">
-                            <i class="fas fa-user input-icon"></i>
-                            <input type="text" class="form-control" id="regUsername" placeholder="Choose a username" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Email</label>
-                        <div class="input-group">
-                            <i class="fas fa-envelope input-icon"></i>
-                            <input type="email" class="form-control" id="regEmail" placeholder="Enter your email" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Password</label>
-                        <div class="input-group">
-                            <i class="fas fa-lock input-icon"></i>
-                            <input type="password" class="form-control" id="regPassword" placeholder="Choose a password" required onkeyup="checkPasswordStrength()">
-                            <i class="fas fa-eye password-toggle" onclick="togglePassword('regPassword')"></i>
-                        </div>
-                        <div class="password-strength" id="passwordStrength">
-                            <div class="strength-bar">
-                                <div class="strength-bar-fill" id="strengthBar"></div>
+
+                    <!-- LOGIN FORM -->
+                    <div id="loginForm" class="tab-pane" style="display: block;">
+                        <form id="loginFormElement">
+                            <div class="mb-3">
+                                <label class="form-label">Username or Email</label>
+                                <input type="text" class="form-control" id="loginUsername" placeholder="your@email.com or username" required>
                             </div>
-                            <span id="strengthText"></span>
+                            <div class="mb-3">
+                                <label class="form-label">Password</label>
+                                <div class="password-wrapper">
+                                    <input type="password" class="form-control" id="loginPassword" placeholder="••••••••" required>
+                                    <i class="fas fa-eye password-toggle" onclick="togglePassword('loginPassword')"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4"></div>
+                            
+                            <button type="submit" class="btn btn-auth" id="loginBtn">Log in</button>
+                        </form>
+                        <div class="auth-footer">
+                            New here? <a href="#" onclick="switchTab('register'); return false;">Create an account</a>
                         </div>
                     </div>
-                    
-                    <div class="form-group">
-                        <label>Confirm Password</label>
-                        <div class="input-group">
-                            <i class="fas fa-lock input-icon"></i>
-                            <input type="password" class="form-control" id="regConfirmPassword" placeholder="Confirm your password" required>
-                            <i class="fas fa-eye password-toggle" onclick="togglePassword('regConfirmPassword')"></i>
+
+                    <!-- REGISTER FORM -->
+                    <div id="registerForm" class="tab-pane" style="display: none;">
+                        <form id="registerFormElement">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">First name</label>
+                                    <input type="text" class="form-control" id="regFirstName" placeholder="John" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Last name</label>
+                                    <input type="text" class="form-control" id="regLastName" placeholder="Doe" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" id="regEmail" placeholder="you@example.com" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Username <small class="text-muted">(letters only, no numbers/symbols)</small></label>
+                                <input type="text" class="form-control" id="regUsername" placeholder="carrymaster" required>
+                                <div class="validation-feedback" id="usernameFeedback"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Password</label>
+                                <div class="password-wrapper">
+                                    <input type="password" class="form-control" id="regPassword" placeholder="Create a password" required>
+                                    <i class="fas fa-eye password-toggle" onclick="togglePassword('regPassword')"></i>
+                                </div>
+                                <div class="password-strength">
+                                    <div class="strength-bar" id="strengthBar"></div>
+                                </div>
+                                <div class="validation-feedback" id="passwordFeedback">
+                                    <small class="text-muted"><i class="fas fa-circle" id="reqLength"></i> Min. 8 characters</small>
+                                    <small class="text-muted"><i class="fas fa-circle" id="reqLower"></i> Lowercase letter</small>
+                                    <small class="text-muted"><i class="fas fa-circle" id="reqUpper"></i> Uppercase letter</small>
+                                    <small class="text-muted"><i class="fas fa-circle" id="reqNumber"></i> Number</small>
+                                    <small class="text-muted"><i class="fas fa-circle" id="reqSymbol"></i> Symbol (!@#$%^&*)</small>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Confirm password</label>
+                                <div class="password-wrapper">
+                                    <input type="password" class="form-control" id="regConfirmPassword" placeholder="Re-enter password" required>
+                                    <i class="fas fa-eye password-toggle" onclick="togglePassword('regConfirmPassword')"></i>
+                                </div>
+                                <div class="validation-feedback" id="confirmPasswordFeedback"></div>
+                            </div>
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" id="agreeTerms" required>
+                                <label class="form-check-label text-muted">
+                                    I agree to the <a href="terms.html" style="color: #667eea;">Terms</a>
+                                </label>
+                            </div>
+                            <button type="submit" class="btn btn-auth" id="registerBtn" disabled>Sign up</button>
+                        </form>
+                        <div class="auth-footer">
+                            Already have an account? <a href="#" onclick="switchTab('login'); return false;">Sign in</a>
                         </div>
                     </div>
-                    
-                    <div class="form-group">
-                        <label>First Name (Optional)</label>
-                        <div class="input-group">
-                            <i class="fas fa-id-card input-icon"></i>
-                            <input type="text" class="form-control" id="regFirstName" placeholder="Enter your first name">
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Last Name (Optional)</label>
-                        <div class="input-group">
-                            <i class="fas fa-id-card input-icon"></i>
-                            <input type="text" class="form-control" id="regLastName" placeholder="Enter your last name">
-                        </div>
-                    </div>
-                    
-                    <button type="submit" class="btn-auth" id="registerBtn">
-                        <i class="fas fa-user-plus me-2"></i> Create Account
-                    </button>
-                </form>
-            </div>
-            
-            <div class="back-link">
-                <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Home</a>
+                </div>
             </div>
         </div>
     </div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+<footer>
+    <div class="container">
+        <a href="index.html" class="footer-logo">
+            <span>Carry</span>Connect
+        </a>
+        <div class="copyright">
+            <p>© 2026 CarryConnect · An indie boosting collective</p>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+<script>
+    const SUPABASE_URL = 'https://aozhkwvoqnyktsgrdtnw.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvemhrd3ZvcW55a3RzZ3JkdG53Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MjU2NTA1NiwiZXhwIjoyMDg4MTQxMDU2fQ.lbr0-PCymnj241Vwso6yJYzch7HOJ5utB-pPsWpkABc';
     
-    <script>
-        // Supabase configuration
-        const SUPABASE_URL = 'https://aozhkwvoqnyktsgrdtnw.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvemhrd3ZvcW55a3RzZ3JkdG53Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MjU2NTA1NiwiZXhwIjoyMDg4MTQxMDU2fQ.lbr0-PCymnj241Vwso6yJYzch7HOJ5utB-pPsWpkABc';
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    
+    // ========== HELPER FUNCTIONS ==========
+    
+    // Show tooltip notification
+    function showTooltip(message, type = 'error') {
+        const container = document.getElementById('tooltipContainer');
+        const tooltipId = 'tooltip-' + Date.now();
         
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        const icon = type === 'error' ? 'fa-exclamation-circle' : 
+                    type === 'success' ? 'fa-check-circle' : 
+                    'fa-exclamation-triangle';
         
-        // Check URL parameters for tab
-        window.onload = function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const tab = urlParams.get('tab');
-            if (tab === 'register') {
-                switchTab('register');
-            } else {
-                switchTab('login');
-            }
-            
-            // Check for remembered login
-            const remembered = localStorage.getItem('rememberedUser');
-            if (remembered) {
-                const user = JSON.parse(remembered);
-                document.getElementById('loginEmail').value = user.email || '';
-                document.getElementById('rememberMe').checked = true;
-            }
-        };
+        const html = `
+            <div id="${tooltipId}" class="tooltip-message ${type}">
+                <i class="fas ${icon}"></i> ${message}
+            </div>
+        `;
         
-        // Switch between login and register tabs
-        function switchTab(tab) {
-            const loginTab = document.getElementById('loginTab');
-            const registerTab = document.getElementById('registerTab');
-            const loginForm = document.getElementById('loginForm');
-            const registerForm = document.getElementById('registerForm');
-            
-            if (tab === 'login') {
-                loginTab.classList.add('active');
-                registerTab.classList.remove('active');
-                loginForm.style.display = 'block';
-                registerForm.style.display = 'none';
-            } else {
-                registerTab.classList.add('active');
-                loginTab.classList.remove('active');
-                registerForm.style.display = 'block';
-                loginForm.style.display = 'none';
-            }
+        container.insertAdjacentHTML('beforeend', html);
+        
+        setTimeout(() => {
+            const tooltip = document.getElementById(tooltipId);
+            if (tooltip) tooltip.remove();
+        }, 5000);
+    }
+    
+    // Toggle password visibility
+    function togglePassword(inputId) {
+        const input = document.getElementById(inputId);
+        const icon = input.nextElementSibling;
+        
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
+    
+    // ========== VALIDATION FUNCTIONS ==========
+    
+    // Validate username (letters only)
+    function validateUsername() {
+        const username = document.getElementById('regUsername').value;
+        const usernameInput = document.getElementById('regUsername');
+        const feedback = document.getElementById('usernameFeedback');
+        
+        const lettersOnlyRegex = /^[A-Za-z]+$/;
+        
+        if (username.length === 0) {
+            usernameInput.classList.remove('is-valid', 'is-invalid');
+            feedback.innerHTML = '';
+            return false;
         }
         
-        // Toggle password visibility
-        function togglePassword(inputId) {
-            const input = document.getElementById(inputId);
-            const icon = input.nextElementSibling;
-            
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-            } else {
-                input.type = 'password';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
-            }
+        if (!lettersOnlyRegex.test(username)) {
+            usernameInput.classList.add('is-invalid');
+            usernameInput.classList.remove('is-valid');
+            feedback.innerHTML = '<small class="text-danger"><i class="fas fa-times-circle"></i> Letters only, no numbers or symbols</small>';
+            return false;
+        } else {
+            usernameInput.classList.add('is-valid');
+            usernameInput.classList.remove('is-invalid');
+            feedback.innerHTML = '<small class="text-success"><i class="fas fa-check-circle"></i> Username available</small>';
+            return true;
+        }
+    }
+    
+    // Validate email format
+    function validateEmail() {
+        const email = document.getElementById('regEmail').value;
+        const emailInput = document.getElementById('regEmail');
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        
+        if (email.length === 0) {
+            emailInput.classList.remove('is-valid', 'is-invalid');
+            return false;
         }
         
-        // Show alert message
-        function showAlert(message, type) {
-            const alert = document.getElementById('alertMessage');
-            alert.textContent = message;
-            alert.className = `alert alert-${type}`;
-            alert.style.display = 'block';
-            
-            // Auto hide after 5 seconds
-            setTimeout(() => {
-                alert.style.display = 'none';
-            }, 5000);
+        if (!emailRegex.test(email)) {
+            emailInput.classList.add('is-invalid');
+            emailInput.classList.remove('is-valid');
+            return false;
+        } else {
+            emailInput.classList.add('is-valid');
+            emailInput.classList.remove('is-invalid');
+            return true;
+        }
+    }
+    
+    // Validate password with all requirements
+    function validatePassword() {
+        const password = document.getElementById('regPassword').value;
+        const strengthBar = document.getElementById('strengthBar');
+        
+        // Requirements
+        const hasLength = password.length >= 8;
+        const hasLower = /[a-z]/.test(password);
+        const hasUpper = /[A-Z]/.test(password);
+        const hasNumber = /[0-9]/.test(password);
+        const hasSymbol = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+        
+        // Update requirement icons
+        updateRequirementIcon('reqLength', hasLength);
+        updateRequirementIcon('reqLower', hasLower);
+        updateRequirementIcon('reqUpper', hasUpper);
+        updateRequirementIcon('reqNumber', hasNumber);
+        updateRequirementIcon('reqSymbol', hasSymbol);
+        
+        // Calculate strength
+        const requirements = [hasLength, hasLower, hasUpper, hasNumber, hasSymbol];
+        const strengthCount = requirements.filter(Boolean).length;
+        
+        // Update strength bar
+        strengthBar.className = 'strength-bar';
+        if (strengthCount <= 2) {
+            strengthBar.classList.add('weak');
+        } else if (strengthCount === 3) {
+            strengthBar.classList.add('medium');
+        } else if (strengthCount === 4) {
+            strengthBar.classList.add('strong');
+        } else if (strengthCount === 5) {
+            strengthBar.classList.add('very-strong');
         }
         
-        // Check password strength
-        function checkPasswordStrength() {
-            const password = document.getElementById('regPassword').value;
-            const strengthBar = document.getElementById('strengthBar');
-            const strengthText = document.getElementById('strengthText');
-            
-            let strength = 0;
-            let message = '';
-            
-            if (password.length >= 8) strength++;
-            if (password.match(/[a-z]+/)) strength++;
-            if (password.match(/[A-Z]+/)) strength++;
-            if (password.match(/[0-9]+/)) strength++;
-            if (password.match(/[$@#&!]+/)) strength++;
-            
-            switch(strength) {
-                case 0:
-                case 1:
-                    strengthBar.style.width = '20%';
-                    strengthBar.className = 'strength-bar-fill strength-weak';
-                    strengthText.textContent = 'Weak password';
-                    break;
-                case 2:
-                case 3:
-                    strengthBar.style.width = '60%';
-                    strengthBar.className = 'strength-bar-fill strength-medium';
-                    strengthText.textContent = 'Medium password';
-                    break;
-                case 4:
-                case 5:
-                    strengthBar.style.width = '100%';
-                    strengthBar.className = 'strength-bar-fill strength-strong';
-                    strengthText.textContent = 'Strong password';
-                    break;
-            }
+        return hasLength && hasLower && hasUpper && hasNumber && hasSymbol;
+    }
+    
+    // Update requirement icon
+    function updateRequirementIcon(elementId, isValid) {
+        const element = document.getElementById(elementId);
+        const icon = element.querySelector('i');
+        
+        if (isValid) {
+            icon.classList.remove('fa-circle', 'text-muted');
+            icon.classList.add('fa-check-circle', 'text-success');
+        } else {
+            icon.classList.remove('fa-check-circle', 'text-success');
+            icon.classList.add('fa-circle', 'text-muted');
+        }
+    }
+    
+    // Validate confirm password
+    function validateConfirmPassword() {
+        const password = document.getElementById('regPassword').value;
+        const confirmPassword = document.getElementById('regConfirmPassword').value;
+        const confirmInput = document.getElementById('regConfirmPassword');
+        const feedback = document.getElementById('confirmPasswordFeedback');
+        
+        if (confirmPassword.length === 0) {
+            confirmInput.classList.remove('is-valid', 'is-invalid');
+            feedback.innerHTML = '';
+            return false;
         }
         
-        // Handle Login
-        async function handleLogin(event) {
-            event.preventDefault();
-            
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            const rememberMe = document.getElementById('rememberMe').checked;
-            
-            const loginBtn = document.getElementById('loginBtn');
-            loginBtn.disabled = true;
-            loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Logging in...';
-            
-            try {
-                // Query user by email
-                const { data: users, error } = await supabase
-                    .from('users')
-                    .select('*')
-                    .eq('email', email)
-                    .single();
-                
-                if (error) {
-                    if (error.code === 'PGRST116') {
-                        throw new Error('User not found');
-                    }
-                    throw error;
-                }
-                
-                if (!users) {
-                    throw new Error('User not found');
-                }
-                
-                // Verify password using bcrypt
-                const isValid = await bcrypt.compare(password, users.password_hash);
-                
-                if (!isValid) {
-                    throw new Error('Invalid password');
-                }
-                
-                // Update last login
-                await supabase
-                    .from('users')
-                    .update({ last_login: new Date().toISOString() })
-                    .eq('user_id', users.user_id);
-                
-                // Store session
-                sessionStorage.setItem('userId', users.user_id);
-                sessionStorage.setItem('username', users.username);
-                sessionStorage.setItem('role', users.role);
-                
-                // Handle remember me
-                if (rememberMe) {
-                    localStorage.setItem('rememberedUser', JSON.stringify({
-                        userId: users.user_id,
-                        username: users.username,
-                        role: users.role,
-                        email: email
-                    }));
-                } else {
-                    localStorage.removeItem('rememberedUser');
-                }
-                
-                showAlert('Login successful! Redirecting...', 'success');
-                
-                // Redirect based on role
-                setTimeout(() => {
-                    if (users.role === 'admin') {
-                        window.location.href = 'admin.html';
-                    } else if (users.role === 'booster') {
-                        window.location.href = 'Booster.html';
-                    } else {
-                        window.location.href = 'Games.html';
-                    }
-                }, 1500);
-                
-            } catch (error) {
-                console.error('Login error:', error);
-                showAlert(error.message, 'error');
-                loginBtn.disabled = false;
-                loginBtn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i> Login';
-            }
+        if (password !== confirmPassword) {
+            confirmInput.classList.add('is-invalid');
+            confirmInput.classList.remove('is-valid');
+            feedback.innerHTML = '<small class="text-danger"><i class="fas fa-times-circle"></i> Passwords do not match</small>';
+            return false;
+        } else {
+            confirmInput.classList.add('is-valid');
+            confirmInput.classList.remove('is-invalid');
+            feedback.innerHTML = '<small class="text-success"><i class="fas fa-check-circle"></i> Passwords match</small>';
+            return true;
+        }
+    }
+    
+    // Check if register button should be enabled
+    function checkRegisterButton() {
+        const isUsernameValid = validateUsername();
+        const isEmailValid = validateEmail();
+        const isPasswordValid = validatePassword();
+        const isConfirmValid = validateConfirmPassword();
+        const isTermsChecked = document.getElementById('agreeTerms').checked;
+        
+        const registerBtn = document.getElementById('registerBtn');
+        
+        if (isUsernameValid && isEmailValid && isPasswordValid && isConfirmValid && isTermsChecked) {
+            registerBtn.disabled = false;
+        } else {
+            registerBtn.disabled = true;
+        }
+    }
+    
+    // ========== AUTH FUNCTIONS ==========
+    
+    async function handleRegister(event) {
+        event.preventDefault();
+        
+        // Final validation
+        if (!validateUsername() || !validateEmail() || !validatePassword() || !validateConfirmPassword()) {
+            showTooltip('Please fix all errors before submitting', 'error');
+            return;
         }
         
-        // Handle Register
-        async function handleRegister(event) {
-            event.preventDefault();
-            
+        const registerBtn = document.getElementById('registerBtn');
+        registerBtn.disabled = true;
+        registerBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating account...';
+        
+        try {
             const username = document.getElementById('regUsername').value;
             const email = document.getElementById('regEmail').value;
             const password = document.getElementById('regPassword').value;
-            const confirmPassword = document.getElementById('regConfirmPassword').value;
             const firstName = document.getElementById('regFirstName').value;
             const lastName = document.getElementById('regLastName').value;
             
-            // Validate passwords match
-            if (password !== confirmPassword) {
-                showAlert('Passwords do not match', 'error');
-                return;
-            }
+            // Check if username exists
+            const { data: existingUser } = await supabase
+                .from('users')
+                .select('username')
+                .eq('username', username)
+                .single();
             
-            // Validate password strength
-            if (password.length < 6) {
-                showAlert('Password must be at least 6 characters', 'error');
-                return;
-            }
-            
-            const registerBtn = document.getElementById('registerBtn');
-            registerBtn.disabled = true;
-            registerBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Creating account...';
-            
-            try {
-                // Check if username exists
-                const { data: existingUsername } = await supabase
-                    .from('users')
-                    .select('username')
-                    .eq('username', username)
-                    .single();
-                
-                if (existingUsername) {
-                    throw new Error('Username already taken');
-                }
-                
-                // Check if email exists
-                const { data: existingEmail } = await supabase
-                    .from('users')
-                    .select('email')
-                    .eq('email', email)
-                    .single();
-                
-                if (existingEmail) {
-                    throw new Error('Email already registered');
-                }
-                
-                // Hash password with bcrypt
-                const saltRounds = 10;
-                const hashedPassword = await bcrypt.hash(password, saltRounds);
-                
-                // Insert new user with hashed password
-                const { data: newUser, error: insertError } = await supabase
-                    .from('users')
-                    .insert([{
-                        username: username,
-                        email: email,
-                        password_hash: hashedPassword,  // ✅ Store the hash!
-                        first_name: firstName || null,
-                        last_name: lastName || null,
-                        role: 'client',
-                        created_at: new Date().toISOString()
-                    }])
-                    .select()
-                    .single();
-                
-                if (insertError) throw insertError;
-                
-                showAlert('Registration successful! Please login.', 'success');
-                
-                // Clear form and switch to login tab
-                setTimeout(() => {
-                    switchTab('login');
-                    document.getElementById('regUsername').value = '';
-                    document.getElementById('regEmail').value = '';
-                    document.getElementById('regPassword').value = '';
-                    document.getElementById('regConfirmPassword').value = '';
-                    document.getElementById('regFirstName').value = '';
-                    document.getElementById('regLastName').value = '';
-                    registerBtn.disabled = false;
-                    registerBtn.innerHTML = '<i class="fas fa-user-plus me-2"></i> Create Account';
-                }, 2000);
-                
-            } catch (error) {
-                console.error('Registration error:', error);
-                showAlert(error.message, 'error');
+            if (existingUser) {
+                showTooltip('Username already taken', 'error');
                 registerBtn.disabled = false;
-                registerBtn.innerHTML = '<i class="fas fa-user-plus me-2"></i> Create Account';
+                registerBtn.innerHTML = 'Sign up';
+                return;
             }
+            
+            // Check if email exists
+            const { data: existingEmail } = await supabase
+                .from('users')
+                .select('email')
+                .eq('email', email)
+                .single();
+            
+            if (existingEmail) {
+                showTooltip('Email already registered', 'error');
+                registerBtn.disabled = false;
+                registerBtn.innerHTML = 'Sign up';
+                return;
+            }
+            
+            // Hash password
+            const saltRounds = 10;
+            const hashedPassword = await bcrypt.hash(password, saltRounds);
+            
+            // Create user with hashed password
+            const { data, error } = await supabase
+                .from('users')
+                .insert([{
+                    username: username,
+                    email: email,
+                    password_hash: hashedPassword,
+                    first_name: firstName,
+                    last_name: lastName,
+                    role: 'client'
+                }]);
+            
+            if (error) throw error;
+            
+            showTooltip('Registration successful! Please login.', 'success');
+            
+            // Clear form and switch to login
+            setTimeout(() => {
+                switchTab('login');
+                document.getElementById('registerFormElement').reset();
+                registerBtn.disabled = true;
+                registerBtn.innerHTML = 'Sign up';
+            }, 2000);
+            
+        } catch (error) {
+            console.error('Registration error:', error);
+            showTooltip('Registration failed: ' + error.message, 'error');
+            registerBtn.disabled = false;
+            registerBtn.innerHTML = 'Sign up';
         }
-    </script>
+    }
+    
+    async function handleLogin(event) {
+        event.preventDefault();
+        
+        const loginInput = document.getElementById('loginUsername').value;
+        const password = document.getElementById('loginPassword').value;
+        const loginBtn = document.getElementById('loginBtn');
+        
+        loginBtn.disabled = true;
+        loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+        
+        try {
+            // Check if input is email or username
+            const isEmail = loginInput.includes('@');
+            
+            let query;
+            if (isEmail) {
+                query = supabase.from('users').select('*').eq('email', loginInput);
+            } else {
+                query = supabase.from('users').select('*').eq('username', loginInput);
+            }
+            
+            const { data: users, error } = await query.single();
+            
+            if (error || !users) {
+                showTooltip('User not found', 'error');
+                loginBtn.disabled = false;
+                loginBtn.innerHTML = 'Log in';
+                return;
+            }
+            
+            // Verify password with bcrypt
+            const isValid = await bcrypt.compare(password, users.password_hash);
+            
+            if (!isValid) {
+                showTooltip('Invalid password', 'error');
+                loginBtn.disabled = false;
+                loginBtn.innerHTML = 'Log in';
+                return;
+            }
+            
+            showTooltip('Login successful! Redirecting...', 'success');
+            
+            // Store session
+            sessionStorage.setItem('userId', users.user_id);
+            sessionStorage.setItem('username', users.username);
+            sessionStorage.setItem('role', users.role);
+            
+            // Redirect based on role
+            setTimeout(() => {
+                if (users.role === 'admin') {
+                    window.location.href = 'admin.html';
+                } else if (users.role === 'booster') {
+                    window.location.href = 'Booster.html';
+                } else {
+                    window.location.href = 'Games.html';
+                }
+            }, 1500);
+            
+        } catch (error) {
+            console.error('Login error:', error);
+            showTooltip('Login failed: ' + error.message, 'error');
+            loginBtn.disabled = false;
+            loginBtn.innerHTML = 'Log in';
+        }
+    }
+    
+    function switchTab(tab) {
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const loginTab = document.getElementById('loginTabBtn');
+        const registerTab = document.getElementById('registerTabBtn');
+        
+        if (tab === 'login') {
+            loginForm.style.display = 'block';
+            registerForm.style.display = 'none';
+            loginTab.classList.add('active');
+            registerTab.classList.remove('active');
+        } else {
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'block';
+            registerTab.classList.add('active');
+            loginTab.classList.remove('active');
+        }
+    }
+    
+    function updateNavbar() {
+        const dropdown = document.getElementById('accountDropdown');
+        const accountText = document.getElementById('accountText');
+        const userId = sessionStorage.getItem('userId');
+        const username = sessionStorage.getItem('username');
+        const role = sessionStorage.getItem('role');
+
+        if (userId) {
+            accountText.textContent = username;
+            
+            let menuItems = `
+                <li><a class="dropdown-item" href="Games.html"><i class="fas fa-gamepad"></i> Games</a></li>
+                <li><a class="dropdown-item" href="Orders.html"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
+            `;
+
+            if (role === 'booster') {
+                menuItems += `
+                    <li><a class="dropdown-item" href="Booster.html"><i class="fas fa-bolt"></i> Booster Dashboard</a></li>
+                `;
+            }
+
+            if (role === 'admin') {
+                menuItems += `
+                    <li><a class="dropdown-item" href="admin.html"><i class="fas fa-cog"></i> Admin Panel</a></li>
+                `;
+            }
+
+            menuItems += `
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            `;
+
+            dropdown.innerHTML = menuItems;
+        } else {
+            accountText.textContent = 'Account';
+            dropdown.innerHTML = `
+                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=login"><i class="fas fa-key"></i> Login</a></li>
+                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=register"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+            `;
+        }
+    }
+    
+    window.onload = function() {
+        updateNavbar();
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const tab = urlParams.get('tab');
+        
+        if (tab === 'register') {
+            switchTab('register');
+        } else {
+            switchTab('login');
+        }
+        
+        // Add event listeners for validation
+        document.getElementById('regUsername').addEventListener('input', checkRegisterButton);
+        document.getElementById('regEmail').addEventListener('input', checkRegisterButton);
+        document.getElementById('regPassword').addEventListener('input', function() {
+            validatePassword();
+            validateConfirmPassword();
+            checkRegisterButton();
+        });
+        document.getElementById('regConfirmPassword').addEventListener('input', function() {
+            validateConfirmPassword();
+            checkRegisterButton();
+        });
+        document.getElementById('agreeTerms').addEventListener('change', checkRegisterButton);
+        
+        // Add form submit handlers
+        document.getElementById('loginFormElement').onsubmit = handleLogin;
+        document.getElementById('registerFormElement').onsubmit = handleRegister;
+    };
+    
+    function logout() {
+        sessionStorage.clear();
+        window.location.href = 'index.html';
+    }
+</script>
+
 </body>
 </html>

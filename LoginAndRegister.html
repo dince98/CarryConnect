@@ -110,7 +110,7 @@
             background: 
                 linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(20, 10, 30, 0.6) 100%),
                 url('viper.png') center center / cover no-repeat fixed;
-            min-height: calc(100vh - 76px - 140px); /* fill space between navbar and footer */
+            min-height: calc(100vh - 76px - 140px);
             display: flex;
             align-items: center;
             padding: 40px 0;
@@ -127,7 +127,6 @@
             border: 1px solid rgba(255,255,255,0.3);
         }
         
-        /* keep the tabs and forms readable on light background */
         .auth-tabs {
             display: flex;
             border-bottom: 2px solid #eef2f6;
@@ -168,7 +167,7 @@
             box-shadow: 0 0 0 4px rgba(102,126,234,0.1);
         }
         
-        /* Validation styles (keeping your design, just adding borders) */
+        /* Validation styles */
         .form-control.is-invalid {
             border-color: #dc3545;
             background-image: none;
@@ -179,7 +178,7 @@
             background-image: none;
         }
         
-        /* Password toggle button (new but matches your design) */
+        /* Password wrapper for toggle */
         .password-wrapper {
             position: relative;
         }
@@ -198,7 +197,7 @@
             color: #667eea;
         }
         
-        /* Validation messages (minimal, matches your design) */
+        /* Validation feedback */
         .validation-feedback {
             font-size: 12px;
             margin-top: 5px;
@@ -223,7 +222,7 @@
             color: #dc3545 !important;
         }
         
-        /* Strength bar (subtle, matches your design) */
+        /* Password strength bar */
         .password-strength {
             height: 4px;
             border-radius: 2px;
@@ -258,7 +257,7 @@
             background: #20c997;
         }
         
-        /* Tooltip styling (minimal, matches your design) */
+        /* Tooltip styling */
         .tooltip-message {
             position: fixed;
             top: 20px;
@@ -330,7 +329,6 @@
             font-weight: 700;
             text-decoration: none;
         }
-        /* =================================================== */
         
         footer {
             background: #0f172a;
@@ -395,7 +393,7 @@
     </div>
 </nav>
 
-<!-- Entire auth section with viper.png background (replaces blue/white) -->
+<!-- Auth section with viper.png background -->
 <div class="auth-page">
     <div class="container">
         <div class="row justify-content-center">
@@ -435,7 +433,7 @@
                         </div>
                     </div>
 
-                    <!-- REGISTER FORM -->
+                    <!-- REGISTER FORM (FIXED: NO EMAIL VALIDATION) -->
                     <div id="registerForm" class="tab-pane" style="display: none;">
                         <form id="registerFormElement">
                             <div class="row">
@@ -451,6 +449,7 @@
                             <div class="mb-3">
                                 <label class="form-label">Email</label>
                                 <input type="email" class="form-control" id="regEmail" placeholder="you@example.com" required>
+                                <!-- NO EMAIL VALIDATION - NO RED BORDERS -->
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Username <small class="text-muted">(letters only, no numbers/symbols)</small></label>
@@ -467,11 +466,11 @@
                                     <div class="strength-bar" id="strengthBar"></div>
                                 </div>
                                 <div class="validation-feedback" id="passwordFeedback">
-                                    <small class="text-muted"><i class="fas fa-circle" id="reqLength"></i> Min. 8 characters</small>
-                                    <small class="text-muted"><i class="fas fa-circle" id="reqLower"></i> Lowercase letter</small>
-                                    <small class="text-muted"><i class="fas fa-circle" id="reqUpper"></i> Uppercase letter</small>
-                                    <small class="text-muted"><i class="fas fa-circle" id="reqNumber"></i> Number</small>
-                                    <small class="text-muted"><i class="fas fa-circle" id="reqSymbol"></i> Symbol (!@#$%^&*)</small>
+                                    <small class="text-muted" id="reqLength"><i class="fas fa-circle"></i> Min. 8 characters</small>
+                                    <small class="text-muted" id="reqLower"><i class="fas fa-circle"></i> Lowercase letter</small>
+                                    <small class="text-muted" id="reqUpper"><i class="fas fa-circle"></i> Uppercase letter</small>
+                                    <small class="text-muted" id="reqNumber"><i class="fas fa-circle"></i> Number</small>
+                                    <small class="text-muted" id="reqSymbol"><i class="fas fa-circle"></i> Symbol (!@#$%^&*)</small>
                                 </div>
                             </div>
                             <div class="mb-3">
@@ -488,7 +487,7 @@
                                     I agree to the <a href="terms.html" style="color: #667eea;">Terms</a>
                                 </label>
                             </div>
-                            <button type="submit" class="btn btn-auth" id="registerBtn" disabled>Sign up</button>
+                            <button type="submit" class="btn btn-auth" id="registerBtn">Sign up</button>
                         </form>
                         <div class="auth-footer">
                             Already have an account? <a href="#" onclick="switchTab('login'); return false;">Sign in</a>
@@ -521,7 +520,6 @@
     
     // ========== HELPER FUNCTIONS ==========
     
-    // Show tooltip notification
     function showTooltip(message, type = 'error') {
         const container = document.getElementById('tooltipContainer');
         const tooltipId = 'tooltip-' + Date.now();
@@ -544,7 +542,6 @@
         }, 5000);
     }
     
-    // Toggle password visibility
     function togglePassword(inputId) {
         const input = document.getElementById(inputId);
         const icon = input.nextElementSibling;
@@ -589,32 +586,23 @@
         }
     }
     
-    // Validate email format
+    // NO EMAIL VALIDATION - Email always passes
     function validateEmail() {
         const email = document.getElementById('regEmail').value;
         const emailInput = document.getElementById('regEmail');
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         
-        if (email.length === 0) {
-            emailInput.classList.remove('is-valid', 'is-invalid');
-            return false;
-        }
+        // Remove any validation classes from email
+        emailInput.classList.remove('is-valid', 'is-invalid');
         
-        if (!emailRegex.test(email)) {
-            emailInput.classList.add('is-invalid');
-            emailInput.classList.remove('is-valid');
-            return false;
-        } else {
-            emailInput.classList.add('is-valid');
-            emailInput.classList.remove('is-invalid');
-            return true;
-        }
+        // Email is valid as long as it's not empty
+        return email.length > 0;
     }
     
     // Validate password with all requirements
     function validatePassword() {
         const password = document.getElementById('regPassword').value;
         const strengthBar = document.getElementById('strengthBar');
+        const passwordInput = document.getElementById('regPassword');
         
         // Requirements
         const hasLength = password.length >= 8;
@@ -646,24 +634,34 @@
             strengthBar.classList.add('very-strong');
         }
         
+        // Update password input validation
+        if (password.length > 0) {
+            if (hasLength && hasLower && hasUpper && hasNumber && hasSymbol) {
+                passwordInput.classList.add('is-valid');
+                passwordInput.classList.remove('is-invalid');
+            } else {
+                passwordInput.classList.add('is-invalid');
+                passwordInput.classList.remove('is-valid');
+            }
+        } else {
+            passwordInput.classList.remove('is-valid', 'is-invalid');
+        }
+        
         return hasLength && hasLower && hasUpper && hasNumber && hasSymbol;
     }
     
-    // Update requirement icon
     function updateRequirementIcon(elementId, isValid) {
         const element = document.getElementById(elementId);
         const icon = element.querySelector('i');
+        const text = element.innerHTML.replace(/<i.*?>.*?<\/i>/, '').trim();
         
         if (isValid) {
-            icon.classList.remove('fa-circle', 'text-muted');
-            icon.classList.add('fa-check-circle', 'text-success');
+            element.innerHTML = `<i class="fas fa-check-circle text-success"></i> ${text}`;
         } else {
-            icon.classList.remove('fa-check-circle', 'text-success');
-            icon.classList.add('fa-circle', 'text-muted');
+            element.innerHTML = `<i class="fas fa-circle text-muted"></i> ${text}`;
         }
     }
     
-    // Validate confirm password
     function validateConfirmPassword() {
         const password = document.getElementById('regPassword').value;
         const confirmPassword = document.getElementById('regConfirmPassword').value;
@@ -689,17 +687,21 @@
         }
     }
     
-    // Check if register button should be enabled
     function checkRegisterButton() {
         const isUsernameValid = validateUsername();
-        const isEmailValid = validateEmail();
+        const isEmailValid = validateEmail(); // Always true if not empty
         const isPasswordValid = validatePassword();
         const isConfirmValid = validateConfirmPassword();
         const isTermsChecked = document.getElementById('agreeTerms').checked;
         
+        const firstName = document.getElementById('regFirstName').value;
+        const lastName = document.getElementById('regLastName').value;
+        const email = document.getElementById('regEmail').value;
+        
         const registerBtn = document.getElementById('registerBtn');
         
-        if (isUsernameValid && isEmailValid && isPasswordValid && isConfirmValid && isTermsChecked) {
+        // Enable button if all required fields are filled and valid
+        if (firstName && lastName && email && isUsernameValid && isPasswordValid && isConfirmValid && isTermsChecked) {
             registerBtn.disabled = false;
         } else {
             registerBtn.disabled = true;
@@ -711,8 +713,7 @@
     async function handleRegister(event) {
         event.preventDefault();
         
-        // Final validation
-        if (!validateUsername() || !validateEmail() || !validatePassword() || !validateConfirmPassword()) {
+        if (!validateUsername() || !validatePassword() || !validateConfirmPassword()) {
             showTooltip('Please fix all errors before submitting', 'error');
             return;
         }
@@ -722,18 +723,18 @@
         registerBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating account...';
         
         try {
-            const username = document.getElementById('regUsername').value;
-            const email = document.getElementById('regEmail').value;
-            const password = document.getElementById('regPassword').value;
             const firstName = document.getElementById('regFirstName').value;
             const lastName = document.getElementById('regLastName').value;
+            const email = document.getElementById('regEmail').value;
+            const username = document.getElementById('regUsername').value;
+            const password = document.getElementById('regPassword').value;
             
             // Check if username exists
             const { data: existingUser } = await supabase
                 .from('users')
                 .select('username')
                 .eq('username', username)
-                .single();
+                .maybeSingle();
             
             if (existingUser) {
                 showTooltip('Username already taken', 'error');
@@ -747,7 +748,7 @@
                 .from('users')
                 .select('email')
                 .eq('email', email)
-                .single();
+                .maybeSingle();
             
             if (existingEmail) {
                 showTooltip('Email already registered', 'error');
@@ -761,7 +762,7 @@
             const hashedPassword = await bcrypt.hash(password, saltRounds);
             
             // Create user with hashed password
-            const { data, error } = await supabase
+            const { error } = await supabase
                 .from('users')
                 .insert([{
                     username: username,
@@ -780,6 +781,20 @@
             setTimeout(() => {
                 switchTab('login');
                 document.getElementById('registerFormElement').reset();
+                // Reset validation states
+                document.querySelectorAll('.form-control').forEach(input => {
+                    input.classList.remove('is-valid', 'is-invalid');
+                });
+                document.getElementById('usernameFeedback').innerHTML = '';
+                document.getElementById('confirmPasswordFeedback').innerHTML = '';
+                // Reset requirement icons
+                ['reqLength', 'reqLower', 'reqUpper', 'reqNumber', 'reqSymbol'].forEach(id => {
+                    const element = document.getElementById(id);
+                    const text = element.innerHTML.replace(/<i.*?>.*?<\/i>/, '').trim();
+                    element.innerHTML = `<i class="fas fa-circle"></i> ${text}`;
+                });
+                // Reset strength bar
+                document.getElementById('strengthBar').className = 'strength-bar';
                 registerBtn.disabled = true;
                 registerBtn.innerHTML = 'Sign up';
             }, 2000);
@@ -799,6 +814,11 @@
         const password = document.getElementById('loginPassword').value;
         const loginBtn = document.getElementById('loginBtn');
         
+        if (!loginInput || !password) {
+            showTooltip('Please enter both username/email and password', 'error');
+            return;
+        }
+        
         loginBtn.disabled = true;
         loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
         
@@ -813,7 +833,7 @@
                 query = supabase.from('users').select('*').eq('username', loginInput);
             }
             
-            const { data: users, error } = await query.single();
+            const { data: users, error } = await query.maybeSingle();
             
             if (error || !users) {
                 showTooltip('User not found', 'error');
@@ -932,8 +952,10 @@
         }
         
         // Add event listeners for validation
+        document.getElementById('regFirstName').addEventListener('input', checkRegisterButton);
+        document.getElementById('regLastName').addEventListener('input', checkRegisterButton);
+        document.getElementById('regEmail').addEventListener('input', checkRegisterButton); // No validation, just check if filled
         document.getElementById('regUsername').addEventListener('input', checkRegisterButton);
-        document.getElementById('regEmail').addEventListener('input', checkRegisterButton);
         document.getElementById('regPassword').addEventListener('input', function() {
             validatePassword();
             validateConfirmPassword();
@@ -948,6 +970,9 @@
         // Add form submit handlers
         document.getElementById('loginFormElement').onsubmit = handleLogin;
         document.getElementById('registerFormElement').onsubmit = handleRegister;
+        
+        // Initial check for register button
+        checkRegisterButton();
     };
     
     function logout() {

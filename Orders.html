@@ -254,17 +254,20 @@
             color: #667eea;
         }
         
-        .receipt-link {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
+        .receipt-thumbnail {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s;
         }
         
-        .receipt-link:hover {
-            text-decoration: underline;
+        .receipt-thumbnail:hover {
+            transform: scale(1.1);
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102,126,234,0.3);
         }
         
         .account-info {
@@ -318,6 +321,7 @@
             text-decoration: underline;
         }
         
+        /* PROOF SECTION - FIXED */
         .proof-section {
             margin-top: 15px;
             padding: 15px;
@@ -330,106 +334,116 @@
             font-size: 14px;
             font-weight: 700;
             color: #1e293b;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
         
         .proof-images {
             display: flex;
-            gap: 15px;
+            gap: 20px;
             flex-wrap: wrap;
         }
         
         .proof-image-container {
             flex: 1;
-            min-width: 150px;
+            min-width: 200px;
         }
         
         .proof-image-container p {
-            font-size: 12px;
-            color: #64748b;
-            margin-bottom: 5px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 8px;
         }
         
-        .proof-image {
+        .proof-image-container p i {
+            color: #39b1e0;
+            margin-right: 5px;
+        }
+        
+        .proof-thumbnail {
             width: 100%;
-            max-width: 200px;
-            border-radius: 10px;
-            border: 2px solid #e2e8f0;
+            max-width: 220px;
+            height: 140px;
+            border-radius: 12px;
+            object-fit: cover;
             cursor: pointer;
-            transition: transform 0.3s;
+            border: 3px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            background: #f1f5f9;
         }
         
-        .proof-image:hover {
+        .proof-thumbnail:hover {
             transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border-color: #39b1e0;
+            box-shadow: 0 8px 25px rgba(57,177,224,0.3);
         }
         
         .proof-description {
             font-size: 12px;
             color: #64748b;
-            margin-top: 10px;
-        }
-        
-        .no-orders {
-            text-align: center;
-            padding: 60px 20px;
+            margin-top: 8px;
+            font-style: italic;
             background: white;
-            border-radius: 20px;
-            border: 2px dashed #e2e8f0;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
         }
         
-        .no-orders i {
-            font-size: 60px;
-            color: #cbd5e1;
-            margin-bottom: 20px;
-        }
-        
-        .no-orders h3 {
-            font-size: 24px;
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 10px;
-        }
-        
-        .no-orders p {
-            color: #64748b;
-            margin-bottom: 30px;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            font-weight: 600;
-            padding: 12px 30px;
-            border-radius: 50px;
-            border: none;
-            text-decoration: none;
-            display: inline-block;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102,126,234,0.3);
-        }
-        
-        .loading-spinner {
+        .no-proof {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 20px;
             text-align: center;
-            padding: 60px 20px;
+            color: #94a3b8;
+            border: 1px dashed #cbd5e1;
         }
         
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
+        .no-proof i {
+            font-size: 30px;
+            margin-bottom: 10px;
+            color: #cbd5e1;
         }
         
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        /* Image Preview Modal */
+        .modal-preview {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            padding-top: 50px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+        }
+        
+        .modal-content-preview {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+            animation: zoom 0.3s;
+        }
+        
+        @keyframes zoom {
+            from {transform: scale(0.1)} 
+            to {transform: scale(1)}
+        }
+        
+        .close-preview {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close-preview:hover {
+            color: #bbb;
         }
         
         .filter-tabs {
@@ -461,6 +475,51 @@
             border-color: transparent;
         }
         
+        .no-orders {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 20px;
+            border: 2px dashed #e2e8f0;
+        }
+        
+        .no-orders i {
+            font-size: 60px;
+            color: #cbd5e1;
+            margin-bottom: 20px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 600;
+            padding: 12px 30px;
+            border-radius: 50px;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .loading-spinner {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
         footer {
             background: #0f172a;
             color: white;
@@ -479,35 +538,9 @@
             padding: 0;
         }
         
-        .footer-links li {
-            margin-bottom: 12px;
-        }
-        
         .footer-links a {
             color: rgba(255,255,255,0.7);
             text-decoration: none;
-        }
-        
-        .footer-links a:hover {
-            color: white;
-        }
-        
-        .social-icons a {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            background: rgba(255,255,255,0.1);
-            color: white;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 40px;
-            margin-right: 10px;
-            transition: all 0.3s;
-        }
-        
-        .social-icons a:hover {
-            background: #667eea;
-            transform: translateY(-3px);
         }
         
         .copyright {
@@ -520,6 +553,12 @@
     </style>
 </head>
 <body>
+
+<!-- Image Preview Modal -->
+<div id="imagePreviewModal" class="modal-preview" onclick="closeImagePreview()">
+    <span class="close-preview">&times;</span>
+    <img class="modal-content-preview" id="previewImage" onclick="event.stopPropagation()">
+</div>
 
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
@@ -538,7 +577,7 @@
                     <a class="nav-link" href="HowItWorks.html">How It Works</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link btn-account dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link btn-account dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                         <i class="fas fa-user-circle"></i> <span id="accountText">Account</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" id="accountDropdown"></ul>
@@ -568,7 +607,6 @@
 
         <!-- Orders List -->
         <div id="ordersList">
-            <!-- Loading Spinner -->
             <div class="loading-spinner" id="loadingSpinner">
                 <div class="spinner"></div>
                 <p>Loading your orders...</p>
@@ -616,7 +654,7 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
     const SUPABASE_URL = 'https://aozhkwvoqnyktsgrdtnw.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvemhrd3ZvcW55a3RzZ3JkdG53Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MjU2NTA1NiwiZXhwIjoyMDg4MTQxMDU2fQ.lbr0-PCymnj241Vwso6yJYzch7HOJ5utB-pPsWpkABc';
@@ -631,6 +669,26 @@
     let userRole = sessionStorage.getItem('role') || 'client';
     let userId = sessionStorage.getItem('userId');
     
+    // ========== IMAGE PREVIEW FUNCTIONS ==========
+    function showImagePreview(imageUrl) {
+        const modal = document.getElementById('imagePreviewModal');
+        const previewImg = document.getElementById('previewImage');
+        previewImg.src = imageUrl;
+        modal.style.display = 'block';
+    }
+    
+    function closeImagePreview() {
+        document.getElementById('imagePreviewModal').style.display = 'none';
+    }
+    
+    // Close modal with ESC key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            closeImagePreview();
+        }
+    });
+    
+    // ========== AUTH FUNCTIONS ==========
     function checkRememberedLogin() {
         const remembered = localStorage.getItem('rememberedUser');
         if (remembered && !sessionStorage.getItem('userId')) {
@@ -658,15 +716,10 @@
             `;
 
             if (role === 'booster') {
-                menuItems += `
-                    <li><a class="dropdown-item" href="Booster.html"><i class="fas fa-bolt"></i> Booster Dashboard</a></li>
-                `;
+                menuItems += `<li><a class="dropdown-item" href="Booster.html"><i class="fas fa-bolt"></i> Booster Dashboard</a></li>`;
             }
-
             if (role === 'admin') {
-                menuItems += `
-                    <li><a class="dropdown-item" href="admin.html"><i class="fas fa-cog"></i> Admin Panel</a></li>
-                `;
+                menuItems += `<li><a class="dropdown-item" href="admin.html"><i class="fas fa-cog"></i> Admin Panel</a></li>`;
             }
 
             menuItems += `
@@ -684,6 +737,7 @@
         }
     }
     
+    // ========== DATA LOADING FUNCTIONS ==========
     window.onload = function() {
         checkRememberedLogin();
         if (!userId) {
@@ -745,6 +799,7 @@
             if (ordersError) throw ordersError;
             
             allOrders = orders || [];
+            console.log('Orders loaded:', allOrders);
             
             if (allOrders.length > 0) {
                 const orderIds = allOrders.map(o => o.order_id);
@@ -759,21 +814,25 @@
                     payments.forEach(payment => {
                         paymentsMap[payment.order_id] = payment;
                     });
+                    console.log('Payments loaded:', payments);
                 }
                 
-                // Load proofs
+                // ===== FIXED: Load proofs from proofs table =====
                 const { data: proofs, error: proofsError } = await supabase
                     .from('proofs')
                     .select('*')
                     .in('order_id', orderIds);
                 
-                if (!proofsError) {
+                if (!proofsError && proofs) {
                     proofs.forEach(proof => {
                         if (!proofsMap[proof.order_id]) {
                             proofsMap[proof.order_id] = [];
                         }
                         proofsMap[proof.order_id].push(proof);
                     });
+                    console.log('Proofs loaded:', proofs);
+                } else {
+                    console.error('Error loading proofs:', proofsError);
                 }
             }
             
@@ -793,7 +852,8 @@
         }
     }
     
-    function togglePassword(orderId, password) {
+    // ========== PASSWORD TOGGLE ==========
+    function togglePassword(orderId) {
         const passwordSpan = document.getElementById(`password-${orderId}`);
         const passwordHidden = document.getElementById(`password-hidden-${orderId}`);
         
@@ -806,40 +866,58 @@
         }
     }
     
+    // ========== FIXED: PROOF DISPLAY FUNCTION ==========
     function getProofsHtml(orderId) {
         const proofs = proofsMap[orderId] || [];
+        console.log('Proofs for order', orderId, ':', proofs);
         
-        if (proofs.length === 0) return '';
+        if (proofs.length === 0) {
+            return `
+                <div class="no-proof">
+                    <i class="fas fa-images"></i>
+                    <p>No proof images uploaded yet</p>
+                </div>
+            `;
+        }
         
         let beforeProof = proofs.find(p => p.proof_type === 'before');
         let afterProof = proofs.find(p => p.proof_type === 'after');
         
-        if (!beforeProof && !afterProof) return '';
+        let html = '<div class="proof-section"><h6><i class="fas fa-check-circle" style="color: #10b981;"></i> Proof of Work</h6><div class="proof-images">';
         
-        return `
-            <div class="proof-section">
-                <h6><i class="fas fa-check-circle" style="color: #10b981;"></i> Proof of Work</h6>
-                <div class="proof-images">
-                    ${beforeProof ? `
-                        <div class="proof-image-container">
-                            <p>Before</p>
-                            <img src="${beforeProof.image_url}" class="proof-image" onclick="window.open('${beforeProof.image_url}', '_blank')">
-                        </div>
-                    ` : ''}
-                    ${afterProof ? `
-                        <div class="proof-image-container">
-                            <p>After</p>
-                            <img src="${afterProof.image_url}" class="proof-image" onclick="window.open('${afterProof.image_url}', '_blank')">
-                        </div>
-                    ` : ''}
+        // Before image
+        if (beforeProof) {
+            html += `
+                <div class="proof-image-container">
+                    <p><i class="fas fa-camera"></i> BEFORE</p>
+                    <img src="${beforeProof.image_url}" class="proof-thumbnail" 
+                         onclick="showImagePreview('${beforeProof.image_url}')" 
+                         title="Click to enlarge"
+                         onerror="this.src='https://via.placeholder.com/220x140?text=Image+Not+Found'">
+                    ${beforeProof.description ? `<div class="proof-description"><i class="fas fa-comment"></i> ${beforeProof.description}</div>` : ''}
                 </div>
-                ${beforeProof?.description ? `
-                    <p class="proof-description"><i class="fas fa-comment"></i> ${beforeProof.description}</p>
-                ` : ''}
-            </div>
-        `;
+            `;
+        }
+        
+        // After image
+        if (afterProof) {
+            html += `
+                <div class="proof-image-container">
+                    <p><i class="fas fa-camera"></i> AFTER</p>
+                    <img src="${afterProof.image_url}" class="proof-thumbnail" 
+                         onclick="showImagePreview('${afterProof.image_url}')" 
+                         title="Click to enlarge"
+                         onerror="this.src='https://via.placeholder.com/220x140?text=Image+Not+Found'">
+                    ${afterProof.description ? `<div class="proof-description"><i class="fas fa-comment"></i> ${afterProof.description}</div>` : ''}
+                </div>
+            `;
+        }
+        
+        html += '</div></div>';
+        return html;
     }
     
+    // ========== DISPLAY ORDERS ==========
     function displayOrders(orders) {
         const ordersList = document.getElementById('ordersList');
         
@@ -909,7 +987,7 @@
                                     <span>Password: 
                                         <span id="password-hidden-${order.order_id}" style="display: none;">${order.game_password}</span>
                                         <span id="password-${order.order_id}" class="password-hidden">••••••••</span>
-                                        <button onclick="togglePassword(${order.order_id}, '${order.game_password}')" class="btn-show">Show</button>
+                                        <button onclick="togglePassword(${order.order_id})" class="btn-show">Show</button>
                                     </span>
                                 </div>
                                 ${order.additional_info ? `
@@ -922,37 +1000,39 @@
                         </div>
                     ` : ''}
                     
+                    <!-- Payment Details -->
                     ${payment ? `
                         <div class="payment-info">
-                            <h6>Payment Details</h6>
+                            <h6><i class="fas fa-credit-card"></i> Payment Details</h6>
                             <div class="payment-details">
                                 <div class="payment-detail">
                                     <i class="fas fa-${getPaymentIcon(payment.payment_method)}"></i>
-                                    <span>${payment.payment_method.toUpperCase()}</span>
+                                    <span>${payment.payment_method?.toUpperCase() || 'N/A'}</span>
                                 </div>
                                 <div class="payment-detail">
                                     <i class="fas fa-hashtag"></i>
-                                    <span>Ref: ${payment.reference_number}</span>
+                                    <span>Ref: ${payment.reference_number || 'N/A'}</span>
                                 </div>
                                 ${payment.receipt_url ? `
                                     <div class="payment-detail">
                                         <i class="fas fa-image"></i>
-                                        <a href="${payment.receipt_url}" target="_blank" class="receipt-link">View Receipt</a>
+                                        <img src="${payment.receipt_url}" class="receipt-thumbnail" 
+                                             onclick="showImagePreview('${payment.receipt_url}')" 
+                                             title="Click to enlarge receipt"
+                                             onerror="this.src='https://via.placeholder.com/60x60?text=Error'">
                                     </div>
                                 ` : ''}
-                                <div class="payment-detail">
-                                    <i class="fas fa-clock"></i>
-                                    <span>${new Date(payment.created_at).toLocaleString()}</span>
-                                </div>
                             </div>
                         </div>
                     ` : ''}
                     
+                    <!-- PROOF OF WORK - THIS WILL SHOW THE IMAGES -->
                     ${proofsHtml}
                     
+                    <!-- Booster Info -->
                     ${order.booster_id ? `
                         <div class="payment-info">
-                            <h6>Booster Information</h6>
+                            <h6><i class="fas fa-user"></i> Booster Information</h6>
                             <div class="payment-details">
                                 <div class="payment-detail">
                                     <i class="fas fa-user"></i>

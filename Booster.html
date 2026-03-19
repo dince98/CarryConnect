@@ -419,6 +419,48 @@
             100% { transform: rotate(360deg); }
         }
         
+        /* Image Modal */
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            padding-top: 50px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            cursor: pointer;
+        }
+        
+        .modal-image {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+            animation: zoom 0.3s;
+        }
+        
+        @keyframes zoom {
+            from {transform: scale(0.1)} 
+            to {transform: scale(1)}
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        
+        .close-modal:hover {
+            color: #bbb;
+        }
+        
         footer {
             background: #0f172a;
             color: white;
@@ -479,6 +521,12 @@
     </style>
 </head>
 <body>
+
+<!-- Image Modal -->
+<div id="imageModal" class="image-modal" onclick="closeImageModal()">
+    <span class="close-modal">&times;</span>
+    <img class="modal-image" id="modalImage" onclick="event.stopPropagation()">
+</div>
 
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
@@ -589,6 +637,27 @@
     let boosterRole = sessionStorage.getItem('role');
     let gamesMap = {};
     let selectedProofFiles = {};
+    let paymentsMap = {}; // NEW: Store payment info
+
+    // ===== NEW: Image Modal Functions =====
+    function openImageModal(imageUrl) {
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        modalImage.src = imageUrl;
+        modal.style.display = 'block';
+    }
+    
+    function closeImageModal() {
+        document.getElementById('imageModal').style.display = 'none';
+    }
+    
+    // Close modal with ESC key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            closeImageModal();
+        }
+    });
+    // ======================================
 
     function togglePassword(orderId, password) {
         const span = document.getElementById(`password-${orderId}`);
@@ -838,6 +907,22 @@
                 .order('order_id', { ascending: false });
 
             if (error) throw error;
+            
+            // Load payments for these orders
+            if (data && data.length > 0) {
+                const orderIds = data.map(o => o.order_id);
+                const { data: payments } = await supabase
+                    .from('payments')
+                    .select('*')
+                    .in('order_id', orderIds);
+                
+                if (payments) {
+                    payments.forEach(payment => {
+                        paymentsMap[payment.order_id] = payment;
+                    });
+                }
+            }
+            
             displayOrders(data, 'assignedOrders', 'assigned');
         } catch (error) {
             console.error('Error loading assigned orders:', error);
@@ -861,6 +946,22 @@
                 .order('order_id', { ascending: false });
 
             if (error) throw error;
+            
+            // Load payments for these orders
+            if (data && data.length > 0) {
+                const orderIds = data.map(o => o.order_id);
+                const { data: payments } = await supabase
+                    .from('payments')
+                    .select('*')
+                    .in('order_id', orderIds);
+                
+                if (payments) {
+                    payments.forEach(payment => {
+                        paymentsMap[payment.order_id] = payment;
+                    });
+                }
+            }
+            
             displayOrders(data, 'progressOrders', 'progress');
         } catch (error) {
             console.error('Error loading progress orders:', error);
@@ -884,6 +985,22 @@
                 .order('order_id', { ascending: false });
 
             if (error) throw error;
+            
+            // Load payments for these orders
+            if (data && data.length > 0) {
+                const orderIds = data.map(o => o.order_id);
+                const { data: payments } = await supabase
+                    .from('payments')
+                    .select('*')
+                    .in('order_id', orderIds);
+                
+                if (payments) {
+                    payments.forEach(payment => {
+                        paymentsMap[payment.order_id] = payment;
+                    });
+                }
+            }
+            
             displayOrders(data, 'completedOrders', 'completed');
         } catch (error) {
             console.error('Error loading completed orders:', error);
@@ -897,6 +1014,7 @@
         }
     }
 
+    // ===== NEW: Updated displayOrders with payment receipt view =====
     function displayOrders(orders, elementId, type) {
         const container = document.getElementById(elementId);
         
@@ -914,6 +1032,7 @@
         let html = '';
         orders.forEach(order => {
             const gameName = gamesMap[order.game_id] || 'Unknown Game';
+            const payment = paymentsMap[order.order_id];
             
             html += `
                 <div class="order-card">
@@ -951,6 +1070,16 @@
                                 <button onclick="togglePassword(${order.order_id}, '${order.game_password}')" class="btn-show">Show</button>
                             </p>
                             ${order.additional_info ? `<p><strong>Info:</strong> ${order.additional_info}</p>` : ''}
+                        </div>
+                    ` : ''}
+                    
+                    ${payment && payment.receipt_url ? `
+                        <div class="proof-section" style="background: #fff3cd; border-color: #ffc107;">
+                            <h6><i class="fas fa-receipt"></i> Payment Receipt</h6>
+                            <div style="text-align: center;">
+                                <img src="${payment.receipt_url}" style="max-width: 200px; max-height: 150px; border-radius: 10px; cursor: pointer; border: 2px solid #ffc107;" onclick="openImageModal('${payment.receipt_url}')" title="Click to enlarge">
+                                <p style="margin-top: 10px; font-size: 12px;"><i class="fas fa-info-circle"></i> Click image to enlarge</p>
+                            </div>
                         </div>
                     ` : ''}
                     
@@ -1002,7 +1131,6 @@
                             `<button onclick="completeBoost(${order.order_id})" class="btn-complete">
                                 <i class="fas fa-check"></i> Complete Boost
                             </button>` : '' 
-                        /* View Details button removed from completed section as requested */
                         }
                     </div>
                 </div>

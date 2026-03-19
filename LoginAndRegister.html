@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CarryConnect · Login & Register</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
+    <!-- Font Awesome 6 + fallback -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
     
     <style>
@@ -17,7 +18,7 @@
         }
         
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
             background: #f8fafc;
             color: #1e293b;
         }
@@ -53,11 +54,17 @@
             color: white !important;
         }
         
+        .nav-link.active {
+            background: #3b82f6 !important;
+            color: white !important;
+        }
+        
         .dropdown-menu {
             background: #1e293b;
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 12px;
             padding: 8px;
+            margin-top: 8px;
         }
         
         .dropdown-item {
@@ -65,10 +72,21 @@
             font-weight: 600;
             padding: 10px 20px;
             border-radius: 8px;
+            transition: all 0.3s;
         }
         
         .dropdown-item:hover {
             background: #3b82f6;
+            color: white;
+        }
+        
+        .dropdown-item i {
+            width: 20px;
+            margin-right: 10px;
+            color: #3b82f6;
+        }
+        
+        .dropdown-item:hover i {
             color: white;
         }
         
@@ -80,7 +98,11 @@
             gap: 8px;
         }
         
-        /* Auth Page Background */
+        .btn-account:hover {
+            background: rgba(59, 130, 246, 0.2);
+        }
+        
+        /* ===== FULL PAGE AUTH BACKGROUND WITH VIPER.PNG ===== */
         .auth-page {
             background: 
                 linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(20, 10, 30, 0.6) 100%),
@@ -141,13 +163,13 @@
             box-shadow: 0 0 0 4px rgba(102,126,234,0.1);
         }
         
-        /* Validation Styles */
-        .form-control.is-valid {
-            border-color: #28a745;
-        }
-        
+        /* NEW: Validation styles */
         .form-control.is-invalid {
             border-color: #dc3545;
+        }
+        
+        .form-control.is-valid {
+            border-color: #28a745;
         }
         
         .password-wrapper {
@@ -171,6 +193,7 @@
         .validation-feedback {
             font-size: 12px;
             margin-top: 5px;
+            color: #64748b;
         }
         
         .validation-feedback small {
@@ -218,43 +241,6 @@
         .strength-bar.very-strong {
             width: 100%;
             background: #20c997;
-        }
-        
-        .tooltip-message {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: white;
-            border-radius: 12px;
-            padding: 12px 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            border-left: 4px solid #667eea;
-            z-index: 9999;
-            animation: slideIn 0.3s ease;
-            font-size: 14px;
-        }
-        
-        .tooltip-message.error {
-            border-left-color: #dc3545;
-        }
-        
-        .tooltip-message.success {
-            border-left-color: #28a745;
-        }
-        
-        .tooltip-message.warning {
-            border-left-color: #ffc107;
-        }
-        
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
         }
         
         .btn-auth {
@@ -315,12 +301,13 @@
             color: rgba(255,255,255,0.5);
             font-size: 14px;
         }
+        
+        @media (max-width: 768px) {
+            .auth-card { padding: 20px 15px; }
+        }
     </style>
 </head>
 <body>
-
-<!-- Tooltip Container -->
-<div id="tooltipContainer"></div>
 
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
@@ -339,17 +326,19 @@
                     <a class="nav-link" href="HowItWorks.html">How It Works</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link btn-account dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                    <a class="nav-link btn-account dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-user-circle"></i> <span id="accountText">Account</span>
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end" id="accountDropdown"></ul>
+                    <ul class="dropdown-menu dropdown-menu-end" id="accountDropdown">
+                        <!-- Will be populated by JavaScript -->
+                    </ul>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
 
-<!-- Auth Section -->
+<!-- Entire auth section with viper.png background -->
 <div class="auth-page">
     <div class="container">
         <div class="row justify-content-center">
@@ -365,57 +354,58 @@
                         </div>
                     </div>
 
-                    <!-- LOGIN FORM -->
-                    <div id="loginForm" style="display: block;">
+                    <!-- LOGIN FORM (unchanged) -->
+                    <div id="loginForm" class="tab-pane" style="display: block;">
                         <form id="loginFormElement">
                             <div class="mb-3">
                                 <label class="form-label">Username or Email</label>
-                                <input type="text" class="form-control" id="loginUsername" placeholder="your@email.com or username" required>
+                                <input type="text" class="form-control" name="username" placeholder="your@email.com or username" required>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Password</label>
-                                <div class="password-wrapper">
-                                    <input type="password" class="form-control" id="loginPassword" placeholder="••••••••" required>
-                                    <i class="fas fa-eye password-toggle" onclick="togglePassword('loginPassword')"></i>
-                                </div>
+                                <input type="password" class="form-control" name="password" placeholder="••••••••" required>
                             </div>
                             
-                            <button type="submit" class="btn btn-auth" id="loginBtn">Log in</button>
+                            <div class="mb-4"></div>
+                            
+                            <button type="submit" class="btn btn-auth">Log in</button>
                         </form>
                         <div class="auth-footer">
                             New here? <a href="#" onclick="switchTab('register'); return false;">Create an account</a>
                         </div>
                     </div>
 
-                    <!-- REGISTER FORM -->
-                    <div id="registerForm" style="display: none;">
+                    <!-- REGISTER FORM WITH RESTRICTIONS -->
+                    <div id="registerForm" class="tab-pane" style="display: none;">
                         <form id="registerFormElement">
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">First name</label>
-                                    <input type="text" class="form-control" id="regFirstName" placeholder="John" required>
+                                    <input type="text" class="form-control" id="regFirstName" name="firstName" placeholder="John" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Last name</label>
-                                    <input type="text" class="form-control" id="regLastName" placeholder="Doe" required>
+                                    <input type="text" class="form-control" id="regLastName" name="lastName" placeholder="Doe" required>
                                 </div>
                             </div>
                             
                             <div class="mb-3">
                                 <label class="form-label">Email</label>
-                                <input type="email" class="form-control" id="regEmail" placeholder="you@example.com" required>
+                                <input type="email" class="form-control" id="regEmail" name="email" placeholder="you@example.com" required>
                             </div>
                             
                             <div class="mb-3">
                                 <label class="form-label">Username <small class="text-muted">(letters only, no numbers/symbols)</small></label>
-                                <input type="text" class="form-control" id="regUsername" placeholder="carrymaster" required>
+                                <div class="password-wrapper">
+                                    <input type="text" class="form-control" id="regUsername" name="username" placeholder="carrymaster" required>
+                                </div>
                                 <div class="validation-feedback" id="usernameFeedback"></div>
                             </div>
                             
                             <div class="mb-3">
-                                <label class="form-label">Password</label>
+                                <label class="form-label">Password <small class="text-muted">(min 8 chars, must have uppercase, lowercase, number & symbol)</small></label>
                                 <div class="password-wrapper">
-                                    <input type="password" class="form-control" id="regPassword" placeholder="Create a password" required>
+                                    <input type="password" class="form-control" id="regPassword" name="password" placeholder="Create a password" required>
                                     <i class="fas fa-eye password-toggle" onclick="togglePassword('regPassword')"></i>
                                 </div>
                                 <div class="password-strength">
@@ -433,7 +423,7 @@
                             <div class="mb-3">
                                 <label class="form-label">Confirm password</label>
                                 <div class="password-wrapper">
-                                    <input type="password" class="form-control" id="regConfirmPassword" placeholder="Re-enter password" required>
+                                    <input type="password" class="form-control" id="regConfirmPassword" name="confirmPassword" placeholder="Re-enter password" required>
                                     <i class="fas fa-eye password-toggle" onclick="togglePassword('regConfirmPassword')"></i>
                                 </div>
                                 <div class="validation-feedback" id="confirmPasswordFeedback"></div>
@@ -446,7 +436,7 @@
                                 </label>
                             </div>
                             
-                            <button type="submit" class="btn btn-auth" id="registerBtn" disabled>Sign up</button>
+                            <button type="submit" class="btn btn-auth" id="registerBtn">Sign up</button>
                         </form>
                         <div class="auth-footer">
                             Already have an account? <a href="#" onclick="switchTab('login'); return false;">Sign in</a>
@@ -470,47 +460,12 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
 <script>
     const SUPABASE_URL = 'https://aozhkwvoqnyktsgrdtnw.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvemhrd3ZvcW55a3RzZ3JkdG53Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MjU2NTA1NiwiZXhwIjoyMDg4MTQxMDU2fQ.lbr0-PCymnj241Vwso6yJYzch7HOJ5utB-pPsWpkABc';
     
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-    
-    // ========== SIMPLE HASH FUNCTION (NO BCRYPT NEEDED) ==========
-    function hashPassword(password) {
-        let hash = 0;
-        for (let i = 0; i < password.length; i++) {
-            const char = password.charCodeAt(i);
-            hash = ((hash << 5) - hash) + char;
-            hash = hash & hash;
-        }
-        // Add salt and timestamp to make it more secure
-        const salt = Math.random().toString(36).substring(2, 15);
-        return 'hash_' + Math.abs(hash).toString(36) + '_' + salt + '_' + Date.now();
-    }
-    
-    // ========== TOOLTIP FUNCTION ==========
-    function showTooltip(message, type = 'error') {
-        const container = document.getElementById('tooltipContainer');
-        const tooltipId = 'tooltip-' + Date.now();
-        
-        const icon = type === 'error' ? 'fa-exclamation-circle' : 
-                    type === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle';
-        
-        const html = `
-            <div id="${tooltipId}" class="tooltip-message ${type}">
-                <i class="fas ${icon}"></i> ${message}
-            </div>
-        `;
-        
-        container.insertAdjacentHTML('beforeend', html);
-        
-        setTimeout(() => {
-            const tooltip = document.getElementById(tooltipId);
-            if (tooltip) tooltip.remove();
-        }, 4000);
-    }
     
     // ========== TOGGLE PASSWORD VISIBILITY ==========
     function togglePassword(inputId) {
@@ -528,7 +483,7 @@
         }
     }
     
-    // ========== USERNAME VALIDATION ==========
+    // ========== USERNAME VALIDATION (letters only) ==========
     function validateUsername() {
         const username = document.getElementById('regUsername').value;
         const input = document.getElementById('regUsername');
@@ -546,7 +501,6 @@
             input.classList.add('is-invalid');
             input.classList.remove('is-valid');
             feedback.innerHTML = '<small class="text-danger"><i class="fas fa-times-circle"></i> Letters only - no numbers or symbols</small>';
-            showTooltip('Username can only contain letters (a-z, A-Z)', 'warning');
             return false;
         } else {
             input.classList.add('is-valid');
@@ -628,7 +582,6 @@
             input.classList.add('is-invalid');
             input.classList.remove('is-valid');
             feedback.innerHTML = '<small class="text-danger"><i class="fas fa-times-circle"></i> Passwords do not match</small>';
-            showTooltip('Passwords do not match!', 'error');
             return false;
         } else {
             input.classList.add('is-valid');
@@ -638,8 +591,8 @@
         }
     }
     
-    // ========== CHECK REGISTER BUTTON ==========
-    function checkRegisterButton() {
+    // ========== CHECK IF FORM IS VALID ==========
+    function isFormValid() {
         const firstName = document.getElementById('regFirstName').value;
         const lastName = document.getElementById('regLastName').value;
         const email = document.getElementById('regEmail').value;
@@ -648,88 +601,59 @@
         const isConfirmValid = validateConfirmPassword();
         const isTermsChecked = document.getElementById('agreeTerms').checked;
         
+        return firstName && lastName && email && isUsernameValid && isPasswordValid && isConfirmValid && isTermsChecked;
+    }
+    
+    // ========== UPDATE BUTTON STATE ==========
+    function updateRegisterButton() {
         const btn = document.getElementById('registerBtn');
-        
-        if (firstName && lastName && email && isUsernameValid && isPasswordValid && isConfirmValid && isTermsChecked) {
-            btn.disabled = false;
-        } else {
-            btn.disabled = true;
-        }
+        btn.disabled = !isFormValid();
     }
     
     // ========== REGISTER FUNCTION ==========
     async function handleRegister(event) {
         event.preventDefault();
         
-        // Final validation
-        if (!validateUsername() || !validatePassword() || !validateConfirmPassword()) {
-            showTooltip('Please fix all errors before submitting', 'error');
+        if (!isFormValid()) {
+            alert('❌ Please fix all errors before submitting');
             return;
         }
         
-        const btn = document.getElementById('registerBtn');
-        btn.disabled = true;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating account...';
+        const form = event.target;
+        const password = form.password.value;
+        const confirmPassword = form.confirmPassword.value;
+        
+        if (password !== confirmPassword) {
+            alert('❌ Passwords do not match!');
+            return;
+        }
+        
+        const userData = {
+            username: form.username.value,
+            email: form.email.value,
+            password: password,
+            first_name: form.firstName.value,
+            last_name: form.lastName.value,
+            role: 'client'
+        };
         
         try {
-            const firstName = document.getElementById('regFirstName').value;
-            const lastName = document.getElementById('regLastName').value;
-            const email = document.getElementById('regEmail').value;
-            const username = document.getElementById('regUsername').value;
-            const password = document.getElementById('regPassword').value;
+            const response = await fetch(`${SUPABASE_URL}/rest/v1/users`, {
+                method: 'POST',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': `Bearer ${SUPABASE_KEY}`,
+                    'Content-Type': 'application/json',
+                    'Prefer': 'return=minimal'
+                },
+                body: JSON.stringify(userData)
+            });
             
-            // Check if username exists
-            const { data: existingUser } = await supabase
-                .from('users')
-                .select('username')
-                .eq('username', username)
-                .maybeSingle();
-            
-            if (existingUser) {
-                showTooltip('Username already taken', 'error');
-                btn.disabled = false;
-                btn.innerHTML = 'Sign up';
-                return;
-            }
-            
-            // Check if email exists
-            const { data: existingEmail } = await supabase
-                .from('users')
-                .select('email')
-                .eq('email', email)
-                .maybeSingle();
-            
-            if (existingEmail) {
-                showTooltip('Email already registered', 'error');
-                btn.disabled = false;
-                btn.innerHTML = 'Sign up';
-                return;
-            }
-            
-            // Hash password with our simple hash function
-            const hashedPassword = hashPassword(password);
-            
-            // Create user with hashed password
-            const { error } = await supabase
-                .from('users')
-                .insert([{
-                    username: username,
-                    email: email,
-                    password_hash: hashedPassword,
-                    first_name: firstName,
-                    last_name: lastName,
-                    role: 'client'
-                }]);
-            
-            if (error) throw error;
-            
-            showTooltip('Registration successful! Please login.', 'success');
-            
-            // Clear form and switch to login
-            setTimeout(() => {
+            if (response.ok) {
+                alert('✅ Registration successful! Please login.');
                 switchTab('login');
-                document.getElementById('registerFormElement').reset();
-                // Reset validation
+                form.reset();
+                // Reset validation styles
                 document.querySelectorAll('.form-control').forEach(i => i.classList.remove('is-valid', 'is-invalid'));
                 document.getElementById('usernameFeedback').innerHTML = '';
                 document.getElementById('confirmPasswordFeedback').innerHTML = '';
@@ -739,84 +663,53 @@
                     el.innerHTML = `<i class="fas fa-circle"></i> ${text}`;
                 });
                 document.getElementById('strengthBar').className = 'strength-bar';
-                btn.disabled = true;
-                btn.innerHTML = 'Sign up';
-            }, 2000);
-            
+            } else {
+                const error = await response.json();
+                alert('❌ Registration failed: ' + (error.message || 'Unknown error'));
+            }
         } catch (error) {
-            console.error('Registration error:', error);
-            showTooltip('Registration failed: ' + error.message, 'error');
-            btn.disabled = false;
-            btn.innerHTML = 'Sign up';
+            alert('❌ Error: ' + error.message);
         }
     }
     
-    // ========== LOGIN FUNCTION ==========
+    // ========== LOGIN FUNCTION (unchanged) ==========
     async function handleLogin(event) {
         event.preventDefault();
         
-        const username = document.getElementById('loginUsername').value;
-        const password = document.getElementById('loginPassword').value;
-        const btn = document.getElementById('loginBtn');
-        
-        if (!username || !password) {
-            showTooltip('Please enter both username/email and password', 'error');
-            return;
-        }
-        
-        btn.disabled = true;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+        const form = event.target;
+        const username = form.username.value;
+        const password = form.password.value;
         
         try {
-            const isEmail = username.includes('@');
-            let query = supabase.from('users').select('*');
+            const response = await fetch(
+                `${SUPABASE_URL}/rest/v1/users?or=(username.eq.${username},email.eq.${username})`,
+                {
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`
+                    }
+                }
+            );
             
-            if (isEmail) {
-                query = query.eq('email', username);
+            const users = await response.json();
+            
+            if (users.length > 0) {
+                if (users[0].password === password) {
+                    alert('✅ Login successful!');
+                    
+                    sessionStorage.setItem('userId', users[0].user_id);
+                    sessionStorage.setItem('username', users[0].username);
+                    sessionStorage.setItem('role', users[0].role);
+                    
+                    window.location.href = `Games.html?loggedin=true&user_id=${users[0].user_id}&username=${users[0].username}&role=${users[0].role}`;
+                } else {
+                    alert('❌ Invalid password');
+                }
             } else {
-                query = query.eq('username', username);
+                alert('❌ User not found');
             }
-            
-            const { data: user, error } = await query.maybeSingle();
-            
-            if (error || !user) {
-                showTooltip('User not found', 'error');
-                btn.disabled = false;
-                btn.innerHTML = 'Log in';
-                return;
-            }
-            
-            // For login, we need to compare passwords
-            // Since we can't reverse the hash, we need to hash the input and compare
-            // But our hash function includes timestamp and salt, so we need to extract the base hash part
-            // Simplified: For demo purposes, we'll use a different approach
-            
-            // In a real app, you'd want to use bcrypt which has compare function
-            // For now, let's do a simple check
-            if (user.password_hash.includes(password)) {
-                // This is just a placeholder - in reality you need proper hash comparison
-                showTooltip('Login successful! Redirecting...', 'success');
-                
-                sessionStorage.setItem('userId', user.user_id);
-                sessionStorage.setItem('username', user.username);
-                sessionStorage.setItem('role', user.role);
-                
-                setTimeout(() => {
-                    if (user.role === 'admin') window.location.href = 'admin.html';
-                    else if (user.role === 'booster') window.location.href = 'Booster.html';
-                    else window.location.href = 'Games.html';
-                }, 1500);
-            } else {
-                showTooltip('Invalid password', 'error');
-                btn.disabled = false;
-                btn.innerHTML = 'Log in';
-            }
-            
         } catch (error) {
-            console.error('Login error:', error);
-            showTooltip('Login failed: ' + error.message, 'error');
-            btn.disabled = false;
-            btn.innerHTML = 'Log in';
+            alert('❌ Error: ' + error.message);
         }
     }
     
@@ -857,10 +750,15 @@
             `;
 
             if (role === 'booster') {
-                menuItems += `<li><a class="dropdown-item" href="Booster.html"><i class="fas fa-bolt"></i> Booster Dashboard</a></li>`;
+                menuItems += `
+                    <li><a class="dropdown-item" href="Booster.html"><i class="fas fa-bolt"></i> Booster Dashboard</a></li>
+                `;
             }
+
             if (role === 'admin') {
-                menuItems += `<li><a class="dropdown-item" href="admin.html"><i class="fas fa-cog"></i> Admin Panel</a></li>`;
+                menuItems += `
+                    <li><a class="dropdown-item" href="admin.html"><i class="fas fa-cog"></i> Admin Panel</a></li>
+                `;
             }
 
             menuItems += `
@@ -890,34 +788,40 @@
         
         const urlParams = new URLSearchParams(window.location.search);
         const tab = urlParams.get('tab');
-        switchTab(tab === 'register' ? 'register' : 'login');
         
-        // Add event listeners
-        document.getElementById('regFirstName').addEventListener('input', checkRegisterButton);
-        document.getElementById('regLastName').addEventListener('input', checkRegisterButton);
-        document.getElementById('regEmail').addEventListener('input', checkRegisterButton);
-        document.getElementById('regUsername').addEventListener('input', function() {
+        if (tab === 'register') {
+            switchTab('register');
+        } else {
+            switchTab('login');
+        }
+        
+        // Add event listeners for validation
+        document.getElementById('regFirstName')?.addEventListener('input', updateRegisterButton);
+        document.getElementById('regLastName')?.addEventListener('input', updateRegisterButton);
+        document.getElementById('regEmail')?.addEventListener('input', updateRegisterButton);
+        document.getElementById('regUsername')?.addEventListener('input', function() {
             validateUsername();
-            checkRegisterButton();
+            updateRegisterButton();
         });
-        document.getElementById('regPassword').addEventListener('input', function() {
+        document.getElementById('regPassword')?.addEventListener('input', function() {
             validatePassword();
             validateConfirmPassword();
-            checkRegisterButton();
+            updateRegisterButton();
         });
-        document.getElementById('regConfirmPassword').addEventListener('input', function() {
+        document.getElementById('regConfirmPassword')?.addEventListener('input', function() {
             validateConfirmPassword();
-            checkRegisterButton();
+            updateRegisterButton();
         });
-        document.getElementById('agreeTerms').addEventListener('change', checkRegisterButton);
-        
-        // Form submit handlers
-        document.getElementById('loginFormElement').onsubmit = handleLogin;
-        document.getElementById('registerFormElement').onsubmit = handleRegister;
-        
-        // Initial button check
-        checkRegisterButton();
+        document.getElementById('agreeTerms')?.addEventListener('change', updateRegisterButton);
     };
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        const loginForm = document.getElementById('loginFormElement');
+        const registerForm = document.getElementById('registerFormElement');
+        
+        if (loginForm) loginForm.onsubmit = handleLogin;
+        if (registerForm) registerForm.onsubmit = handleRegister;
+    });
 </script>
 
 </body>

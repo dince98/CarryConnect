@@ -854,26 +854,13 @@
         }
     }
     
+    // ========== FIXED PLACE ORDER FUNCTION - NO PROMPTS ==========
     async function placeOrder(gameId, fromRank, toRank, price, serviceName, gameName) {
         if (!sessionStorage.getItem('userId')) {
             alert('Please login first to place an order');
             window.location.href = 'LoginAndRegister.html?tab=login';
             return;
         }
-        
-        const gameUsername = prompt('Enter your game username/email:');
-        if (!gameUsername) {
-            alert('Game username is required!');
-            return;
-        }
-        
-        const gamePassword = prompt('Enter your game password:');
-        if (!gamePassword) {
-            alert('Game password is required!');
-            return;
-        }
-        
-        const additionalInfo = prompt('Additional info? (e.g., server, region, specific instructions)', '');
         
         const userId = sessionStorage.getItem('userId');
         
@@ -885,9 +872,6 @@
                 target_rank: toRank,
                 total_price: price,
                 notes: serviceName,
-                game_username: gameUsername,
-                game_password: gamePassword,
-                additional_info: additionalInfo || '',
                 status: 'pending',
                 payment_status: 'unpaid'
             };

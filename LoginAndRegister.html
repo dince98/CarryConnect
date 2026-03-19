@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- ADD THIS ONE LINE - bcrypt for password hashing -->
+    <!-- bcrypt for password hashing -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bcryptjs/2.4.3/bcrypt.min.js"></script>
     
     <style>
@@ -110,7 +110,7 @@
             background: 
                 linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(20, 10, 30, 0.6) 100%),
                 url('viper.png') center center / cover no-repeat fixed;
-            min-height: calc(100vh - 76px - 140px); /* fill space between navbar and footer */
+            min-height: calc(100vh - 76px - 140px);
             display: flex;
             align-items: center;
             padding: 40px 0;
@@ -127,7 +127,6 @@
             border: 1px solid rgba(255,255,255,0.3);
         }
         
-        /* keep the tabs and forms readable on light background */
         .auth-tabs {
             display: flex;
             border-bottom: 2px solid #eef2f6;
@@ -167,6 +166,126 @@
             box-shadow: 0 0 0 4px rgba(102,126,234,0.1);
         }
         
+        /* Validation Styles */
+        .form-control.is-valid {
+            border-color: #28a745;
+        }
+        
+        .form-control.is-invalid {
+            border-color: #dc3545;
+        }
+        
+        /* Password wrapper for toggle button */
+        .password-wrapper {
+            position: relative;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #64748b;
+            z-index: 10;
+        }
+        
+        .password-toggle:hover {
+            color: #667eea;
+        }
+        
+        /* Validation messages */
+        .validation-feedback {
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        
+        .validation-feedback small {
+            display: block;
+            margin-bottom: 2px;
+        }
+        
+        .text-success {
+            color: #28a745 !important;
+        }
+        
+        .text-danger {
+            color: #dc3545 !important;
+        }
+        
+        /* Password strength bar */
+        .password-strength {
+            height: 4px;
+            border-radius: 2px;
+            background: #e2e8f0;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+        
+        .strength-bar {
+            height: 100%;
+            width: 0;
+            transition: all 0.3s;
+        }
+        
+        .strength-bar.weak {
+            width: 25%;
+            background: #dc3545;
+        }
+        
+        .strength-bar.medium {
+            width: 50%;
+            background: #ffc107;
+        }
+        
+        .strength-bar.strong {
+            width: 75%;
+            background: #28a745;
+        }
+        
+        .strength-bar.very-strong {
+            width: 100%;
+            background: #20c997;
+        }
+        
+        /* Tooltip notification */
+        .tooltip-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 12px;
+            padding: 12px 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border-left: 4px solid #667eea;
+            z-index: 9999;
+            animation: slideIn 0.3s ease;
+            font-size: 14px;
+        }
+        
+        .tooltip-message.error {
+            border-left-color: #dc3545;
+        }
+        
+        .tooltip-message.success {
+            border-left-color: #28a745;
+        }
+        
+        .tooltip-message.warning {
+            border-left-color: #ffc107;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
         .btn-auth {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -184,6 +303,12 @@
             box-shadow: 0 12px 30px rgba(102,126,234,0.4);
         }
         
+        .btn-auth:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
         .auth-footer {
             text-align: center;
             margin-top: 25px;
@@ -195,7 +320,6 @@
             font-weight: 700;
             text-decoration: none;
         }
-        /* =================================================== */
         
         footer {
             background: #0f172a;
@@ -228,6 +352,9 @@
 </head>
 <body>
 
+<!-- Tooltip Container for notifications -->
+<div id="tooltipContainer"></div>
+
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
         <a class="navbar-brand" href="index.html">
@@ -257,7 +384,7 @@
     </div>
 </nav>
 
-<!-- Entire auth section with viper.png background (replaces blue/white) -->
+<!-- Entire auth section with viper.png background -->
 <div class="auth-page">
     <div class="container">
         <div class="row justify-content-center">
@@ -278,60 +405,85 @@
                         <form id="loginFormElement">
                             <div class="mb-3">
                                 <label class="form-label">Username or Email</label>
-                                <input type="text" class="form-control" name="username" placeholder="your@email.com or username" required>
+                                <input type="text" class="form-control" id="loginUsername" placeholder="your@email.com or username" required>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Password</label>
-                                <input type="password" class="form-control" name="password" placeholder="••••••••" required>
+                                <div class="password-wrapper">
+                                    <input type="password" class="form-control" id="loginPassword" placeholder="••••••••" required>
+                                    <i class="fas fa-eye password-toggle" onclick="togglePassword('loginPassword')"></i>
+                                </div>
                             </div>
                             
                             <div class="mb-4"></div>
                             
-                            <button type="submit" class="btn btn-auth">Log in</button>
+                            <button type="submit" class="btn btn-auth" id="loginBtn">Log in</button>
                         </form>
                         <div class="auth-footer">
                             New here? <a href="#" onclick="switchTab('register'); return false;">Create an account</a>
                         </div>
                     </div>
 
-                    <!-- REGISTER FORM -->
+                    <!-- REGISTER FORM with all validations -->
                     <div id="registerForm" class="tab-pane" style="display: none;">
                         <form id="registerFormElement">
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">First name</label>
-                                    <input type="text" class="form-control" name="firstName" placeholder="John" required>
+                                    <input type="text" class="form-control" id="regFirstName" placeholder="John" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Last name</label>
-                                    <input type="text" class="form-control" name="lastName" placeholder="Doe" required>
+                                    <input type="text" class="form-control" id="regLastName" placeholder="Doe" required>
                                 </div>
                             </div>
+                            
                             <div class="mb-3">
                                 <label class="form-label">Email</label>
-                                <input type="email" class="form-control" name="email" placeholder="you@example.com" required>
+                                <input type="email" class="form-control" id="regEmail" placeholder="you@example.com" required>
                             </div>
+                            
                             <div class="mb-3">
-                                <label class="form-label">Username</label>
-                                <input type="text" class="form-control" name="username" placeholder="carrymaster" required>
-                                <small class="text-muted">Letters only, no numbers or symbols</small>
+                                <label class="form-label">Username <small class="text-muted">(letters only, no numbers/symbols)</small></label>
+                                <input type="text" class="form-control" id="regUsername" placeholder="carrymaster" required>
+                                <div class="validation-feedback" id="usernameFeedback"></div>
                             </div>
+                            
                             <div class="mb-3">
                                 <label class="form-label">Password</label>
-                                <input type="password" class="form-control" name="password" placeholder="Create a password" required>
-                                <small class="text-muted">Min. 8 characters, must include uppercase, lowercase, number and symbol</small>
+                                <div class="password-wrapper">
+                                    <input type="password" class="form-control" id="regPassword" placeholder="Create a password" required>
+                                    <i class="fas fa-eye password-toggle" onclick="togglePassword('regPassword')"></i>
+                                </div>
+                                <div class="password-strength">
+                                    <div class="strength-bar" id="strengthBar"></div>
+                                </div>
+                                <div class="validation-feedback" id="passwordFeedback">
+                                    <small id="reqLength"><i class="fas fa-circle"></i> Min. 8 characters</small>
+                                    <small id="reqLower"><i class="fas fa-circle"></i> Lowercase letter (a-z)</small>
+                                    <small id="reqUpper"><i class="fas fa-circle"></i> Uppercase letter (A-Z)</small>
+                                    <small id="reqNumber"><i class="fas fa-circle"></i> Number (0-9)</small>
+                                    <small id="reqSymbol"><i class="fas fa-circle"></i> Symbol (!@#$%^&*)</small>
+                                </div>
                             </div>
+                            
                             <div class="mb-3">
                                 <label class="form-label">Confirm password</label>
-                                <input type="password" class="form-control" name="confirmPassword" placeholder="Re-enter password" required>
+                                <div class="password-wrapper">
+                                    <input type="password" class="form-control" id="regConfirmPassword" placeholder="Re-enter password" required>
+                                    <i class="fas fa-eye password-toggle" onclick="togglePassword('regConfirmPassword')"></i>
+                                </div>
+                                <div class="validation-feedback" id="confirmPasswordFeedback"></div>
                             </div>
+                            
                             <div class="form-check mb-4">
                                 <input class="form-check-input" type="checkbox" id="agreeTerms" required>
                                 <label class="form-check-label text-muted">
                                     I agree to the <a href="terms.html" style="color: #667eea;">Terms</a>
                                 </label>
                             </div>
-                            <button type="submit" class="btn btn-auth">Sign up</button>
+                            
+                            <button type="submit" class="btn btn-auth" id="registerBtn" disabled>Sign up</button>
                         </form>
                         <div class="auth-footer">
                             Already have an account? <a href="#" onclick="switchTab('login'); return false;">Sign in</a>
@@ -362,122 +514,342 @@
     
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     
-    // ========== FIXED REGISTER FUNCTION WITH BCRYPT ==========
-    async function handleRegister(event) {
-        event.preventDefault();
+    // ========== TOOLTIP FUNCTION ==========
+    function showTooltip(message, type = 'error') {
+        const container = document.getElementById('tooltipContainer');
+        const tooltipId = 'tooltip-' + Date.now();
         
-        const form = event.target;
-        const password = form.password.value;
-        const confirmPassword = form.confirmPassword.value;
+        const icon = type === 'error' ? 'fa-exclamation-circle' : 
+                    type === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle';
         
-        // Password validation
-        if (password !== confirmPassword) {
-            alert('❌ Passwords do not match!');
-            return;
+        const html = `
+            <div id="${tooltipId}" class="tooltip-message ${type}">
+                <i class="fas ${icon}"></i> ${message}
+            </div>
+        `;
+        
+        container.insertAdjacentHTML('beforeend', html);
+        
+        setTimeout(() => {
+            const tooltip = document.getElementById(tooltipId);
+            if (tooltip) tooltip.remove();
+        }, 5000);
+    }
+    
+    // ========== TOGGLE PASSWORD VISIBILITY ==========
+    function togglePassword(inputId) {
+        const input = document.getElementById(inputId);
+        const icon = input.nextElementSibling;
+        
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
+    
+    // ========== USERNAME VALIDATION (letters only) ==========
+    function validateUsername() {
+        const username = document.getElementById('regUsername').value;
+        const input = document.getElementById('regUsername');
+        const feedback = document.getElementById('usernameFeedback');
+        
+        const lettersOnlyRegex = /^[A-Za-z]+$/;
+        
+        if (username.length === 0) {
+            input.classList.remove('is-valid', 'is-invalid');
+            feedback.innerHTML = '';
+            return false;
         }
         
-        // Password strength validation
+        if (!lettersOnlyRegex.test(username)) {
+            input.classList.add('is-invalid');
+            input.classList.remove('is-valid');
+            feedback.innerHTML = '<small class="text-danger"><i class="fas fa-times-circle"></i> Letters only - no numbers or symbols allowed</small>';
+            showTooltip('Username can only contain letters (a-z, A-Z)', 'warning');
+            return false;
+        } else {
+            input.classList.add('is-valid');
+            input.classList.remove('is-invalid');
+            feedback.innerHTML = '<small class="text-success"><i class="fas fa-check-circle"></i> Username available</small>';
+            return true;
+        }
+    }
+    
+    // ========== PASSWORD VALIDATION (all requirements) ==========
+    function validatePassword() {
+        const password = document.getElementById('regPassword').value;
+        const input = document.getElementById('regPassword');
+        const strengthBar = document.getElementById('strengthBar');
+        
         const hasLength = password.length >= 8;
         const hasLower = /[a-z]/.test(password);
         const hasUpper = /[A-Z]/.test(password);
         const hasNumber = /[0-9]/.test(password);
         const hasSymbol = /[!@#$%^&*(),.?":{}|<>]/.test(password);
         
-        if (!(hasLength && hasLower && hasUpper && hasNumber && hasSymbol)) {
-            alert('❌ Password must be at least 8 characters and include uppercase, lowercase, number and symbol');
+        // Update requirement icons
+        updateRequirementIcon('reqLength', hasLength);
+        updateRequirementIcon('reqLower', hasLower);
+        updateRequirementIcon('reqUpper', hasUpper);
+        updateRequirementIcon('reqNumber', hasNumber);
+        updateRequirementIcon('reqSymbol', hasSymbol);
+        
+        // Update strength bar
+        const strengthCount = [hasLength, hasLower, hasUpper, hasNumber, hasSymbol].filter(Boolean).length;
+        strengthBar.className = 'strength-bar';
+        if (strengthCount <= 2) strengthBar.classList.add('weak');
+        else if (strengthCount === 3) strengthBar.classList.add('medium');
+        else if (strengthCount === 4) strengthBar.classList.add('strong');
+        else if (strengthCount === 5) strengthBar.classList.add('very-strong');
+        
+        // Update input validation
+        if (password.length > 0) {
+            if (hasLength && hasLower && hasUpper && hasNumber && hasSymbol) {
+                input.classList.add('is-valid');
+                input.classList.remove('is-invalid');
+                return true;
+            } else {
+                input.classList.add('is-invalid');
+                input.classList.remove('is-valid');
+                
+                // Show specific tooltips for missing requirements
+                if (!hasLength) showTooltip('Password must be at least 8 characters', 'warning');
+                else if (!hasLower) showTooltip('Password needs a lowercase letter (a-z)', 'warning');
+                else if (!hasUpper) showTooltip('Password needs an UPPERCASE letter (A-Z)', 'warning');
+                else if (!hasNumber) showTooltip('Password needs a number (0-9)', 'warning');
+                else if (!hasSymbol) showTooltip('Password needs a symbol (!@#$%^&*)', 'warning');
+                
+                return false;
+            }
+        } else {
+            input.classList.remove('is-valid', 'is-invalid');
+            return false;
+        }
+    }
+    
+    function updateRequirementIcon(elementId, isValid) {
+        const element = document.getElementById(elementId);
+        const text = element.innerHTML.replace(/<i.*?>.*?<\/i>/, '').trim();
+        
+        if (isValid) {
+            element.innerHTML = `<i class="fas fa-check-circle text-success"></i> ${text}`;
+        } else {
+            element.innerHTML = `<i class="fas fa-circle text-muted"></i> ${text}`;
+        }
+    }
+    
+    // ========== CONFIRM PASSWORD VALIDATION ==========
+    function validateConfirmPassword() {
+        const password = document.getElementById('regPassword').value;
+        const confirm = document.getElementById('regConfirmPassword').value;
+        const input = document.getElementById('regConfirmPassword');
+        const feedback = document.getElementById('confirmPasswordFeedback');
+        
+        if (confirm.length === 0) {
+            input.classList.remove('is-valid', 'is-invalid');
+            feedback.innerHTML = '';
+            return false;
+        }
+        
+        if (password !== confirm) {
+            input.classList.add('is-invalid');
+            input.classList.remove('is-valid');
+            feedback.innerHTML = '<small class="text-danger"><i class="fas fa-times-circle"></i> Passwords do not match</small>';
+            showTooltip('Passwords do not match!', 'error');
+            return false;
+        } else {
+            input.classList.add('is-valid');
+            input.classList.remove('is-invalid');
+            feedback.innerHTML = '<small class="text-success"><i class="fas fa-check-circle"></i> Passwords match</small>';
+            return true;
+        }
+    }
+    
+    // ========== CHECK REGISTER BUTTON STATE ==========
+    function checkRegisterButton() {
+        const firstName = document.getElementById('regFirstName').value;
+        const lastName = document.getElementById('regLastName').value;
+        const email = document.getElementById('regEmail').value;
+        const isUsernameValid = validateUsername();
+        const isPasswordValid = validatePassword();
+        const isConfirmValid = validateConfirmPassword();
+        const isTermsChecked = document.getElementById('agreeTerms').checked;
+        
+        const btn = document.getElementById('registerBtn');
+        
+        if (firstName && lastName && email && isUsernameValid && isPasswordValid && isConfirmValid && isTermsChecked) {
+            btn.disabled = false;
+        } else {
+            btn.disabled = true;
+        }
+    }
+    
+    // ========== REGISTER FUNCTION with bcrypt ==========
+    async function handleRegister(event) {
+        event.preventDefault();
+        
+        // Final validation
+        if (!validateUsername() || !validatePassword() || !validateConfirmPassword()) {
+            showTooltip('Please fix all errors before submitting', 'error');
             return;
         }
         
-        // Username validation (letters only)
-        const username = form.username.value;
-        const lettersOnlyRegex = /^[A-Za-z]+$/;
-        if (!lettersOnlyRegex.test(username)) {
-            alert('❌ Username can only contain letters (no numbers or symbols)');
-            return;
-        }
+        const btn = document.getElementById('registerBtn');
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating account...';
         
         try {
-            // Hash the password using bcrypt
+            const firstName = document.getElementById('regFirstName').value;
+            const lastName = document.getElementById('regLastName').value;
+            const email = document.getElementById('regEmail').value;
+            const username = document.getElementById('regUsername').value;
+            const password = document.getElementById('regPassword').value;
+            
+            // Check if username exists
+            const { data: existingUser } = await supabase
+                .from('users')
+                .select('username')
+                .eq('username', username)
+                .maybeSingle();
+            
+            if (existingUser) {
+                showTooltip('Username already taken', 'error');
+                btn.disabled = false;
+                btn.innerHTML = 'Sign up';
+                return;
+            }
+            
+            // Check if email exists
+            const { data: existingEmail } = await supabase
+                .from('users')
+                .select('email')
+                .eq('email', email)
+                .maybeSingle();
+            
+            if (existingEmail) {
+                showTooltip('Email already registered', 'error');
+                btn.disabled = false;
+                btn.innerHTML = 'Sign up';
+                return;
+            }
+            
+            // Hash password with bcrypt
             const saltRounds = 10;
             const hashedPassword = bcrypt.hashSync(password, saltRounds);
             
-            const userData = {
-                username: username,
-                email: form.email.value,
-                password_hash: hashedPassword, // Store hashed password, not plain text
-                first_name: form.firstName.value,
-                last_name: form.lastName.value,
-                role: 'client'
-            };
+            // Create user with hashed password
+            const { error } = await supabase
+                .from('users')
+                .insert([{
+                    username: username,
+                    email: email,
+                    password_hash: hashedPassword,
+                    first_name: firstName,
+                    last_name: lastName,
+                    role: 'client'
+                }]);
             
-            const response = await fetch(`${SUPABASE_URL}/rest/v1/users`, {
-                method: 'POST',
-                headers: {
-                    'apikey': SUPABASE_KEY,
-                    'Authorization': `Bearer ${SUPABASE_KEY}`,
-                    'Content-Type': 'application/json',
-                    'Prefer': 'return=minimal'
-                },
-                body: JSON.stringify(userData)
-            });
+            if (error) throw error;
             
-            if (response.ok) {
-                alert('✅ Registration successful! Please login.');
+            showTooltip('Registration successful! Please login.', 'success');
+            
+            // Clear form and switch to login
+            setTimeout(() => {
                 switchTab('login');
-                form.reset();
-            } else {
-                const error = await response.json();
-                alert('❌ Registration failed: ' + (error.message || 'Unknown error'));
-            }
+                document.getElementById('registerFormElement').reset();
+                // Reset validation states
+                document.querySelectorAll('.form-control').forEach(i => i.classList.remove('is-valid', 'is-invalid'));
+                document.getElementById('usernameFeedback').innerHTML = '';
+                document.getElementById('confirmPasswordFeedback').innerHTML = '';
+                ['reqLength', 'reqLower', 'reqUpper', 'reqNumber', 'reqSymbol'].forEach(id => {
+                    const el = document.getElementById(id);
+                    const text = el.innerHTML.replace(/<i.*?>.*?<\/i>/, '').trim();
+                    el.innerHTML = `<i class="fas fa-circle"></i> ${text}`;
+                });
+                document.getElementById('strengthBar').className = 'strength-bar';
+                btn.disabled = true;
+                btn.innerHTML = 'Sign up';
+            }, 2000);
+            
         } catch (error) {
-            alert('❌ Error: ' + error.message);
+            console.error('Registration error:', error);
+            showTooltip('Registration failed: ' + error.message, 'error');
+            btn.disabled = false;
+            btn.innerHTML = 'Sign up';
         }
     }
     
-    // ========== FIXED LOGIN FUNCTION WITH BCRYPT ==========
+    // ========== LOGIN FUNCTION with bcrypt ==========
     async function handleLogin(event) {
         event.preventDefault();
         
-        const form = event.target;
-        const username = form.username.value;
-        const password = form.password.value;
+        const username = document.getElementById('loginUsername').value;
+        const password = document.getElementById('loginPassword').value;
+        const btn = document.getElementById('loginBtn');
+        
+        if (!username || !password) {
+            showTooltip('Please enter both username/email and password', 'error');
+            return;
+        }
+        
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
         
         try {
-            const response = await fetch(
-                `${SUPABASE_URL}/rest/v1/users?or=(username.eq.${username},email.eq.${username})`,
-                {
-                    headers: {
-                        'apikey': SUPABASE_KEY,
-                        'Authorization': `Bearer ${SUPABASE_KEY}`
-                    }
-                }
-            );
+            const isEmail = username.includes('@');
+            let query = supabase.from('users').select('*');
             
-            const users = await response.json();
-            
-            if (users.length > 0) {
-                // Compare password with stored hash using bcrypt
-                const isValid = bcrypt.compareSync(password, users[0].password_hash);
-                
-                if (isValid) {
-                    alert('✅ Login successful!');
-                    
-                    sessionStorage.setItem('userId', users[0].user_id);
-                    sessionStorage.setItem('username', users[0].username);
-                    sessionStorage.setItem('role', users[0].role);
-                    
-                    window.location.href = `Games.html?loggedin=true&user_id=${users[0].user_id}&username=${users[0].username}&role=${users[0].role}`;
-                } else {
-                    alert('❌ Invalid password');
-                }
+            if (isEmail) {
+                query = query.eq('email', username);
             } else {
-                alert('❌ User not found');
+                query = query.eq('username', username);
             }
+            
+            const { data: users, error } = await query.maybeSingle();
+            
+            if (error || !users) {
+                showTooltip('User not found', 'error');
+                btn.disabled = false;
+                btn.innerHTML = 'Log in';
+                return;
+            }
+            
+            // Verify with bcrypt
+            const isValid = bcrypt.compareSync(password, users.password_hash);
+            
+            if (!isValid) {
+                showTooltip('Invalid password', 'error');
+                btn.disabled = false;
+                btn.innerHTML = 'Log in';
+                return;
+            }
+            
+            showTooltip('Login successful! Redirecting...', 'success');
+            
+            sessionStorage.setItem('userId', users.user_id);
+            sessionStorage.setItem('username', users.username);
+            sessionStorage.setItem('role', users.role);
+            
+            setTimeout(() => {
+                if (users.role === 'admin') window.location.href = 'admin.html';
+                else if (users.role === 'booster') window.location.href = 'Booster.html';
+                else window.location.href = 'Games.html';
+            }, 1500);
+            
         } catch (error) {
-            alert('❌ Error: ' + error.message);
+            console.error('Login error:', error);
+            showTooltip('Login failed: ' + error.message, 'error');
+            btn.disabled = false;
+            btn.innerHTML = 'Log in';
         }
     }
     
+    // ========== SWITCH BETWEEN LOGIN/REGISTER TABS ==========
     function switchTab(tab) {
         const loginForm = document.getElementById('loginForm');
         const registerForm = document.getElementById('registerForm');
@@ -497,6 +869,7 @@
         }
     }
     
+    // ========== UPDATE NAVBAR BASED ON LOGIN STATUS ==========
     function updateNavbar() {
         const dropdown = document.getElementById('accountDropdown');
         const accountText = document.getElementById('accountText');
@@ -513,15 +886,10 @@
             `;
 
             if (role === 'booster') {
-                menuItems += `
-                    <li><a class="dropdown-item" href="Booster.html"><i class="fas fa-bolt"></i> Booster Dashboard</a></li>
-                `;
+                menuItems += `<li><a class="dropdown-item" href="Booster.html"><i class="fas fa-bolt"></i> Booster Dashboard</a></li>`;
             }
-
             if (role === 'admin') {
-                menuItems += `
-                    <li><a class="dropdown-item" href="admin.html"><i class="fas fa-cog"></i> Admin Panel</a></li>
-                `;
+                menuItems += `<li><a class="dropdown-item" href="admin.html"><i class="fas fa-cog"></i> Admin Panel</a></li>`;
             }
 
             menuItems += `
@@ -539,31 +907,46 @@
         }
     }
     
-    window.onload = function() {
-        updateNavbar();
-        
-        const urlParams = new URLSearchParams(window.location.search);
-        const tab = urlParams.get('tab');
-        
-        if (tab === 'register') {
-            switchTab('register');
-        } else {
-            switchTab('login');
-        }
-    };
-    
+    // ========== LOGOUT FUNCTION ==========
     function logout() {
         sessionStorage.clear();
         window.location.href = 'index.html';
     }
     
-    document.addEventListener('DOMContentLoaded', function() {
-        const loginForm = document.getElementById('loginFormElement');
-        const registerForm = document.getElementById('registerFormElement');
+    // ========== WINDOW ONLOAD ==========
+    window.onload = function() {
+        updateNavbar();
         
-        if (loginForm) loginForm.onsubmit = handleLogin;
-        if (registerForm) registerForm.onsubmit = handleRegister;
-    });
+        const urlParams = new URLSearchParams(window.location.search);
+        const tab = urlParams.get('tab');
+        switchTab(tab === 'register' ? 'register' : 'login');
+        
+        // Add event listeners for validation
+        document.getElementById('regFirstName').addEventListener('input', checkRegisterButton);
+        document.getElementById('regLastName').addEventListener('input', checkRegisterButton);
+        document.getElementById('regEmail').addEventListener('input', checkRegisterButton);
+        document.getElementById('regUsername').addEventListener('input', function() {
+            validateUsername();
+            checkRegisterButton();
+        });
+        document.getElementById('regPassword').addEventListener('input', function() {
+            validatePassword();
+            validateConfirmPassword();
+            checkRegisterButton();
+        });
+        document.getElementById('regConfirmPassword').addEventListener('input', function() {
+            validateConfirmPassword();
+            checkRegisterButton();
+        });
+        document.getElementById('agreeTerms').addEventListener('change', checkRegisterButton);
+        
+        // Form submit handlers
+        document.getElementById('loginFormElement').onsubmit = handleLogin;
+        document.getElementById('registerFormElement').onsubmit = handleRegister;
+        
+        // Initial button check
+        checkRegisterButton();
+    };
 </script>
 
 </body>

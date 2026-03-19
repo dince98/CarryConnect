@@ -419,7 +419,6 @@
             100% { transform: rotate(360deg); }
         }
         
-        /* Image Modal */
         .image-modal {
             display: none;
             position: fixed;
@@ -637,9 +636,9 @@
     let boosterRole = sessionStorage.getItem('role');
     let gamesMap = {};
     let selectedProofFiles = {};
-    let paymentsMap = {}; // NEW: Store payment info
+    let paymentsMap = {}; // Store payment info
 
-    // ===== NEW: Image Modal Functions =====
+    // Image Modal Functions
     function openImageModal(imageUrl) {
         const modal = document.getElementById('imageModal');
         const modalImage = document.getElementById('modalImage');
@@ -657,7 +656,6 @@
             closeImageModal();
         }
     });
-    // ======================================
 
     function togglePassword(orderId, password) {
         const span = document.getElementById(`password-${orderId}`);
@@ -714,11 +712,6 @@
             
             if (beforeError) throw beforeError;
             
-            const { data: beforeUrl } = supabase
-                .storage
-                .from('proofs')
-                .getPublicUrl(beforePath);
-            
             // Upload after image
             const afterFileName = `proof_${orderId}_after_${Date.now()}.${afterFile.name.split('.').pop()}`;
             const afterPath = `proofs/${orderId}/${afterFileName}`;
@@ -730,12 +723,7 @@
             
             if (afterError) throw afterError;
             
-            const { data: afterUrl } = supabase
-                .storage
-                .from('proofs')
-                .getPublicUrl(afterPath);
-            
-            // Save to proofs table
+            // Save to proofs table - store the path, not full URL
             const { error: proofError } = await supabase
                 .from('proofs')
                 .insert([
@@ -743,14 +731,14 @@
                         order_id: orderId,
                         booster_id: parseInt(userId),
                         proof_type: 'before',
-                        image_url: beforeUrl.publicUrl,
+                        image_url: beforePath,  // Store path only
                         description: description
                     },
                     {
                         order_id: orderId,
                         booster_id: parseInt(userId),
                         proof_type: 'after',
-                        image_url: afterUrl.publicUrl,
+                        image_url: afterPath,   // Store path only
                         description: description
                     }
                 ]);
@@ -1014,7 +1002,7 @@
         }
     }
 
-    // ===== NEW: Updated displayOrders with payment receipt view =====
+    // FIXED: Display orders with payment receipt images
     function displayOrders(orders, elementId, type) {
         const container = document.getElementById(elementId);
         
@@ -1073,11 +1061,14 @@
                         </div>
                     ` : ''}
                     
-                    ${payment && payment.receipt_url ? `
+                    ${payment && payment.receipt_path ? `
                         <div class="proof-section" style="background: #fff3cd; border-color: #ffc107;">
                             <h6><i class="fas fa-receipt"></i> Payment Receipt</h6>
                             <div style="text-align: center;">
-                                <img src="${payment.receipt_url}" style="max-width: 200px; max-height: 150px; border-radius: 10px; cursor: pointer; border: 2px solid #ffc107;" onclick="openImageModal('${payment.receipt_url}')" title="Click to enlarge">
+                                <img src="${SUPABASE_URL}/storage/v1/object/public/payment-receipts/${payment.receipt_path}" 
+                                     style="max-width: 200px; max-height: 150px; border-radius: 10px; cursor: pointer; border: 2px solid #ffc107;" 
+                                     onclick="openImageModal('${SUPABASE_URL}/storage/v1/object/public/payment-receipts/${payment.receipt_path}')" 
+                                     title="Click to enlarge">
                                 <p style="margin-top: 10px; font-size: 12px;"><i class="fas fa-info-circle"></i> Click image to enlarge</p>
                             </div>
                         </div>

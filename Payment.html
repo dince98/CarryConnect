@@ -796,9 +796,9 @@
                 return;
             }
             
-            // Upload image to Supabase Storage
+            // Upload image to Supabase Storage - this works for ANY image, any name
             const fileExt = selectedFile.name.split('.').pop();
-            const fileName = `receipt_${orderData.orderId}_${Date.now()}.${fileExt}`;
+            const fileName = `receipt_${orderData.orderId}_${Date.now()}.${fileExt}`; // Unique filename
             const filePath = `${userId}/${fileName}`;
             
             console.log('Uploading to path:', filePath);
@@ -815,13 +815,17 @@
             
             console.log('Upload successful:', uploadData);
             
-            // Save ONLY the file path, not the full URL
+            // Construct the FULL URL to the image (this works for ANY uploaded image)
+            const fullImageUrl = `${SUPABASE_URL}/storage/v1/object/public/payment-receipts/${filePath}`;
+            console.log('Full image URL:', fullImageUrl);
+            
+            // Save payment details to database using receipt_url (existing column)
             const paymentData = {
                 order_id: parseInt(orderData.orderId),
                 user_id: parseInt(userId),
                 payment_method: selectedPayment,
                 amount: parseInt(orderData.price || 0),
-                receipt_path: filePath,  // This stores just the path, e.g., "13/receipt_25_123456789.jpg"
+                receipt_url: fullImageUrl,  // Store the COMPLETE URL to the image
                 reference_number: referenceNum,
                 status: 'pending',
                 created_at: new Date().toISOString()

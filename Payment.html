@@ -139,7 +139,6 @@
             font-weight: 800;
         }
         
-        /* Game Account Section */
         .account-section {
             background: white;
             border-radius: 30px;
@@ -201,7 +200,6 @@
             margin-right: 8px;
         }
         
-        /* Payment Methods - ONLY GCASH NOW */
         .payment-methods {
             background: white;
             border-radius: 30px;
@@ -268,7 +266,6 @@
             margin-bottom: 0;
         }
         
-        /* QR Code Styling */
         .qr-container {
             text-align: center;
             margin: 20px 0;
@@ -494,7 +491,6 @@
 </nav>
 
 <div class="payment-container">
-    <!-- Order Summary Card -->
     <div class="order-summary-card">
         <div class="order-header">
             <h2>Confirm Your Order</h2>
@@ -526,7 +522,6 @@
         </div>
     </div>
     
-    <!-- Game Account Details Section -->
     <div class="account-section">
         <h3><i class="fas fa-gamepad me-2" style="color: #39b1e0;"></i> Game Account Details</h3>
         <p class="text-muted mb-3">Your booster will need these to access your account and complete the boost.</p>
@@ -551,11 +546,9 @@
         </div>
     </div>
     
-    <!-- Payment Methods - ONLY GCASH -->
     <div class="payment-methods">
         <h3><i class="fas fa-credit-card me-2" style="color: #39b1e0;"></i> Select Payment Method</h3>
         
-        <!-- GCASH ONLY - Maya and Bank removed -->
         <div class="payment-option" onclick="selectPayment('gcash')">
             <input type="radio" name="payment" id="gcash" value="gcash" checked>
             <div class="payment-logo">
@@ -567,29 +560,24 @@
             </div>
         </div>
         
-        <!-- Payment Instructions with QR Code -->
         <div class="payment-instructions" id="paymentInstructions">
             <h5>📱 Scan QR Code to Pay with GCash:</h5>
             
-            <!-- QR Code Image -->
             <div class="qr-container">
                 <img src="QRGCASH.jpg" alt="GCash QR Code" class="qr-image">
                 <p class="qr-instruction">Scan this QR code with your GCash app</p>
             </div>
             
-            <!-- Simple instructions - NO steps -->
             <p><strong>Amount to pay:</strong> ₱<span id="displayAmount"></span></p>
             <p>After payment, enter the reference number below and upload your receipt.</p>
         </div>
         
-        <!-- Reference Number Input -->
         <div class="reference-input" id="referenceInput">
             <label>Reference Number / Transaction ID <span style="color: #dc3545;">*</span></label>
             <input type="text" id="referenceNumber" placeholder="e.g., GCASH-1234567890">
         </div>
     </div>
     
-    <!-- Upload Receipt Section -->
     <div class="upload-section">
         <h3><i class="fas fa-cloud-upload-alt me-2" style="color: #39b1e0;"></i> Upload Payment Receipt</h3>
         <p class="text-muted mb-3">Please upload a screenshot or photo of your payment confirmation.</p>
@@ -607,7 +595,6 @@
         </div>
     </div>
     
-    <!-- Submit Button -->
     <button class="btn-submit-payment" onclick="submitPayment()" id="submitBtn" disabled>
         <i class="fas fa-check-circle me-2"></i> Submit Payment
     </button>
@@ -660,7 +647,7 @@
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     
     let orderData = {};
-    let selectedPayment = 'gcash'; // Default to gcash
+    let selectedPayment = 'gcash';
     let selectedFile = null;
     
     function checkRememberedLogin() {
@@ -696,7 +683,7 @@
 
             if (role === 'admin') {
                 menuItems += `
-                    <li><a class="dropdown-item" href="Admin.html"><i class="fas fa-cog"></i> Admin Panel</a></li>
+                    <li><a class="dropdown-item" href="admin.html"><i class="fas fa-cog"></i> Admin Panel</a></li>
                 `;
             }
 
@@ -735,7 +722,6 @@
         document.getElementById('displayTotal').textContent = `₱${parseInt(orderData.price || 0).toLocaleString()}`;
         document.getElementById('displayAmount').textContent = parseInt(orderData.price || 0).toLocaleString();
         
-        // Auto-select GCash
         document.getElementById('gcash').checked = true;
         
         updateNavbar();
@@ -810,7 +796,7 @@
                 return;
             }
             
-            // 1. Upload image to Supabase Storage
+            // Upload image to Supabase Storage
             const fileExt = selectedFile.name.split('.').pop();
             const fileName = `receipt_${orderData.orderId}_${Date.now()}.${fileExt}`;
             const filePath = `${userId}/${fileName}`;
@@ -829,17 +815,13 @@
             
             console.log('Upload successful:', uploadData);
             
-            // FIXED: Construct the complete URL manually
-            const publicUrl = `${SUPABASE_URL}/storage/v1/object/public/payment-receipts/${filePath}`;
-            console.log('Public URL:', publicUrl);
-            
-            // 2. Save payment details to database
+            // Save ONLY the file path, not the full URL
             const paymentData = {
                 order_id: parseInt(orderData.orderId),
                 user_id: parseInt(userId),
                 payment_method: selectedPayment,
                 amount: parseInt(orderData.price || 0),
-                receipt_url: publicUrl,  // Now this is the complete URL!
+                receipt_path: filePath,  // This stores just the path, e.g., "13/receipt_25_123456789.jpg"
                 reference_number: referenceNum,
                 status: 'pending',
                 created_at: new Date().toISOString()
@@ -859,7 +841,7 @@
             
             console.log('Payment saved:', data);
             
-            // 3. Update order with game account details
+            // Update order with game account details
             const { error: updateError } = await supabase
                 .from('orders')
                 .update({ 

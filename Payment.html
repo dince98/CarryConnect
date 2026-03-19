@@ -139,6 +139,69 @@
             font-weight: 800;
         }
         
+        /* NEW: Game Account Section */
+        .account-section {
+            background: white;
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .account-section h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #1e293b;
+        }
+        
+        .account-input {
+            margin-bottom: 20px;
+        }
+        
+        .account-input label {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .account-input input, .account-input textarea {
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 12px 15px;
+            width: 100%;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .account-input input:focus, .account-input textarea:focus {
+            border-color: #39b1e0;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(57, 177, 224, 0.1);
+        }
+        
+        .account-input textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        .account-note {
+            background: #f0f9ff;
+            border-radius: 10px;
+            padding: 12px;
+            margin-top: 10px;
+            font-size: 13px;
+            color: #1e293b;
+            border-left: 3px solid #39b1e0;
+        }
+        
+        .account-note i {
+            color: #39b1e0;
+            margin-right: 8px;
+        }
+        /* ============================= */
+        
         .payment-methods {
             background: white;
             border-radius: 30px;
@@ -437,9 +500,34 @@
         </div>
     </div>
     
+    <!-- NEW: Game Account Details Section -->
+    <div class="account-section">
+        <h3><i class="fas fa-gamepad me-2" style="color: #39b1e0;"></i> Game Account Details</h3>
+        <p class="text-muted mb-3">Your booster will need these to access your account and complete the boost.</p>
+        
+        <div class="account-input">
+            <label>Game Username / Email <span style="color: #dc3545;">*</span></label>
+            <input type="text" id="gameUsername" placeholder="e.g., SummonerName or email@example.com" required>
+        </div>
+        
+        <div class="account-input">
+            <label>Game Password <span style="color: #dc3545;">*</span></label>
+            <input type="password" id="gamePassword" placeholder="Enter your game password" required>
+        </div>
+        
+        <div class="account-input">
+            <label>Additional Notes (Optional)</label>
+            <textarea id="additionalInfo" placeholder="e.g., Server: EUW, Play only certain champions, Specific instructions..."></textarea>
+        </div>
+        
+        <div class="account-note">
+            <i class="fas fa-shield-alt"></i> Your credentials are encrypted and only visible to your assigned booster. We never store your password in plain text.
+        </div>
+    </div>
+    
     <!-- Payment Methods -->
     <div class="payment-methods">
-        <h3>Select Payment Method</h3>
+        <h3><i class="fas fa-credit-card me-2" style="color: #39b1e0;"></i> Select Payment Method</h3>
         
         <div class="payment-option" onclick="selectPayment('gcash')">
             <input type="radio" name="payment" id="gcash" value="gcash">
@@ -489,7 +577,7 @@
     
     <!-- Upload Receipt Section -->
     <div class="upload-section">
-        <h3>Upload Payment Receipt</h3>
+        <h3><i class="fas fa-cloud-upload-alt me-2" style="color: #39b1e0;"></i> Upload Payment Receipt</h3>
         <p class="text-muted mb-3">Please upload a screenshot or photo of your payment confirmation.</p>
         
         <div class="upload-area" onclick="document.getElementById('receiptFile').click()">
@@ -697,10 +785,15 @@
     function checkSubmitButton() {
         const submitBtn = document.getElementById('submitBtn');
         const referenceNum = document.getElementById('referenceNumber')?.value || '';
-        submitBtn.disabled = !(selectedPayment && selectedFile && referenceNum);
+        const gameUsername = document.getElementById('gameUsername')?.value || '';
+        const gamePassword = document.getElementById('gamePassword')?.value || '';
+        
+        submitBtn.disabled = !(selectedPayment && selectedFile && referenceNum && gameUsername && gamePassword);
     }
     
     document.getElementById('referenceNumber')?.addEventListener('input', checkSubmitButton);
+    document.getElementById('gameUsername')?.addEventListener('input', checkSubmitButton);
+    document.getElementById('gamePassword')?.addEventListener('input', checkSubmitButton);
     
     async function submitPayment() {
         if (!selectedPayment || !selectedFile) {
@@ -711,6 +804,15 @@
         const referenceNum = document.getElementById('referenceNumber').value;
         if (!referenceNum) {
             alert('Please enter reference number');
+            return;
+        }
+        
+        const gameUsername = document.getElementById('gameUsername').value;
+        const gamePassword = document.getElementById('gamePassword').value;
+        const additionalInfo = document.getElementById('additionalInfo').value;
+        
+        if (!gameUsername || !gamePassword) {
+            alert('Please enter your game account username and password');
             return;
         }
         
@@ -760,13 +862,18 @@
             
             if (error) throw error;
             
-            // 3. Update order status
+            // 3. Update order with game account details
             await supabase
                 .from('orders')
-                .update({ payment_status: 'paid' })
+                .update({ 
+                    payment_status: 'paid',
+                    game_username: gameUsername,
+                    game_password: gamePassword,
+                    additional_info: additionalInfo || ''
+                })
                 .eq('order_id', orderData.orderId);
             
-            alert('✅ Payment submitted successfully! Your receipt has been saved.');
+            alert('✅ Payment submitted successfully! Your order has been placed.');
             window.location.href = 'Orders.html';
             
         } catch (error) {

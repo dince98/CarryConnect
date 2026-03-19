@@ -139,7 +139,7 @@
             font-weight: 800;
         }
         
-        /* NEW: Game Account Section */
+        /* Game Account Section */
         .account-section {
             background: white;
             border-radius: 30px;
@@ -200,8 +200,8 @@
             color: #39b1e0;
             margin-right: 8px;
         }
-        /* ============================= */
         
+        /* Payment Methods - ONLY GCASH NOW */
         .payment-methods {
             background: white;
             border-radius: 30px;
@@ -268,12 +268,62 @@
             margin-bottom: 0;
         }
         
+        /* QR Code Styling */
+        .qr-container {
+            text-align: center;
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 15px;
+        }
+        
+        .qr-image {
+            max-width: 250px;
+            width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border: 2px solid #39b1e0;
+            padding: 10px;
+            background: white;
+        }
+        
+        .qr-instruction {
+            margin-top: 15px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+        
         .payment-instructions {
             background: #f8fafc;
             border-radius: 15px;
             padding: 20px;
             margin-top: 20px;
             border-left: 4px solid #39b1e0;
+        }
+        
+        .reference-input {
+            margin-top: 20px;
+        }
+        
+        .reference-input label {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+        
+        .reference-input input {
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 12px 15px;
+            width: 100%;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .reference-input input:focus {
+            border-color: #39b1e0;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(57, 177, 224, 0.1);
         }
         
         .upload-section {
@@ -353,30 +403,6 @@
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
-        }
-        
-        .reference-input {
-            margin-top: 20px;
-        }
-        
-        .reference-input label {
-            font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 8px;
-        }
-        
-        .reference-input input {
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 12px 15px;
-            width: 100%;
-            font-family: 'Poppins', sans-serif;
-        }
-        
-        .reference-input input:focus {
-            border-color: #39b1e0;
-            outline: none;
-            box-shadow: 0 0 0 4px rgba(57, 177, 224, 0.1);
         }
         
         footer {
@@ -500,7 +526,7 @@
         </div>
     </div>
     
-    <!-- NEW: Game Account Details Section -->
+    <!-- Game Account Details Section -->
     <div class="account-section">
         <h3><i class="fas fa-gamepad me-2" style="color: #39b1e0;"></i> Game Account Details</h3>
         <p class="text-muted mb-3">Your booster will need these to access your account and complete the boost.</p>
@@ -525,52 +551,40 @@
         </div>
     </div>
     
-    <!-- Payment Methods -->
+    <!-- Payment Methods - ONLY GCASH -->
     <div class="payment-methods">
         <h3><i class="fas fa-credit-card me-2" style="color: #39b1e0;"></i> Select Payment Method</h3>
         
+        <!-- GCASH ONLY - Maya and Bank removed -->
         <div class="payment-option" onclick="selectPayment('gcash')">
-            <input type="radio" name="payment" id="gcash" value="gcash">
+            <input type="radio" name="payment" id="gcash" value="gcash" checked>
             <div class="payment-logo">
                 <i class="fas fa-mobile-alt"></i>
             </div>
             <div class="payment-details">
                 <h4>GCash</h4>
-                <p>Pay via GCash mobile wallet</p>
+                <p>Pay via GCash QR code</p>
             </div>
         </div>
         
-        <div class="payment-option" onclick="selectPayment('maya')">
-            <input type="radio" name="payment" id="maya" value="maya">
-            <div class="payment-logo">
-                <i class="fas fa-wallet"></i>
+        <!-- Payment Instructions with QR Code -->
+        <div class="payment-instructions" id="paymentInstructions">
+            <h5>📱 Scan QR Code to Pay with GCash:</h5>
+            
+            <!-- QR Code Image -->
+            <div class="qr-container">
+                <img src="QRGCASH.jpg" alt="GCash QR Code" class="qr-image">
+                <p class="qr-instruction">Scan this QR code with your GCash app</p>
             </div>
-            <div class="payment-details">
-                <h4>Maya</h4>
-                <p>Pay via Maya</p>
-            </div>
-        </div>
-        
-        <div class="payment-option" onclick="selectPayment('bank')">
-            <input type="radio" name="payment" id="bank" value="bank">
-            <div class="payment-logo">
-                <i class="fas fa-university"></i>
-            </div>
-            <div class="payment-details">
-                <h4>Bank Transfer</h4>
-                <p>BPI, BDO, Metrobank, etc.</p>
-            </div>
-        </div>
-        
-        <!-- Payment Instructions -->
-        <div class="payment-instructions" id="paymentInstructions" style="display: none;">
-            <h5>📱 Payment Instructions:</h5>
-            <p id="instructionsText"></p>
+            
+            <!-- Simple instructions - NO steps -->
+            <p><strong>Amount to pay:</strong> ₱<span id="displayAmount"></span></p>
+            <p>After payment, enter the reference number below and upload your receipt.</p>
         </div>
         
         <!-- Reference Number Input -->
-        <div class="reference-input" id="referenceInput" style="display: none;">
-            <label>Reference Number / Transaction ID</label>
+        <div class="reference-input" id="referenceInput">
+            <label>Reference Number / Transaction ID <span style="color: #dc3545;">*</span></label>
             <input type="text" id="referenceNumber" placeholder="e.g., GCASH-1234567890">
         </div>
     </div>
@@ -646,7 +660,7 @@
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     
     let orderData = {};
-    let selectedPayment = '';
+    let selectedPayment = 'gcash'; // Default to gcash
     let selectedFile = null;
     
     function checkRememberedLogin() {
@@ -719,6 +733,10 @@
         document.getElementById('displayTargetRank').textContent = orderData.toRank || 'N/A';
         document.getElementById('displayGame').textContent = orderData.game || 'N/A';
         document.getElementById('displayTotal').textContent = `₱${parseInt(orderData.price || 0).toLocaleString()}`;
+        document.getElementById('displayAmount').textContent = parseInt(orderData.price || 0).toLocaleString();
+        
+        // Auto-select GCash
+        document.getElementById('gcash').checked = true;
         
         updateNavbar();
     };
@@ -733,42 +751,6 @@
             opt.classList.remove('selected');
         });
         event.currentTarget.classList.add('selected');
-        
-        document.getElementById('paymentInstructions').style.display = 'block';
-        document.getElementById('referenceInput').style.display = 'block';
-        
-        const amount = parseInt(orderData.price || 0).toLocaleString();
-        
-        let instructions = '';
-        if (method === 'gcash') {
-            instructions = `
-                <strong>GCash:</strong> 0996 906 3181 (Patrick E.)<br>
-                1. Open GCash app<br>
-                2. Click "Send Money"<br>
-                3. Enter number: 0996 906 3181<br>
-                4. Send exact amount: ₱${amount}<br>
-                5. Save screenshot as proof
-            `;
-        } else if (method === 'maya') {
-            instructions = `
-                <strong>Maya:</strong> 0996 906 3181 (Patrick E.)<br>
-                1. Open Maya app<br>
-                2. Click "Send Money"<br>
-                3. Enter number: 0996 906 3181<br>
-                4. Send exact amount: ₱${amount}<br>
-                5. Save screenshot as proof
-            `;
-        } else {
-            instructions = `
-                <strong>Bank Transfer:</strong><br>
-                Bank: BDO<br>
-                Account Name: Patrick E.<br>
-                Account Number: 1234 5678 9012<br>
-                Amount: ₱${amount}<br>
-                Upload deposit slip or screenshot
-            `;
-        }
-        document.getElementById('instructionsText').innerHTML = instructions;
         
         checkSubmitButton();
     }

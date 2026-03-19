@@ -814,18 +814,28 @@
             const fileName = `receipt_${orderData.orderId}_${Date.now()}.${selectedFile.name.split('.').pop()}`;
             const filePath = `${userId}/${fileName}`;
             
+            console.log('Uploading to path:', filePath);
+            
             const { data: uploadData, error: uploadError } = await supabase
                 .storage
                 .from('payment-receipts')
                 .upload(filePath, selectedFile);
                 
-            if (uploadError) throw uploadError;
+            if (uploadError) {
+                console.error('Upload error:', uploadError);
+                throw uploadError;
+            }
             
-            // Get public URL
+            console.log('Upload successful:', uploadData);
+            
+            // Get public URL - FIXED: Correct way to get public URL
             const { data: urlData } = supabase
                 .storage
                 .from('payment-receipts')
                 .getPublicUrl(filePath);
+            
+            const publicUrl = urlData.publicUrl;
+            console.log('Public URL:', publicUrl);
             
             // 2. Save payment details to database
             const paymentData = {
@@ -833,19 +843,28 @@
                 user_id: parseInt(userId),
                 payment_method: selectedPayment,
                 amount: parseInt(orderData.price || 0),
-                receipt_url: urlData.publicUrl,
+                receipt_url: publicUrl,  // Make sure this is saved!
                 reference_number: referenceNum,
-                status: 'pending'
+                status: 'pending',
+                created_at: new Date().toISOString()
             };
+            
+            console.log('Saving payment data:', paymentData);
             
             const { data, error } = await supabase
                 .from('payments')
-                .insert([paymentData]);
+                .insert([paymentData])
+                .select();
             
-            if (error) throw error;
+            if (error) {
+                console.error('Payment insert error:', error);
+                throw error;
+            }
+            
+            console.log('Payment saved:', data);
             
             // 3. Update order with game account details
-            await supabase
+            const { error: updateError } = await supabase
                 .from('orders')
                 .update({ 
                     payment_status: 'paid',
@@ -855,11 +874,16 @@
                 })
                 .eq('order_id', orderData.orderId);
             
+            if (updateError) {
+                console.error('Order update error:', updateError);
+                throw updateError;
+            }
+            
             alert('✅ Payment submitted successfully! Your order has been placed.');
             window.location.href = 'Orders.html';
             
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Error in submitPayment:', error);
             alert('❌ Error: ' + error.message);
         } finally {
             submitBtn.disabled = false;

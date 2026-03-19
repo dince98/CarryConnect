@@ -244,6 +244,12 @@
             margin-top: 10px;
             cursor: pointer;
             border: 1px solid #e2e8f0;
+            transition: transform 0.3s;
+        }
+        
+        .receipt-image:hover {
+            transform: scale(1.05);
+            border-color: #667eea;
         }
         
         .action-buttons {
@@ -338,6 +344,48 @@
             100% { transform: rotate(360deg); }
         }
         
+        /* Image Modal */
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            padding-top: 50px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            cursor: pointer;
+        }
+        
+        .modal-image {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+            animation: zoom 0.3s;
+        }
+        
+        @keyframes zoom {
+            from {transform: scale(0.1)} 
+            to {transform: scale(1)}
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        
+        .close-modal:hover {
+            color: #bbb;
+        }
+        
         footer {
             background: #0f172a;
             color: white;
@@ -398,6 +446,12 @@
     </style>
 </head>
 <body>
+
+<!-- Image Modal -->
+<div id="imageModal" class="image-modal" onclick="closeImageModal()">
+    <span class="close-modal">&times;</span>
+    <img class="modal-image" id="modalImage" onclick="event.stopPropagation()">
+</div>
 
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
@@ -509,6 +563,26 @@
     
     let gamesMap = {};
     let boostersMap = {};
+    
+    // ===== NEW: Image Modal Functions =====
+    function openImageModal(imageUrl) {
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        modalImage.src = imageUrl;
+        modal.style.display = 'block';
+    }
+    
+    function closeImageModal() {
+        document.getElementById('imageModal').style.display = 'none';
+    }
+    
+    // Close modal with ESC key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            closeImageModal();
+        }
+    });
+    // ======================================
     
     function checkRememberedLogin() {
         const remembered = localStorage.getItem('rememberedUser');
@@ -691,6 +765,7 @@
         }
     }
     
+    // ===== NEW: Updated displayPayments with clickable receipt image =====
     function displayPayments(payments) {
         const container = document.getElementById('paymentsList');
         
@@ -748,7 +823,10 @@
                     </div>
                     
                     ${payment.receipt_url ? `
-                        <img src="${payment.receipt_url}" class="receipt-image" alt="Receipt" onclick="window.open('${payment.receipt_url}', '_blank')">
+                        <div style="margin: 15px 0; text-align: center;">
+                            <p style="font-weight: 600; margin-bottom: 10px;">Payment Receipt:</p>
+                            <img src="${payment.receipt_url}" class="receipt-image" alt="Receipt" onclick="openImageModal('${payment.receipt_url}')" title="Click to enlarge">
+                        </div>
                     ` : ''}
                     
                     <div class="action-buttons">

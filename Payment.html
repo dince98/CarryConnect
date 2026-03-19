@@ -811,7 +811,8 @@
             }
             
             // 1. Upload image to Supabase Storage
-            const fileName = `receipt_${orderData.orderId}_${Date.now()}.${selectedFile.name.split('.').pop()}`;
+            const fileExt = selectedFile.name.split('.').pop();
+            const fileName = `receipt_${orderData.orderId}_${Date.now()}.${fileExt}`;
             const filePath = `${userId}/${fileName}`;
             
             console.log('Uploading to path:', filePath);
@@ -828,13 +829,8 @@
             
             console.log('Upload successful:', uploadData);
             
-            // Get public URL - FIXED: Correct way to get public URL
-            const { data: urlData } = supabase
-                .storage
-                .from('payment-receipts')
-                .getPublicUrl(filePath);
-            
-            const publicUrl = urlData.publicUrl;
+            // FIXED: Construct the complete URL manually
+            const publicUrl = `${SUPABASE_URL}/storage/v1/object/public/payment-receipts/${filePath}`;
             console.log('Public URL:', publicUrl);
             
             // 2. Save payment details to database
@@ -843,7 +839,7 @@
                 user_id: parseInt(userId),
                 payment_method: selectedPayment,
                 amount: parseInt(orderData.price || 0),
-                receipt_url: publicUrl,  // Make sure this is saved!
+                receipt_url: publicUrl,  // Now this is the complete URL!
                 reference_number: referenceNum,
                 status: 'pending',
                 created_at: new Date().toISOString()

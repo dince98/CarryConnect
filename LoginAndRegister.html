@@ -10,9 +10,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- bcrypt for password hashing -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bcryptjs/2.4.3/bcrypt.min.js"></script>
-    
     <style>
         * {
             margin: 0;
@@ -175,7 +172,6 @@
             border-color: #dc3545;
         }
         
-        /* Password wrapper for toggle button */
         .password-wrapper {
             position: relative;
         }
@@ -194,7 +190,6 @@
             color: #667eea;
         }
         
-        /* Validation messages */
         .validation-feedback {
             font-size: 12px;
             margin-top: 5px;
@@ -213,7 +208,6 @@
             color: #dc3545 !important;
         }
         
-        /* Password strength bar */
         .password-strength {
             height: 4px;
             border-radius: 2px;
@@ -248,7 +242,6 @@
             background: #20c997;
         }
         
-        /* Tooltip notification */
         .tooltip-message {
             position: fixed;
             top: 20px;
@@ -352,7 +345,7 @@
 </head>
 <body>
 
-<!-- Tooltip Container for notifications -->
+<!-- Tooltip Container -->
 <div id="tooltipContainer"></div>
 
 <nav class="navbar navbar-expand-lg navbar-dark">
@@ -384,7 +377,7 @@
     </div>
 </nav>
 
-<!-- Entire auth section with viper.png background -->
+<!-- Auth section with viper.png background -->
 <div class="auth-page">
     <div class="container">
         <div class="row justify-content-center">
@@ -424,7 +417,7 @@
                         </div>
                     </div>
 
-                    <!-- REGISTER FORM with all validations -->
+                    <!-- REGISTER FORM -->
                     <div id="registerForm" class="tab-pane" style="display: none;">
                         <form id="registerFormElement">
                             <div class="row">
@@ -508,7 +501,17 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+<!-- IMPORTANT: bcrypt loaded BEFORE your script -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bcryptjs/2.4.3/bcrypt.min.js"></script>
 <script>
+    // Check if bcrypt loaded
+    if (typeof bcrypt === 'undefined') {
+        console.error('bcrypt failed to load');
+        alert('Security library failed to load. Please refresh the page.');
+    } else {
+        console.log('bcrypt loaded successfully');
+    }
+
     const SUPABASE_URL = 'https://aozhkwvoqnyktsgrdtnw.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvemhrd3ZvcW55a3RzZ3JkdG53Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MjU2NTA1NiwiZXhwIjoyMDg4MTQxMDU2fQ.lbr0-PCymnj241Vwso6yJYzch7HOJ5utB-pPsWpkABc';
     
@@ -569,7 +572,7 @@
         if (!lettersOnlyRegex.test(username)) {
             input.classList.add('is-invalid');
             input.classList.remove('is-valid');
-            feedback.innerHTML = '<small class="text-danger"><i class="fas fa-times-circle"></i> Letters only - no numbers or symbols allowed</small>';
+            feedback.innerHTML = '<small class="text-danger"><i class="fas fa-times-circle"></i> Letters only - no numbers or symbols</small>';
             showTooltip('Username can only contain letters (a-z, A-Z)', 'warning');
             return false;
         } else {
@@ -580,7 +583,7 @@
         }
     }
     
-    // ========== PASSWORD VALIDATION (all requirements) ==========
+    // ========== PASSWORD VALIDATION ==========
     function validatePassword() {
         const password = document.getElementById('regPassword').value;
         const input = document.getElementById('regPassword');
@@ -616,14 +619,6 @@
             } else {
                 input.classList.add('is-invalid');
                 input.classList.remove('is-valid');
-                
-                // Show specific tooltips for missing requirements
-                if (!hasLength) showTooltip('Password must be at least 8 characters', 'warning');
-                else if (!hasLower) showTooltip('Password needs a lowercase letter (a-z)', 'warning');
-                else if (!hasUpper) showTooltip('Password needs an UPPERCASE letter (A-Z)', 'warning');
-                else if (!hasNumber) showTooltip('Password needs a number (0-9)', 'warning');
-                else if (!hasSymbol) showTooltip('Password needs a symbol (!@#$%^&*)', 'warning');
-                
                 return false;
             }
         } else {
@@ -670,7 +665,7 @@
         }
     }
     
-    // ========== CHECK REGISTER BUTTON STATE ==========
+    // ========== CHECK REGISTER BUTTON ==========
     function checkRegisterButton() {
         const firstName = document.getElementById('regFirstName').value;
         const lastName = document.getElementById('regLastName').value;
@@ -689,9 +684,15 @@
         }
     }
     
-    // ========== REGISTER FUNCTION with bcrypt ==========
+    // ========== REGISTER FUNCTION ==========
     async function handleRegister(event) {
         event.preventDefault();
+        
+        // Check if bcrypt is loaded
+        if (typeof bcrypt === 'undefined' || !bcrypt.hashSync) {
+            showTooltip('Security library not loaded. Please refresh the page.', 'error');
+            return;
+        }
         
         // Final validation
         if (!validateUsername() || !validatePassword() || !validateConfirmPassword()) {
@@ -762,7 +763,7 @@
             setTimeout(() => {
                 switchTab('login');
                 document.getElementById('registerFormElement').reset();
-                // Reset validation states
+                // Reset validation
                 document.querySelectorAll('.form-control').forEach(i => i.classList.remove('is-valid', 'is-invalid'));
                 document.getElementById('usernameFeedback').innerHTML = '';
                 document.getElementById('confirmPasswordFeedback').innerHTML = '';
@@ -784,9 +785,15 @@
         }
     }
     
-    // ========== LOGIN FUNCTION with bcrypt ==========
+    // ========== LOGIN FUNCTION ==========
     async function handleLogin(event) {
         event.preventDefault();
+        
+        // Check if bcrypt is loaded
+        if (typeof bcrypt === 'undefined' || !bcrypt.compareSync) {
+            showTooltip('Security library not loaded. Please refresh the page.', 'error');
+            return;
+        }
         
         const username = document.getElementById('loginUsername').value;
         const password = document.getElementById('loginPassword').value;
@@ -810,9 +817,9 @@
                 query = query.eq('username', username);
             }
             
-            const { data: users, error } = await query.maybeSingle();
+            const { data: user, error } = await query.maybeSingle();
             
-            if (error || !users) {
+            if (error || !user) {
                 showTooltip('User not found', 'error');
                 btn.disabled = false;
                 btn.innerHTML = 'Log in';
@@ -820,7 +827,7 @@
             }
             
             // Verify with bcrypt
-            const isValid = bcrypt.compareSync(password, users.password_hash);
+            const isValid = bcrypt.compareSync(password, user.password_hash);
             
             if (!isValid) {
                 showTooltip('Invalid password', 'error');
@@ -831,13 +838,13 @@
             
             showTooltip('Login successful! Redirecting...', 'success');
             
-            sessionStorage.setItem('userId', users.user_id);
-            sessionStorage.setItem('username', users.username);
-            sessionStorage.setItem('role', users.role);
+            sessionStorage.setItem('userId', user.user_id);
+            sessionStorage.setItem('username', user.username);
+            sessionStorage.setItem('role', user.role);
             
             setTimeout(() => {
-                if (users.role === 'admin') window.location.href = 'admin.html';
-                else if (users.role === 'booster') window.location.href = 'Booster.html';
+                if (user.role === 'admin') window.location.href = 'admin.html';
+                else if (user.role === 'booster') window.location.href = 'Booster.html';
                 else window.location.href = 'Games.html';
             }, 1500);
             
@@ -849,7 +856,7 @@
         }
     }
     
-    // ========== SWITCH BETWEEN LOGIN/REGISTER TABS ==========
+    // ========== SWITCH TABS ==========
     function switchTab(tab) {
         const loginForm = document.getElementById('loginForm');
         const registerForm = document.getElementById('registerForm');
@@ -869,7 +876,7 @@
         }
     }
     
-    // ========== UPDATE NAVBAR BASED ON LOGIN STATUS ==========
+    // ========== UPDATE NAVBAR ==========
     function updateNavbar() {
         const dropdown = document.getElementById('accountDropdown');
         const accountText = document.getElementById('accountText');
@@ -907,13 +914,13 @@
         }
     }
     
-    // ========== LOGOUT FUNCTION ==========
+    // ========== LOGOUT ==========
     function logout() {
         sessionStorage.clear();
         window.location.href = 'index.html';
     }
     
-    // ========== WINDOW ONLOAD ==========
+    // ========== INIT ==========
     window.onload = function() {
         updateNavbar();
         
@@ -921,7 +928,7 @@
         const tab = urlParams.get('tab');
         switchTab(tab === 'register' ? 'register' : 'login');
         
-        // Add event listeners for validation
+        // Add event listeners
         document.getElementById('regFirstName').addEventListener('input', checkRegisterButton);
         document.getElementById('regLastName').addEventListener('input', checkRegisterButton);
         document.getElementById('regEmail').addEventListener('input', checkRegisterButton);

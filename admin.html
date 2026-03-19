@@ -344,7 +344,6 @@
             100% { transform: rotate(360deg); }
         }
         
-        /* Image Modal */
         .image-modal {
             display: none;
             position: fixed;
@@ -564,7 +563,7 @@
     let gamesMap = {};
     let boostersMap = {};
     
-    // ===== NEW: Image Modal Functions =====
+    // Image Modal Functions
     function openImageModal(imageUrl) {
         const modal = document.getElementById('imageModal');
         const modalImage = document.getElementById('modalImage');
@@ -582,7 +581,6 @@
             closeImageModal();
         }
     });
-    // ======================================
     
     function checkRememberedLogin() {
         const remembered = localStorage.getItem('rememberedUser');
@@ -765,7 +763,7 @@
         }
     }
     
-    // ===== NEW: Updated displayPayments with clickable receipt image =====
+    // FIXED: Display payments with receipt images using receipt_path
     function displayPayments(payments) {
         const container = document.getElementById('paymentsList');
         
@@ -822,10 +820,14 @@
                         </div>
                     </div>
                     
-                    ${payment.receipt_url ? `
+                    ${payment.receipt_path ? `
                         <div style="margin: 15px 0; text-align: center;">
                             <p style="font-weight: 600; margin-bottom: 10px;">Payment Receipt:</p>
-                            <img src="${payment.receipt_url}" class="receipt-image" alt="Receipt" onclick="openImageModal('${payment.receipt_url}')" title="Click to enlarge">
+                            <img src="${SUPABASE_URL}/storage/v1/object/public/payment-receipts/${payment.receipt_path}" 
+                                 class="receipt-image" 
+                                 alt="Receipt" 
+                                 onclick="openImageModal('${SUPABASE_URL}/storage/v1/object/public/payment-receipts/${payment.receipt_path}')" 
+                                 title="Click to enlarge">
                         </div>
                     ` : ''}
                     

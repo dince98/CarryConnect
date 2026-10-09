@@ -10,151 +10,62 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: #f8fafc;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: #f8fafc; }
         
         .navbar {
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
             padding: 1rem 0;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
-        
-        .navbar-brand {
-            font-size: 28px !important;
-            font-weight: 800 !important;
-            color: white !important;
-            letter-spacing: -0.5px;
-        }
-        
-        .navbar-brand span {
-            color: #3b82f6;
-        }
-        
-        .nav-link {
-            color: rgba(255,255,255,0.9) !important;
-            font-weight: 600;
-            margin: 0 5px;
-            padding: 8px 16px !important;
-            border-radius: 8px;
-        }
-        
-        .nav-link:hover {
-            background: rgba(59, 130, 246, 0.2);
-            color: white !important;
-        }
-        
-        .btn-account {
-            border: 2px solid rgba(255,255,255,0.2);
-            color: white !important;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .btn-account:hover {
-            background: rgba(59, 130, 246, 0.2);
-        }
-        
-        .dropdown-menu {
-            background: #1e293b;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            padding: 8px;
-            margin-top: 8px;
-        }
-        
-        .dropdown-item {
-            color: rgba(255,255,255,0.9);
-            font-weight: 600;
-            padding: 10px 20px;
-            border-radius: 8px;
-            transition: all 0.3s;
-        }
-        
-        .dropdown-item:hover {
-            background: #3b82f6;
-            color: white;
-        }
-        
-        .dropdown-item i {
-            width: 20px;
-            margin-right: 10px;
-            color: #3b82f6;
-        }
-        
-        /* Valorant-specific styles */
-        .valorant-page .btn-back {
-            background: linear-gradient(135deg, #0f1923, #1f2c39);
-            color: white;
-            border: 2px solid #ff4655;
-        }
+        .navbar-brand { font-size: 28px !important; font-weight: 800 !important; color: white !important; letter-spacing: -0.5px; }
+        .navbar-brand span { color: #3b82f6; }
+        .nav-link { color: rgba(255,255,255,0.9) !important; font-weight: 600; margin: 0 5px; padding: 8px 16px !important; border-radius: 8px; }
+        .nav-link:hover { background: rgba(59, 130, 246, 0.2); color: white !important; }
+        .nav-link.active { background: #3b82f6 !important; color: white !important; }
+        .dropdown-menu { background: #1e293b; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 8px; margin-top: 8px; }
+        .dropdown-item { color: rgba(255,255,255,0.9); font-weight: 600; padding: 10px 20px; border-radius: 8px; transition: all 0.3s; }
+        .dropdown-item:hover { background: #3b82f6; color: white; }
+        .dropdown-item i { width: 20px; margin-right: 10px; color: #3b82f6; }
+        .btn-account { border: 2px solid rgba(255,255,255,0.2); color: white !important; display: flex; align-items: center; gap: 8px; }
+        .btn-account:hover { background: rgba(59, 130, 246, 0.2); }
         
         .valorant-hero {
             background: linear-gradient(135deg, #0f1923 0%, #1f2c39 100%);
-            color: white;
-            padding: 60px 0;
-            position: relative;
-            overflow: hidden;
+            color: white; padding: 60px 0;
+            position: relative; overflow: hidden;
             border-bottom: 5px solid #ff4655;
         }
-        
         .valorant-title {
-            font-size: 48px;
-            font-weight: 800;
-            color: #ff4655;
+            font-size: 48px; font-weight: 800; color: #ff4655;
             text-shadow: 0 0 10px rgba(255, 70, 85, 0.3);
         }
-        
-        .back-button-container {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            z-index: 100;
-        }
-
+        .back-button-container { position: absolute; top: 20px; left: 20px; z-index: 100; }
         .btn-back {
-            padding: 10px 25px;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            border: 2px solid;
+            padding: 10px 25px; border-radius: 50px; font-weight: 600;
+            transition: all 0.3s; display: inline-flex; align-items: center;
+            gap: 10px; text-decoration: none; border: 2px solid;
             backdrop-filter: blur(5px);
+            background: linear-gradient(135deg, #0f1923, #1f2c39);
+            color: white; border-color: #ff4655;
         }
+        .btn-back:hover { background: rgba(255, 70, 85, 0.2); color: white; }
         
-        /* ===== PRICING SECTION WITH FANCY BACKGROUND ===== */
         .pricing-section {
             position: relative;
             isolation: isolate;
             padding: 60px 0;
         }
-        
         .pricing-section::before {
-            content: "";
-            position: absolute;
-            inset: 0;
+            content: ""; position: absolute; inset: 0;
             background: 
                 linear-gradient(135deg, rgba(10, 5, 20, 0.9) 0%, rgba(25, 10, 35, 0.95) 100%),
                 url('clove.png') center center / cover no-repeat fixed;
             opacity: 0.98;
             z-index: -2;
         }
-        
         .pricing-section::after {
-            content: "";
-            position: absolute;
-            inset: 0;
+            content: ""; position: absolute; inset: 0;
             background: 
                 radial-gradient(circle at 20% 30%, rgba(255, 70, 85, 0.3) 0%, transparent 50%),
                 radial-gradient(circle at 80% 70%, rgba(180, 70, 255, 0.25) 0%, transparent 50%);
@@ -162,725 +73,250 @@
             z-index: -1;
         }
         
-        .pricing-section .section-header h2 {
-            color: white;
+        .section-header { text-align: center; margin-bottom: 50px; }
+        .section-header h2 {
+            font-size: 36px; font-weight: 700; color: white;
+            position: relative; display: inline-block;
             text-shadow: 0 0 20px rgba(255, 70, 85, 0.5), 0 2px 10px rgba(0,0,0,0.5);
-            font-size: 42px;
         }
-        
-        .pricing-section .section-header h2:after {
-            background: #ff4655;
-            height: 5px;
-            width: 100px;
+        .section-header h2:after {
+            content: ''; position: absolute; bottom: -10px; left: 50%;
+            transform: translateX(-50%); width: 100px; height: 5px;
+            background: #ff4655; border-radius: 2px;
             box-shadow: 0 0 15px #ff4655;
         }
-        /* ==================================================== */
         
-        .section-header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-        
-        .section-header h2 {
-            font-size: 36px;
-            font-weight: 700;
-            color: #1e293b;
-            position: relative;
-            display: inline-block;
-        }
-        
-        .section-header h2:after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: #ff4655;
-            border-radius: 2px;
-        }
-        
-        /* ===== REDESIGNED RANK CARDS TO MATCH FANCY BACKGROUND ===== */
         .rank-card {
             background: rgba(18, 22, 35, 0.75);
             backdrop-filter: blur(10px);
-            border-radius: 24px;
-            overflow: hidden;
+            border-radius: 24px; overflow: hidden;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
             transition: all 0.3s ease;
             height: 100%;
             border: 1px solid rgba(255, 70, 85, 0.3);
             position: relative;
-            display: flex;
-            flex-direction: column;
+            display: flex; flex-direction: column;
         }
-        
         .rank-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 25px 50px rgba(255, 70, 85, 0.3);
             border-color: #ff4655;
         }
-        
         .rank-images-container {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 0, 0, 0.4);
-            padding: 25px 20px;
-            gap: 15px;
-            border-bottom: 1px solid rgba(255, 70, 85, 0.2);
+            width: 100%; display: flex; align-items: center; justify-content: center;
+            background: rgba(0, 0, 0, 0.4); padding: 25px 20px;
+            gap: 15px; border-bottom: 1px solid rgba(255, 70, 85, 0.2);
         }
-        
-        .rank-image-wrapper {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        
+        .rank-image-wrapper { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .rank-image-wrapper img {
-            width: 100px;
-            height: 100px;
-            object-fit: contain;
+            width: 100px; height: 100px; object-fit: contain;
             filter: drop-shadow(0 0 15px rgba(255, 70, 85, 0.5));
             transition: transform 0.3s;
         }
-        
         .rank-card:hover .rank-image-wrapper img {
             transform: scale(1.1);
             filter: drop-shadow(0 0 20px #ff4655);
         }
-        
         .rank-label {
-            color: white;
-            font-size: 12px;
-            font-weight: 600;
-            margin-top: 8px;
-            text-transform: uppercase;
+            color: white; font-size: 12px; font-weight: 600;
+            margin-top: 8px; text-transform: uppercase;
             letter-spacing: 0.5px;
             background: rgba(255, 70, 85, 0.2);
-            padding: 4px 12px;
-            border-radius: 50px;
+            padding: 4px 12px; border-radius: 50px;
             border: 1px solid rgba(255, 70, 85, 0.3);
         }
-        
         .arrow-icon {
-            color: #ff4655;
-            font-size: 28px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            color: #ff4655; font-size: 28px; font-weight: 700;
+            display: flex; align-items: center; justify-content: center;
             text-shadow: 0 0 10px #ff4655;
         }
-        
         .rank-body {
-            padding: 20px;
-            text-align: center;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
+            padding: 20px; text-align: center; flex: 1;
+            display: flex; flex-direction: column;
             background: rgba(0, 0, 0, 0.2);
         }
-        
         .rank-name {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: white;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            font-size: 22px; font-weight: 700; margin-bottom: 8px;
+            color: white; text-shadow: 0 2px 5px rgba(0,0,0,0.5);
         }
-        
         .rank-tier {
-            display: inline-block;
-            padding: 4px 15px;
+            display: inline-block; padding: 4px 15px;
             background: rgba(255, 70, 85, 0.15);
-            border-radius: 50px;
-            font-size: 11px;
-            font-weight: 600;
-            color: #ff9faf;
-            margin-bottom: 15px;
+            border-radius: 50px; font-size: 11px;
+            font-weight: 600; color: #ff9faf; margin-bottom: 15px;
             align-self: center;
             border: 1px solid rgba(255, 70, 85, 0.3);
         }
-        
         .price-tag {
-            text-align: center;
-            margin-bottom: 20px;
+            text-align: center; margin-bottom: 20px;
             padding: 12px 0;
             border-top: 1px dashed rgba(255, 70, 85, 0.3);
             border-bottom: 1px dashed rgba(255, 70, 85, 0.3);
         }
-        
         .price-amount {
-            font-size: 32px;
-            font-weight: 800;
-            color: white;
+            font-size: 32px; font-weight: 800; color: white;
             text-shadow: 0 0 15px #ff4655;
         }
-        
-        .peso-sign {
-            color: #ff4655;
-            font-size: 20px;
-            margin-right: 2px;
-            font-weight: 700;
-        }
-        
+        .peso-sign { color: #ff4655; font-size: 20px; margin-right: 2px; font-weight: 700; }
         .btn-order {
             background: linear-gradient(135deg, #ff4655, #d63a47);
-            color: white;
-            font-weight: 700;
-            padding: 12px 20px;
-            border-radius: 50px;
-            border: none;
-            width: 100%;
+            color: white; font-weight: 700; padding: 12px 20px;
+            border-radius: 50px; border: none; width: 100%;
             transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            font-size: 15px;
-            margin-top: auto;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            display: flex; align-items: center; justify-content: center;
+            gap: 8px; font-size: 15px; margin-top: auto;
+            text-transform: uppercase; letter-spacing: 0.5px;
             box-shadow: 0 5px 15px rgba(255, 70, 85, 0.4);
         }
-        
         .btn-order:hover {
             background: linear-gradient(135deg, #ff5f6d, #e64a57);
             transform: scale(1.05);
             box-shadow: 0 10px 25px rgba(255, 70, 85, 0.6);
         }
-        
         .popular-badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
+            position: absolute; top: 10px; right: 10px;
             background: linear-gradient(135deg, #ff4655, #d63a47);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 50px;
-            font-size: 11px;
-            font-weight: 700;
-            z-index: 10;
-            box-shadow: 0 5px 15px rgba(255,70,85,0.5);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            color: white; padding: 5px 15px;
+            border-radius: 50px; font-size: 11px; font-weight: 700;
+            z-index: 10; box-shadow: 0 5px 15px rgba(255,70,85,0.5);
+            text-transform: uppercase; letter-spacing: 0.5px;
             border: 1px solid rgba(255,255,255,0.2);
         }
-        /* ======================================================== */
         
-        footer {
-            background: #0f172a;
-            color: white;
-            padding: 50px 0 20px;
-            margin-top: 0;
+        /* ===== TOP BOOSTERS WIDGET (Valorant theme) ===== */
+        .top-boosters-wrapper {
+            max-width: 1100px; margin: 40px auto 50px;
+            padding: 30px 25px;
+            background: rgba(18, 22, 35, 0.75);
+            backdrop-filter: blur(15px);
+            border-radius: 24px;
+            border: 2px solid rgba(255, 70, 85, 0.3);
+            box-shadow: 0 20px 60px rgba(255, 70, 85, 0.2);
+            position: relative; overflow: hidden;
         }
-        
-        .footer-logo {
-            font-size: 28px;
-            font-weight: 800;
-            color: white;
-            text-decoration: none;
+        .top-boosters-wrapper::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, #ff4655, #d63a47, #ff7f8a);
         }
-        
-        .footer-links {
-            list-style: none;
-            padding: 0;
+        .top-boosters-header { text-align: center; margin-bottom: 25px; }
+        .top-boosters-title {
+            display: inline-flex; align-items: center; gap: 12px;
+            font-size: 22px; font-weight: 800; color: #fbbf24;
+            text-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+            margin-bottom: 8px;
         }
-        
-        .footer-links li {
-            margin-bottom: 12px;
+        .top-boosters-title i { font-size: 26px; filter: drop-shadow(0 0 12px #fbbf24); }
+        .top-boosters-subtitle {
+            font-size: 14px; color: rgba(255, 255, 255, 0.65); font-weight: 500;
         }
-        
-        .footer-links a {
-            color: rgba(255,255,255,0.7);
-            text-decoration: none;
+        .top-boosters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 18px; margin-bottom: 20px;
         }
-        
-        .footer-links a:hover {
-            color: white;
+        .top-booster-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px; padding: 22px 18px;
+            text-align: center; position: relative;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        
-        .social-icons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            align-items: center;
-            margin-top: 20px;
+        .top-booster-card:hover:not(.busy) {
+            transform: translateY(-5px);
+            border-color: rgba(255, 70, 85, 0.6);
+            box-shadow: 0 20px 40px rgba(255, 70, 85, 0.3);
+            background: rgba(255, 70, 85, 0.08);
         }
-        
-        .social-icons a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background: rgba(255,255,255,0.1);
-            color: white;
-            border-radius: 50%;
-            font-size: 18px;
-            transition: all 0.3s;
-            text-decoration: none;
+        .top-booster-card.busy { opacity: 0.55; filter: grayscale(0.4); cursor: not-allowed; }
+        .top-booster-card.picked {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.4);
         }
-        
-        .social-icons a:hover {
-            background: #ff4655;
-            transform: translateY(-3px);
+        .medal-badge {
+            position: absolute; top: -10px; right: -10px;
+            font-size: 32px;
+            filter: drop-shadow(0 4px 12px rgba(251, 191, 36, 0.6));
+            animation: medalFloat 3s ease-in-out infinite;
         }
-        
-        .copyright {
-            border-top: 1px solid rgba(255,255,255,0.1);
-            padding-top: 30px;
-            margin-top: 40px;
-            text-align: center;
-            color: rgba(255,255,255,0.5);
+        @keyframes medalFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-5px) rotate(5deg); }
         }
-        
+        .top-booster-avatar {
+            width: 60px; height: 60px; border-radius: 50%;
+            background: linear-gradient(135deg, #ff4655, #d63a47);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 26px; font-weight: 800; color: white;
+            margin: 0 auto 12px;
+            border: 3px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 20px rgba(255, 70, 85, 0.4);
+        }
+        .top-booster-name {
+            font-size: 17px; font-weight: 800; color: white;
+            margin-bottom: 8px; word-break: break-word;
+        }
+        .top-booster-rating {
+            font-size: 14px; font-weight: 700; color: #fbbf24;
+            margin-bottom: 12px; display: flex;
+            align-items: center; justify-content: center; gap: 4px;
+        }
+        .mini-star { font-size: 16px; filter: drop-shadow(0 0 6px #fbbf24); }
+        .mini-count { font-size: 12px; color: rgba(255, 255, 255, 0.5); font-weight: 600; }
+        .mini-new { font-size: 12px; color: rgba(255, 255, 255, 0.4); font-style: italic; font-weight: 500; }
+        .top-booster-status {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: 11px; font-weight: 700; padding: 5px 12px;
+            border-radius: 50px; margin-bottom: 14px;
+            text-transform: uppercase; letter-spacing: 0.4px;
+        }
+        .status-available {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+        .status-busy {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4);
+        }
+        .status-available i { font-size: 8px; animation: pulse 1.5s ease-in-out infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .btn-request-booster {
+            width: 100%; padding: 11px 14px; border-radius: 50px;
+            border: none; background: linear-gradient(135deg, #10b981, #059669);
+            color: white; font-weight: 700; font-size: 13px;
+            cursor: pointer; transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+            display: inline-flex; align-items: center; justify-content: center;
+            gap: 8px; text-transform: uppercase; letter-spacing: 0.4px;
+        }
+        .btn-request-booster:hover:not(.disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(16, 185, 129, 0.5);
+            background: linear-gradient(135deg, #34d399, #10b981);
+        }
+        .btn-request-booster.disabled {
+            background: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.4);
+            cursor: not-allowed;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .top-boosters-footer {
+            text-align: center; font-size: 13px;
+            color: rgba(255, 255, 255, 0.55);
+            padding-top: 15px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.1);
+            font-style: italic;
+        }
+        .top-boosters-footer i { color: #ff4655; margin-right: 6px; }
+        @keyframes slideUp {
+            from { transform: translate(-50%, 100px); opacity: 0; }
+            to { transform: translate(-50%, 0); opacity: 1; }
+        }
+        @keyframes slideDown {
+            from { transform: translate(-50%, 0); opacity: 1; }
+            to { transform: translate(-50%, 100px); opacity: 0; }
+        }
         @media (max-width: 768px) {
-            .valorant-title { font-size: 36px; }
-            .back-button-container {
-                position: relative;
-                top: 0;
-                left: 0;
-                padding: 20px;
-            }
-            .rank-image-wrapper img {
-                width: 70px;
-                height: 70px;
-            }
+            .top-boosters-grid { grid-template-columns: 1fr; }
+            .top-boosters-title { font-size: 18px; }
         }
-    </style>
-</head>
-<body class="valorant-page">
-
-<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
-    <div class="container">
-        <a class="navbar-brand" href="index.html">
-            <span>Carry</span>Connect
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="index.html">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="HowItWorks.html">How It Works</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link btn-account dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-user-circle"></i> <span id="accountText">Account</span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" id="accountDropdown"></ul>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-<!-- Hero section (original Valorant style) -->
-<section class="valorant-hero position-relative">
-    <div class="back-button-container">
-        <a href="javascript:history.back()" class="btn-back">
-            <i class="fas fa-arrow-left"></i> Back to Games
-        </a>
-    </div>
-    
-    <div class="container">
-        <h1 class="valorant-title">VALORANT</h1>
-        <h2 style="font-size: 36px; font-weight: 700;">Rank Boosting Services</h2>
-        <p class="lead">Click "Place Order" to start your boost</p>
-    </div>
-</section>
-
-<!-- Pricing section with fancy background and matching cards -->
-<section class="pricing-section">
-    <div class="container">
-        <div class="section-header">
-            <h2>Select Your Boost</h2>
-        </div>
-        
-        <div class="row g-4">
-            <!-- Iron to Bronze -->
-            <div class="col-lg-4 col-md-6">
-                <div class="rank-card">
-                    <div class="popular-badge">START HERE</div>
-                    <div class="rank-images-container">
-                        <div class="rank-image-wrapper">
-                            <img src="iron.png" alt="Iron Rank">
-                            <span class="rank-label">IRON</span>
-                        </div>
-                        <div class="arrow-icon">→</div>
-                        <div class="rank-image-wrapper">
-                            <img src="bronze.png" alt="Bronze Rank">
-                            <span class="rank-label">BRONZE</span>
-                        </div>
-                    </div>
-                    <div class="rank-body">
-                        <h3 class="rank-name">Iron → Bronze</h3>
-                        <span class="rank-tier">3 DIVISIONS</span>
-                        <div class="price-tag">
-                            <span class="peso-sign">₱</span>
-                            <span class="price-amount">447</span>
-                        </div>
-                        <button class="btn-order" onclick="placeOrder(2, 'Iron', 'Bronze', 447, 'Iron to Bronze Boost', 'Valorant')">
-                            <i class="fas fa-shopping-cart"></i> Place Order
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Bronze to Silver -->
-            <div class="col-lg-4 col-md-6">
-                <div class="rank-card">
-                    <div class="popular-badge">POPULAR</div>
-                    <div class="rank-images-container">
-                        <div class="rank-image-wrapper">
-                            <img src="bronze.png" alt="Bronze Rank">
-                            <span class="rank-label">BRONZE</span>
-                        </div>
-                        <div class="arrow-icon">→</div>
-                        <div class="rank-image-wrapper">
-                            <img src="silver.png" alt="Silver Rank">
-                            <span class="rank-label">SILVER</span>
-                        </div>
-                    </div>
-                    <div class="rank-body">
-                        <h3 class="rank-name">Bronze → Silver</h3>
-                        <span class="rank-tier">3 DIVISIONS</span>
-                        <div class="price-tag">
-                            <span class="peso-sign">₱</span>
-                            <span class="price-amount">597</span>
-                        </div>
-                        <button class="btn-order" onclick="placeOrder(2, 'Bronze', 'Silver', 597, 'Bronze to Silver Boost', 'Valorant')">
-                            <i class="fas fa-shopping-cart"></i> Place Order
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Silver to Gold -->
-            <div class="col-lg-4 col-md-6">
-                <div class="rank-card">
-                    <div class="rank-images-container">
-                        <div class="rank-image-wrapper">
-                            <img src="silver.png" alt="Silver Rank">
-                            <span class="rank-label">SILVER</span>
-                        </div>
-                        <div class="arrow-icon">→</div>
-                        <div class="rank-image-wrapper">
-                            <img src="gold.png" alt="Gold Rank">
-                            <span class="rank-label">GOLD</span>
-                        </div>
-                    </div>
-                    <div class="rank-body">
-                        <h3 class="rank-name">Silver → Gold</h3>
-                        <span class="rank-tier">3 DIVISIONS</span>
-                        <div class="price-tag">
-                            <span class="peso-sign">₱</span>
-                            <span class="price-amount">747</span>
-                        </div>
-                        <button class="btn-order" onclick="placeOrder(2, 'Silver', 'Gold', 747, 'Silver to Gold Boost', 'Valorant')">
-                            <i class="fas fa-shopping-cart"></i> Place Order
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Gold to Platinum -->
-            <div class="col-lg-4 col-md-6">
-                <div class="rank-card">
-                    <div class="rank-images-container">
-                        <div class="rank-image-wrapper">
-                            <img src="gold.png" alt="Gold Rank">
-                            <span class="rank-label">GOLD</span>
-                        </div>
-                        <div class="arrow-icon">→</div>
-                        <div class="rank-image-wrapper">
-                            <img src="platinum.png" alt="Platinum Rank">
-                            <span class="rank-label">PLATINUM</span>
-                        </div>
-                    </div>
-                    <div class="rank-body">
-                        <h3 class="rank-name">Gold → Platinum</h3>
-                        <span class="rank-tier">3 DIVISIONS</span>
-                        <div class="price-tag">
-                            <span class="peso-sign">₱</span>
-                            <span class="price-amount">1,047</span>
-                        </div>
-                        <button class="btn-order" onclick="placeOrder(2, 'Gold', 'Platinum', 1047, 'Gold to Platinum Boost', 'Valorant')">
-                            <i class="fas fa-shopping-cart"></i> Place Order
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Platinum to Diamond -->
-            <div class="col-lg-4 col-md-6">
-                <div class="rank-card">
-                    <div class="rank-images-container">
-                        <div class="rank-image-wrapper">
-                            <img src="platinum.png" alt="Platinum Rank">
-                            <span class="rank-label">PLATINUM</span>
-                        </div>
-                        <div class="arrow-icon">→</div>
-                        <div class="rank-image-wrapper">
-                            <img src="diamond.png" alt="Diamond Rank">
-                            <span class="rank-label">DIAMOND</span>
-                        </div>
-                    </div>
-                    <div class="rank-body">
-                        <h3 class="rank-name">Platinum → Diamond</h3>
-                        <span class="rank-tier">3 DIVISIONS</span>
-                        <div class="price-tag">
-                            <span class="peso-sign">₱</span>
-                            <span class="price-amount">1,497</span>
-                        </div>
-                        <button class="btn-order" onclick="placeOrder(2, 'Platinum', 'Diamond', 1497, 'Platinum to Diamond Boost', 'Valorant')">
-                            <i class="fas fa-shopping-cart"></i> Place Order
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Diamond to Ascendant -->
-            <div class="col-lg-4 col-md-6">
-                <div class="rank-card">
-                    <div class="rank-images-container">
-                        <div class="rank-image-wrapper">
-                            <img src="diamond.png" alt="Diamond Rank">
-                            <span class="rank-label">DIAMOND</span>
-                        </div>
-                        <div class="arrow-icon">→</div>
-                        <div class="rank-image-wrapper">
-                            <img src="ascendant.png" alt="Ascendant Rank">
-                            <span class="rank-label">ASCENDANT</span>
-                        </div>
-                    </div>
-                    <div class="rank-body">
-                        <h3 class="rank-name">Diamond → Ascendant</h3>
-                        <span class="rank-tier">3 DIVISIONS</span>
-                        <div class="price-tag">
-                            <span class="peso-sign">₱</span>
-                            <span class="price-amount">2,097</span>
-                        </div>
-                        <button class="btn-order" onclick="placeOrder(2, 'Diamond', 'Ascendant', 2097, 'Diamond to Ascendant Boost', 'Valorant')">
-                            <i class="fas fa-shopping-cart"></i> Place Order
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Ascendant to Immortal -->
-            <div class="col-lg-4 col-md-6">
-                <div class="rank-card">
-                    <div class="popular-badge">ELITE</div>
-                    <div class="rank-images-container">
-                        <div class="rank-image-wrapper">
-                            <img src="ascendant.png" alt="Ascendant Rank">
-                            <span class="rank-label">ASCENDANT</span>
-                        </div>
-                        <div class="arrow-icon">→</div>
-                        <div class="rank-image-wrapper">
-                            <img src="immortal.png" alt="Immortal Rank">
-                            <span class="rank-label">IMMORTAL</span>
-                        </div>
-                    </div>
-                    <div class="rank-body">
-                        <h3 class="rank-name">Ascendant → Immortal</h3>
-                        <span class="rank-tier">3 DIVISIONS</span>
-                        <div class="price-tag">
-                            <span class="peso-sign">₱</span>
-                            <span class="price-amount">2,997</span>
-                        </div>
-                        <button class="btn-order" onclick="placeOrder(2, 'Ascendant', 'Immortal', 2997, 'Ascendant to Immortal Boost', 'Valorant')">
-                            <i class="fas fa-shopping-cart"></i> Place Order
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-4 mb-4">
-                <a href="index.html" class="footer-logo">
-                    <span>Carry</span>Connect
-                </a>
-                <p class="mt-3">A small, passionate team of gamers offering manual boosting services.</p>
-                <div class="social-icons">
-                    <a href="https://www.facebook.com/profile.php?id=61586466966459" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                    <a href="https://x.com/CarryConnectGG" target="_blank" id="x-link"><i class="fa-brands fa-x-twitter"></i></a>
-                    <a href="https://www.instagram.com/carryconnect.gg/" target="_blank"><i class="fab fa-instagram"></i></a>
-                    <a href="https://discord.gg/Yw25jFP54s" target="_blank"><i class="fab fa-discord"></i></a>
-                    <a href="https://www.tiktok.com/@carryconnect" target="_blank"><i class="fab fa-tiktok"></i></a>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-6 mb-4 offset-lg-1">
-                <h5>Company</h5>
-                <ul class="footer-links">
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-            </div>
-            <div class="col-lg-3 col-md-6 mb-4">
-                <h5>Support</h5>
-                <ul class="footer-links">
-                    <li><a href="terms.html">Terms</a></li>
-                    <li><a href="privacy.html">Privacy</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="copyright">
-            <p>© 2026 CarryConnect. All rights reserved.</p>
-        </div>
-    </div>
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
-
-<!-- X icon fix (the bird will never be missing) -->
-<script>
-    (function() {
-        window.addEventListener('load', function() {
-            var xLink = document.getElementById('x-link');
-            if (!xLink) return;
-            var xIcon = xLink.querySelector('.fa-x-twitter');
-            if (xIcon) {
-                var before = window.getComputedStyle(xIcon, ':before');
-                var content = before.getPropertyValue('content');
-                if (!content || content === 'none' || content === '') {
-                    xIcon.className = 'fa-brands fa-twitter';
-                }
-            }
-        });
-    })();
-</script>
-
-<script>
-    const SUPABASE_URL = 'https://aozhkwvoqnyktsgrdtnw.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvemhrd3ZvcW55a3RzZ3JkdG53Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MjU2NTA1NiwiZXhwIjoyMDg4MTQxMDU2fQ.lbr0-PCymnj241Vwso6yJYzch7HOJ5utB-pPsWpkABc';
-    
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-    
-    function checkRememberedLogin() {
-        const remembered = localStorage.getItem('rememberedUser');
-        if (remembered && !sessionStorage.getItem('userId')) {
-            const user = JSON.parse(remembered);
-            sessionStorage.setItem('userId', user.userId);
-            sessionStorage.setItem('username', user.username);
-            sessionStorage.setItem('role', user.role);
-        }
-    }
-    
-    function updateNavbar() {
-        const dropdown = document.getElementById('accountDropdown');
-        const accountText = document.getElementById('accountText');
-        const userId = sessionStorage.getItem('userId');
-        const username = sessionStorage.getItem('username');
-        const role = sessionStorage.getItem('role');
-
-        if (userId) {
-            accountText.textContent = username;
-            
-            let menuItems = `
-                <li><a class="dropdown-item" href="Games.html"><i class="fas fa-gamepad"></i> Games</a></li>
-                <li><a class="dropdown-item" href="Orders.html"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
-            `;
-
-            if (role === 'booster') {
-                menuItems += `
-                    <li><a class="dropdown-item" href="Booster.html"><i class="fas fa-bolt"></i> Booster Dashboard</a></li>
-                `;
-            }
-
-            if (role === 'admin') {
-                menuItems += `
-                    <li><a class="dropdown-item" href="admin.html"><i class="fas fa-cog"></i> Admin Panel</a></li>
-                `;
-            }
-
-            menuItems += `
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-            `;
-
-            dropdown.innerHTML = menuItems;
-        } else {
-            accountText.textContent = 'Account';
-            dropdown.innerHTML = `
-                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=login"><i class="fas fa-key"></i> Login</a></li>
-                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=register"><i class="fas fa-user-plus"></i> Sign Up</a></li>
-            `;
-        }
-    }
-    
-    // ========== FIXED PLACE ORDER FUNCTION - NO PROMPTS ==========
-    async function placeOrder(gameId, fromRank, toRank, price, serviceName, gameName) {
-        if (!sessionStorage.getItem('userId')) {
-            alert('Please login first to place an order');
-            window.location.href = 'LoginAndRegister.html?tab=login';
-            return;
-        }
-        
-        const userId = sessionStorage.getItem('userId');
-        
-        try {
-            const orderData = {
-                client_id: parseInt(userId),
-                game_id: gameId,
-                current_rank: fromRank,
-                target_rank: toRank,
-                total_price: price,
-                notes: serviceName,
-                status: 'pending',
-                payment_status: 'unpaid'
-            };
-            
-            const response = await fetch(`${SUPABASE_URL}/rest/v1/orders`, {
-                method: 'POST',
-                headers: {
-                    'apikey': SUPABASE_KEY,
-                    'Authorization': `Bearer ${SUPABASE_KEY}`,
-                    'Content-Type': 'application/json',
-                    'Prefer': 'return=representation'
-                },
-                body: JSON.stringify(orderData)
-            });
-            
-            if (response.ok) {
-                const order = await response.json();
-                window.location.href = `Payment.html?order_id=${order[0].order_id}&game=${encodeURIComponent(gameName)}&service=${encodeURIComponent(serviceName)}&from=${encodeURIComponent(fromRank)}&to=${encodeURIComponent(toRank)}&price=${price}&game_id=${gameId}`;
-            } else {
-                const error = await response.json();
-                alert('❌ Error creating order: ' + (error.message || 'Unknown error'));
-            }
-        } catch (error) {
-            alert('❌ Error: ' + error.message);
-        }
-    }
-    
-    window.onload = function() {
-        checkRememberedLogin();
-        updateNavbar();
-    };
-    
-    function logout() {
-        sessionStorage.clear();
-        localStorage.removeItem('rememberedUser');
-        window.location.href = 'index.html';
-    }
-</script>
-
-</body>
-</html>

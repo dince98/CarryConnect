@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meet Our Boosters · CarryConnect</title>
+    <title>Our Boosters · CarryConnect</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -34,85 +34,23 @@
         .dropdown-item:hover { background: #3b82f6; color: white; }
         .dropdown-item i { width: 20px; margin-right: 10px; color: #3b82f6; }
         
-        .hero {
-            text-align: center;
-            padding: 80px 20px 40px;
-            position: relative;
-        }
+        .hero { text-align: center; padding: 80px 20px 40px; }
         .hero h1 {
-            font-size: 56px;
-            font-weight: 900;
+            font-size: 56px; font-weight: 900;
             background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #c084fc 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             margin-bottom: 15px;
             text-shadow: 0 0 60px rgba(102, 126, 234, 0.4);
         }
-        .hero p {
-            font-size: 18px;
-            color: rgba(255,255,255,0.7);
-            max-width: 650px;
-            margin: 0 auto;
-        }
-        
-        .hero-cta {
-            margin-top: 25px;
-            display: inline-flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        
-        .btn-hero {
-            padding: 14px 32px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 15px;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s;
-            border: 2px solid transparent;
-        }
-        
-        .btn-hero-primary {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-        }
-        .btn-hero-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
-            color: white;
-        }
-        
-        .btn-hero-outline {
-            background: rgba(255,255,255,0.05);
-            color: white;
-            border-color: rgba(255,255,255,0.2);
-            backdrop-filter: blur(10px);
-        }
-        .btn-hero-outline:hover {
-            background: rgba(255,255,255,0.1);
-            border-color: #667eea;
-            color: white;
-        }
+        .hero p { font-size: 18px; color: rgba(255,255,255,0.7); max-width: 600px; margin: 0 auto; }
         
         .filter-chips {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin: 30px 0;
-            padding: 0 20px;
+            display: flex; gap: 10px; justify-content: center;
+            flex-wrap: wrap; margin: 30px 0; padding: 0 20px;
         }
         .chip {
-            padding: 10px 24px;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s;
+            padding: 10px 24px; border-radius: 50px; font-weight: 600;
+            font-size: 14px; cursor: pointer; transition: all 0.3s;
             background: rgba(255,255,255,0.05);
             border: 2px solid rgba(255,255,255,0.1);
             color: rgba(255,255,255,0.8);
@@ -121,63 +59,23 @@
         .chip:hover { border-color: #667eea; color: white; transform: translateY(-2px); }
         .chip.active {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-color: transparent;
+            color: white; border-color: transparent;
             box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
-        }
-        
-        .stats-bar {
-            max-width: 900px;
-            margin: 20px auto 40px;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
-        }
-        
-        .stat-pill {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 16px;
-            padding: 18px 20px;
-            text-align: center;
-            backdrop-filter: blur(10px);
-        }
-        
-        .stat-pill .num {
-            font-size: 28px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #a5b4fc, #c084fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .stat-pill .label {
-            font-size: 12px;
-            color: rgba(255,255,255,0.5);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-top: 4px;
         }
         
         .boosters-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
-            max-width: 1200px;
-            margin: 0 auto 80px;
-            padding: 0 20px;
+            gap: 25px; max-width: 1200px;
+            margin: 0 auto 80px; padding: 0 20px;
         }
         
         .booster-card {
             background: rgba(20, 25, 40, 0.7);
             backdrop-filter: blur(12px);
-            border-radius: 24px;
-            padding: 30px 25px;
+            border-radius: 24px; padding: 30px 25px;
             border: 1px solid rgba(255,255,255,0.08);
-            position: relative;
-            overflow: hidden;
+            position: relative; overflow: hidden;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .booster-card:hover {
@@ -185,33 +83,19 @@
             border-color: rgba(102, 126, 234, 0.5);
             box-shadow: 0 30px 60px rgba(102, 126, 234, 0.25);
         }
-        
         .booster-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
+            content: ''; position: absolute; top: 0; left: 0; right: 0;
             height: 4px;
             background: linear-gradient(90deg, #667eea, #764ba2, #c084fc);
-            opacity: 0;
-            transition: opacity 0.3s;
+            opacity: 0; transition: opacity 0.3s;
         }
         .booster-card:hover::before { opacity: 1; }
         
         .rank-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 22px;
-            z-index: 2;
+            position: absolute; top: 15px; right: 15px;
+            width: 44px; height: 44px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 22px; z-index: 2;
         }
         .rank-1 { background: linear-gradient(135deg, #fbbf24, #d97706); box-shadow: 0 8px 25px rgba(251,191,36,0.6); animation: shine 2.5s ease-in-out infinite; }
         .rank-2 { background: linear-gradient(135deg, #cbd5e1, #64748b); box-shadow: 0 8px 25px rgba(203,213,225,0.4); }
@@ -223,106 +107,59 @@
         }
         
         .booster-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
+            width: 80px; height: 80px; border-radius: 50%;
             background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 34px;
-            font-weight: 800;
-            color: white;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 34px; font-weight: 800; color: white;
             margin: 0 auto 15px;
             border: 3px solid rgba(255,255,255,0.1);
             box-shadow: 0 10px 25px rgba(102,126,234,0.4);
         }
         
         .booster-name {
-            text-align: center;
-            font-size: 22px;
-            font-weight: 800;
-            color: white;
-            margin-bottom: 6px;
+            text-align: center; font-size: 22px; font-weight: 800;
+            color: white; margin-bottom: 6px;
         }
         
         .booster-specialties {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-bottom: 20px;
+            display: flex; gap: 6px; flex-wrap: wrap;
+            justify-content: center; margin-bottom: 20px;
         }
         
         .spec-tag {
-            padding: 4px 12px;
-            border-radius: 50px;
-            font-size: 11px;
-            font-weight: 700;
-            border: 1px solid;
+            padding: 4px 12px; border-radius: 50px;
+            font-size: 11px; font-weight: 700; border: 1px solid;
         }
         
         .rating-display {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 15px;
+            display: flex; align-items: center; justify-content: center;
+            gap: 10px; padding: 15px;
             background: rgba(255,255,255,0.03);
-            border-radius: 14px;
-            margin-bottom: 15px;
+            border-radius: 14px; margin-bottom: 15px;
             border: 1px solid rgba(255,255,255,0.06);
         }
         
-        .rating-stars {
-            display: flex;
-            gap: 3px;
-            font-size: 18px;
-        }
-        
+        .rating-stars { display: flex; gap: 3px; font-size: 18px; }
         .star-filled { color: #fbbf24; text-shadow: 0 0 12px rgba(251,191,36,0.6); }
         .star-empty { color: rgba(255,255,255,0.15); }
-        
-        .rating-number {
-            font-size: 22px;
-            font-weight: 800;
-            color: white;
-        }
-        
-        .rating-count {
-            font-size: 12px;
-            color: rgba(255,255,255,0.5);
-            font-weight: 600;
-        }
+        .rating-number { font-size: 22px; font-weight: 800; color: white; }
+        .rating-count { font-size: 12px; color: rgba(255,255,255,0.5); font-weight: 600; }
         
         .no-ratings {
-            text-align: center;
-            padding: 15px;
-            color: rgba(255,255,255,0.4);
-            font-size: 13px;
-            font-style: italic;
-            background: rgba(255,255,255,0.03);
-            border-radius: 14px;
-            margin-bottom: 15px;
-            border: 1px dashed rgba(255,255,255,0.1);
+            text-align: center; padding: 15px;
+            color: rgba(255,255,255,0.4); font-size: 13px; font-style: italic;
+            background: rgba(255,255,255,0.03); border-radius: 14px;
+            margin-bottom: 15px; border: 1px dashed rgba(255,255,255,0.1);
         }
         
         .btn-hire {
-            width: 100%;
-            padding: 12px;
+            width: 100%; padding: 12px;
             background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            color: white; border: none; border-radius: 50px;
+            font-weight: 700; font-size: 14px; cursor: pointer;
+            transition: all 0.3s; text-decoration: none;
+            display: inline-block; text-align: center;
+            text-transform: uppercase; letter-spacing: 0.5px;
         }
         .btn-hire:hover {
             transform: translateY(-2px);
@@ -331,64 +168,33 @@
         }
         
         .loading {
-            text-align: center;
-            padding: 80px 20px;
-            color: rgba(255,255,255,0.5);
-            grid-column: 1 / -1;
+            text-align: center; padding: 80px 20px;
+            color: rgba(255,255,255,0.5); grid-column: 1 / -1;
         }
         .loading i { font-size: 48px; margin-bottom: 15px; color: #667eea; }
         
         .no-boosters {
-            text-align: center;
-            padding: 80px 20px;
-            color: rgba(255,255,255,0.5);
-            grid-column: 1 / -1;
+            text-align: center; padding: 80px 20px;
+            color: rgba(255,255,255,0.5); grid-column: 1 / -1;
         }
         .no-boosters i { font-size: 60px; margin-bottom: 20px; color: #667eea; opacity: 0.5; }
-        
-        .cta-bottom {
-            max-width: 900px;
-            margin: 0 auto 60px;
-            padding: 40px;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
-            border-radius: 24px;
-            border: 1px solid rgba(102, 126, 234, 0.3);
-            text-align: center;
-            backdrop-filter: blur(10px);
-        }
-        .cta-bottom h3 {
-            font-size: 26px;
-            font-weight: 800;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, #ffffff, #a5b4fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .cta-bottom p {
-            color: rgba(255,255,255,0.7);
-            margin-bottom: 20px;
-            font-size: 15px;
-        }
         
         footer {
             background: rgba(10, 12, 18, 0.95);
             border-top: 1px solid rgba(255,255,255,0.05);
-            padding: 30px 0;
-            text-align: center;
+            padding: 30px 0; text-align: center;
             color: rgba(255,255,255,0.4);
         }
         
         @media (max-width: 768px) {
             .hero h1 { font-size: 36px; }
-            .hero p { font-size: 16px; }
             .boosters-grid { grid-template-columns: 1fr; }
-            .cta-bottom { padding: 25px; }
         }
     </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+<nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
         <a class="navbar-brand" href="index.html"><span>Carry</span>Connect</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -413,31 +219,7 @@
 
 <div class="hero">
     <h1>Meet Our Boosters</h1>
-    <p>Top-rated professional players ready to help you climb. Every rating comes from real, completed orders by real clients.</p>
-    
-    <div class="hero-cta">
-        <a href="Games.html" class="btn-hero btn-hero-primary">
-            <i class="fas fa-bolt"></i> Start Your Boost
-        </a>
-        <a href="HowItWorks.html" class="btn-hero btn-hero-outline">
-            <i class="fas fa-info-circle"></i> How It Works
-        </a>
-    </div>
-</div>
-
-<div class="stats-bar" id="statsBar">
-    <div class="stat-pill">
-        <div class="num" id="statBoosters">—</div>
-        <div class="label">Active Boosters</div>
-    </div>
-    <div class="stat-pill">
-        <div class="num" id="statOrders">—</div>
-        <div class="label">Orders Completed</div>
-    </div>
-    <div class="stat-pill">
-        <div class="num" id="statAvgRating">—</div>
-        <div class="label">Average Rating</div>
-    </div>
+    <p>Top-rated professional players ready to help you climb. Every rating comes from real, completed orders. Pick your favorite booster and request them!</p>
 </div>
 
 <div class="filter-chips" id="filterChips">
@@ -449,14 +231,6 @@
         <i class="fas fa-spinner fa-spin"></i>
         <p>Loading boosters...</p>
     </div>
-</div>
-
-<div class="cta-bottom">
-    <h3>Ready to climb the ranks?</h3>
-    <p>Pick your game, choose your boost, and let our top-rated players handle the rest.</p>
-    <a href="Games.html" class="btn-hero btn-hero-primary">
-        <i class="fas fa-rocket"></i> Get Started Now
-    </a>
 </div>
 
 <footer>
@@ -472,16 +246,8 @@
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     
     let gamesMap = {};
-    let gameToPage = {};
     let gameColors = { '1': '#c89b3c', '2': '#ff4655', '3': '#00b5e2' };
     let allBoosters = [];
-    let currentFilter = 'all';
-    
-    const GAME_PAGES = {
-        'League of Legends': 'LeaguePrices.html',
-        'Valorant': 'ValorantPrices.html',
-        'Roblox': 'RobloxPrices.html'
-    };
     
     function checkRememberedLogin() {
         const remembered = localStorage.getItem('rememberedUser');
@@ -507,12 +273,8 @@
                 <li><a class="dropdown-item" href="Boosters.html"><i class="fas fa-users"></i> Our Boosters</a></li>
                 <li><a class="dropdown-item" href="Orders.html"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
             `;
-            if (role === 'booster') {
-                menuItems += `<li><a class="dropdown-item" href="Booster.html"><i class="fas fa-bolt"></i> Booster Dashboard</a></li>`;
-            }
-            if (role === 'admin') {
-                menuItems += `<li><a class="dropdown-item" href="admin.html"><i class="fas fa-cog"></i> Admin Panel</a></li>`;
-            }
+            if (role === 'booster') menuItems += `<li><a class="dropdown-item" href="Booster.html"><i class="fas fa-bolt"></i> Booster Dashboard</a></li>`;
+            if (role === 'admin') menuItems += `<li><a class="dropdown-item" href="admin.html"><i class="fas fa-cog"></i> Admin Panel</a></li>`;
             menuItems += `<li><hr class="dropdown-divider"></li><li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>`;
             dropdown.innerHTML = menuItems;
         } else {
@@ -529,7 +291,6 @@
         updateNavbar();
         await loadGames();
         await loadBoosters();
-        await loadPublicStats();
     };
     
     async function loadGames() {
@@ -537,12 +298,7 @@
             const { data, error } = await supabase.from('games').select('*');
             if (error) throw error;
             
-            data.forEach(g => { 
-                gamesMap[g.game_id] = g.game_name; 
-                if (GAME_PAGES[g.game_name]) {
-                    gameToPage[g.game_id] = GAME_PAGES[g.game_name];
-                }
-            });
+            data.forEach(g => { gamesMap[g.game_id] = g.game_name; });
             
             const chipContainer = document.getElementById('filterChips');
             data.forEach(g => {
@@ -552,9 +308,7 @@
                 chip.onclick = function() { filterByGame(g.game_id, this); };
                 chipContainer.appendChild(chip);
             });
-        } catch (err) {
-            console.error('Error loading games:', err);
-        }
+        } catch (err) { console.error('Error loading games:', err); }
     }
     
     async function loadBoosters() {
@@ -591,33 +345,7 @@
         }
     }
     
-    async function loadPublicStats() {
-        try {
-            document.getElementById('statBoosters').textContent = allBoosters.length;
-            
-            const { count: completedCount } = await supabase
-                .from('orders')
-                .select('*', { count: 'exact', head: true })
-                .eq('status', 'completed');
-            document.getElementById('statOrders').textContent = completedCount || 0;
-            
-            const ratedBoosters = allBoosters.filter(b => b.avg_rating > 0);
-            if (ratedBoosters.length > 0) {
-                const avg = ratedBoosters.reduce((sum, b) => sum + parseFloat(b.avg_rating), 0) / ratedBoosters.length;
-                document.getElementById('statAvgRating').textContent = avg.toFixed(1) + ' ★';
-            } else {
-                document.getElementById('statAvgRating').textContent = 'N/A';
-            }
-        } catch (err) {
-            console.error('Error loading stats:', err);
-            document.getElementById('statBoosters').textContent = allBoosters.length;
-            document.getElementById('statOrders').textContent = '—';
-            document.getElementById('statAvgRating').textContent = '—';
-        }
-    }
-    
     function filterByGame(gameId, el) {
-        currentFilter = gameId;
         document.querySelectorAll('#filterChips .chip').forEach(c => c.classList.remove('active'));
         el.classList.add('active');
         
@@ -628,25 +356,6 @@
               );
         
         renderBoosters(filtered);
-    }
-    
-    function hireBooster(booster) {
-        const specialties = booster.specialty || [];
-        if (specialties.length === 0) {
-            window.location.href = 'Games.html';
-            return;
-        }
-        
-        const primaryGameId = String(specialties[0]);
-        const page = gameToPage[primaryGameId];
-        
-        if (page) {
-            sessionStorage.setItem('preferredBoosterId', booster.user_id);
-            sessionStorage.setItem('preferredBoosterName', booster.username || '');
-            window.location.href = page;
-        } else {
-            window.location.href = 'Games.html';
-        }
     }
     
     function renderBoosters(boosters) {
@@ -668,11 +377,9 @@
             const hasRating = booster.avg_rating > 0;
             
             let rankBadge = '';
-            if (hasRating && currentFilter === 'all') {
-                if (index === 0) rankBadge = '<div class="rank-badge rank-1">🥇</div>';
-                else if (index === 1) rankBadge = '<div class="rank-badge rank-2">🥈</div>';
-                else if (index === 2) rankBadge = '<div class="rank-badge rank-3">🥉</div>';
-            }
+            if (hasRating && index === 0) rankBadge = '<div class="rank-badge rank-1">🥇</div>';
+            else if (hasRating && index === 1) rankBadge = '<div class="rank-badge rank-2">🥈</div>';
+            else if (hasRating && index === 2) rankBadge = '<div class="rank-badge rank-3">🥉</div>';
             
             const initial = (booster.username || 'B')[0].toUpperCase();
             
@@ -707,12 +414,7 @@
                 `;
             }
             
-            const boosterJson = JSON.stringify({
-                user_id: booster.user_id,
-                username: booster.username,
-                specialty: booster.specialty || []
-            }).replace(/'/g, "&#39;");
-            
+            // ⭐ NEW: Link to Games page with preferred booster ID
             html += `
                 <div class="booster-card">
                     ${rankBadge}
@@ -720,9 +422,9 @@
                     <div class="booster-name">${booster.username || 'Booster'}</div>
                     <div class="booster-specialties">${specs || '<span style="color:rgba(255,255,255,0.4);font-size:12px;font-style:italic;">No specialty set</span>'}</div>
                     ${ratingBlock}
-                    <button class="btn-hire" onclick='hireBooster(${boosterJson})'>
-                        <i class="fas fa-bolt"></i> Hire This Booster
-                    </button>
+                    <a href="Games.html?preferred_booster=${booster.user_id}" class="btn-hire">
+                        <i class="fas fa-hand-paper"></i> Request This Booster
+                    </a>
                 </div>
             `;
         });

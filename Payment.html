@@ -9,11 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             font-family: 'Poppins', sans-serif;
@@ -33,9 +29,7 @@
             letter-spacing: -0.5px;
         }
         
-        .navbar-brand span {
-            color: #3b82f6;
-        }
+        .navbar-brand span { color: #3b82f6; }
         
         .nav-link {
             color: rgba(255,255,255,0.9) !important;
@@ -58,9 +52,7 @@
             gap: 8px;
         }
         
-        .btn-account:hover {
-            background: rgba(59, 130, 246, 0.2);
-        }
+        .btn-account:hover { background: rgba(59, 130, 246, 0.2); }
         
         .dropdown-menu {
             background: #1e293b;
@@ -78,16 +70,8 @@
             transition: all 0.3s;
         }
         
-        .dropdown-item:hover {
-            background: #3b82f6;
-            color: white;
-        }
-        
-        .dropdown-item i {
-            width: 20px;
-            margin-right: 10px;
-            color: #3b82f6;
-        }
+        .dropdown-item:hover { background: #3b82f6; color: white; }
+        .dropdown-item i { width: 20px; margin-right: 10px; color: #3b82f6; }
         
         .payment-container {
             max-width: 800px;
@@ -123,15 +107,8 @@
             border-bottom: 1px dashed #e2e8f0;
         }
         
-        .order-detail-label {
-            font-weight: 600;
-            color: #64748b;
-        }
-        
-        .order-detail-value {
-            font-weight: 700;
-            color: #1e293b;
-        }
+        .order-detail-label { font-weight: 600; color: #64748b; }
+        .order-detail-value { font-weight: 700; color: #1e293b; }
         
         .order-total {
             font-size: 24px;
@@ -139,8 +116,7 @@
             font-weight: 800;
         }
         
-        /* Game Account Section */
-        .account-section {
+        .account-section, .payment-methods, .upload-section {
             background: white;
             border-radius: 30px;
             padding: 30px;
@@ -149,16 +125,14 @@
             border: 2px solid #e2e8f0;
         }
         
-        .account-section h3 {
+        .account-section h3, .payment-methods h3, .upload-section h3 {
             font-size: 20px;
             font-weight: 700;
             margin-bottom: 20px;
             color: #1e293b;
         }
         
-        .account-input {
-            margin-bottom: 20px;
-        }
+        .account-input { margin-bottom: 20px; }
         
         .account-input label {
             font-weight: 600;
@@ -181,10 +155,7 @@
             box-shadow: 0 0 0 4px rgba(57, 177, 224, 0.1);
         }
         
-        .account-input textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
+        .account-input textarea { resize: vertical; min-height: 80px; }
         
         .account-note {
             background: #f0f9ff;
@@ -196,26 +167,7 @@
             border-left: 3px solid #39b1e0;
         }
         
-        .account-note i {
-            color: #39b1e0;
-            margin-right: 8px;
-        }
-        
-        /* Payment Methods - ONLY GCASH NOW */
-        .payment-methods {
-            background: white;
-            border-radius: 30px;
-            padding: 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-        }
-        
-        .payment-methods h3 {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: #1e293b;
-        }
+        .account-note i { color: #39b1e0; margin-right: 8px; }
         
         .payment-option {
             border: 2px solid #e2e8f0;
@@ -229,15 +181,8 @@
             gap: 15px;
         }
         
-        .payment-option:hover {
-            border-color: #39b1e0;
-            background: #f8fafc;
-        }
-        
-        .payment-option.selected {
-            border-color: #39b1e0;
-            background: #f0f9ff;
-        }
+        .payment-option:hover { border-color: #39b1e0; background: #f8fafc; }
+        .payment-option.selected { border-color: #39b1e0; background: #f0f9ff; }
         
         .payment-option input[type="radio"] {
             width: 20px;
@@ -257,18 +202,9 @@
             color: #39b1e0;
         }
         
-        .payment-details h4 {
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
+        .payment-details h4 { font-weight: 700; margin-bottom: 5px; }
+        .payment-details p { color: #64748b; font-size: 14px; margin-bottom: 0; }
         
-        .payment-details p {
-            color: #64748b;
-            font-size: 14px;
-            margin-bottom: 0;
-        }
-        
-        /* QR Code Styling */
         .qr-container {
             text-align: center;
             margin: 20px 0;
@@ -302,9 +238,7 @@
             border-left: 4px solid #39b1e0;
         }
         
-        .reference-input {
-            margin-top: 20px;
-        }
+        .reference-input { margin-top: 20px; }
         
         .reference-input label {
             font-weight: 600;
@@ -326,21 +260,6 @@
             box-shadow: 0 0 0 4px rgba(57, 177, 224, 0.1);
         }
         
-        .upload-section {
-            background: white;
-            border-radius: 30px;
-            padding: 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-        }
-        
-        .upload-section h3 {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: #1e293b;
-        }
-        
         .upload-area {
             border: 2px dashed #e2e8f0;
             border-radius: 20px;
@@ -351,10 +270,7 @@
             background: #f8fafc;
         }
         
-        .upload-area:hover {
-            border-color: #39b1e0;
-            background: #f0f9ff;
-        }
+        .upload-area:hover { border-color: #39b1e0; background: #f0f9ff; }
         
         .upload-area i {
             font-size: 48px;
@@ -362,14 +278,8 @@
             margin-bottom: 15px;
         }
         
-        .upload-area p {
-            color: #64748b;
-            margin-bottom: 10px;
-        }
-        
-        .upload-area small {
-            color: #94a3b8;
-        }
+        .upload-area p { color: #64748b; margin-bottom: 10px; }
+        .upload-area small { color: #94a3b8; }
         
         .file-info {
             display: none;
@@ -418,70 +328,20 @@
             color: white;
             text-decoration: none;
         }
-        
-        .footer-links {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .footer-links li {
-            margin-bottom: 12px;
-        }
-        
-        .footer-links a {
-            color: rgba(255,255,255,0.7);
-            text-decoration: none;
-        }
-        
-        .footer-links a:hover {
-            color: white;
-        }
-        
-        .social-icons a {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            background: rgba(255,255,255,0.1);
-            color: white;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 40px;
-            margin-right: 10px;
-            transition: all 0.3s;
-        }
-        
-        .social-icons a:hover {
-            background: #39b1e0;
-            transform: translateY(-3px);
-        }
-        
-        .copyright {
-            border-top: 1px solid rgba(255,255,255,0.1);
-            padding-top: 30px;
-            margin-top: 40px;
-            text-align: center;
-            color: rgba(255,255,255,0.5);
-        }
     </style>
 </head>
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
-        <a class="navbar-brand" href="index.html">
-            <span>Carry</span>Connect
-        </a>
+        <a class="navbar-brand" href="index.html"><span>Carry</span>Connect</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="index.html">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="HowItWorks.html">How It Works</a>
-                </li>
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="HowItWorks.html">How It Works</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link btn-account dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-user-circle"></i> <span id="accountText">Account</span>
@@ -547,42 +407,35 @@
         </div>
         
         <div class="account-note">
-            <i class="fas fa-shield-alt"></i> Your credentials are encrypted and only visible to your assigned booster. We never store your password in plain text.
+            <i class="fas fa-shield-alt"></i> Your credentials are encrypted and only visible to your assigned booster.
         </div>
     </div>
     
-    <!-- Payment Methods - ONLY GCASH -->
+    <!-- Payment Methods - GCASH ONLY -->
     <div class="payment-methods">
         <h3><i class="fas fa-credit-card me-2" style="color: #39b1e0;"></i> Select Payment Method</h3>
         
-        <!-- GCASH ONLY - Maya and Bank removed -->
-        <div class="payment-option" onclick="selectPayment('gcash')">
+        <div class="payment-option selected" onclick="selectPayment('gcash')">
             <input type="radio" name="payment" id="gcash" value="gcash" checked>
-            <div class="payment-logo">
-                <i class="fas fa-mobile-alt"></i>
-            </div>
+            <div class="payment-logo"><i class="fas fa-mobile-alt"></i></div>
             <div class="payment-details">
                 <h4>GCash</h4>
                 <p>Pay via GCash QR code</p>
             </div>
         </div>
         
-        <!-- Payment Instructions with QR Code -->
         <div class="payment-instructions" id="paymentInstructions">
             <h5>📱 Scan QR Code to Pay with GCash:</h5>
             
-            <!-- QR Code Image -->
             <div class="qr-container">
                 <img src="QRGCASH.jpg" alt="GCash QR Code" class="qr-image">
                 <p class="qr-instruction">Scan this QR code with your GCash app</p>
             </div>
             
-            <!-- Simple instructions - NO steps -->
             <p><strong>Amount to pay:</strong> ₱<span id="displayAmount"></span></p>
             <p>After payment, enter the reference number below and upload your receipt.</p>
         </div>
         
-        <!-- Reference Number Input -->
         <div class="reference-input" id="referenceInput">
             <label>Reference Number / Transaction ID <span style="color: #dc3545;">*</span></label>
             <input type="text" id="referenceNumber" placeholder="e.g., GCASH-1234567890">
@@ -615,39 +468,7 @@
 
 <footer>
     <div class="container">
-        <div class="row">
-            <div class="col-lg-4 mb-4">
-                <a href="index.html" class="footer-logo">
-                    <span>Carry</span>Connect
-                </a>
-                <p class="mt-3">A small, passionate team of gamers offering manual boosting services.</p>
-                <div class="social-icons mt-4">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-discord"></i></a>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-6 mb-4 offset-lg-1">
-                <h5>Company</h5>
-                <ul class="footer-links">
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-            </div>
-            <div class="col-lg-3 col-md-6 mb-4">
-                <h5>Support</h5>
-                <ul class="footer-links">
-                    <li><a href="faq.html">FAQ</a></li>
-                    <li><a href="terms.html">Terms</a></li>
-                    <li><a href="privacy.html">Privacy</a></li>
-                    <li><a href="refund.html">Refund</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="copyright">
-            <p>© 2026 CarryConnect. All rights reserved.</p>
-        </div>
+        <p class="text-center mb-0" style="color: rgba(255,255,255,0.6);">© 2026 CarryConnect. All rights reserved.</p>
     </div>
 </footer>
 
@@ -660,7 +481,7 @@
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     
     let orderData = {};
-    let selectedPayment = 'gcash'; // Default to gcash
+    let selectedPayment = 'gcash';
     let selectedFile = null;
     
     function checkRememberedLogin() {
@@ -682,29 +503,20 @@
 
         if (userId) {
             accountText.textContent = username;
-            
             let menuItems = `
                 <li><a class="dropdown-item" href="Games.html"><i class="fas fa-gamepad"></i> Games</a></li>
                 <li><a class="dropdown-item" href="Orders.html"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
             `;
-
             if (role === 'booster') {
-                menuItems += `
-                    <li><a class="dropdown-item" href="Booster.html"><i class="fas fa-bolt"></i> Booster Dashboard</a></li>
-                `;
+                menuItems += `<li><a class="dropdown-item" href="Booster.html"><i class="fas fa-bolt"></i> Booster Dashboard</a></li>`;
             }
-
             if (role === 'admin') {
-                menuItems += `
-                    <li><a class="dropdown-item" href="Admin.html"><i class="fas fa-cog"></i> Admin Panel</a></li>
-                `;
+                menuItems += `<li><a class="dropdown-item" href="admin.html"><i class="fas fa-cog"></i> Admin Panel</a></li>`;
             }
-
             menuItems += `
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             `;
-
             dropdown.innerHTML = menuItems;
         } else {
             accountText.textContent = 'Account';
@@ -735,7 +547,6 @@
         document.getElementById('displayTotal').textContent = `₱${parseInt(orderData.price || 0).toLocaleString()}`;
         document.getElementById('displayAmount').textContent = parseInt(orderData.price || 0).toLocaleString();
         
-        // Auto-select GCash
         document.getElementById('gcash').checked = true;
         
         updateNavbar();
@@ -777,6 +588,7 @@
     document.getElementById('gameUsername')?.addEventListener('input', checkSubmitButton);
     document.getElementById('gamePassword')?.addEventListener('input', checkSubmitButton);
     
+    // ========== SUBMIT PAYMENT (FIXED) ==========
     async function submitPayment() {
         if (!selectedPayment || !selectedFile) {
             alert('Please select payment method and upload receipt');
@@ -821,19 +633,23 @@
                 
             if (uploadError) throw uploadError;
             
-            // Get public URL
+            // 2. Get public URL
             const { data: urlData } = supabase
                 .storage
                 .from('payment-receipts')
                 .getPublicUrl(filePath);
             
-            // 2. Save payment details to database
+            const publicUrl = urlData.publicUrl;
+            console.log('Receipt uploaded:', publicUrl);
+            
+            // 3. Save payment details (with BOTH receipt_url and receipt_path for compatibility)
             const paymentData = {
                 order_id: parseInt(orderData.orderId),
                 user_id: parseInt(userId),
                 payment_method: selectedPayment,
                 amount: parseInt(orderData.price || 0),
-                receipt_url: urlData.publicUrl,
+                receipt_url: publicUrl,
+                receipt_path: filePath,
                 reference_number: referenceNum,
                 status: 'pending'
             };
@@ -844,7 +660,7 @@
             
             if (error) throw error;
             
-            // 3. Update order with game account details
+            // 4. Update order with game account details
             await supabase
                 .from('orders')
                 .update({ 

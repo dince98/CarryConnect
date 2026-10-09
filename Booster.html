@@ -3,368 +3,286 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booster Dashboard · CarryConnect</title>
+    <title>Our Boosters · CarryConnect</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         body {
             font-family: 'Poppins', sans-serif;
-            background: #f8fafc;
+            background: radial-gradient(circle at 20% 30%, #1e1b4b 0%, #0f172a 50%, #020617 100%);
+            color: white;
+            min-height: 100vh;
         }
         
         .navbar {
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
             padding: 1rem 0;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
-        
-        .navbar-brand {
-            font-size: 28px !important;
-            font-weight: 800 !important;
-            color: white !important;
-            letter-spacing: -0.5px;
-        }
-        
+        .navbar-brand { font-size: 28px !important; font-weight: 800 !important; color: white !important; letter-spacing: -0.5px; }
         .navbar-brand span { color: #3b82f6; }
-        
-        .nav-link {
-            color: rgba(255,255,255,0.9) !important;
-            font-weight: 600;
-            margin: 0 5px;
-            padding: 8px 16px !important;
-            border-radius: 8px;
-        }
-        
-        .nav-link:hover {
-            background: rgba(59, 130, 246, 0.2);
-            color: white !important;
-        }
-        
-        .btn-account {
-            border: 2px solid rgba(255,255,255,0.2);
-            color: white !important;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
+        .nav-link { color: rgba(255,255,255,0.9) !important; font-weight: 600; margin: 0 5px; padding: 8px 16px !important; border-radius: 8px; }
+        .nav-link:hover { background: rgba(59, 130, 246, 0.2); color: white !important; }
+        .nav-link.active { background: #3b82f6 !important; color: white !important; }
+        .btn-account { border: 2px solid rgba(255,255,255,0.2); color: white !important; display: flex; align-items: center; gap: 8px; }
         .btn-account:hover { background: rgba(59, 130, 246, 0.2); }
-        
-        .dropdown-menu {
-            background: #1e293b;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            padding: 8px;
-            margin-top: 8px;
-        }
-        
-        .dropdown-item {
-            color: rgba(255,255,255,0.9);
-            font-weight: 600;
-            padding: 10px 20px;
-            border-radius: 8px;
-            transition: all 0.3s;
-        }
-        
+        .dropdown-menu { background: #1e293b; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 8px; margin-top: 8px; }
+        .dropdown-item { color: rgba(255,255,255,0.9); font-weight: 600; padding: 10px 20px; border-radius: 8px; transition: all 0.3s; }
         .dropdown-item:hover { background: #3b82f6; color: white; }
         .dropdown-item i { width: 20px; margin-right: 10px; color: #3b82f6; }
         
-        .page-header {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
-            padding: 60px 0;
+        .hero {
             text-align: center;
+            padding: 80px 20px 40px;
+        }
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            text-shadow: 0 0 60px rgba(102, 126, 234, 0.4);
+        }
+        .hero p {
+            font-size: 18px;
+            color: rgba(255,255,255,0.7);
+            max-width: 600px;
+            margin: 0 auto;
         }
         
-        .page-header h1 { font-size: 48px; font-weight: 800; margin-bottom: 20px; }
-        .page-header p { font-size: 20px; opacity: 0.95; }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin: 40px 0;
-        }
-        
-        .stat-card {
-            background: white;
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-            border: 1px solid #e2e8f0;
-        }
-        
-        .stat-card h3 {
-            font-size: 14px;
-            color: #64748b;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-        }
-        
-        .stat-number { font-size: 32px; font-weight: 700; color: #1e293b; }
-        
-        .tabs {
+        .filter-chips {
             display: flex;
             gap: 10px;
-            margin-bottom: 30px;
+            justify-content: center;
             flex-wrap: wrap;
+            margin: 30px 0;
+            padding: 0 20px;
         }
-        
-        .tab {
-            padding: 10px 25px;
+        .chip {
+            padding: 10px 24px;
             border-radius: 50px;
             font-weight: 600;
+            font-size: 14px;
             cursor: pointer;
             transition: all 0.3s;
-            background: white;
-            border: 2px solid #e2e8f0;
-            color: #64748b;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.8);
+            backdrop-filter: blur(10px);
         }
-        
-        .tab:hover { border-color: #10b981; color: #10b981; }
-        
-        .tab.active {
-            background: #10b981;
+        .chip:hover { border-color: #667eea; color: white; transform: translateY(-2px); }
+        .chip.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            border-color: #10b981;
+            border-color: transparent;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
         }
         
-        .orders-grid { display: grid; gap: 20px; }
-        
-        .order-card {
-            background: white;
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-            border: 1px solid #e2e8f0;
-        }
-        
-        .order-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-        
-        .order-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #eef2f6;
-        }
-        
-        .order-id { font-size: 18px; font-weight: 700; color: #1e293b; }
-        
-        .status-badge {
-            padding: 6px 15px;
-            border-radius: 50px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-        
-        .status-assigned { background: #fff3cd; color: #856404; }
-        .status-progress { background: #cce5ff; color: #004085; }
-        .status-completed { background: #d4edda; color: #155724; }
-        
-        .order-details {
+        .boosters-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto 80px;
+            padding: 0 20px;
+        }
+        
+        .booster-card {
+            background: rgba(20, 25, 40, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            padding: 30px 25px;
+            border: 1px solid rgba(255,255,255,0.08);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .booster-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(102, 126, 234, 0.5);
+            box-shadow: 0 30px 60px rgba(102, 126, 234, 0.25);
+        }
+        
+        .booster-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #c084fc);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .booster-card:hover::before { opacity: 1; }
+        
+        /* Rank badge */
+        .rank-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 22px;
+            z-index: 2;
+        }
+        .rank-1 { background: linear-gradient(135deg, #fbbf24, #d97706); box-shadow: 0 8px 25px rgba(251,191,36,0.6); animation: shine 2.5s ease-in-out infinite; }
+        .rank-2 { background: linear-gradient(135deg, #cbd5e1, #64748b); box-shadow: 0 8px 25px rgba(203,213,225,0.4); }
+        .rank-3 { background: linear-gradient(135deg, #d97706, #92400e); box-shadow: 0 8px 25px rgba(217,119,6,0.4); }
+        
+        @keyframes shine {
+            0%, 100% { box-shadow: 0 8px 25px rgba(251,191,36,0.6); }
+            50% { box-shadow: 0 8px 40px rgba(251,191,36,0.9); }
+        }
+        
+        .booster-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 34px;
+            font-weight: 800;
+            color: white;
+            margin: 0 auto 15px;
+            border: 3px solid rgba(255,255,255,0.1);
+            box-shadow: 0 10px 25px rgba(102,126,234,0.4);
+        }
+        
+        .booster-name {
+            text-align: center;
+            font-size: 22px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 6px;
+        }
+        
+        .booster-specialties {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            justify-content: center;
             margin-bottom: 20px;
         }
         
-        .detail-label { font-size: 12px; color: #64748b; margin-bottom: 5px; }
-        .detail-value { font-size: 16px; font-weight: 600; color: #1e293b; }
-        .price-value { color: #10b981; font-size: 20px; font-weight: 700; }
-        
-        .account-info {
-            background: #fff3cd;
-            border-radius: 10px;
-            padding: 15px;
-            margin: 15px 0;
-            border-left: 4px solid #ffc107;
-        }
-        
-        .account-info h6 {
-            color: #856404;
-            margin-bottom: 10px;
-            font-size: 14px;
+        .spec-tag {
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 11px;
             font-weight: 700;
+            border: 1px solid;
         }
         
-        .account-info p { margin-bottom: 8px; font-size: 14px; }
-        .account-info strong { color: #856404; }
-        
-        .password-hidden {
-            font-family: monospace;
-            letter-spacing: 2px;
-            background: #f8f9fa;
-            padding: 2px 8px;
-            border-radius: 4px;
-        }
-        
-        .btn-show {
-            background: none;
-            border: none;
-            color: #667eea;
-            cursor: pointer;
-            font-size: 12px;
-            margin-left: 5px;
-            text-decoration: underline;
-        }
-        
-        .proof-section {
-            margin: 15px 0;
-            padding: 15px;
-            background: #f0f9ff;
-            border-radius: 10px;
-            border: 1px solid #39b1e0;
-        }
-        
-        .proof-section h6 {
-            color: #1e293b;
-            margin-bottom: 10px;
-            font-size: 14px;
-            font-weight: 700;
-        }
-        
-        .upload-area-small {
-            border: 2px dashed #e2e8f0;
-            border-radius: 10px;
-            padding: 15px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .upload-area-small:hover {
-            border-color: #10b981;
-            background: #f0fdf4;
-        }
-        
-        .upload-area-small i { font-size: 24px; color: #10b981; }
-        .upload-area-small p { margin: 5px 0 0; font-size: 12px; color: #64748b; }
-        
-        .file-info {
-            margin-top: 5px;
-            font-size: 12px;
-            color: #10b981;
-        }
-        
-        .action-buttons {
+        .rating-display {
             display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 14px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255,255,255,0.06);
         }
         
-        .btn-start {
-            background: #10b981;
+        .rating-stars {
+            display: flex;
+            gap: 3px;
+            font-size: 18px;
+        }
+        
+        .star-filled { color: #fbbf24; text-shadow: 0 0 12px rgba(251,191,36,0.6); }
+        .star-empty { color: rgba(255,255,255,0.15); }
+        
+        .rating-number {
+            font-size: 22px;
+            font-weight: 800;
             color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
         }
         
-        .btn-start:hover { background: #059669; transform: translateY(-2px); }
-        
-        .btn-complete {
-            background: #667eea;
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 50px;
+        .rating-count {
+            font-size: 12px;
+            color: rgba(255,255,255,0.5);
             font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
         }
         
-        .btn-complete:hover { background: #5a67d8; transform: translateY(-2px); }
-        
-        .no-data {
+        .no-ratings {
             text-align: center;
-            padding: 60px 20px;
-            background: white;
-            border-radius: 20px;
-            border: 2px dashed #e2e8f0;
-            color: #64748b;
+            padding: 15px;
+            color: rgba(255,255,255,0.4);
+            font-size: 13px;
+            font-style: italic;
+            background: rgba(255,255,255,0.03);
+            border-radius: 14px;
+            margin-bottom: 15px;
+            border: 1px dashed rgba(255,255,255,0.1);
         }
         
-        .loading-spinner { text-align: center; padding: 60px 20px; }
-        
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #10b981;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .image-modal {
-            display: none;
-            position: fixed;
-            z-index: 9999;
-            padding-top: 50px;
-            left: 0;
-            top: 0;
+        .btn-hire {
             width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.9);
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 14px;
             cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .btn-hire:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.5);
+            color: white;
         }
         
-        .modal-image {
-            margin: auto;
-            display: block;
-            max-width: 90%;
-            max-height: 90%;
-            border-radius: 10px;
-            animation: zoom 0.3s;
+        .loading {
+            text-align: center;
+            padding: 80px 20px;
+            color: rgba(255,255,255,0.5);
+            grid-column: 1 / -1;
         }
+        .loading i { font-size: 48px; margin-bottom: 15px; color: #667eea; }
         
-        @keyframes zoom {
-            from { transform: scale(0.1); }
-            to { transform: scale(1); }
+        .no-boosters {
+            text-align: center;
+            padding: 80px 20px;
+            color: rgba(255,255,255,0.5);
+            grid-column: 1 / -1;
         }
-        
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 35px;
-            color: #f1f1f1;
-            font-size: 40px;
-            font-weight: bold;
-        }
-        
-        .close-modal:hover { color: #bbb; }
+        .no-boosters i { font-size: 60px; margin-bottom: 20px; color: #667eea; opacity: 0.5; }
         
         footer {
-            background: #0f172a;
-            color: white;
+            background: rgba(10, 12, 18, 0.95);
+            border-top: 1px solid rgba(255,255,255,0.05);
             padding: 30px 0;
-            margin-top: 50px;
+            text-align: center;
+            color: rgba(255,255,255,0.4);
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 36px; }
+            .boosters-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-
-<div id="imageModal" class="image-modal" onclick="closeImageModal()">
-    <span class="close-modal">&times;</span>
-    <img class="modal-image" id="modalImage" onclick="event.stopPropagation()">
-</div>
 
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
@@ -375,9 +293,11 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="Games.html">Games</a></li>
+                <li class="nav-item"><a class="nav-link active" href="Boosters.html">Boosters</a></li>
                 <li class="nav-item"><a class="nav-link" href="HowItWorks.html">How It Works</a></li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link btn-account dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link btn-account dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                         <i class="fas fa-user-circle"></i> <span id="accountText">Account</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" id="accountDropdown"></ul>
@@ -387,71 +307,24 @@
     </div>
 </nav>
 
-<div class="page-header">
-    <div class="container">
-        <h1>Booster Dashboard</h1>
-        <p class="lead">Manage your assigned boosts and track progress</p>
-    </div>
+<div class="hero">
+    <h1>Meet Our Boosters</h1>
+    <p>Top-rated professional players ready to help you climb. Every rating comes from real, completed orders.</p>
 </div>
 
-<div class="container">
-    <div class="stats-grid">
-        <div class="stat-card">
-            <h3>Assigned to me</h3>
-            <div class="stat-number" id="assignedCount">0</div>
-        </div>
-        <div class="stat-card">
-            <h3>In Progress</h3>
-            <div class="stat-number" id="inProgressCount">0</div>
-        </div>
-        <div class="stat-card">
-            <h3>Completed</h3>
-            <div class="stat-number" id="completedCount">0</div>
-        </div>
-        <div class="stat-card">
-            <h3>Total Earnings</h3>
-            <div class="stat-number" id="totalEarnings">₱0</div>
-        </div>
-    </div>
+<div class="filter-chips" id="filterChips">
+    <div class="chip active" onclick="filterByGame('all', this)">All Games</div>
+</div>
 
-    <div class="tabs">
-        <div class="tab active" onclick="switchTab('assigned')" id="tab-assigned">Assigned to Me</div>
-        <div class="tab" onclick="switchTab('progress')" id="tab-progress">In Progress</div>
-        <div class="tab" onclick="switchTab('completed')" id="tab-completed">Completed</div>
-    </div>
-
-    <div id="assigned-section">
-        <div id="assignedOrders">
-            <div class="loading-spinner">
-                <div class="spinner"></div>
-                <p>Loading your assigned orders...</p>
-            </div>
-        </div>
-    </div>
-
-    <div id="progress-section" style="display: none;">
-        <div id="progressOrders">
-            <div class="loading-spinner">
-                <div class="spinner"></div>
-                <p>Loading orders in progress...</p>
-            </div>
-        </div>
-    </div>
-
-    <div id="completed-section" style="display: none;">
-        <div id="completedOrders">
-            <div class="loading-spinner">
-                <div class="spinner"></div>
-                <p>Loading completed orders...</p>
-            </div>
-        </div>
+<div class="boosters-grid" id="boostersGrid">
+    <div class="loading">
+        <i class="fas fa-spinner fa-spin"></i>
+        <p>Loading boosters...</p>
     </div>
 </div>
 
 <footer>
-    <div class="container">
-        <p class="text-center mb-0">© 2026 CarryConnect · Booster Portal</p>
-    </div>
+    <p class="mb-0">© 2026 CarryConnect · All rights reserved.</p>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -462,106 +335,11 @@
     
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     
-    let boosterId = sessionStorage.getItem('userId');
-    let boosterRole = sessionStorage.getItem('role');
     let gamesMap = {};
-    let selectedProofFiles = {};
-    let paymentsMap = {};
-
-    function openImageModal(imageUrl) {
-        const modal = document.getElementById('imageModal');
-        const modalImage = document.getElementById('modalImage');
-        modalImage.src = imageUrl;
-        modal.style.display = 'block';
-    }
+    let gameColors = { '1': '#c89b3c', '2': '#ff4655', '3': '#00b5e2' };
+    let allBoosters = [];
+    let currentFilter = 'all';
     
-    function closeImageModal() {
-        document.getElementById('imageModal').style.display = 'none';
-    }
-    
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape') closeImageModal();
-    });
-
-    function togglePassword(orderId, password) {
-        const span = document.getElementById(`password-${orderId}`);
-        if (span.textContent === '••••••••') {
-            span.textContent = password;
-        } else {
-            span.textContent = '••••••••';
-        }
-    }
-
-    function handleProofFileSelect(orderId, type) {
-        const input = document.getElementById(`${type}-file-${orderId}`);
-        const file = input.files[0];
-        
-        if (!file) return;
-        
-        if (!selectedProofFiles[orderId]) {
-            selectedProofFiles[orderId] = {};
-        }
-        
-        selectedProofFiles[orderId][type] = file;
-        
-        const infoDiv = document.getElementById(`${type}-file-info-${orderId}`);
-        infoDiv.style.display = 'block';
-        infoDiv.querySelector('span').textContent = file.name;
-    }
-
-    async function uploadProofs(orderId) {
-        const beforeFile = selectedProofFiles[orderId]?.before;
-        const afterFile = selectedProofFiles[orderId]?.after;
-        
-        if (!beforeFile || !afterFile) {
-            alert('Please upload both before and after screenshots');
-            return;
-        }
-        
-        const description = document.getElementById(`proof-description-${orderId}`).value;
-        const btn = document.getElementById(`proof-btn-${orderId}`);
-        
-        btn.disabled = true;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
-        
-        try {
-            const userId = sessionStorage.getItem('userId');
-            
-            const beforeFileName = `proof_${orderId}_before_${Date.now()}.${beforeFile.name.split('.').pop()}`;
-            const beforePath = `proofs/${orderId}/${beforeFileName}`;
-            
-            const { error: beforeError } = await supabase
-                .storage.from('proofs').upload(beforePath, beforeFile);
-            if (beforeError) throw beforeError;
-            
-            const afterFileName = `proof_${orderId}_after_${Date.now()}.${afterFile.name.split('.').pop()}`;
-            const afterPath = `proofs/${orderId}/${afterFileName}`;
-            
-            const { error: afterError } = await supabase
-                .storage.from('proofs').upload(afterPath, afterFile);
-            if (afterError) throw afterError;
-            
-            const { error: proofError } = await supabase
-                .from('proofs')
-                .insert([
-                    { order_id: orderId, booster_id: parseInt(userId), proof_type: 'before', image_url: beforePath, description: description },
-                    { order_id: orderId, booster_id: parseInt(userId), proof_type: 'after', image_url: afterPath, description: description }
-                ]);
-            if (proofError) throw proofError;
-            
-            await supabase.from('orders').update({ proof_uploaded: true }).eq('order_id', orderId);
-            
-            alert('✅ Proof uploaded successfully!');
-            location.reload();
-            
-        } catch (error) {
-            console.error('Error uploading proofs:', error);
-            alert('❌ Error: ' + error.message);
-            btn.disabled = false;
-            btn.innerHTML = '<i class="fas fa-upload"></i> Submit Proof';
-        }
-    }
-
     function checkRememberedLogin() {
         const remembered = localStorage.getItem('rememberedUser');
         if (remembered && !sessionStorage.getItem('userId')) {
@@ -569,33 +347,26 @@
             sessionStorage.setItem('userId', user.userId);
             sessionStorage.setItem('username', user.username);
             sessionStorage.setItem('role', user.role);
-            boosterId = user.userId;
-            boosterRole = user.role;
         }
     }
     
     function updateNavbar() {
         const dropdown = document.getElementById('accountDropdown');
         const accountText = document.getElementById('accountText');
+        const userId = sessionStorage.getItem('userId');
         const username = sessionStorage.getItem('username');
         const role = sessionStorage.getItem('role');
 
-        if (boosterId) {
+        if (userId) {
             accountText.textContent = username;
             let menuItems = `
                 <li><a class="dropdown-item" href="Games.html"><i class="fas fa-gamepad"></i> Games</a></li>
+                <li><a class="dropdown-item" href="Boosters.html"><i class="fas fa-users"></i> Our Boosters</a></li>
                 <li><a class="dropdown-item" href="Orders.html"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
             `;
-            if (role === 'booster') {
-                menuItems += `<li><a class="dropdown-item" href="Booster.html"><i class="fas fa-bolt"></i> Booster Dashboard</a></li>`;
-            }
-            if (role === 'admin') {
-                menuItems += `<li><a class="dropdown-item" href="admin.html"><i class="fas fa-cog"></i> Admin Panel</a></li>`;
-            }
-            menuItems += `
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-            `;
+            if (role === 'booster') menuItems += `<li><a class="dropdown-item" href="Booster.html"><i class="fas fa-bolt"></i> Booster Dashboard</a></li>`;
+            if (role === 'admin') menuItems += `<li><a class="dropdown-item" href="admin.html"><i class="fas fa-cog"></i> Admin Panel</a></li>`;
+            menuItems += `<li><hr class="dropdown-divider"></li><li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>`;
             dropdown.innerHTML = menuItems;
         } else {
             accountText.textContent = 'Account';
@@ -606,320 +377,156 @@
         }
     }
     
-    window.onload = function() {
+    window.onload = async function() {
         checkRememberedLogin();
-        
-        if (!boosterId) {
-            window.location.href = 'LoginAndRegister.html?tab=login';
-            return;
-        }
-        
-        if (boosterRole !== 'booster') {
-            alert('Access denied. Boosters only.');
-            window.location.href = 'index.html';
-            return;
-        }
-        
-        loadGames();
-        loadBoosterData();
         updateNavbar();
+        await loadGames();
+        await loadBoosters();
     };
-
+    
     async function loadGames() {
-        const { data } = await supabase.from('games').select('*');
-        if (data) data.forEach(game => gamesMap[game.game_id] = game.game_name);
-    }
-
-    async function loadBoosterData() {
-        await Promise.all([
-            loadStats(),
-            loadAssignedOrders(),
-            loadProgressOrders(),
-            loadCompletedOrders()
-        ]);
-    }
-
-    async function loadStats() {
         try {
-            const { count: assigned } = await supabase
-                .from('orders').select('*', { count: 'exact', head: true })
-                .eq('booster_id', boosterId).eq('status', 'assigned');
-
-            const { count: progress } = await supabase
-                .from('orders').select('*', { count: 'exact', head: true })
-                .eq('booster_id', boosterId).eq('status', 'in_progress');
-
-            const { count: completed } = await supabase
-                .from('orders').select('*', { count: 'exact', head: true })
-                .eq('booster_id', boosterId).eq('status', 'completed');
-
-            const { data: completedOrders } = await supabase
-                .from('orders').select('total_price')
-                .eq('booster_id', boosterId).eq('status', 'completed');
-
-            const totalEarnings = completedOrders?.reduce((sum, order) => sum + (order.total_price || 0), 0) || 0;
-
-            document.getElementById('assignedCount').textContent = assigned || 0;
-            document.getElementById('inProgressCount').textContent = progress || 0;
-            document.getElementById('completedCount').textContent = completed || 0;
-            document.getElementById('totalEarnings').textContent = `₱${totalEarnings.toLocaleString()}`;
-        } catch (error) {
-            console.error('Error loading stats:', error);
-        }
-    }
-
-    async function loadAssignedOrders() {
-        try {
-            const { data, error } = await supabase
-                .from('orders').select('*')
-                .eq('booster_id', boosterId).eq('status', 'assigned')
-                .order('order_id', { ascending: false });
-
+            const { data, error } = await supabase.from('games').select('*');
             if (error) throw error;
             
-            if (data && data.length > 0) {
-                const orderIds = data.map(o => o.order_id);
-                const { data: payments } = await supabase
-                    .from('payments').select('*').in('order_id', orderIds);
-                if (payments) payments.forEach(p => paymentsMap[p.order_id] = p);
-            }
+            data.forEach(g => { gamesMap[g.game_id] = g.game_name; });
             
-            displayOrders(data, 'assignedOrders', 'assigned');
-        } catch (error) {
-            console.error('Error loading assigned orders:', error);
-            document.getElementById('assignedOrders').innerHTML = `
-                <div class="no-data">
-                    <i class="fas fa-exclamation-circle fa-3x mb-3"></i>
-                    <h3>Error Loading Orders</h3>
-                    <p>${error.message}</p>
+            const chipContainer = document.getElementById('filterChips');
+            data.forEach(g => {
+                const chip = document.createElement('div');
+                chip.className = 'chip';
+                chip.textContent = g.game_name;
+                chip.onclick = function() { filterByGame(g.game_id, this); };
+                chipContainer.appendChild(chip);
+            });
+        } catch (err) {
+            console.error('Error loading games:', err);
+        }
+    }
+    
+    async function loadBoosters() {
+        try {
+            const { data, error } = await supabase
+                .from('users')
+                .select('user_id, username, first_name, last_name, specialty, avg_rating, total_ratings')
+                .eq('role', 'booster');
+            
+            if (error) throw error;
+            
+            allBoosters = data || [];
+            
+            // Sort: rating desc → total ratings desc → username asc
+            allBoosters.sort((a, b) => {
+                const ra = parseFloat(a.avg_rating) || 0;
+                const rb = parseFloat(b.avg_rating) || 0;
+                if (rb !== ra) return rb - ra;
+                const ta = parseInt(a.total_ratings) || 0;
+                const tb = parseInt(b.total_ratings) || 0;
+                if (tb !== ta) return tb - ta;
+                return (a.username || '').localeCompare(b.username || '');
+            });
+            
+            renderBoosters(allBoosters);
+        } catch (err) {
+            console.error('Error loading boosters:', err);
+            document.getElementById('boostersGrid').innerHTML = `
+                <div class="no-boosters">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>Failed to load boosters</h3>
+                    <p>${err.message}</p>
                 </div>
             `;
         }
     }
-
-    async function loadProgressOrders() {
-        try {
-            const { data, error } = await supabase
-                .from('orders').select('*')
-                .eq('booster_id', boosterId).eq('status', 'in_progress')
-                .order('order_id', { ascending: false });
-
-            if (error) throw error;
-            
-            if (data && data.length > 0) {
-                const orderIds = data.map(o => o.order_id);
-                const { data: payments } = await supabase
-                    .from('payments').select('*').in('order_id', orderIds);
-                if (payments) payments.forEach(p => paymentsMap[p.order_id] = p);
-            }
-            
-            displayOrders(data, 'progressOrders', 'progress');
-        } catch (error) {
-            console.error('Error loading progress orders:', error);
-            document.getElementById('progressOrders').innerHTML = `
-                <div class="no-data">
-                    <i class="fas fa-exclamation-circle fa-3x mb-3"></i>
-                    <h3>Error Loading Orders</h3>
-                    <p>${error.message}</p>
-                </div>
-            `;
-        }
-    }
-
-    async function loadCompletedOrders() {
-        try {
-            const { data, error } = await supabase
-                .from('orders').select('*')
-                .eq('booster_id', boosterId).eq('status', 'completed')
-                .order('order_id', { ascending: false });
-
-            if (error) throw error;
-            
-            if (data && data.length > 0) {
-                const orderIds = data.map(o => o.order_id);
-                const { data: payments } = await supabase
-                    .from('payments').select('*').in('order_id', orderIds);
-                if (payments) payments.forEach(p => paymentsMap[p.order_id] = p);
-            }
-            
-            displayOrders(data, 'completedOrders', 'completed');
-        } catch (error) {
-            console.error('Error loading completed orders:', error);
-            document.getElementById('completedOrders').innerHTML = `
-                <div class="no-data">
-                    <i class="fas fa-exclamation-circle fa-3x mb-3"></i>
-                    <h3>Error Loading Orders</h3>
-                    <p>${error.message}</p>
-                </div>
-            `;
-        }
-    }
-
-    function displayOrders(orders, elementId, type) {
-        const container = document.getElementById(elementId);
+    
+    function filterByGame(gameId, el) {
+        currentFilter = gameId;
+        document.querySelectorAll('#filterChips .chip').forEach(c => c.classList.remove('active'));
+        el.classList.add('active');
         
-        if (!orders || orders.length === 0) {
-            container.innerHTML = `
-                <div class="no-data">
-                    <i class="fas fa-inbox fa-3x mb-3"></i>
-                    <h3>No Orders Found</h3>
-                    <p>You don't have any ${type} orders at the moment.</p>
+        const filtered = gameId === 'all'
+            ? allBoosters
+            : allBoosters.filter(b => 
+                Array.isArray(b.specialty) && b.specialty.map(String).includes(String(gameId))
+              );
+        
+        renderBoosters(filtered);
+    }
+    
+    function renderBoosters(boosters) {
+        const grid = document.getElementById('boostersGrid');
+        
+        if (!boosters || boosters.length === 0) {
+            grid.innerHTML = `
+                <div class="no-boosters">
+                    <i class="fas fa-user-slash"></i>
+                    <h3>No boosters found</h3>
+                    <p>Try a different filter or check back later.</p>
                 </div>
             `;
             return;
         }
-
+        
         let html = '';
-        orders.forEach(order => {
-            const gameName = gamesMap[order.game_id] || 'Unknown Game';
-            const payment = paymentsMap[order.order_id];
+        boosters.forEach((booster, index) => {
+            const hasRating = booster.avg_rating > 0;
+            
+            // Rank medal — only for top 3 with ratings
+            let rankBadge = '';
+            if (hasRating && index === 0) rankBadge = '<div class="rank-badge rank-1">🥇</div>';
+            else if (hasRating && index === 1) rankBadge = '<div class="rank-badge rank-2">🥈</div>';
+            else if (hasRating && index === 2) rankBadge = '<div class="rank-badge rank-3">🥉</div>';
+            
+            const initial = (booster.username || 'B')[0].toUpperCase();
+            
+            const specs = (booster.specialty || []).map(gid => {
+                const name = gamesMap[gid] || `Game ${gid}`;
+                const color = gameColors[String(gid)] || '#667eea';
+                return `<span class="spec-tag" style="background:${color}22;color:${color};border-color:${color}66;">${name}</span>`;
+            }).join('');
+            
+            let ratingBlock = '';
+            if (hasRating) {
+                const rating = parseFloat(booster.avg_rating);
+                const filled = Math.round(rating);
+                let starsHtml = '';
+                for (let i = 0; i < 5; i++) {
+                    starsHtml += `<span class="${i < filled ? 'star-filled' : 'star-empty'}">★</span>`;
+                }
+                ratingBlock = `
+                    <div class="rating-display">
+                        <div class="rating-stars">${starsHtml}</div>
+                        <div>
+                            <div class="rating-number">${rating.toFixed(1)}</div>
+                            <div class="rating-count">${booster.total_ratings || 0} review${booster.total_ratings === 1 ? '' : 's'}</div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                ratingBlock = `
+                    <div class="no-ratings">
+                        <i class="fas fa-star"></i> No ratings yet
+                    </div>
+                `;
+            }
             
             html += `
-                <div class="order-card">
-                    <div class="order-header">
-                        <span class="order-id">Order #${order.order_id}</span>
-                        <span class="status-badge status-${type}">${order.status.toUpperCase()}</span>
-                    </div>
-                    <div class="order-details">
-                        <div><div class="detail-label">Game</div><div class="detail-value">${gameName}</div></div>
-                        <div><div class="detail-label">Service</div><div class="detail-value">${order.notes || 'Standard Boost'}</div></div>
-                        <div><div class="detail-label">Rank</div><div class="detail-value">${order.current_rank || '?'} → ${order.target_rank || '?'}</div></div>
-                        <div><div class="detail-label">Price</div><div class="price-value">₱${order.total_price?.toLocaleString() || '0'}</div></div>
-                    </div>
-                    
-                    ${order.game_username ? `
-                        <div class="account-info">
-                            <h6><i class="fas fa-gamepad"></i> Game Account Details</h6>
-                            <p><strong>Username:</strong> ${order.game_username}</p>
-                            <p><strong>Password:</strong> 
-                                <span id="password-${order.order_id}" class="password-hidden">••••••••</span>
-                                <button onclick="togglePassword(${order.order_id}, '${order.game_password}')" class="btn-show">Show</button>
-                            </p>
-                            ${order.additional_info ? `<p><strong>Info:</strong> ${order.additional_info}</p>` : ''}
-                        </div>
-                    ` : ''}
-                    
-                    ${payment && payment.receipt_path ? `
-                        <div class="proof-section" style="background: #fff3cd; border-color: #ffc107;">
-                            <h6><i class="fas fa-receipt"></i> Payment Receipt</h6>
-                            <div style="text-align: center;">
-                                <img src="${SUPABASE_URL}/storage/v1/object/public/payment-receipts/${payment.receipt_path}" 
-                                     style="max-width: 200px; max-height: 150px; border-radius: 10px; cursor: pointer; border: 2px solid #ffc107;" 
-                                     onclick="openImageModal('${SUPABASE_URL}/storage/v1/object/public/payment-receipts/${payment.receipt_path}')" 
-                                     title="Click to enlarge">
-                                <p style="margin-top: 10px; font-size: 12px;"><i class="fas fa-info-circle"></i> Click image to enlarge</p>
-                            </div>
-                        </div>
-                    ` : ''}
-                    
-                    ${type === 'completed' ? `
-                        <div class="proof-section">
-                            <h6><i class="fas fa-camera"></i> Upload Proof of Work</h6>
-                            
-                            <div style="margin-bottom: 15px;">
-                                <label style="font-weight: 600; font-size: 14px; margin-bottom: 5px; display: block;">Before Screenshot</label>
-                                <div class="upload-area-small" onclick="document.getElementById('before-file-${order.order_id}').click()">
-                                    <i class="fas fa-cloud-upload-alt"></i>
-                                    <p>Click to upload before screenshot</p>
-                                    <input type="file" id="before-file-${order.order_id}" accept="image/*" style="display: none;" onchange="handleProofFileSelect(${order.order_id}, 'before')">
-                                </div>
-                                <div id="before-file-info-${order.order_id}" class="file-info" style="display: none;">
-                                    <i class="fas fa-check-circle"></i> <span></span>
-                                </div>
-                            </div>
-                            
-                            <div style="margin-bottom: 15px;">
-                                <label style="font-weight: 600; font-size: 14px; margin-bottom: 5px; display: block;">After Screenshot</label>
-                                <div class="upload-area-small" onclick="document.getElementById('after-file-${order.order_id}').click()">
-                                    <i class="fas fa-cloud-upload-alt"></i>
-                                    <p>Click to upload after screenshot</p>
-                                    <input type="file" id="after-file-${order.order_id}" accept="image/*" style="display: none;" onchange="handleProofFileSelect(${order.order_id}, 'after')">
-                                </div>
-                                <div id="after-file-info-${order.order_id}" class="file-info" style="display: none;">
-                                    <i class="fas fa-check-circle"></i> <span></span>
-                                </div>
-                            </div>
-                            
-                            <div style="margin-bottom: 15px;">
-                                <label style="font-weight: 600; font-size: 14px; margin-bottom: 5px; display: block;">Description (optional)</label>
-                                <textarea id="proof-description-${order.order_id}" class="form-control" rows="2" placeholder="e.g., Boost completed successfully, rank achieved"></textarea>
-                            </div>
-                            
-                            <button onclick="uploadProofs(${order.order_id})" class="btn-start" style="width: 100%;" id="proof-btn-${order.order_id}">
-                                <i class="fas fa-upload"></i> Submit Proof
-                            </button>
-                        </div>
-                    ` : ''}
-                    
-                    <div class="action-buttons">
-                        ${type === 'assigned' ? 
-                            `<button onclick="startBoost(${order.order_id})" class="btn-start">
-                                <i class="fas fa-play"></i> Start Boost
-                            </button>` : 
-                        type === 'progress' ?
-                            `<button onclick="completeBoost(${order.order_id})" class="btn-complete">
-                                <i class="fas fa-check"></i> Complete Boost
-                            </button>` : '' 
-                        }
-                    </div>
+                <div class="booster-card">
+                    ${rankBadge}
+                    <div class="booster-avatar">${initial}</div>
+                    <div class="booster-name">${booster.username || 'Booster'}</div>
+                    <div class="booster-specialties">${specs || '<span style="color:rgba(255,255,255,0.4);font-size:12px;font-style:italic;">No specialty set</span>'}</div>
+                    ${ratingBlock}
+                    <a href="Games.html" class="btn-hire">
+                        <i class="fas fa-bolt"></i> Hire This Booster
+                    </a>
                 </div>
             `;
         });
-
-        container.innerHTML = html;
+        
+        grid.innerHTML = html;
     }
-
-    async function startBoost(orderId) {
-        if (!confirm('Start this boost now?')) return;
-        try {
-            const { error } = await supabase
-                .from('orders')
-                .update({ status: 'in_progress', started_at: new Date().toISOString() })
-                .eq('order_id', orderId);
-            if (error) throw error;
-            alert('✅ Boost started!');
-            refreshData();
-        } catch (error) {
-            alert('❌ Error: ' + error.message);
-        }
-    }
-
-    async function completeBoost(orderId) {
-        if (!confirm('Mark this boost as completed?')) return;
-        try {
-            const { error } = await supabase
-                .from('orders')
-                .update({ status: 'completed', completed_date: new Date().toISOString() })
-                .eq('order_id', orderId);
-            if (error) throw error;
-            alert('✅ Boost completed!');
-            refreshData();
-        } catch (error) {
-            alert('❌ Error: ' + error.message);
-        }
-    }
-
-    function refreshData() {
-        loadStats();
-        loadAssignedOrders();
-        loadProgressOrders();
-        loadCompletedOrders();
-    }
-
-    function switchTab(tab) {
-        document.getElementById('tab-assigned').classList.remove('active');
-        document.getElementById('tab-progress').classList.remove('active');
-        document.getElementById('tab-completed').classList.remove('active');
-        document.getElementById(`tab-${tab}`).classList.add('active');
-
-        document.getElementById('assigned-section').style.display = tab === 'assigned' ? 'block' : 'none';
-        document.getElementById('progress-section').style.display = tab === 'progress' ? 'block' : 'none';
-        document.getElementById('completed-section').style.display = tab === 'completed' ? 'block' : 'none';
-
-        if (tab === 'progress') loadProgressOrders();
-        if (tab === 'completed') loadCompletedOrders();
-    }
-
+    
     function logout() {
         sessionStorage.clear();
         localStorage.removeItem('rememberedUser');

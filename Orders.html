@@ -10,481 +10,263 @@
     
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: #f8fafc;
-        }
+        body { font-family: 'Poppins', sans-serif; background: #f8fafc; }
         
         .navbar {
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
             padding: 1rem 0;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
-        
-        .navbar-brand {
-            font-size: 28px !important;
-            font-weight: 800 !important;
-            color: white !important;
-            letter-spacing: -0.5px;
-        }
-        
+        .navbar-brand { font-size: 28px !important; font-weight: 800 !important; color: white !important; letter-spacing: -0.5px; }
         .navbar-brand span { color: #3b82f6; }
-        
-        .nav-link {
-            color: rgba(255,255,255,0.9) !important;
-            font-weight: 600;
-            margin: 0 5px;
-            padding: 8px 16px !important;
-            border-radius: 8px;
-        }
-        
-        .nav-link:hover {
-            background: rgba(59, 130, 246, 0.2);
-            color: white !important;
-        }
-        
-        .btn-account {
-            border: 2px solid rgba(255,255,255,0.2);
-            color: white !important;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
+        .nav-link { color: rgba(255,255,255,0.9) !important; font-weight: 600; margin: 0 5px; padding: 8px 16px !important; border-radius: 8px; }
+        .nav-link:hover { background: rgba(59, 130, 246, 0.2); color: white !important; }
+        .btn-account { border: 2px solid rgba(255,255,255,0.2); color: white !important; display: flex; align-items: center; gap: 8px; }
         .btn-account:hover { background: rgba(59, 130, 246, 0.2); }
-        
-        .dropdown-menu {
-            background: #1e293b;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            padding: 8px;
-            margin-top: 8px;
-        }
-        
-        .dropdown-item {
-            color: rgba(255,255,255,0.9);
-            font-weight: 600;
-            padding: 10px 20px;
-            border-radius: 8px;
-            transition: all 0.3s;
-        }
-        
+        .dropdown-menu { background: #1e293b; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 8px; margin-top: 8px; }
+        .dropdown-item { color: rgba(255,255,255,0.9); font-weight: 600; padding: 10px 20px; border-radius: 8px; transition: all 0.3s; }
         .dropdown-item:hover { background: #3b82f6; color: white; }
         .dropdown-item i { width: 20px; margin-right: 10px; color: #3b82f6; }
         
-        .page-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 60px 0;
-            text-align: center;
-        }
-        
+        .page-header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 60px 0; text-align: center; }
         .page-header h1 { font-size: 48px; font-weight: 800; margin-bottom: 20px; }
         .page-header p { font-size: 20px; max-width: 600px; margin: 0 auto; opacity: 0.95; }
         
-        .orders-section {
-            padding: 60px 0;
-            background: #f8fafc;
-            min-height: 60vh;
-        }
-        
+        .orders-section { padding: 60px 0; background: #f8fafc; min-height: 60vh; }
         .orders-container { max-width: 1000px; margin: 0 auto; }
         
         .order-card {
-            background: white;
-            border-radius: 20px;
-            padding: 25px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-            border: 1px solid #e2e8f0;
-            transition: all 0.3s;
+            background: white; border-radius: 20px; padding: 25px; margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; transition: all 0.3s;
         }
+        .order-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(102,126,234,0.1); }
         
-        .order-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(102,126,234,0.1);
-        }
-        
-        .order-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #eef2f6;
-        }
-        
+        .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 2px solid #eef2f6; }
         .order-id { font-size: 18px; font-weight: 700; color: #1e293b; }
         .order-id span { color: #667eea; font-size: 14px; font-weight: 400; margin-left: 10px; }
         
-        .order-status {
-            padding: 6px 15px;
-            border-radius: 50px;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-        
+        .order-status { padding: 6px 15px; border-radius: 50px; font-size: 12px; font-weight: 600; text-transform: uppercase; }
         .status-pending { background: #fff3cd; color: #856404; }
         .status-paid { background: #cce5ff; color: #004085; }
         .status-verified { background: #d4edda; color: #155724; }
         .status-completed { background: #d1e7dd; color: #0f5132; }
         .status-cancelled { background: #f8d7da; color: #721c24; }
         
-        .order-details {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        
+        .order-details { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 20px; }
         .detail-item { display: flex; flex-direction: column; }
-        .detail-label {
-            font-size: 12px;
-            color: #64748b;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
+        .detail-label { font-size: 12px; color: #64748b; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
         .detail-value { font-size: 16px; font-weight: 600; color: #1e293b; }
         .detail-value.price { color: #667eea; font-size: 20px; }
         
         .payment-info, .account-info {
-            background: #f8fafc;
-            border-radius: 15px;
-            padding: 15px;
-            margin-top: 15px;
-            border: 1px dashed #e2e8f0;
+            background: #f8fafc; border-radius: 15px; padding: 15px;
+            margin-top: 15px; border: 1px dashed #e2e8f0;
         }
-        
-        .account-info {
-            background: #fff3cd;
-            border: 1px solid #ffc107;
-        }
-        
-        .payment-info h6, .account-info h6 {
-            font-size: 14px;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-        
+        .account-info { background: #fff3cd; border: 1px solid #ffc107; }
+        .payment-info h6, .account-info h6 { font-size: 14px; font-weight: 700; margin-bottom: 10px; }
         .payment-info h6 { color: #1e293b; }
         .account-info h6 { color: #856404; }
-        
-        .payment-details, .account-details {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-        
-        .payment-detail, .account-detail {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-        }
-        
+        .payment-details, .account-details { display: flex; gap: 20px; flex-wrap: wrap; }
+        .payment-detail, .account-detail { display: flex; align-items: center; gap: 8px; font-size: 14px; }
         .payment-detail { color: #64748b; }
         .account-detail { color: #856404; }
         .payment-detail i { color: #667eea; }
         .account-detail i { color: #856404; }
-        
         .password-hidden { font-family: monospace; letter-spacing: 2px; }
-        
-        .btn-show {
-            background: none;
-            border: none;
-            color: #667eea;
-            cursor: pointer;
-            font-size: 12px;
-            margin-left: 5px;
-        }
-        
+        .btn-show { background: none; border: none; color: #667eea; cursor: pointer; font-size: 12px; margin-left: 5px; }
         .btn-show:hover { text-decoration: underline; }
         
-        /* ===== PROOF SECTION (NEW DESIGN) ===== */
+        /* ===== PROOF SECTION ===== */
         .proof-section {
-            margin-top: 20px;
-            padding: 20px;
+            margin-top: 20px; padding: 20px;
             background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-            border-radius: 18px;
-            border: 2px solid #10b981;
+            border-radius: 18px; border: 2px solid #10b981;
         }
+        .proof-section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
+        .proof-section-header i { font-size: 22px; color: #10b981; }
+        .proof-section-header h6 { font-size: 16px; font-weight: 700; color: #065f46; margin: 0; }
         
-        .proof-section-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        
-        .proof-section-header i {
-            font-size: 22px;
-            color: #10b981;
-        }
-        
-        .proof-section-header h6 {
-            font-size: 16px;
-            font-weight: 700;
-            color: #065f46;
-            margin: 0;
-        }
-        
-        .proof-images {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
-        }
-        
+        .proof-images { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; }
         .proof-image-card {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            border: 2px solid #e2e8f0;
-            transition: all 0.3s ease;
-            cursor: pointer;
+            background: white; border-radius: 12px; overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 2px solid #e2e8f0;
+            transition: all 0.3s ease; cursor: pointer;
         }
-        
-        .proof-image-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.25);
-            border-color: #10b981;
-        }
-        
+        .proof-image-card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px rgba(16, 185, 129, 0.25); border-color: #10b981; }
         .proof-image-label {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 14px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 14px; color: white; font-size: 12px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.5px;
         }
-        
-        .proof-image-label.before {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-        }
-        
-        .proof-image-label.after {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        }
-        
-        .proof-image-wrapper {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 16 / 10;
-            background: #f1f5f9;
-            overflow: hidden;
-        }
-        
-        .proof-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            transition: transform 0.4s ease;
-        }
-        
-        .proof-image-card:hover .proof-image {
-            transform: scale(1.08);
-        }
-        
+        .proof-image-label.before { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+        .proof-image-label.after { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+        .proof-image-wrapper { position: relative; width: 100%; aspect-ratio: 16 / 10; background: #f1f5f9; overflow: hidden; }
+        .proof-image { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
+        .proof-image-card:hover .proof-image { transform: scale(1.08); }
         .proof-overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(16, 185, 129, 0.85);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 28px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            position: absolute; inset: 0; background: rgba(16, 185, 129, 0.85);
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 28px; opacity: 0; transition: opacity 0.3s ease;
         }
-        
-        .proof-image-card:hover .proof-overlay {
-            opacity: 1;
-        }
-        
+        .proof-image-card:hover .proof-overlay { opacity: 1; }
         .proof-description {
-            font-size: 13px;
-            color: #065f46;
-            margin-top: 15px;
-            padding: 12px 15px;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 10px;
-            border-left: 4px solid #10b981;
-            font-style: italic;
+            font-size: 13px; color: #065f46; margin-top: 15px;
+            padding: 12px 15px; background: rgba(255, 255, 255, 0.6);
+            border-radius: 10px; border-left: 4px solid #10b981; font-style: italic;
         }
-        
-        .proof-description i {
-            color: #10b981;
-            margin-right: 6px;
-        }
-        
+        .proof-description i { color: #10b981; margin-right: 6px; }
         .proof-image-error {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #ef4444;
-            font-size: 12px;
-            gap: 8px;
-            background: #fef2f2;
-            text-align: center;
-            padding: 10px;
+            width: 100%; height: 100%; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; color: #ef4444;
+            font-size: 12px; gap: 8px; background: #fef2f2; text-align: center; padding: 10px;
         }
         
-        /* ===== IMAGE MODAL (full-screen) ===== */
-        .image-modal {
-            display: none;
-            position: fixed;
-            z-index: 9999;
-            padding-top: 50px;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.92);
-            cursor: pointer;
+        /* ===== RATING SECTION ===== */
+        .rating-section {
+            margin-top: 20px;
+            padding: 24px;
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            border-radius: 18px;
+            border: 2px solid #f59e0b;
         }
-        
-        .modal-image {
-            margin: auto;
-            display: block;
-            max-width: 90%;
-            max-height: 90%;
-            border-radius: 10px;
-            animation: zoom 0.3s;
+        .rating-section.rated {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-color: #3b82f6;
         }
-        
-        @keyframes zoom {
-            from { transform: scale(0.1); }
-            to { transform: scale(1); }
+        .rating-header {
+            display: flex; align-items: center; gap: 10px; margin-bottom: 18px;
         }
-        
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 35px;
-            color: #f1f1f1;
-            font-size: 44px;
-            font-weight: bold;
-            transition: 0.3s;
-            cursor: pointer;
+        .rating-header i { font-size: 22px; color: #f59e0b; }
+        .rating-section.rated .rating-header i { color: #3b82f6; }
+        .rating-header h6 {
+            font-size: 16px; font-weight: 700; color: #92400e; margin: 0;
         }
+        .rating-section.rated .rating-header h6 { color: #1e40af; }
         
-        .close-modal:hover { color: #bbb; }
-        
-        .modal-caption {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: white;
-            background: rgba(0,0,0,0.7);
-            padding: 10px 25px;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 14px;
+        .stars-container {
+            display: flex; gap: 8px; margin-bottom: 15px; align-items: center;
         }
-        
-        .no-orders {
-            text-align: center;
-            padding: 60px 20px;
+        .star-btn {
+            background: none; border: none; font-size: 38px; color: #d1d5db;
+            cursor: pointer; transition: all 0.2s; padding: 0; line-height: 1;
+        }
+        .star-btn:hover,
+        .star-btn.hovered,
+        .star-btn.selected {
+            color: #fbbf24;
+            transform: scale(1.15);
+            text-shadow: 0 4px 12px rgba(251, 191, 36, 0.5);
+        }
+        .star-btn.selected {
+            animation: pop 0.3s ease;
+        }
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.35); }
+            100% { transform: scale(1.15); }
+        }
+        .rating-text {
+            font-weight: 600; color: #92400e; font-size: 14px; margin-left: 10px;
+        }
+        .rating-comment {
+            width: 100%; padding: 12px 15px;
+            border: 2px solid #fde68a; border-radius: 12px;
+            font-family: 'Poppins', sans-serif; font-size: 14px;
+            resize: vertical; min-height: 70px; margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+        .rating-comment:focus {
+            outline: none; border-color: #f59e0b;
+            box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.15);
             background: white;
-            border-radius: 20px;
-            border: 2px dashed #e2e8f0;
+        }
+        .btn-submit-rating {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white; border: none; padding: 12px 30px;
+            border-radius: 50px; font-weight: 700; font-size: 15px;
+            cursor: pointer; transition: all 0.3s;
+            display: inline-flex; align-items: center; gap: 8px;
+            font-family: 'Poppins', sans-serif;
+        }
+        .btn-submit-rating:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(245, 158, 11, 0.4);
+        }
+        .btn-submit-rating:disabled {
+            opacity: 0.5; cursor: not-allowed;
         }
         
+        .rated-display { display: flex; flex-direction: column; gap: 12px; }
+        .rated-stars {
+            display: flex; gap: 5px; font-size: 28px; color: #fbbf24;
+        }
+        .rated-meta {
+            font-size: 13px; color: #1e40af; font-weight: 600;
+        }
+        .rated-comment {
+            background: white; padding: 14px 18px;
+            border-radius: 12px; border-left: 4px solid #3b82f6;
+            font-size: 14px; color: #1e293b; font-style: italic;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .rated-comment i { color: #3b82f6; margin-right: 6px; }
+        
+        /* ===== IMAGE MODAL ===== */
+        .image-modal {
+            display: none; position: fixed; z-index: 9999; padding-top: 50px;
+            left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.92); cursor: pointer;
+        }
+        .modal-image {
+            margin: auto; display: block; max-width: 90%; max-height: 90%;
+            border-radius: 10px; animation: zoom 0.3s;
+        }
+        @keyframes zoom { from { transform: scale(0.1); } to { transform: scale(1); } }
+        .close-modal {
+            position: absolute; top: 15px; right: 35px; color: #f1f1f1;
+            font-size: 44px; font-weight: bold; transition: 0.3s; cursor: pointer;
+        }
+        .close-modal:hover { color: #bbb; }
+        .modal-caption {
+            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+            color: white; background: rgba(0,0,0,0.7); padding: 10px 25px;
+            border-radius: 50px; font-weight: 600; font-size: 14px;
+        }
+        
+        .no-orders { text-align: center; padding: 60px 20px; background: white; border-radius: 20px; border: 2px dashed #e2e8f0; }
         .no-orders i { font-size: 60px; color: #cbd5e1; margin-bottom: 20px; }
         .no-orders h3 { font-size: 24px; font-weight: 700; color: #1e293b; margin-bottom: 10px; }
         .no-orders p { color: #64748b; margin-bottom: 30px; }
         
         .btn-primary {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            font-weight: 600;
-            padding: 12px 30px;
-            border-radius: 50px;
-            border: none;
-            text-decoration: none;
-            display: inline-block;
+            color: white; font-weight: 600; padding: 12px 30px;
+            border-radius: 50px; border: none; text-decoration: none; display: inline-block;
         }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102,126,234,0.3);
-            color: white;
-        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(102,126,234,0.3); color: white; }
         
         .loading-spinner { text-align: center; padding: 60px 20px; }
-        
         .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
+            border: 4px solid #f3f3f3; border-top: 4px solid #667eea;
+            border-radius: 50%; width: 50px; height: 50px;
+            animation: spin 1s linear infinite; margin: 0 auto 20px;
         }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .filter-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-        
+        .filter-tabs { display: flex; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
         .filter-tab {
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: white;
-            border: 2px solid #e2e8f0;
-            color: #64748b;
+            padding: 8px 20px; border-radius: 50px; font-weight: 600;
+            cursor: pointer; transition: all 0.3s; background: white;
+            border: 2px solid #e2e8f0; color: #64748b;
         }
-        
         .filter-tab:hover { border-color: #667eea; color: #667eea; }
+        .filter-tab.active { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-color: transparent; }
         
-        .filter-tab.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-color: transparent;
-        }
-        
-        footer {
-            background: #0f172a;
-            color: white;
-            padding: 50px 0 20px;
-        }
-        
-        .footer-logo {
-            font-size: 28px;
-            font-weight: 800;
-            color: white;
-            text-decoration: none;
-        }
+        footer { background: #0f172a; color: white; padding: 50px 0 20px; }
     </style>
 </head>
 <body>
 
-<!-- Full-screen Image Modal -->
 <div id="imageModal" class="image-modal" onclick="closeImageModal()">
     <span class="close-modal">&times;</span>
     <img class="modal-image" id="modalImage" onclick="event.stopPropagation()">
@@ -515,7 +297,7 @@
 <section class="page-header">
     <div class="container">
         <h1>My Orders</h1>
-        <p class="lead">Track your boosting orders and payment status</p>
+        <p class="lead">Track your boosting orders, view proofs, and rate your booster</p>
     </div>
 </section>
 
@@ -552,7 +334,6 @@
     
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     
-    // ⚠️ Bucket names
     const RECEIPT_BUCKET = 'payment-receipts';
     const PROOF_BUCKET = 'proofs';
     
@@ -561,48 +342,33 @@
     let paymentsMap = {};
     let boostersMap = {};
     let proofsMap = {};
+    let ratingsMap = {};
     let userRole = sessionStorage.getItem('role') || 'client';
     let userId = sessionStorage.getItem('userId');
     
     // ============================================================
-    // ⭐ AUTO URL RESOLVER for proofs (same pattern as admin receipts)
+    // HELPERS
     // ============================================================
     function resolveProofUrl(proof) {
         if (!proof) return null;
-        
         const raw = proof.image_url || proof.proof_url || proof.url;
         if (!raw || typeof raw !== 'string') return null;
-        
-        // If it's already a full URL, use it directly
         if (raw.startsWith('http')) return raw;
-        
-        // Otherwise build from the path
         const cleanPath = raw.replace(/^\/+/, '');
         return `${SUPABASE_URL}/storage/v1/object/public/${PROOF_BUCKET}/${cleanPath}`;
     }
     
-    // ============================================================
-    // IMAGE MODAL
-    // ============================================================
     function openImageModal(imageUrl, caption) {
-        const modal = document.getElementById('imageModal');
-        const modalImage = document.getElementById('modalImage');
-        const modalCaption = document.getElementById('modalCaption');
-        
-        modalImage.src = imageUrl;
-        modalCaption.textContent = caption || '';
-        modal.style.display = 'block';
+        document.getElementById('modalImage').src = imageUrl;
+        document.getElementById('modalCaption').textContent = caption || '';
+        document.getElementById('imageModal').style.display = 'block';
         document.body.style.overflow = 'hidden';
     }
-    
     function closeImageModal() {
         document.getElementById('imageModal').style.display = 'none';
         document.body.style.overflow = '';
     }
-    
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape') closeImageModal();
-    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeImageModal(); });
     
     // ============================================================
     // NAVBAR
@@ -631,16 +397,9 @@
                 <li><a class="dropdown-item" href="Games.html"><i class="fas fa-gamepad"></i> Games</a></li>
                 <li><a class="dropdown-item" href="Orders.html"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
             `;
-            if (role === 'booster') {
-                menuItems += `<li><a class="dropdown-item" href="Booster.html"><i class="fas fa-bolt"></i> Booster Dashboard</a></li>`;
-            }
-            if (role === 'admin') {
-                menuItems += `<li><a class="dropdown-item" href="admin.html"><i class="fas fa-cog"></i> Admin Panel</a></li>`;
-            }
-            menuItems += `
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-            `;
+            if (role === 'booster') menuItems += `<li><a class="dropdown-item" href="Booster.html"><i class="fas fa-bolt"></i> Booster Dashboard</a></li>`;
+            if (role === 'admin') menuItems += `<li><a class="dropdown-item" href="admin.html"><i class="fas fa-cog"></i> Admin Panel</a></li>`;
+            menuItems += `<li><hr class="dropdown-divider"></li><li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>`;
             dropdown.innerHTML = menuItems;
         } else {
             accountText.textContent = 'Account';
@@ -667,42 +426,28 @@
     };
     
     // ============================================================
-    // LOAD HELPERS
+    // LOADERS
     // ============================================================
     async function loadGames() {
         try {
             const { data, error } = await supabase.from('games').select('*');
             if (error) throw error;
             data.forEach(game => { gamesMap[game.game_id] = game.game_name; });
-        } catch (error) {
-            console.error('Error loading games:', error);
-        }
+        } catch (error) { console.error('Error loading games:', error); }
     }
     
     async function loadBoosters() {
         try {
-            const { data, error } = await supabase
-                .from('users').select('user_id, username').eq('role', 'booster');
+            const { data, error } = await supabase.from('users').select('user_id, username').eq('role', 'booster');
             if (error) throw error;
-            data.forEach(booster => { boostersMap[booster.user_id] = booster.username; });
-        } catch (error) {
-            console.error('Error loading boosters:', error);
-        }
+            data.forEach(b => { boostersMap[b.user_id] = b.username; });
+        } catch (error) { console.error('Error loading boosters:', error); }
     }
     
-    // ============================================================
-    // LOAD ORDERS + PAYMENTS + PROOFS
-    // ============================================================
     async function loadOrders() {
         try {
-            let query = supabase
-                .from('orders')
-                .select('*')
-                .order('order_id', { ascending: false });
-            
-            if (userRole === 'client') {
-                query = query.eq('client_id', userId);
-            }
+            let query = supabase.from('orders').select('*').order('order_id', { ascending: false });
+            if (userRole === 'client') query = query.eq('client_id', userId);
             
             const { data: orders, error: ordersError } = await query;
             if (ordersError) throw ordersError;
@@ -712,22 +457,17 @@
             if (allOrders.length > 0) {
                 const orderIds = allOrders.map(o => o.order_id);
                 
-                // Load payments
-                const { data: payments, error: payErr } = await supabase
-                    .from('payments').select('*').in('order_id', orderIds);
-                if (!payErr && payments) {
-                    payments.forEach(p => { paymentsMap[p.order_id] = p; });
-                }
+                const { data: payments } = await supabase.from('payments').select('*').in('order_id', orderIds);
+                if (payments) payments.forEach(p => { paymentsMap[p.order_id] = p; });
                 
-                // Load proofs
-                const { data: proofs, error: proofErr } = await supabase
-                    .from('proofs').select('*').in('order_id', orderIds);
-                if (!proofErr && proofs) {
-                    proofs.forEach(proof => {
-                        if (!proofsMap[proof.order_id]) proofsMap[proof.order_id] = [];
-                        proofsMap[proof.order_id].push(proof);
-                    });
-                }
+                const { data: proofs } = await supabase.from('proofs').select('*').in('order_id', orderIds);
+                if (proofs) proofs.forEach(proof => {
+                    if (!proofsMap[proof.order_id]) proofsMap[proof.order_id] = [];
+                    proofsMap[proof.order_id].push(proof);
+                });
+                
+                const { data: ratings } = await supabase.from('ratings').select('*').in('order_id', orderIds);
+                if (ratings) ratings.forEach(r => { ratingsMap[r.order_id] = r; });
             }
             
             displayOrders(allOrders);
@@ -746,13 +486,9 @@
         }
     }
     
-    // ============================================================
-    // PASSWORD TOGGLE
-    // ============================================================
-    function togglePassword(orderId, password) {
+    function togglePassword(orderId) {
         const passwordSpan = document.getElementById(`password-${orderId}`);
         const passwordHidden = document.getElementById(`password-hidden-${orderId}`);
-        
         if (passwordHidden.style.display === 'none') {
             passwordHidden.style.display = 'inline';
             passwordSpan.style.display = 'none';
@@ -763,7 +499,7 @@
     }
     
     // ============================================================
-    // ⭐ PROOF DISPLAY (FIXED — builds URL automatically)
+    // PROOF HTML
     // ============================================================
     function getProofsHtml(orderId) {
         const proofs = proofsMap[orderId] || [];
@@ -771,7 +507,6 @@
         
         const beforeProof = proofs.find(p => p.proof_type === 'before');
         const afterProof = proofs.find(p => p.proof_type === 'after');
-        
         if (!beforeProof && !afterProof) return '';
         
         const beforeUrl = beforeProof ? resolveProofUrl(beforeProof) : null;
@@ -784,7 +519,6 @@
                     <i class="fas fa-check-circle"></i>
                     <h6>Proof of Completion</h6>
                 </div>
-                
                 <div class="proof-images">
                     ${beforeUrl ? `
                         <div class="proof-image-card" onclick="openImageModal('${beforeUrl}', 'BEFORE — Order #${orderId}')">
@@ -793,14 +527,11 @@
                                 <i class="fas fa-search-plus"></i>
                             </div>
                             <div class="proof-image-wrapper">
-                                <img src="${beforeUrl}" class="proof-image" alt="Before screenshot"
-                                     loading="lazy"
-                                     onerror="handleProofImageError(this)">
+                                <img src="${beforeUrl}" class="proof-image" alt="Before" loading="lazy" onerror="handleProofImageError(this)">
                                 <div class="proof-overlay"><i class="fas fa-search-plus"></i></div>
                             </div>
                         </div>
                     ` : ''}
-                    
                     ${afterUrl ? `
                         <div class="proof-image-card" onclick="openImageModal('${afterUrl}', 'AFTER — Order #${orderId}')">
                             <div class="proof-image-label after">
@@ -808,15 +539,12 @@
                                 <i class="fas fa-search-plus"></i>
                             </div>
                             <div class="proof-image-wrapper">
-                                <img src="${afterUrl}" class="proof-image" alt="After screenshot"
-                                     loading="lazy"
-                                     onerror="handleProofImageError(this)">
+                                <img src="${afterUrl}" class="proof-image" alt="After" loading="lazy" onerror="handleProofImageError(this)">
                                 <div class="proof-overlay"><i class="fas fa-search-plus"></i></div>
                             </div>
                         </div>
                     ` : ''}
                 </div>
-                
                 ${description ? `
                     <div class="proof-description">
                         <i class="fas fa-comment-dots"></i> ${description}
@@ -834,7 +562,146 @@
                 <div>Screenshot not available</div>
             </div>
         `;
-        console.warn('Proof image failed to load:', imgElement.src);
+    }
+    
+    // ============================================================
+    // ⭐ RATING HTML
+    // ============================================================
+    function getRatingHtml(order) {
+        // Only show rating UI on completed orders
+        if (order.status !== 'completed') return '';
+        
+        const existing = ratingsMap[order.order_id];
+        const boosterName = boostersMap[order.booster_id] || 'your booster';
+        
+        // Already rated → show the submitted rating
+        if (existing) {
+            const stars = '★'.repeat(existing.stars) + '☆'.repeat(5 - existing.stars);
+            const dateStr = new Date(existing.created_at).toLocaleDateString();
+            return `
+                <div class="rating-section rated">
+                    <div class="rating-header">
+                        <i class="fas fa-star"></i>
+                        <h6>Your Rating</h6>
+                    </div>
+                    <div class="rated-display">
+                        <div class="rated-stars">${stars}</div>
+                        <div class="rated-meta">
+                            <i class="fas fa-check-circle"></i> Rated ${existing.stars}/5 on ${dateStr}
+                        </div>
+                        ${existing.comment ? `
+                            <div class="rated-comment">
+                                <i class="fas fa-quote-left"></i> ${existing.comment}
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Not yet rated → show star picker
+        return `
+            <div class="rating-section" id="rating-section-${order.order_id}">
+                <div class="rating-header">
+                    <i class="fas fa-star"></i>
+                    <h6>Rate ${boosterName}</h6>
+                </div>
+                
+                <div class="stars-container" id="stars-${order.order_id}">
+                    <button type="button" class="star-btn" data-value="1" onclick="setStars(${order.order_id}, 1)" onmouseover="hoverStars(${order.order_id}, 1)" onmouseout="resetHover(${order.order_id})">★</button>
+                    <button type="button" class="star-btn" data-value="2" onclick="setStars(${order.order_id}, 2)" onmouseover="hoverStars(${order.order_id}, 2)" onmouseout="resetHover(${order.order_id})">★</button>
+                    <button type="button" class="star-btn" data-value="3" onclick="setStars(${order.order_id}, 3)" onmouseover="hoverStars(${order.order_id}, 3)" onmouseout="resetHover(${order.order_id})">★</button>
+                    <button type="button" class="star-btn" data-value="4" onclick="setStars(${order.order_id}, 4)" onmouseover="hoverStars(${order.order_id}, 4)" onmouseout="resetHover(${order.order_id})">★</button>
+                    <button type="button" class="star-btn" data-value="5" onclick="setStars(${order.order_id}, 5)" onmouseover="hoverStars(${order.order_id}, 5)" onmouseout="resetHover(${order.order_id})">★</button>
+                    <span class="rating-text" id="rating-text-${order.order_id}">Tap to rate</span>
+                </div>
+                
+                <textarea class="rating-comment" id="comment-${order.order_id}" placeholder="Share your experience (optional) — e.g., 'Fast and friendly booster!'"></textarea>
+                
+                <button type="button" class="btn-submit-rating" id="submit-rating-${order.order_id}" onclick="submitRating(${order.order_id}, ${order.booster_id})" disabled>
+                    <i class="fas fa-paper-plane"></i> Submit Rating
+                </button>
+            </div>
+        `;
+    }
+    
+    // ============================================================
+    // STAR INTERACTION
+    // ============================================================
+    const selectedStars = {};
+    
+    function setStars(orderId, value) {
+        selectedStars[orderId] = value;
+        const container = document.getElementById(`stars-${orderId}`);
+        container.querySelectorAll('.star-btn').forEach(btn => {
+            const v = parseInt(btn.dataset.value);
+            btn.classList.toggle('selected', v <= value);
+            btn.classList.remove('hovered');
+        });
+        
+        const labels = ['', 'Terrible 😞', 'Bad 😕', 'Okay 😐', 'Good 😊', 'Excellent! 🤩'];
+        document.getElementById(`rating-text-${orderId}`).textContent = labels[value];
+        
+        const submitBtn = document.getElementById(`submit-rating-${orderId}`);
+        if (submitBtn) submitBtn.disabled = false;
+    }
+    
+    function hoverStars(orderId, value) {
+        if (selectedStars[orderId]) return; // Don't override selection
+        const container = document.getElementById(`stars-${orderId}`);
+        container.querySelectorAll('.star-btn').forEach(btn => {
+            const v = parseInt(btn.dataset.value);
+            btn.classList.toggle('hovered', v <= value);
+        });
+    }
+    
+    function resetHover(orderId) {
+        if (selectedStars[orderId]) return;
+        const container = document.getElementById(`stars-${orderId}`);
+        container.querySelectorAll('.star-btn').forEach(btn => {
+            btn.classList.remove('hovered');
+        });
+    }
+    
+    // ============================================================
+    // SUBMIT RATING
+    // ============================================================
+    async function submitRating(orderId, boosterId) {
+        const stars = selectedStars[orderId];
+        if (!stars) {
+            alert('Please select a star rating');
+            return;
+        }
+        
+        const comment = document.getElementById(`comment-${orderId}`).value.trim();
+        const btn = document.getElementById(`submit-rating-${orderId}`);
+        
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+        
+        try {
+            const { error } = await supabase
+                .from('ratings')
+                .insert([{
+                    order_id: orderId,
+                    client_id: parseInt(userId),
+                    booster_id: boosterId,
+                    stars: stars,
+                    comment: comment
+                }]);
+            
+            if (error) throw error;
+            
+            // Show success and refresh
+            alert('⭐ Thank you! Your rating has been submitted.');
+            await loadOrders();
+            
+        } catch (error) {
+            console.error('Error submitting rating:', error);
+            alert('❌ Failed to submit rating: ' + error.message);
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Rating';
+        }
     }
     
     // ============================================================
@@ -863,8 +730,8 @@
             const statusClass = getStatusClass(order.status, order.payment_status);
             const boosterName = boostersMap[order.booster_id] || 'Not assigned';
             const proofsHtml = getProofsHtml(order.order_id);
+            const ratingHtml = getRatingHtml(order);
             
-            // Payment receipt URL
             let receiptUrl = '';
             if (payment) {
                 if (payment.receipt_url) receiptUrl = payment.receipt_url;
@@ -943,7 +810,7 @@
                                 ${receiptUrl ? `
                                     <div class="payment-detail">
                                         <i class="fas fa-image"></i>
-                                        <a href="#" onclick="event.preventDefault(); openImageModal('${receiptUrl}', 'Payment Receipt — Order #${order.order_id}')" class="receipt-link" style="color:#667eea;font-weight:600;text-decoration:none;">
+                                        <a href="#" onclick="event.preventDefault(); openImageModal('${receiptUrl}', 'Payment Receipt — Order #${order.order_id}')" style="color:#667eea;font-weight:600;text-decoration:none;">
                                             View Receipt
                                         </a>
                                     </div>
@@ -969,6 +836,8 @@
                             </div>
                         </div>
                     ` : ''}
+                    
+                    ${ratingHtml}
                 </div>
             `;
         });

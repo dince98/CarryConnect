@@ -442,6 +442,121 @@
             text-align: center;
             color: rgba(255,255,255,0.5);
         }
+
+        /* ============================================
+           NEW: SEARCH & FILTER BAR STYLES
+           ============================================ */
+        .filter-bar {
+            background: white;
+            border-radius: 20px;
+            padding: 20px 25px;
+            margin-bottom: 25px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: flex-end;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 180px;
+            min-width: 150px;
+        }
+
+        .filter-group label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .filter-group input,
+        .filter-group select {
+            padding: 10px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            color: #1e293b;
+            background: #f8fafc;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .filter-group input:focus,
+        .filter-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        .search-input-wrapper {
+            position: relative;
+            flex: 2 1 260px;
+        }
+
+        .search-input-wrapper i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            pointer-events: none;
+        }
+
+        .search-input-wrapper input {
+            padding-left: 42px;
+        }
+
+        .btn-clear-filters {
+            background: #f1f5f9;
+            color: #64748b;
+            border: 2px solid #e2e8f0;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .btn-clear-filters:hover {
+            background: #fee2e2;
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+
+        .results-count {
+            font-size: 14px;
+            color: #64748b;
+            font-weight: 600;
+            margin-bottom: 15px;
+            padding-left: 5px;
+        }
+
+        .results-count span {
+            color: #667eea;
+            font-weight: 800;
+        }
+
+        /* Highlight search matches */
+        mark {
+            background: #fef08a;
+            padding: 1px 4px;
+            border-radius: 4px;
+            color: #1e293b;
+        }
     </style>
 </head>
 <body>
@@ -514,6 +629,73 @@
         <div class="tab" onclick="switchTab('orders')" id="tab-orders">All Orders</div>
     </div>
 
+    <!-- ============================================
+         NEW: SEARCH & FILTER BAR (only for Orders tab)
+         ============================================ -->
+    <div id="filterBarContainer" style="display: none;">
+        <div class="filter-bar">
+            <div class="filter-group search-input-wrapper">
+                <label for="searchInput">Search</label>
+                <i class="fas fa-search"></i>
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="Search order #, client, booster, game, rank, reference..."
+                    oninput="applyOrderFilters()"
+                >
+            </div>
+
+            <div class="filter-group">
+                <label for="sortBy">Sort By</label>
+                <select id="sortBy" onchange="applyOrderFilters()">
+                    <option value="order_id">Order ID</option>
+                    <option value="order_date">Date</option>
+                    <option value="order_time">Time</option>
+                    <option value="game">Game Type</option>
+                    <option value="booster">Booster Assigned</option>
+                    <option value="price">Price</option>
+                    <option value="status">Status</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="filterGame">Game Type</label>
+                <select id="filterGame" onchange="applyOrderFilters()">
+                    <option value="all">All Games</option>
+                    <!-- Populated dynamically -->
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="filterBooster">Booster</label>
+                <select id="filterBooster" onchange="applyOrderFilters()">
+                    <option value="all">All Boosters</option>
+                    <option value="unassigned">Unassigned</option>
+                    <!-- Populated dynamically -->
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="sortOrder">Order</label>
+                <select id="sortOrder" onchange="applyOrderFilters()">
+                    <option value="desc">Descending ↓</option>
+                    <option value="asc">Ascending ↑</option>
+                </select>
+            </div>
+
+            <div class="filter-group" style="flex: 0 0 auto;">
+                <label>&nbsp;</label>
+                <button class="btn-clear-filters" onclick="clearOrderFilters()">
+                    <i class="fas fa-times"></i> Clear
+                </button>
+            </div>
+        </div>
+
+        <div class="results-count">
+            Showing <span id="resultsCount">0</span> order(s)
+        </div>
+    </div>
+
     <!-- Content Sections -->
     <div id="payments-section">
         <h2 class="section-title">Payments Awaiting Verification</h2>
@@ -536,7 +718,6 @@
     </div>
 
     <div id="orders-section" style="display: none;">
-        <h2 class="section-title">All Orders</h2>
         <div id="ordersList">
             <div class="loading-spinner">
                 <div class="spinner"></div>
@@ -562,6 +743,9 @@
     
     let gamesMap = {};
     let boostersMap = {};
+    let allOrdersCache = [];        // NEW: store raw orders
+    let filteredOrdersCache = [];   // NEW: store filtered/sorted orders
+    let allBoostersCache = [];
     
     // Image Modal Functions
     function openImageModal(imageUrl) {
@@ -575,7 +759,6 @@
         document.getElementById('imageModal').style.display = 'none';
     }
     
-    // Close modal with ESC key
     document.addEventListener('keydown', function(event) {
         if (event.key === 'Escape') {
             closeImageModal();
@@ -629,7 +812,7 @@
             accountText.textContent = 'Account';
             dropdown.innerHTML = `
                 <li><a class="dropdown-item" href="LoginAndRegister.html?tab=login"><i class="fas fa-key"></i> Login</a></li>
-                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=register"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+                <li><a class="dropdown-item" href="LoginAndRegister.html?tab=user-plus"></i> Sign Up</a></li>
             `;
         }
     }
@@ -637,7 +820,6 @@
     window.onload = function() {
         checkRememberedLogin();
         
-        // Check if user is admin
         const role = sessionStorage.getItem('role');
         if (role !== 'admin') {
             alert('Access denied. Admin only.');
@@ -664,6 +846,17 @@
             data.forEach(game => {
                 gamesMap[game.game_id] = game.game_name;
             });
+
+            // NEW: Populate the game filter dropdown
+            const gameFilter = document.getElementById('filterGame');
+            if (gameFilter) {
+                data.forEach(game => {
+                    const opt = document.createElement('option');
+                    opt.value = game.game_id;
+                    opt.textContent = game.game_name;
+                    gameFilter.appendChild(opt);
+                });
+            }
         } catch (error) {
             console.error('Error loading games:', error);
         }
@@ -678,12 +871,25 @@
             
             if (error) throw error;
             
+            allBoostersCache = data || [];
+            
             boostersMap = data.reduce((map, booster) => {
                 map[booster.user_id] = booster;
                 return map;
             }, {});
             
             displayBoosters(data);
+
+            // NEW: Populate booster filter dropdown
+            const boosterFilter = document.getElementById('filterBooster');
+            if (boosterFilter) {
+                data.forEach(booster => {
+                    const opt = document.createElement('option');
+                    opt.value = booster.user_id;
+                    opt.textContent = booster.username;
+                    boosterFilter.appendChild(opt);
+                });
+            }
         } catch (error) {
             console.error('Error loading boosters:', error);
             document.getElementById('boostersList').innerHTML = `
@@ -698,24 +904,20 @@
     
     async function loadStats() {
         try {
-            // Total orders
             const { count: totalOrders } = await supabase
                 .from('orders')
                 .select('*', { count: 'exact', head: true });
             
-            // Pending payments
             const { count: pendingPayments } = await supabase
                 .from('payments')
                 .select('*', { count: 'exact', head: true })
                 .eq('status', 'pending');
             
-            // Active boosts (in_progress)
             const { count: activeBoosts } = await supabase
                 .from('orders')
                 .select('*', { count: 'exact', head: true })
                 .eq('status', 'in_progress');
             
-            // Total users
             const { count: totalUsers } = await supabase
                 .from('users')
                 .select('*', { count: 'exact', head: true });
@@ -763,7 +965,6 @@
         }
     }
     
-    // FIXED: Display payments with receipt images using receipt_path
     function displayPayments(payments) {
         const container = document.getElementById('paymentsList');
         
@@ -850,7 +1051,6 @@
         if (!confirm('Verify this payment?')) return;
         
         try {
-            // Update payment status
             const { error: paymentError } = await supabase
                 .from('payments')
                 .update({ 
@@ -861,7 +1061,6 @@
             
             if (paymentError) throw paymentError;
             
-            // Update order payment status
             const { error: orderError } = await supabase
                 .from('orders')
                 .update({ payment_status: 'verified' })
@@ -872,6 +1071,7 @@
             alert('✅ Payment verified!');
             loadPendingPayments();
             loadStats();
+            loadAllOrders();
         } catch (error) {
             alert('❌ Error: ' + error.message);
         }
@@ -943,7 +1143,8 @@
             
             if (error) throw error;
             
-            displayAllOrders(data);
+            allOrdersCache = data || [];
+            applyOrderFilters(); // NEW: apply filters after loading
         } catch (error) {
             console.error('Error loading orders:', error);
             document.getElementById('ordersList').innerHTML = `
@@ -955,16 +1156,145 @@
             `;
         }
     }
+
+    // ============================================
+    // NEW: APPLY FILTERS & SORTING
+    // ============================================
+    function applyOrderFilters() {
+        const searchTerm = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
+        const sortBy = document.getElementById('sortBy')?.value || 'order_id';
+        const sortOrder = document.getElementById('sortOrder')?.value || 'desc';
+        const filterGame = document.getElementById('filterGame')?.value || 'all';
+        const filterBooster = document.getElementById('filterBooster')?.value || 'all';
+
+        let filtered = [...allOrdersCache];
+
+        // --- SEARCH FILTER ---
+        if (searchTerm) {
+            filtered = filtered.filter(order => {
+                const gameName = (gamesMap[order.game_id] || '').toLowerCase();
+                const boosterName = (boostersMap[order.booster_id]?.username || 'unassigned').toLowerCase();
+                const orderId = String(order.order_id);
+                const clientId = String(order.client_id);
+                const currentRank = (order.current_rank || '').toLowerCase();
+                const targetRank = (order.target_rank || '').toLowerCase();
+                const notes = (order.notes || '').toLowerCase();
+                const status = (order.status || '').toLowerCase();
+                const paymentStatus = (order.payment_status || '').toLowerCase();
+
+                return (
+                    orderId.includes(searchTerm) ||
+                    clientId.includes(searchTerm) ||
+                    gameName.includes(searchTerm) ||
+                    boosterName.includes(searchTerm) ||
+                    currentRank.includes(searchTerm) ||
+                    targetRank.includes(searchTerm) ||
+                    notes.includes(searchTerm) ||
+                    status.includes(searchTerm) ||
+                    paymentStatus.includes(searchTerm)
+                );
+            });
+        }
+
+        // --- GAME FILTER ---
+        if (filterGame !== 'all') {
+            filtered = filtered.filter(order => String(order.game_id) === String(filterGame));
+        }
+
+        // --- BOOSTER FILTER ---
+        if (filterBooster !== 'all') {
+            if (filterBooster === 'unassigned') {
+                filtered = filtered.filter(order => !order.booster_id);
+            } else {
+                filtered = filtered.filter(order => String(order.booster_id) === String(filterBooster));
+            }
+        }
+
+        // --- SORTING ---
+        filtered.sort((a, b) => {
+            let valA, valB;
+
+            switch (sortBy) {
+                case 'order_id':
+                    valA = a.order_id;
+                    valB = b.order_id;
+                    break;
+                case 'order_date':
+                    // order_date might be a date column or created_at
+                    valA = new Date(a.order_date || a.created_at || 0).getTime();
+                    valB = new Date(b.order_date || b.created_at || 0).getTime();
+                    break;
+                case 'order_time':
+                    valA = new Date(a.created_at || a.order_date || 0).getTime();
+                    valB = new Date(b.created_at || b.order_date || 0).getTime();
+                    break;
+                case 'game':
+                    valA = (gamesMap[a.game_id] || '').toLowerCase();
+                    valB = (gamesMap[b.game_id] || '').toLowerCase();
+                    break;
+                case 'booster':
+                    valA = (boostersMap[a.booster_id]?.username || 'zzz_unassigned').toLowerCase();
+                    valB = (boostersMap[b.booster_id]?.username || 'zzz_unassigned').toLowerCase();
+                    break;
+                case 'price':
+                    valA = Number(a.total_price) || 0;
+                    valB = Number(b.total_price) || 0;
+                    break;
+                case 'status':
+                    valA = (a.status || '').toLowerCase();
+                    valB = (b.status || '').toLowerCase();
+                    break;
+                default:
+                    valA = a.order_id;
+                    valB = b.order_id;
+            }
+
+            if (valA < valB) return sortOrder === 'asc' ? -1 : 1;
+            if (valA > valB) return sortOrder === 'asc' ? 1 : -1;
+            return 0;
+        });
+
+        filteredOrdersCache = filtered;
+        displayAllOrders(filtered);
+
+        // Update results count
+        const resultsEl = document.getElementById('resultsCount');
+        if (resultsEl) resultsEl.textContent = filtered.length;
+    }
+
+    // NEW: Clear all filters
+    function clearOrderFilters() {
+        document.getElementById('searchInput').value = '';
+        document.getElementById('sortBy').value = 'order_id';
+        document.getElementById('sortOrder').value = 'desc';
+        document.getElementById('filterGame').value = 'all';
+        document.getElementById('filterBooster').value = 'all';
+        applyOrderFilters();
+    }
+
+    // NEW: Highlight search term in a string
+    function highlightText(text, term) {
+        if (!term || !text) return text;
+        const safeText = String(text);
+        const regex = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+        return safeText.replace(regex, '<mark>$1</mark>');
+    }
     
     function displayAllOrders(orders) {
         const container = document.getElementById('ordersList');
+        const searchTerm = (document.getElementById('searchInput')?.value || '').trim();
         
         if (!orders || orders.length === 0) {
+            const isFiltered = searchTerm || 
+                              document.getElementById('filterGame')?.value !== 'all' ||
+                              document.getElementById('filterBooster')?.value !== 'all';
+            
             container.innerHTML = `
                 <div class="no-data">
-                    <i class="fas fa-shopping-bag fa-3x mb-3"></i>
-                    <h3>No Orders Yet</h3>
-                    <p>Orders will appear here once clients place them.</p>
+                    <i class="fas fa-${isFiltered ? 'search' : 'shopping-bag'} fa-3x mb-3"></i>
+                    <h3>${isFiltered ? 'No Matching Orders' : 'No Orders Yet'}</h3>
+                    <p>${isFiltered ? 'Try adjusting your search or filters.' : 'Orders will appear here once clients place them.'}</p>
+                    ${isFiltered ? '<button onclick="clearOrderFilters()" class="btn-assign" style="margin-top: 15px;"><i class="fas fa-times"></i> Clear Filters</button>' : ''}
                 </div>
             `;
             return;
@@ -976,28 +1306,33 @@
             const boosterName = boostersMap[order.booster_id]?.username || 'Not Assigned';
             const statusClass = order.payment_status === 'verified' ? 'badge-verified' : 'badge-pending';
             
+            // NEW: format date
+            const dateObj = new Date(order.order_date || order.created_at || Date.now());
+            const dateStr = dateObj.toLocaleDateString();
+            const timeStr = dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
             html += `
                 <div class="payment-card">
                     <div class="payment-header">
-                        <span class="payment-id">Order #${order.order_id}</span>
+                        <span class="payment-id">Order #${highlightText(order.order_id, searchTerm)}</span>
                         <span class="${statusClass}">${order.payment_status?.toUpperCase() || 'UNPAID'}</span>
                     </div>
                     <div class="payment-details">
                         <div class="detail-item">
                             <div class="detail-label">Client ID</div>
-                            <div class="detail-value">${order.client_id}</div>
+                            <div class="detail-value">${highlightText(order.client_id, searchTerm)}</div>
                         </div>
                         <div class="detail-item">
                             <div class="detail-label">Game</div>
-                            <div class="detail-value">${gameName}</div>
+                            <div class="detail-value">${highlightText(gameName, searchTerm)}</div>
                         </div>
                         <div class="detail-item">
                             <div class="detail-label">Service</div>
-                            <div class="detail-value">${order.notes || 'Standard Boost'}</div>
+                            <div class="detail-value">${highlightText(order.notes || 'Standard Boost', searchTerm)}</div>
                         </div>
                         <div class="detail-item">
                             <div class="detail-label">Rank</div>
-                            <div class="detail-value">${order.current_rank || '?'} → ${order.target_rank || '?'}</div>
+                            <div class="detail-value">${highlightText(order.current_rank || '?', searchTerm)} → ${highlightText(order.target_rank || '?', searchTerm)}</div>
                         </div>
                         <div class="detail-item">
                             <div class="detail-label">Price</div>
@@ -1005,11 +1340,19 @@
                         </div>
                         <div class="detail-item">
                             <div class="detail-label">Booster</div>
-                            <div class="detail-value">${boosterName}</div>
+                            <div class="detail-value">${highlightText(boosterName, searchTerm)}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Date</div>
+                            <div class="detail-value">${dateStr}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Time</div>
+                            <div class="detail-value">${timeStr}</div>
                         </div>
                         <div class="detail-item">
                             <div class="detail-label">Status</div>
-                            <div class="detail-value">${order.status || 'pending'}</div>
+                            <div class="detail-value">${highlightText(order.status || 'pending', searchTerm)}</div>
                         </div>
                     </div>
                     
@@ -1057,7 +1400,7 @@
             if (error) throw error;
             
             alert('✅ Booster assigned!');
-            loadAllOrders();
+            await loadAllOrders();
         } catch (error) {
             alert('❌ Error: ' + error.message);
         }
@@ -1072,6 +1415,9 @@
         document.getElementById('payments-section').style.display = tab === 'payments' ? 'block' : 'none';
         document.getElementById('boosters-section').style.display = tab === 'boosters' ? 'block' : 'none';
         document.getElementById('orders-section').style.display = tab === 'orders' ? 'block' : 'none';
+
+        // NEW: Show/hide filter bar only on orders tab
+        document.getElementById('filterBarContainer').style.display = tab === 'orders' ? 'block' : 'none';
         
         if (tab === 'boosters') loadBoosters();
         if (tab === 'orders') loadAllOrders();

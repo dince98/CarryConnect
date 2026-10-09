@@ -10,426 +10,350 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: #f8fafc;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: #f8fafc; }
         
         .navbar {
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
             padding: 1rem 0;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
-        
-        .navbar-brand {
-            font-size: 28px !important;
-            font-weight: 800 !important;
-            color: white !important;
-            letter-spacing: -0.5px;
-        }
-        
-        .navbar-brand span {
-            color: #3b82f6;
-        }
-        
-        .nav-link {
-            color: rgba(255,255,255,0.9) !important;
-            font-weight: 600;
-            margin: 0 5px;
-            padding: 8px 16px !important;
-            border-radius: 8px;
-        }
-        
-        .nav-link:hover {
-            background: rgba(59, 130, 246, 0.2);
-            color: white !important;
-        }
-        
-        .btn-account {
-            border: 2px solid rgba(255,255,255,0.2);
-            color: white !important;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .btn-account:hover {
-            background: rgba(59, 130, 246, 0.2);
-        }
-        
-        .dropdown-menu {
-            background: #1e293b;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            padding: 8px;
-            margin-top: 8px;
-        }
-        
-        .dropdown-item {
-            color: rgba(255,255,255,0.9);
-            font-weight: 600;
-            padding: 10px 20px;
-            border-radius: 8px;
-            transition: all 0.3s;
-        }
-        
-        .dropdown-item:hover {
-            background: #3b82f6;
-            color: white;
-        }
-        
-        .dropdown-item i {
-            width: 20px;
-            margin-right: 10px;
-            color: #3b82f6;
-        }
-        
-        /* Roblox-specific styles */
-        .roblox-page .btn-back {
-            background: linear-gradient(135deg, #0e1a1f, #1a2c34);
-            color: white;
-            border: 2px solid #00b5e2;
-        }
+        .navbar-brand { font-size: 28px !important; font-weight: 800 !important; color: white !important; letter-spacing: -0.5px; }
+        .navbar-brand span { color: #3b82f6; }
+        .nav-link { color: rgba(255,255,255,0.9) !important; font-weight: 600; margin: 0 5px; padding: 8px 16px !important; border-radius: 8px; }
+        .nav-link:hover { background: rgba(59, 130, 246, 0.2); color: white !important; }
+        .nav-link.active { background: #3b82f6 !important; color: white !important; }
+        .dropdown-menu { background: #1e293b; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 8px; margin-top: 8px; }
+        .dropdown-item { color: rgba(255,255,255,0.9); font-weight: 600; padding: 10px 20px; border-radius: 8px; transition: all 0.3s; }
+        .dropdown-item:hover { background: #3b82f6; color: white; }
+        .dropdown-item i { width: 20px; margin-right: 10px; color: #3b82f6; }
+        .btn-account { border: 2px solid rgba(255,255,255,0.2); color: white !important; display: flex; align-items: center; gap: 8px; }
+        .btn-account:hover { background: rgba(59, 130, 246, 0.2); }
         
         .roblox-hero {
             background: linear-gradient(135deg, #0e1a1f 0%, #1a2c34 100%);
-            color: white;
-            padding: 60px 0;
-            position: relative;
-            overflow: hidden;
+            color: white; padding: 60px 0;
+            position: relative; overflow: hidden;
             border-bottom: 5px solid #00b5e2;
         }
-        
-        .roblox-hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('https://images.rbxcdn.com/8b05e9b722b2b8dc8c64cc27cd1faaa7.png');
-            background-size: cover;
-            background-position: center;
-            opacity: 0.05;
-        }
-        
         .roblox-title {
-            font-size: 48px;
-            font-weight: 800;
-            color: #00b5e2;
+            font-size: 48px; font-weight: 800; color: #00b5e2;
             text-shadow: 0 0 10px rgba(0, 181, 226, 0.3);
         }
-        
-        .back-button-container {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            z-index: 100;
-        }
-
+        .back-button-container { position: absolute; top: 20px; left: 20px; z-index: 100; }
         .btn-back {
-            padding: 10px 25px;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            border: 2px solid;
+            padding: 10px 25px; border-radius: 50px; font-weight: 600;
+            transition: all 0.3s; display: inline-flex; align-items: center;
+            gap: 10px; text-decoration: none; border: 2px solid;
             backdrop-filter: blur(5px);
+            background: linear-gradient(135deg, #0e1a1f, #1a2c34);
+            color: white; border-color: #00b5e2;
         }
+        .btn-back:hover { background: rgba(0, 181, 226, 0.2); color: white; }
         
-        .section-header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-        
+        .section-header { text-align: center; margin-bottom: 50px; }
         .section-header h2 {
-            font-size: 36px;
-            font-weight: 700;
-            color: #1e293b;
-            position: relative;
-            display: inline-block;
+            font-size: 36px; font-weight: 700; color: #1e293b;
+            position: relative; display: inline-block;
         }
-        
         .section-header h2:after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: #00b5e2;
-            border-radius: 2px;
+            content: ''; position: absolute; bottom: -10px; left: 50%;
+            transform: translateX(-50%); width: 80px; height: 4px;
+            background: #00b5e2; border-radius: 2px;
         }
         
-        /* ===== PRICING SECTION WITH ZORO.PNG BACKGROUND ===== */
         .pricing-section {
             position: relative;
             isolation: isolate;
             padding: 60px 0;
         }
-        
         .pricing-section::before {
-            content: "";
-            position: absolute;
-            inset: 0;
+            content: ""; position: absolute; inset: 0;
             background: 
                 linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(15, 5, 25, 0.45) 100%),
                 url('zoro.png') center center / cover no-repeat fixed;
             opacity: 0.8;
             z-index: -2;
         }
-        
         .pricing-section::after {
-            content: "";
-            position: absolute;
-            inset: 0;
+            content: ""; position: absolute; inset: 0;
             background: 
                 radial-gradient(circle at 30% 40%, rgba(75, 0, 130, 0.35) 0%, transparent 60%),
                 radial-gradient(circle at 70% 60%, rgba(48, 25, 80, 0.3) 0%, transparent 60%);
             pointer-events: none;
             z-index: -1;
         }
-        
         .pricing-section .section-header h2 {
             color: white;
             text-shadow: 0 0 30px rgba(138, 43, 226, 0.7), 0 2px 10px rgba(0,0,0,0.7);
             font-size: 42px;
         }
-        
         .pricing-section .section-header h2:after {
-            background: #6a4e9b;
-            height: 5px;
-            width: 100px;
+            background: #6a4e9b; height: 5px; width: 100px;
             box-shadow: 0 0 20px #6a4e9b;
         }
-        /* ==================================================== */
         
-        /* ===== DARKER PURPLE THEMED SERVICE CARDS ===== */
         .service-card {
             background: rgba(18, 10, 26, 0.75);
             backdrop-filter: blur(10px);
-            border-radius: 24px;
-            overflow: hidden;
+            border-radius: 24px; overflow: hidden;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
             transition: all 0.4s ease;
             height: 100%;
             border: 1px solid rgba(106, 78, 155, 0.3);
             position: relative;
-            display: flex;
-            flex-direction: column;
+            display: flex; flex-direction: column;
         }
-        
         .service-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 30px 60px rgba(106, 78, 155, 0.4);
             border-color: #8a6bc9;
             background: rgba(22, 12, 32, 0.8);
         }
-        
         .service-header {
             background: rgba(0, 0, 0, 0.4);
-            color: white;
-            padding: 25px 20px;
+            color: white; padding: 25px 20px;
             text-align: center;
             border-bottom: 1px solid rgba(106, 78, 155, 0.2);
         }
-        
         .service-icon {
-            width: 90px;
-            height: 90px;
+            width: 90px; height: 90px;
             margin: 0 auto 15px;
             background: rgba(106, 78, 155, 0.2);
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             border: 1px solid rgba(106, 78, 155, 0.5);
             box-shadow: 0 0 20px rgba(106, 78, 155, 0.3);
         }
-        
         .service-icon i {
-            font-size: 45px;
-            color: #b39ddb;
+            font-size: 45px; color: #b39ddb;
             filter: drop-shadow(0 0 10px #8a6bc9);
         }
-        
         .service-name {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 5px;
+            font-size: 24px; font-weight: 700; margin-bottom: 5px;
             color: #f0e6ff;
             text-shadow: 0 0 10px rgba(138, 107, 201, 0.5);
         }
-        
         .service-category {
-            display: inline-block;
-            padding: 5px 15px;
+            display: inline-block; padding: 5px 15px;
             background: rgba(106, 78, 155, 0.2);
-            border-radius: 50px;
-            font-size: 12px;
+            border-radius: 50px; font-size: 12px;
             color: #c4b5e0;
             border: 1px solid rgba(106, 78, 155, 0.3);
         }
-        
         .service-body {
             padding: 25px 20px;
             background: rgba(0, 0, 0, 0.2);
             flex: 1;
-            display: flex;
-            flex-direction: column;
+            display: flex; flex-direction: column;
         }
-        
         .price-tag {
-            text-align: center;
-            margin-bottom: 20px;
+            text-align: center; margin-bottom: 20px;
             padding: 5px 0;
         }
-        
         .price-amount {
-            font-size: 42px;
-            font-weight: 800;
-            color: white;
+            font-size: 42px; font-weight: 800; color: white;
             text-shadow: 0 0 20px #8a6bc9, 0 0 5px rgba(255,255,255,0.3);
         }
-        
         .peso-sign {
-            color: #b39ddb;
-            font-size: 24px;
-            margin-right: 2px;
+            color: #b39ddb; font-size: 24px; margin-right: 2px;
             font-weight: 700;
             text-shadow: 0 0 10px #8a6bc9;
         }
-        
         .btn-order {
             background: linear-gradient(135deg, #4a2c6e, #2e1b45);
-            color: white;
-            font-weight: 700;
-            padding: 14px 25px;
-            border-radius: 50px;
-            border: none;
-            width: 100%;
+            color: white; font-weight: 700; padding: 14px 25px;
+            border-radius: 50px; border: none; width: 100%;
             transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             gap: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            text-transform: uppercase; letter-spacing: 0.5px;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
             margin-top: auto;
             border: 1px solid rgba(138, 107, 201, 0.2);
         }
-        
         .btn-order:hover {
             background: linear-gradient(135deg, #5a3a82, #3a2357);
             transform: scale(1.05);
             box-shadow: 0 10px 30px rgba(106, 78, 155, 0.5);
             border-color: rgba(138, 107, 201, 0.3);
         }
-        
         .popular-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
+            position: absolute; top: 15px; right: 15px;
             background: linear-gradient(135deg, #4a2c6e, #2e1b45);
-            color: #e6d9ff;
-            padding: 5px 15px;
-            border-radius: 50px;
-            font-size: 12px;
-            font-weight: 700;
+            color: #e6d9ff; padding: 5px 15px;
+            border-radius: 50px; font-size: 12px; font-weight: 700;
             z-index: 10;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            text-transform: uppercase; letter-spacing: 0.5px;
             border: 1px solid rgba(138, 107, 201, 0.3);
         }
-        /* ======================================================== */
+        
+        /* ===== TOP BOOSTERS WIDGET (Roblox theme) ===== */
+        .top-boosters-wrapper {
+            max-width: 1100px; margin: 40px auto 50px;
+            padding: 30px 25px;
+            background: rgba(18, 10, 26, 0.75);
+            backdrop-filter: blur(15px);
+            border-radius: 24px;
+            border: 2px solid rgba(106, 78, 155, 0.3);
+            box-shadow: 0 20px 60px rgba(106, 78, 155, 0.2);
+            position: relative; overflow: hidden;
+        }
+        .top-boosters-wrapper::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, #6a4e9b, #8a6bc9, #b39ddb);
+        }
+        .top-boosters-header { text-align: center; margin-bottom: 25px; }
+        .top-boosters-title {
+            display: inline-flex; align-items: center; gap: 12px;
+            font-size: 22px; font-weight: 800; color: #fbbf24;
+            text-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+            margin-bottom: 8px;
+        }
+        .top-boosters-title i { font-size: 26px; filter: drop-shadow(0 0 12px #fbbf24); }
+        .top-boosters-subtitle {
+            font-size: 14px; color: rgba(255, 255, 255, 0.65); font-weight: 500;
+        }
+        .top-boosters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 18px; margin-bottom: 20px;
+        }
+        .top-booster-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px; padding: 22px 18px;
+            text-align: center; position: relative;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .top-booster-card:hover:not(.busy) {
+            transform: translateY(-5px);
+            border-color: rgba(106, 78, 155, 0.6);
+            box-shadow: 0 20px 40px rgba(106, 78, 155, 0.3);
+            background: rgba(106, 78, 155, 0.08);
+        }
+        .top-booster-card.busy { opacity: 0.55; filter: grayscale(0.4); cursor: not-allowed; }
+        .top-booster-card.picked {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.4);
+        }
+        .medal-badge {
+            position: absolute; top: -10px; right: -10px;
+            font-size: 32px;
+            filter: drop-shadow(0 4px 12px rgba(251, 191, 36, 0.6));
+            animation: medalFloat 3s ease-in-out infinite;
+        }
+        @keyframes medalFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-5px) rotate(5deg); }
+        }
+        .top-booster-avatar {
+            width: 60px; height: 60px; border-radius: 50%;
+            background: linear-gradient(135deg, #6a4e9b, #8a6bc9);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 26px; font-weight: 800; color: white;
+            margin: 0 auto 12px;
+            border: 3px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 20px rgba(106, 78, 155, 0.4);
+        }
+        .top-booster-name {
+            font-size: 17px; font-weight: 800; color: white;
+            margin-bottom: 8px; word-break: break-word;
+        }
+        .top-booster-rating {
+            font-size: 14px; font-weight: 700; color: #fbbf24;
+            margin-bottom: 12px; display: flex;
+            align-items: center; justify-content: center; gap: 4px;
+        }
+        .mini-star { font-size: 16px; filter: drop-shadow(0 0 6px #fbbf24); }
+        .mini-count { font-size: 12px; color: rgba(255, 255, 255, 0.5); font-weight: 600; }
+        .mini-new { font-size: 12px; color: rgba(255, 255, 255, 0.4); font-style: italic; font-weight: 500; }
+        .top-booster-status {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: 11px; font-weight: 700; padding: 5px 12px;
+            border-radius: 50px; margin-bottom: 14px;
+            text-transform: uppercase; letter-spacing: 0.4px;
+        }
+        .status-available {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+        .status-busy {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4);
+        }
+        .status-available i { font-size: 8px; animation: pulse 1.5s ease-in-out infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .btn-request-booster {
+            width: 100%; padding: 11px 14px; border-radius: 50px;
+            border: none; background: linear-gradient(135deg, #10b981, #059669);
+            color: white; font-weight: 700; font-size: 13px;
+            cursor: pointer; transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+            display: inline-flex; align-items: center; justify-content: center;
+            gap: 8px; text-transform: uppercase; letter-spacing: 0.4px;
+        }
+        .btn-request-booster:hover:not(.disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(16, 185, 129, 0.5);
+            background: linear-gradient(135deg, #34d399, #10b981);
+        }
+        .btn-request-booster.disabled {
+            background: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.4);
+            cursor: not-allowed;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .top-boosters-footer {
+            text-align: center; font-size: 13px;
+            color: rgba(255, 255, 255, 0.55);
+            padding-top: 15px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.1);
+            font-style: italic;
+        }
+        .top-boosters-footer i { color: #8a6bc9; margin-right: 6px; }
+        @keyframes slideUp {
+            from { transform: translate(-50%, 100px); opacity: 0; }
+            to { transform: translate(-50%, 0); opacity: 1; }
+        }
+        @keyframes slideDown {
+            from { transform: translate(-50%, 0); opacity: 1; }
+            to { transform: translate(-50%, 100px); opacity: 0; }
+        }
+        @media (max-width: 768px) {
+            .top-boosters-grid { grid-template-columns: 1fr; }
+            .top-boosters-title { font-size: 18px; }
+        }
         
         footer {
-            background: #0f172a;
-            color: white;
-            padding: 50px 0 20px;
-            margin-top: 0;
+            background: #0f172a; color: white;
+            padding: 50px 0 20px; margin-top: 0;
         }
-        
-        .footer-logo {
-            font-size: 28px;
-            font-weight: 800;
-            color: white;
-            text-decoration: none;
-        }
-        
-        .footer-links {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .footer-links li {
-            margin-bottom: 12px;
-        }
-        
-        .footer-links a {
-            color: rgba(255,255,255,0.7);
-            text-decoration: none;
-        }
-        
-        .footer-links a:hover {
-            color: white;
-        }
-        
-        .social-icons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            align-items: center;
-            margin-top: 20px;
-        }
-        
+        .footer-logo { font-size: 28px; font-weight: 800; color: white; text-decoration: none; }
+        .footer-logo span { color: #3b82f6; }
+        .footer-links { list-style: none; padding: 0; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a { color: rgba(255,255,255,0.7); text-decoration: none; }
+        .footer-links a:hover { color: white; }
+        .social-icons { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 20px; }
         .social-icons a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 40px; height: 40px;
             background: rgba(255,255,255,0.1);
-            color: white;
-            border-radius: 50%;
-            font-size: 18px;
-            transition: all 0.3s;
-            text-decoration: none;
+            color: white; border-radius: 50%; font-size: 18px;
+            transition: all 0.3s; text-decoration: none;
         }
-        
-        .social-icons a:hover {
-            background: #6a4e9b;
-            transform: translateY(-3px);
-        }
-        
+        .social-icons a:hover { background: #6a4e9b; transform: translateY(-3px); }
         .copyright {
             border-top: 1px solid rgba(255,255,255,0.1);
-            padding-top: 30px;
-            margin-top: 40px;
-            text-align: center;
-            color: rgba(255,255,255,0.5);
+            padding-top: 30px; margin-top: 40px;
+            text-align: center; color: rgba(255,255,255,0.5);
         }
-        
         @media (max-width: 768px) {
             .roblox-title { font-size: 36px; }
-            .back-button-container {
-                position: relative;
-                top: 0;
-                left: 0;
-                padding: 20px;
-            }
+            .back-button-container { position: relative; top: 0; left: 0; padding: 20px; }
         }
     </style>
 </head>
@@ -437,20 +361,16 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
-        <a class="navbar-brand" href="index.html">
-            <span>Carry</span>Connect
-        </a>
+        <a class="navbar-brand" href="index.html"><span>Carry</span>Connect</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="index.html">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="HowItWorks.html">How It Works</a>
-                </li>
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="Games.html">Games</a></li>
+                <li class="nav-item"><a class="nav-link" href="Boosters.html">Boosters</a></li>
+                <li class="nav-item"><a class="nav-link" href="HowItWorks.html">How It Works</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link btn-account dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-user-circle"></i> <span id="accountText">Account</span>
@@ -468,7 +388,6 @@
             <i class="fas fa-arrow-left"></i> Back to Games
         </a>
     </div>
-    
     <div class="container">
         <h1 class="roblox-title">ROBLOX</h1>
         <h2 style="font-size: 36px; font-weight: 700;">Boosting & Farming Services</h2>
@@ -476,9 +395,11 @@
     </div>
 </section>
 
-<!-- Pricing section with zoro.png background and dark purple themed cards -->
 <section class="pricing-section">
     <div class="container">
+        <!-- TOP BOOSTERS WIDGET -->
+        <div id="topBoostersWidget" data-game-id="3" data-game-name="Roblox"></div>
+
         <div class="section-header">
             <h2>Select Your Service</h2>
         </div>
@@ -489,9 +410,7 @@
                 <div class="service-card">
                     <div class="popular-badge">POPULAR</div>
                     <div class="service-header">
-                        <div class="service-icon">
-                            <i class="fas fa-coins"></i>
-                        </div>
+                        <div class="service-icon"><i class="fas fa-coins"></i></div>
                         <h3 class="service-name">Robux Farming</h3>
                         <span class="service-category">PER 100 ROBUX</span>
                     </div>
@@ -511,9 +430,7 @@
             <div class="col-lg-4 col-md-6">
                 <div class="service-card">
                     <div class="service-header">
-                        <div class="service-icon">
-                            <i class="fas fa-star"></i>
-                        </div>
+                        <div class="service-icon"><i class="fas fa-star"></i></div>
                         <h3 class="service-name">Level Farming</h3>
                         <span class="service-category">PER 10 LEVELS</span>
                     </div>
@@ -533,9 +450,7 @@
             <div class="col-lg-4 col-md-6">
                 <div class="service-card">
                     <div class="service-header">
-                        <div class="service-icon">
-                            <i class="fas fa-ticket-alt"></i>
-                        </div>
+                        <div class="service-icon"><i class="fas fa-ticket-alt"></i></div>
                         <h3 class="service-name">Gamepass Unlock</h3>
                         <span class="service-category">PER GAMEPASS</span>
                     </div>
@@ -556,9 +471,7 @@
                 <div class="service-card">
                     <div class="popular-badge">EVENT</div>
                     <div class="service-header">
-                        <div class="service-icon">
-                            <i class="fas fa-calendar-alt"></i>
-                        </div>
+                        <div class="service-icon"><i class="fas fa-calendar-alt"></i></div>
                         <h3 class="service-name">Event Farming</h3>
                         <span class="service-category">PER EVENT</span>
                     </div>
@@ -578,9 +491,7 @@
             <div class="col-lg-4 col-md-6">
                 <div class="service-card">
                     <div class="service-header">
-                        <div class="service-icon">
-                            <i class="fas fa-gem"></i>
-                        </div>
+                        <div class="service-icon"><i class="fas fa-gem"></i></div>
                         <h3 class="service-name">Limited Items</h3>
                         <span class="service-category">CUSTOM</span>
                     </div>
@@ -600,9 +511,7 @@
             <div class="col-lg-4 col-md-6">
                 <div class="service-card">
                     <div class="service-header">
-                        <div class="service-icon">
-                            <i class="fas fa-magic"></i>
-                        </div>
+                        <div class="service-icon"><i class="fas fa-magic"></i></div>
                         <h3 class="service-name">Custom Order</h3>
                         <span class="service-category">YOU ASK</span>
                     </div>
@@ -625,13 +534,11 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-4 mb-4">
-                <a href="index.html" class="footer-logo">
-                    <span>Carry</span>Connect
-                </a>
+                <a href="index.html" class="footer-logo"><span>Carry</span>Connect</a>
                 <p class="mt-3">A small, passionate team of gamers offering manual boosting services.</p>
                 <div class="social-icons">
                     <a href="https://www.facebook.com/profile.php?id=61586466966459" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                    <a href="https://x.com/CarryConnectGG" target="_blank" id="x-link"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="https://x.com/CarryConnectGG" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
                     <a href="https://www.instagram.com/carryconnect.gg/" target="_blank"><i class="fab fa-instagram"></i></a>
                     <a href="https://discord.gg/Yw25jFP54s" target="_blank"><i class="fab fa-discord"></i></a>
                     <a href="https://www.tiktok.com/@carryconnect" target="_blank"><i class="fab fa-tiktok"></i></a>
@@ -662,24 +569,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
-
-<!-- X icon fix (the bird will never be missing) -->
-<script>
-    (function() {
-        window.addEventListener('load', function() {
-            var xLink = document.getElementById('x-link');
-            if (!xLink) return;
-            var xIcon = xLink.querySelector('.fa-x-twitter');
-            if (xIcon) {
-                var before = window.getComputedStyle(xIcon, ':before');
-                var content = before.getPropertyValue('content');
-                if (!content || content === 'none' || content === '') {
-                    xIcon.className = 'fa-brands fa-twitter';
-                }
-            }
-        });
-    })();
-</script>
+<script src="top-boosters-widget.js"></script>
 
 <script>
     const SUPABASE_URL = 'https://aozhkwvoqnyktsgrdtnw.supabase.co';
@@ -706,29 +596,18 @@
 
         if (userId) {
             accountText.textContent = username;
-            
             let menuItems = `
                 <li><a class="dropdown-item" href="Games.html"><i class="fas fa-gamepad"></i> Games</a></li>
+                <li><a class="dropdown-item" href="Boosters.html"><i class="fas fa-users"></i> Our Boosters</a></li>
                 <li><a class="dropdown-item" href="Orders.html"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
             `;
-
             if (role === 'booster') {
-                menuItems += `
-                    <li><a class="dropdown-item" href="Booster.html"><i class="fas fa-bolt"></i> Booster Dashboard</a></li>
-                `;
+                menuItems += `<li><a class="dropdown-item" href="Booster.html"><i class="fas fa-bolt"></i> Booster Dashboard</a></li>`;
             }
-
             if (role === 'admin') {
-                menuItems += `
-                    <li><a class="dropdown-item" href="admin.html"><i class="fas fa-cog"></i> Admin Panel</a></li>
-                `;
+                menuItems += `<li><a class="dropdown-item" href="admin.html"><i class="fas fa-cog"></i> Admin Panel</a></li>`;
             }
-
-            menuItems += `
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-            `;
-
+            menuItems += `<li><hr class="dropdown-divider"></li><li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>`;
             dropdown.innerHTML = menuItems;
         } else {
             accountText.textContent = 'Account';
@@ -739,7 +618,6 @@
         }
     }
     
-    // ========== FIXED PLACE ORDER FUNCTION - NO PROMPTS ==========
     async function placeOrder(gameId, fromRank, toRank, price, serviceName, gameName) {
         if (!sessionStorage.getItem('userId')) {
             alert('Please login first to place an order');
@@ -748,6 +626,7 @@
         }
         
         const userId = sessionStorage.getItem('userId');
+        const requestedBoosterId = sessionStorage.getItem('requestedBoosterId');
         
         try {
             const orderData = {
@@ -758,7 +637,8 @@
                 total_price: price,
                 notes: serviceName,
                 status: 'pending',
-                payment_status: 'unpaid'
+                payment_status: 'unpaid',
+                preferred_booster_id: requestedBoosterId ? parseInt(requestedBoosterId) : null
             };
             
             const response = await fetch(`${SUPABASE_URL}/rest/v1/orders`, {

@@ -193,18 +193,6 @@
         .detail-label { color: #64748b; margin-bottom: 3px; font-size: 12px; }
         .detail-value { font-weight: 600; color: #1e293b; }
         
-        .receipt-image {
-            max-width: 200px;
-            max-height: 150px;
-            border-radius: 10px;
-            margin-top: 10px;
-            cursor: pointer;
-            border: 1px solid #e2e8f0;
-            transition: transform 0.3s;
-        }
-        
-        .receipt-image:hover { transform: scale(1.05); border-color: #667eea; }
-        
         .action-buttons {
             display: flex;
             gap: 10px;
@@ -287,6 +275,7 @@
             100% { transform: rotate(360deg); }
         }
         
+        /* ===== IMAGE MODAL (full-screen popup) ===== */
         .image-modal {
             display: none;
             position: fixed;
@@ -333,6 +322,118 @@
             margin-top: 50px;
         }
         
+        /* ===== Receipt Preview Styles ===== */
+        .receipt-preview {
+            margin: 15px 0;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 15px;
+        }
+        
+        .receipt-preview-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .receipt-preview-label i { color: #667eea; }
+        
+        .receipt-hint {
+            margin-left: auto;
+            font-size: 11px;
+            font-weight: 600;
+            color: #94a3b8;
+            text-transform: none;
+            letter-spacing: 0;
+            font-style: italic;
+        }
+        
+        .receipt-thumb-wrapper {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid #e2e8f0;
+            background: white;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .receipt-thumb-wrapper:hover {
+            border-color: #667eea;
+            transform: scale(1.03);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.25);
+        }
+        
+        .receipt-thumb {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+        
+        .receipt-thumb-wrapper:hover .receipt-thumb {
+            transform: scale(1.1);
+        }
+        
+        .receipt-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(102, 126, 234, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            color: white;
+            font-size: 24px;
+        }
+        
+        .receipt-thumb-wrapper:hover .receipt-overlay {
+            opacity: 1;
+        }
+        
+        .receipt-error {
+            width: 140px;
+            height: 140px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            font-size: 12px;
+            gap: 8px;
+            background: #f1f5f9;
+            border-radius: 12px;
+            border: 2px dashed #cbd5e1;
+        }
+        
+        .receipt-error i { font-size: 24px; }
+        
+        .receipt-missing {
+            margin: 15px 0;
+            padding: 12px 15px;
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 12px;
+            color: #856404;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
         /* ===== Search & Filter Bar ===== */
         .filter-bar {
             background: white;
@@ -346,14 +447,14 @@
             gap: 15px;
             align-items: flex-end;
         }
-
+        
         .filter-group {
             display: flex;
             flex-direction: column;
             flex: 1 1 180px;
             min-width: 150px;
         }
-
+        
         .filter-group label {
             font-size: 12px;
             font-weight: 700;
@@ -362,7 +463,7 @@
             letter-spacing: 0.5px;
             margin-bottom: 6px;
         }
-
+        
         .filter-group input,
         .filter-group select {
             padding: 10px 15px;
@@ -375,7 +476,7 @@
             transition: all 0.3s;
             width: 100%;
         }
-
+        
         .filter-group input:focus,
         .filter-group select:focus {
             outline: none;
@@ -383,7 +484,7 @@
             background: white;
             box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
         }
-
+        
         .search-input-wrapper { position: relative; flex: 2 1 260px; }
         
         .search-input-wrapper i {
@@ -396,7 +497,7 @@
         }
         
         .search-input-wrapper input { padding-left: 42px; }
-
+        
         .btn-clear-filters {
             background: #f1f5f9;
             color: #64748b;
@@ -413,13 +514,13 @@
             gap: 8px;
             white-space: nowrap;
         }
-
+        
         .btn-clear-filters:hover {
             background: #fee2e2;
             border-color: #ef4444;
             color: #ef4444;
         }
-
+        
         .results-count {
             font-size: 14px;
             color: #64748b;
@@ -427,9 +528,9 @@
             margin-bottom: 15px;
             padding-left: 5px;
         }
-
+        
         .results-count span { color: #667eea; font-weight: 800; }
-
+        
         mark {
             background: #fef08a;
             padding: 1px 4px;
@@ -468,7 +569,7 @@
 </head>
 <body>
 
-<!-- Image Modal -->
+<!-- Image Modal (full-screen popup) -->
 <div id="imageModal" class="image-modal" onclick="closeImageModal()">
     <span class="close-modal">&times;</span>
     <img class="modal-image" id="modalImage" onclick="event.stopPropagation()">
@@ -602,10 +703,8 @@
     <div id="boosters-section" style="display: none;">
         <h2 class="section-title">Manage Boosters</h2>
         
-        <!-- Game filter chips -->
         <div class="booster-filter-chips" id="boosterFilterChips">
             <div class="chip active" onclick="filterBoostersByGame('all', this)">All Boosters</div>
-            <!-- Game chips populated dynamically -->
         </div>
         
         <div id="boostersList">
@@ -645,6 +744,7 @@
     let allOrdersCache = [];
     let filteredOrdersCache = [];
     let allBoostersCache = [];
+    let paymentsMap = {};
     
     // ========== IMAGE MODAL ==========
     function openImageModal(imageUrl) {
@@ -652,10 +752,12 @@
         const modalImage = document.getElementById('modalImage');
         modalImage.src = imageUrl;
         modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
     }
     
     function closeImageModal() {
         document.getElementById('imageModal').style.display = 'none';
+        document.body.style.overflow = '';
     }
     
     document.addEventListener('keydown', function(event) {
@@ -733,7 +835,6 @@
                 gamesMap[game.game_id] = game.game_name;
             });
 
-            // Populate game filter dropdown
             const gameFilter = document.getElementById('filterGame');
             if (gameFilter) {
                 data.forEach(game => {
@@ -744,7 +845,6 @@
                 });
             }
             
-            // Populate booster filter chips
             const chipContainer = document.getElementById('boosterFilterChips');
             if (chipContainer) {
                 data.forEach(game => {
@@ -779,10 +879,8 @@
             
             displayBoosters(data);
             
-            // Populate booster filter dropdown
             const boosterFilter = document.getElementById('filterBooster');
             if (boosterFilter) {
-                // Clear all but the default options
                 boosterFilter.innerHTML = `
                     <option value="all">All Boosters</option>
                     <option value="unassigned">Unassigned</option>
@@ -806,14 +904,12 @@
         }
     }
     
-    // ========== HELPER: Check if booster handles a game ==========
     function canBoosterHandleGame(booster, gameId) {
         if (!booster || !booster.specialty) return false;
         if (!Array.isArray(booster.specialty)) return false;
         return booster.specialty.map(String).includes(String(gameId));
     }
     
-    // ========== HELPER: Get qualified boosters for a game ==========
     function getQualifiedBoosters(gameId) {
         return allBoostersCache.filter(b => canBoosterHandleGame(b, gameId));
     }
@@ -833,11 +929,10 @@
             return;
         }
         
-        // Color per game (customize here)
         const gameColors = {
-            '1': '#c89b3c',  // League - gold
-            '2': '#ff4655',  // Valorant - red
-            '3': '#00b5e2'   // Roblox - cyan
+            '1': '#c89b3c',
+            '2': '#ff4655',
+            '3': '#00b5e2'
         };
         
         let html = '';
@@ -887,7 +982,6 @@
         container.innerHTML = html;
     }
     
-    // ========== FILTER BOOSTERS BY GAME ==========
     function filterBoostersByGame(gameId, el) {
         document.querySelectorAll('#boosterFilterChips .chip').forEach(c => c.classList.remove('active'));
         el.classList.add('active');
@@ -952,6 +1046,7 @@
         }
     }
     
+    // ========== DISPLAY PAYMENTS (with receipt thumbnail) ==========
     function displayPayments(payments) {
         const container = document.getElementById('paymentsList');
         
@@ -971,6 +1066,14 @@
             const order = payment.orders;
             const gameName = order?.game_id ? (gamesMap[order.game_id] || 'Unknown Game') : 'Unknown';
             
+            // Support both receipt_url and receipt_path
+            let receiptUrl = '';
+            if (payment.receipt_url) {
+                receiptUrl = payment.receipt_url;
+            } else if (payment.receipt_path) {
+                receiptUrl = `${SUPABASE_URL}/storage/v1/object/public/payment-receipts/${payment.receipt_path}`;
+            }
+            
             html += `
                 <div class="payment-card">
                     <div class="payment-header">
@@ -986,15 +1089,24 @@
                         <div class="detail-item"><div class="detail-label">Method</div><div class="detail-value">${payment.payment_method?.toUpperCase() || 'N/A'}</div></div>
                         <div class="detail-item"><div class="detail-label">Reference</div><div class="detail-value">${payment.reference_number || 'N/A'}</div></div>
                     </div>
-                    ${payment.receipt_path ? `
-                        <div style="margin: 15px 0; text-align: center;">
-                            <p style="font-weight: 600; margin-bottom: 10px;">Payment Receipt:</p>
-                            <img src="${SUPABASE_URL}/storage/v1/object/public/payment-receipts/${payment.receipt_path}" 
-                                 class="receipt-image" alt="Receipt" 
-                                 onclick="openImageModal('${SUPABASE_URL}/storage/v1/object/public/payment-receipts/${payment.receipt_path}')" 
-                                 title="Click to enlarge">
+                    
+                    ${receiptUrl ? `
+                        <div class="receipt-preview">
+                            <div class="receipt-preview-label">
+                                <i class="fas fa-receipt"></i> Payment Receipt
+                                <span class="receipt-hint">Click to enlarge</span>
+                            </div>
+                            <div class="receipt-thumb-wrapper" onclick="openImageModal('${receiptUrl}')">
+                                <img src="${receiptUrl}" class="receipt-thumb" alt="Payment Receipt">
+                                <div class="receipt-overlay"><i class="fas fa-search-plus"></i></div>
+                            </div>
                         </div>
-                    ` : ''}
+                    ` : `
+                        <div class="receipt-missing">
+                            <i class="fas fa-exclamation-triangle"></i> No receipt uploaded
+                        </div>
+                    `}
+                    
                     <div class="action-buttons">
                         <button onclick="verifyPayment(${payment.payment_id}, ${payment.order_id})" class="btn-verify">
                             <i class="fas fa-check-circle"></i> Verify Payment
@@ -1059,6 +1171,25 @@
             
             if (error) throw error;
             allOrdersCache = data || [];
+            
+            // Load payments for these orders (for receipt thumbnails)
+            if (allOrdersCache.length > 0) {
+                const orderIds = allOrdersCache.map(o => o.order_id);
+                const { data: payments } = await supabase
+                    .from('payments')
+                    .select('*')
+                    .in('order_id', orderIds);
+                
+                if (payments) {
+                    payments.forEach(p => {
+                        if (!paymentsMap[p.order_id] || 
+                            new Date(p.created_at) > new Date(paymentsMap[p.order_id].created_at || 0)) {
+                            paymentsMap[p.order_id] = p;
+                        }
+                    });
+                }
+            }
+            
             applyOrderFilters();
         } catch (error) {
             console.error('Error loading orders:', error);
@@ -1082,7 +1213,6 @@
 
         let filtered = [...allOrdersCache];
 
-        // Search filter
         if (searchTerm) {
             filtered = filtered.filter(order => {
                 const gameName = (gamesMap[order.game_id] || '').toLowerCase();
@@ -1101,12 +1231,10 @@
             });
         }
 
-        // Game filter
         if (filterGame !== 'all') {
             filtered = filtered.filter(order => String(order.game_id) === String(filterGame));
         }
 
-        // Booster filter
         if (filterBooster !== 'all') {
             if (filterBooster === 'unassigned') {
                 filtered = filtered.filter(order => !order.booster_id);
@@ -1115,7 +1243,6 @@
             }
         }
 
-        // Sorting
         filtered.sort((a, b) => {
             let valA, valB;
             switch (sortBy) {
@@ -1174,7 +1301,7 @@
         return safeText.replace(regex, '<mark>$1</mark>');
     }
     
-    // ========== DISPLAY ALL ORDERS ==========
+    // ========== DISPLAY ALL ORDERS (with receipt thumbnail) ==========
     function displayAllOrders(orders) {
         const container = document.getElementById('ordersList');
         const searchTerm = (document.getElementById('searchInput')?.value || '').trim();
@@ -1205,7 +1332,18 @@
             const dateStr = dateObj.toLocaleDateString();
             const timeStr = dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-            // ===== Assignment block with game-filtered boosters =====
+            // Receipt from paymentsMap
+            let receiptUrl = '';
+            const p = paymentsMap[order.order_id];
+            if (p) {
+                if (p.receipt_url) {
+                    receiptUrl = p.receipt_url;
+                } else if (p.receipt_path) {
+                    receiptUrl = `${SUPABASE_URL}/storage/v1/object/public/payment-receipts/${p.receipt_path}`;
+                }
+            }
+
+            // Assignment block
             let assignmentHtml = '';
             if (order.payment_status === 'verified' && !order.booster_id) {
                 const qualified = getQualifiedBoosters(order.game_id);
@@ -1213,15 +1351,7 @@
                 
                 if (qualified.length === 0) {
                     assignmentHtml = `
-                        <div style="
-                            background:#fff3cd;
-                            border:1px solid #ffc107;
-                            border-radius:12px;
-                            padding:15px;
-                            margin-top:15px;
-                            color:#856404;
-                            font-size:14px;
-                        ">
+                        <div style="background:#fff3cd;border:1px solid #ffc107;border-radius:12px;padding:15px;margin-top:15px;color:#856404;font-size:14px;">
                             <i class="fas fa-exclamation-triangle"></i>
                             <strong> No qualified boosters</strong> for <strong>${orderGameName}</strong>.
                             Add a booster with this specialty in the <em>Boosters</em> tab.
@@ -1232,9 +1362,7 @@
                         <div class="action-buttons">
                             <select class="booster-select" id="booster-select-${order.order_id}">
                                 <option value="">Select ${orderGameName} Booster</option>
-                                ${qualified.map(b => 
-                                    `<option value="${b.user_id}">${b.username}</option>`
-                                ).join('')}
+                                ${qualified.map(b => `<option value="${b.user_id}">${b.username}</option>`).join('')}
                             </select>
                             <button onclick="assignBooster(${order.order_id})" class="btn-assign">
                                 <i class="fas fa-user-plus"></i> Assign Booster
@@ -1265,6 +1393,20 @@
                         <div class="detail-item"><div class="detail-label">Time</div><div class="detail-value">${timeStr}</div></div>
                         <div class="detail-item"><div class="detail-label">Status</div><div class="detail-value">${highlightText(order.status || 'pending', searchTerm)}</div></div>
                     </div>
+                    
+                    ${receiptUrl ? `
+                        <div class="receipt-preview">
+                            <div class="receipt-preview-label">
+                                <i class="fas fa-receipt"></i> Payment Receipt
+                                <span class="receipt-hint">Click to enlarge</span>
+                            </div>
+                            <div class="receipt-thumb-wrapper" onclick="openImageModal('${receiptUrl}')">
+                                <img src="${receiptUrl}" class="receipt-thumb" alt="Payment Receipt">
+                                <div class="receipt-overlay"><i class="fas fa-search-plus"></i></div>
+                            </div>
+                        </div>
+                    ` : ''}
+                    
                     ${assignmentHtml}
                 </div>
             `;

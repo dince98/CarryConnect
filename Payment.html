@@ -9,7 +9,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         
         body {
             font-family: 'Poppins', sans-serif;
@@ -29,7 +33,9 @@
             letter-spacing: -0.5px;
         }
         
-        .navbar-brand span { color: #3b82f6; }
+        .navbar-brand span {
+            color: #3b82f6;
+        }
         
         .nav-link {
             color: rgba(255,255,255,0.9) !important;
@@ -52,7 +58,9 @@
             gap: 8px;
         }
         
-        .btn-account:hover { background: rgba(59, 130, 246, 0.2); }
+        .btn-account:hover {
+            background: rgba(59, 130, 246, 0.2);
+        }
         
         .dropdown-menu {
             background: #1e293b;
@@ -70,8 +78,16 @@
             transition: all 0.3s;
         }
         
-        .dropdown-item:hover { background: #3b82f6; color: white; }
-        .dropdown-item i { width: 20px; margin-right: 10px; color: #3b82f6; }
+        .dropdown-item:hover {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .dropdown-item i {
+            width: 20px;
+            margin-right: 10px;
+            color: #3b82f6;
+        }
         
         .payment-container {
             max-width: 800px;
@@ -107,8 +123,15 @@
             border-bottom: 1px dashed #e2e8f0;
         }
         
-        .order-detail-label { font-weight: 600; color: #64748b; }
-        .order-detail-value { font-weight: 700; color: #1e293b; }
+        .order-detail-label {
+            font-weight: 600;
+            color: #64748b;
+        }
+        
+        .order-detail-value {
+            font-weight: 700;
+            color: #1e293b;
+        }
         
         .order-total {
             font-size: 24px;
@@ -116,7 +139,7 @@
             font-weight: 800;
         }
         
-        .account-section, .payment-methods, .upload-section {
+        .account-section {
             background: white;
             border-radius: 30px;
             padding: 30px;
@@ -125,14 +148,16 @@
             border: 2px solid #e2e8f0;
         }
         
-        .account-section h3, .payment-methods h3, .upload-section h3 {
+        .account-section h3 {
             font-size: 20px;
             font-weight: 700;
             margin-bottom: 20px;
             color: #1e293b;
         }
         
-        .account-input { margin-bottom: 20px; }
+        .account-input {
+            margin-bottom: 20px;
+        }
         
         .account-input label {
             font-weight: 600;
@@ -155,7 +180,10 @@
             box-shadow: 0 0 0 4px rgba(57, 177, 224, 0.1);
         }
         
-        .account-input textarea { resize: vertical; min-height: 80px; }
+        .account-input textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
         
         .account-note {
             background: #f0f9ff;
@@ -167,7 +195,25 @@
             border-left: 3px solid #39b1e0;
         }
         
-        .account-note i { color: #39b1e0; margin-right: 8px; }
+        .account-note i {
+            color: #39b1e0;
+            margin-right: 8px;
+        }
+        
+        .payment-methods {
+            background: white;
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .payment-methods h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #1e293b;
+        }
         
         .payment-option {
             border: 2px solid #e2e8f0;
@@ -181,8 +227,15 @@
             gap: 15px;
         }
         
-        .payment-option:hover { border-color: #39b1e0; background: #f8fafc; }
-        .payment-option.selected { border-color: #39b1e0; background: #f0f9ff; }
+        .payment-option:hover {
+            border-color: #39b1e0;
+            background: #f8fafc;
+        }
+        
+        .payment-option.selected {
+            border-color: #39b1e0;
+            background: #f0f9ff;
+        }
         
         .payment-option input[type="radio"] {
             width: 20px;
@@ -202,8 +255,16 @@
             color: #39b1e0;
         }
         
-        .payment-details h4 { font-weight: 700; margin-bottom: 5px; }
-        .payment-details p { color: #64748b; font-size: 14px; margin-bottom: 0; }
+        .payment-details h4 {
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .payment-details p {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 0;
+        }
         
         .qr-container {
             text-align: center;
@@ -238,7 +299,9 @@
             border-left: 4px solid #39b1e0;
         }
         
-        .reference-input { margin-top: 20px; }
+        .reference-input {
+            margin-top: 20px;
+        }
         
         .reference-input label {
             font-weight: 600;
@@ -260,6 +323,21 @@
             box-shadow: 0 0 0 4px rgba(57, 177, 224, 0.1);
         }
         
+        .upload-section {
+            background: white;
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .upload-section h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #1e293b;
+        }
+        
         .upload-area {
             border: 2px dashed #e2e8f0;
             border-radius: 20px;
@@ -270,7 +348,10 @@
             background: #f8fafc;
         }
         
-        .upload-area:hover { border-color: #39b1e0; background: #f0f9ff; }
+        .upload-area:hover {
+            border-color: #39b1e0;
+            background: #f0f9ff;
+        }
         
         .upload-area i {
             font-size: 48px;
@@ -278,8 +359,14 @@
             margin-bottom: 15px;
         }
         
-        .upload-area p { color: #64748b; margin-bottom: 10px; }
-        .upload-area small { color: #94a3b8; }
+        .upload-area p {
+            color: #64748b;
+            margin-bottom: 10px;
+        }
+        
+        .upload-area small {
+            color: #94a3b8;
+        }
         
         .file-info {
             display: none;
@@ -328,20 +415,34 @@
             color: white;
             text-decoration: none;
         }
+        
+        .copyright {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 30px;
+            margin-top: 40px;
+            text-align: center;
+            color: rgba(255,255,255,0.5);
+        }
     </style>
 </head>
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
-        <a class="navbar-brand" href="index.html"><span>Carry</span>Connect</a>
+        <a class="navbar-brand" href="index.html">
+            <span>Carry</span>Connect
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="HowItWorks.html">How It Works</a></li>
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="HowItWorks.html">How It Works</a>
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link btn-account dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-user-circle"></i> <span id="accountText">Account</span>
@@ -354,7 +455,6 @@
 </nav>
 
 <div class="payment-container">
-    <!-- Order Summary Card -->
     <div class="order-summary-card">
         <div class="order-header">
             <h2>Confirm Your Order</h2>
@@ -386,7 +486,6 @@
         </div>
     </div>
     
-    <!-- Game Account Details Section -->
     <div class="account-section">
         <h3><i class="fas fa-gamepad me-2" style="color: #39b1e0;"></i> Game Account Details</h3>
         <p class="text-muted mb-3">Your booster will need these to access your account and complete the boost.</p>
@@ -411,7 +510,6 @@
         </div>
     </div>
     
-    <!-- Payment Methods - GCASH ONLY -->
     <div class="payment-methods">
         <h3><i class="fas fa-credit-card me-2" style="color: #39b1e0;"></i> Select Payment Method</h3>
         
@@ -442,7 +540,6 @@
         </div>
     </div>
     
-    <!-- Upload Receipt Section -->
     <div class="upload-section">
         <h3><i class="fas fa-cloud-upload-alt me-2" style="color: #39b1e0;"></i> Upload Payment Receipt</h3>
         <p class="text-muted mb-3">Please upload a screenshot or photo of your payment confirmation.</p>
@@ -460,7 +557,6 @@
         </div>
     </div>
     
-    <!-- Submit Button -->
     <button class="btn-submit-payment" onclick="submitPayment()" id="submitBtn" disabled>
         <i class="fas fa-check-circle me-2"></i> Submit Payment
     </button>
@@ -505,6 +601,7 @@
             accountText.textContent = username;
             let menuItems = `
                 <li><a class="dropdown-item" href="Games.html"><i class="fas fa-gamepad"></i> Games</a></li>
+                <li><a class="dropdown-item" href="Boosters.html"><i class="fas fa-users"></i> Our Boosters</a></li>
                 <li><a class="dropdown-item" href="Orders.html"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
             `;
             if (role === 'booster') {
@@ -588,7 +685,6 @@
     document.getElementById('gameUsername')?.addEventListener('input', checkSubmitButton);
     document.getElementById('gamePassword')?.addEventListener('input', checkSubmitButton);
     
-    // ========== SUBMIT PAYMENT (FIXED) ==========
     async function submitPayment() {
         if (!selectedPayment || !selectedFile) {
             alert('Please select payment method and upload receipt');
@@ -642,7 +738,7 @@
             const publicUrl = urlData.publicUrl;
             console.log('Receipt uploaded:', publicUrl);
             
-            // 3. Save payment details (with BOTH receipt_url and receipt_path for compatibility)
+            // 3. Save payment details
             const paymentData = {
                 order_id: parseInt(orderData.orderId),
                 user_id: parseInt(userId),
@@ -670,6 +766,12 @@
                     additional_info: additionalInfo || ''
                 })
                 .eq('order_id', orderData.orderId);
+            
+            // 5. Clear booster preference from session
+            sessionStorage.removeItem('requestedBoosterId');
+            sessionStorage.removeItem('requestedBoosterName');
+            sessionStorage.removeItem('preferredBoosterId');
+            sessionStorage.removeItem('preferredBoosterName');
             
             alert('✅ Payment submitted successfully! Your order has been placed.');
             window.location.href = 'Orders.html';

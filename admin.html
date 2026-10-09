@@ -275,7 +275,7 @@
             100% { transform: rotate(360deg); }
         }
         
-        /* ===== IMAGE MODAL ===== */
+        /* IMAGE MODAL */
         .image-modal {
             display: none;
             position: fixed;
@@ -322,7 +322,7 @@
             margin-top: 50px;
         }
         
-        /* ===== Receipt Preview Styles ===== */
+        /* Receipt Preview */
         .receipt-preview {
             margin: 15px 0;
             background: #f8fafc;
@@ -405,30 +405,6 @@
             opacity: 1;
         }
         
-        .receipt-loading {
-            width: 160px;
-            height: 160px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #94a3b8;
-            font-size: 12px;
-            gap: 10px;
-            background: #f1f5f9;
-            border-radius: 12px;
-            border: 2px solid #e2e8f0;
-        }
-        
-        .receipt-loading .mini-spinner {
-            width: 24px;
-            height: 24px;
-            border: 3px solid #e2e8f0;
-            border-top: 3px solid #667eea;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-        
         .receipt-error {
             width: 160px;
             height: 160px;
@@ -462,7 +438,7 @@
             gap: 8px;
         }
         
-        /* ===== Search & Filter Bar ===== */
+        /* Search & Filter Bar */
         .filter-bar {
             background: white;
             border-radius: 20px;
@@ -566,7 +542,7 @@
             color: #1e293b;
         }
         
-        /* ===== Booster Filter Chips ===== */
+        /* Booster Filter Chips */
         .booster-filter-chips {
             display: flex;
             gap: 10px;
@@ -592,6 +568,57 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border-color: transparent;
+        }
+        
+        /* ⭐ NEW: Booster rating badge */
+        .booster-rating-badge {
+            margin-top: 15px;
+            padding: 12px 15px;
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            border-radius: 12px;
+            border: 1px solid #f59e0b;
+        }
+        
+        .booster-rating-badge.no-rating {
+            background: #f1f5f9;
+            border: 1px dashed #cbd5e1;
+        }
+        
+        .booster-rating-content {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .rating-star-icon {
+            font-size: 22px;
+            color: #fbbf24;
+            line-height: 1;
+        }
+        
+        .rating-value {
+            font-size: 18px;
+            font-weight: 800;
+            color: #92400e;
+        }
+        
+        .rating-max {
+            font-size: 13px;
+            color: #92400e;
+            opacity: 0.8;
+        }
+        
+        .rating-count-badge {
+            margin-left: auto;
+            font-size: 12px;
+            font-weight: 600;
+            color: #92400e;
+        }
+        
+        .no-rating-text {
+            font-size: 13px;
+            color: #64748b;
+            font-style: italic;
         }
     </style>
 </head>
@@ -732,7 +759,6 @@
     
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     
-    // ⚠️ IMPORTANT: Change this if your bucket has a different name
     const RECEIPT_BUCKET = 'payment-receipts';
     
     let gamesMap = {};
@@ -743,25 +769,20 @@
     let paymentsMap = {};
     
     // ============================================================
-    // ⭐ THE MAGIC FUNCTION: Automatically resolve receipt URL
-    // from whatever data we have. No manual work needed.
+    // AUTO URL RESOLVER
     // ============================================================
     function resolveReceiptUrl(payment) {
         if (!payment) return null;
         
-        // Priority 1: If we have a full URL and it looks valid, use it
         if (payment.receipt_url && typeof payment.receipt_url === 'string' && payment.receipt_url.startsWith('http')) {
             return payment.receipt_url;
         }
         
-        // Priority 2: Build from receipt_path (most common case)
         if (payment.receipt_path && typeof payment.receipt_path === 'string') {
-            // Strip leading slash if present
             const cleanPath = payment.receipt_path.replace(/^\/+/, '');
             return `${SUPABASE_URL}/storage/v1/object/public/${RECEIPT_BUCKET}/${cleanPath}`;
         }
         
-        // Priority 3: Legacy — try common column names
         const legacyPath = payment.receipt || payment.image_url || payment.proof_url;
         if (legacyPath && typeof legacyPath === 'string') {
             if (legacyPath.startsWith('http')) return legacyPath;
@@ -769,13 +790,9 @@
             return `${SUPABASE_URL}/storage/v1/object/public/${RECEIPT_BUCKET}/${cleanPath}`;
         }
         
-        // Nothing usable
         return null;
     }
     
-    // ============================================================
-    // IMAGE MODAL
-    // ============================================================
     function openImageModal(imageUrl) {
         const modal = document.getElementById('imageModal');
         const modalImage = document.getElementById('modalImage');
@@ -793,9 +810,6 @@
         if (event.key === 'Escape') closeImageModal();
     });
     
-    // ============================================================
-    // NAVBAR
-    // ============================================================
     function checkRememberedLogin() {
         const remembered = localStorage.getItem('rememberedUser');
         if (remembered && !sessionStorage.getItem('userId')) {
@@ -817,6 +831,7 @@
             accountText.textContent = username;
             let menuItems = `
                 <li><a class="dropdown-item" href="Games.html"><i class="fas fa-gamepad"></i> Games</a></li>
+                <li><a class="dropdown-item" href="Boosters.html"><i class="fas fa-users"></i> Our Boosters</a></li>
                 <li><a class="dropdown-item" href="Orders.html"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
             `;
             if (role === 'booster') {
@@ -839,9 +854,6 @@
         }
     }
     
-    // ============================================================
-    // INIT
-    // ============================================================
     window.onload = function() {
         checkRememberedLogin();
         const role = sessionStorage.getItem('role');
@@ -858,9 +870,6 @@
         updateNavbar();
     };
     
-    // ============================================================
-    // LOAD GAMES
-    // ============================================================
     async function loadGames() {
         try {
             const { data, error } = await supabase.from('games').select('*');
@@ -893,23 +902,30 @@
         }
     }
     
-    // ============================================================
-    // LOAD BOOSTERS
-    // ============================================================
     async function loadBoosters() {
         try {
             const { data, error } = await supabase
-                .from('users').select('*').eq('role', 'booster');
+                .from('users')
+                .select('*')
+                .eq('role', 'booster');
+            
             if (error) throw error;
             
             allBoostersCache = data || [];
-            boostersMap = data.reduce((map, booster) => { map[booster.user_id] = booster; return map; }, {});
+            
+            boostersMap = data.reduce((map, booster) => {
+                map[booster.user_id] = booster;
+                return map;
+            }, {});
             
             displayBoosters(data);
             
             const boosterFilter = document.getElementById('filterBooster');
             if (boosterFilter) {
-                boosterFilter.innerHTML = `<option value="all">All Boosters</option><option value="unassigned">Unassigned</option>`;
+                boosterFilter.innerHTML = `
+                    <option value="all">All Boosters</option>
+                    <option value="unassigned">Unassigned</option>
+                `;
                 data.forEach(booster => {
                     const opt = document.createElement('option');
                     opt.value = booster.user_id;
@@ -939,8 +955,10 @@
         return allBoostersCache.filter(b => canBoosterHandleGame(b, gameId));
     }
     
+    // ⭐ NEW: Display boosters with rating badge
     function displayBoosters(boosters) {
         const container = document.getElementById('boostersList');
+        
         if (!boosters || boosters.length === 0) {
             container.innerHTML = `
                 <div class="no-data">
@@ -952,7 +970,11 @@
             return;
         }
         
-        const gameColors = { '1': '#c89b3c', '2': '#ff4655', '3': '#00b5e2' };
+        const gameColors = {
+            '1': '#c89b3c',
+            '2': '#ff4655',
+            '3': '#00b5e2'
+        };
         
         let html = '';
         boosters.forEach(booster => {
@@ -960,9 +982,42 @@
                 ? booster.specialty.map(gid => {
                     const name = gamesMap[gid] || `Game ${gid}`;
                     const color = gameColors[String(gid)] || '#667eea';
-                    return `<span style="display:inline-block;background:${color}22;color:${color};border:1px solid ${color}66;padding:3px 12px;border-radius:50px;font-size:11px;font-weight:700;margin:2px 4px 2px 0;">${name}</span>`;
+                    return `<span style="
+                        display:inline-block;
+                        background:${color}22;
+                        color:${color};
+                        border:1px solid ${color}66;
+                        padding:3px 12px;
+                        border-radius:50px;
+                        font-size:11px;
+                        font-weight:700;
+                        margin:2px 4px 2px 0;
+                    ">${name}</span>`;
                 }).join('')
                 : '<span style="color:#94a3b8;font-size:12px;font-style:italic;">No specialty set</span>';
+
+            // ⭐ Rating badge
+            const hasRating = booster.avg_rating && parseFloat(booster.avg_rating) > 0;
+            const ratingBlock = hasRating
+                ? `
+                    <div class="booster-rating-badge">
+                        <div class="booster-rating-content">
+                            <span class="rating-star-icon">★</span>
+                            <span class="rating-value">${parseFloat(booster.avg_rating).toFixed(1)}</span>
+                            <span class="rating-max">/ 5.0</span>
+                            <span class="rating-count-badge">
+                                ${booster.total_ratings || 0} rating${booster.total_ratings === 1 ? '' : 's'}
+                            </span>
+                        </div>
+                    </div>
+                `
+                : `
+                    <div class="booster-rating-badge no-rating">
+                        <div class="no-rating-text">
+                            <i class="fas fa-star"></i> No ratings yet
+                        </div>
+                    </div>
+                `;
 
             html += `
                 <div class="payment-card">
@@ -971,13 +1026,20 @@
                         <span class="badge-verified">Booster</span>
                     </div>
                     <div class="payment-details">
-                        <div class="detail-item"><div class="detail-label">Name</div><div class="detail-value">${booster.first_name || ''} ${booster.last_name || ''}</div></div>
-                        <div class="detail-item"><div class="detail-label">Email</div><div class="detail-value">${booster.email}</div></div>
+                        <div class="detail-item">
+                            <div class="detail-label">Name</div>
+                            <div class="detail-value">${booster.first_name || ''} ${booster.last_name || ''}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Email</div>
+                            <div class="detail-value">${booster.email}</div>
+                        </div>
                     </div>
                     <div style="margin-top: 15px;">
-                        <div class="detail-label" style="margin-bottom: 8px; text-transform: uppercase;">Specialties</div>
+                        <div class="detail-label" style="margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Specialties</div>
                         <div>${specialties}</div>
                     </div>
+                    ${ratingBlock}
                 </div>
             `;
         });
@@ -988,19 +1050,27 @@
     function filterBoostersByGame(gameId, el) {
         document.querySelectorAll('#boosterFilterChips .chip').forEach(c => c.classList.remove('active'));
         el.classList.add('active');
-        const filtered = gameId === 'all' ? allBoostersCache : allBoostersCache.filter(b => canBoosterHandleGame(b, gameId));
+        
+        const filtered = gameId === 'all'
+            ? allBoostersCache
+            : allBoostersCache.filter(b => canBoosterHandleGame(b, gameId));
+        
         displayBoosters(filtered);
     }
     
-    // ============================================================
-    // LOAD STATS
-    // ============================================================
     async function loadStats() {
         try {
-            const { count: totalOrders } = await supabase.from('orders').select('*', { count: 'exact', head: true });
-            const { count: pendingPayments } = await supabase.from('payments').select('*', { count: 'exact', head: true }).eq('status', 'pending');
-            const { count: activeBoosts } = await supabase.from('orders').select('*', { count: 'exact', head: true }).eq('status', 'in_progress');
-            const { count: totalUsers } = await supabase.from('users').select('*', { count: 'exact', head: true });
+            const { count: totalOrders } = await supabase
+                .from('orders').select('*', { count: 'exact', head: true });
+            
+            const { count: pendingPayments } = await supabase
+                .from('payments').select('*', { count: 'exact', head: true }).eq('status', 'pending');
+            
+            const { count: activeBoosts } = await supabase
+                .from('orders').select('*', { count: 'exact', head: true }).eq('status', 'in_progress');
+            
+            const { count: totalUsers } = await supabase
+                .from('users').select('*', { count: 'exact', head: true });
             
             document.getElementById('totalOrders').textContent = totalOrders || 0;
             document.getElementById('pendingPayments').textContent = pendingPayments || 0;
@@ -1011,29 +1081,21 @@
         }
     }
     
-    // ============================================================
-    // LOAD PENDING PAYMENTS
-    // ============================================================
     async function loadPendingPayments() {
         try {
             const { data, error } = await supabase
                 .from('payments')
-                .select(`*, orders (order_id, client_id, current_rank, target_rank, total_price, game_id, notes)`)
+                .select(`
+                    *,
+                    orders (
+                        order_id, client_id, current_rank, target_rank,
+                        total_price, game_id, notes
+                    )
+                `)
                 .eq('status', 'pending')
                 .order('created_at', { ascending: false });
             
             if (error) throw error;
-            
-            // 🔍 Log the raw payment data so you can debug what columns exist
-            console.log('=== Pending payments fetched ===');
-            data.forEach(p => {
-                console.log(`Payment #${p.payment_id}:`, {
-                    receipt_url: p.receipt_url,
-                    receipt_path: p.receipt_path,
-                    resolved: resolveReceiptUrl(p)
-                });
-            });
-            
             displayPayments(data);
         } catch (error) {
             console.error('Error loading payments:', error);
@@ -1047,9 +1109,6 @@
         }
     }
     
-    // ============================================================
-    // DISPLAY PAYMENTS (with auto-resolving receipt)
-    // ============================================================
     function displayPayments(payments) {
         const container = document.getElementById('paymentsList');
         
@@ -1097,7 +1156,7 @@
                                      class="receipt-thumb" 
                                      alt="Payment Receipt"
                                      loading="lazy"
-                                     onerror="handleImageError(this, '${receiptUrl}')"
+                                     onerror="handleReceiptImageError(this, '${receiptUrl}')"
                                      onclick="openImageModal('${receiptUrl}')">
                                 <div class="receipt-overlay" onclick="openImageModal('${receiptUrl}')">
                                     <i class="fas fa-search-plus"></i>
@@ -1124,26 +1183,18 @@
         container.innerHTML = html;
     }
     
-    // ============================================================
-    // IMAGE ERROR HANDLER (fires when <img> fails to load)
-    // ============================================================
-    function handleImageError(imgElement, attemptedUrl) {
-        console.error('❌ Image failed to load:', attemptedUrl);
-        
-        // Replace with an error box showing what URL was tried
+    function handleReceiptImageError(imgElement, attemptedUrl) {
+        console.error('❌ Receipt image failed to load:', attemptedUrl);
         const wrapper = imgElement.parentElement;
         wrapper.innerHTML = `
             <div class="receipt-error">
                 <i class="fas fa-image"></i>
-                <div>Failed to load image</div>
-                <div style="font-size:10px;word-break:break-all;opacity:0.7;">${attemptedUrl.substring(0, 80)}...</div>
+                <div>Failed to load</div>
+                <div style="font-size:10px;word-break:break-all;opacity:0.7;">${attemptedUrl.substring(0, 60)}...</div>
             </div>
         `;
     }
     
-    // ============================================================
-    // PAYMENT ACTIONS
-    // ============================================================
     async function verifyPayment(paymentId, orderId) {
         if (!confirm('Verify this payment?')) return;
         try {
@@ -1183,9 +1234,6 @@
         }
     }
     
-    // ============================================================
-    // LOAD ALL ORDERS
-    // ============================================================
     async function loadAllOrders() {
         try {
             const { data, error } = await supabase
@@ -1200,12 +1248,14 @@
                 
                 if (payments) {
                     payments.forEach(p => {
-                        if (!paymentsMap[p.order_id] || new Date(p.created_at) > new Date(paymentsMap[p.order_id].created_at || 0)) {
+                        if (!paymentsMap[p.order_id] || 
+                            new Date(p.created_at) > new Date(paymentsMap[p.order_id].created_at || 0)) {
                             paymentsMap[p.order_id] = p;
                         }
                     });
                 }
             }
+            
             applyOrderFilters();
         } catch (error) {
             console.error('Error loading orders:', error);
@@ -1219,9 +1269,6 @@
         }
     }
     
-    // ============================================================
-    // FILTERS & SORTING
-    // ============================================================
     function applyOrderFilters() {
         const searchTerm = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
         const sortBy = document.getElementById('sortBy')?.value || 'order_id';
@@ -1249,10 +1296,16 @@
             });
         }
 
-        if (filterGame !== 'all') filtered = filtered.filter(o => String(o.game_id) === String(filterGame));
+        if (filterGame !== 'all') {
+            filtered = filtered.filter(order => String(order.game_id) === String(filterGame));
+        }
+
         if (filterBooster !== 'all') {
-            if (filterBooster === 'unassigned') filtered = filtered.filter(o => !o.booster_id);
-            else filtered = filtered.filter(o => String(o.booster_id) === String(filterBooster));
+            if (filterBooster === 'unassigned') {
+                filtered = filtered.filter(order => !order.booster_id);
+            } else {
+                filtered = filtered.filter(order => String(order.booster_id) === String(filterBooster));
+            }
         }
 
         filtered.sort((a, b) => {
@@ -1307,9 +1360,6 @@
         return safeText.replace(regex, '<mark>$1</mark>');
     }
     
-    // ============================================================
-    // DISPLAY ALL ORDERS (with auto-resolving receipt)
-    // ============================================================
     function displayAllOrders(orders) {
         const container = document.getElementById('ordersList');
         const searchTerm = (document.getElementById('searchInput')?.value || '').trim();
@@ -1340,10 +1390,8 @@
             const dateStr = dateObj.toLocaleDateString();
             const timeStr = dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-            // Auto-resolve receipt URL
             const receiptUrl = resolveReceiptUrl(paymentsMap[order.order_id]);
 
-            // Assignment block
             let assignmentHtml = '';
             if (order.payment_status === 'verified' && !order.booster_id) {
                 const qualified = getQualifiedBoosters(order.game_id);
@@ -1354,6 +1402,7 @@
                         <div style="background:#fff3cd;border:1px solid #ffc107;border-radius:12px;padding:15px;margin-top:15px;color:#856404;font-size:14px;">
                             <i class="fas fa-exclamation-triangle"></i>
                             <strong> No qualified boosters</strong> for <strong>${orderGameName}</strong>.
+                            Add a booster with this specialty in the <em>Boosters</em> tab.
                         </div>
                     `;
                 } else {
@@ -1368,7 +1417,8 @@
                             </button>
                         </div>
                         <div style="margin-top:10px;font-size:12px;color:#64748b;">
-                            <i class="fas fa-filter"></i> Showing <strong>${qualified.length}</strong> booster(s) qualified for <strong>${orderGameName}</strong>
+                            <i class="fas fa-filter"></i>
+                            Showing <strong>${qualified.length}</strong> booster(s) qualified for <strong>${orderGameName}</strong>
                         </div>
                     `;
                 }
@@ -1403,7 +1453,7 @@
                                      class="receipt-thumb" 
                                      alt="Payment Receipt"
                                      loading="lazy"
-                                     onerror="handleImageError(this, '${receiptUrl}')"
+                                     onerror="handleReceiptImageError(this, '${receiptUrl}')"
                                      onclick="openImageModal('${receiptUrl}')">
                                 <div class="receipt-overlay" onclick="openImageModal('${receiptUrl}')">
                                     <i class="fas fa-search-plus"></i>
@@ -1420,9 +1470,6 @@
         container.innerHTML = html;
     }
     
-    // ============================================================
-    // ASSIGN BOOSTER
-    // ============================================================
     async function assignBooster(orderId) {
         const select = document.getElementById(`booster-select-${orderId}`);
         const boosterId = select.value;
@@ -1448,9 +1495,6 @@
         }
     }
     
-    // ============================================================
-    // TAB SWITCHING
-    // ============================================================
     function switchTab(tab) {
         document.getElementById('tab-payments').classList.remove('active');
         document.getElementById('tab-boosters').classList.remove('active');

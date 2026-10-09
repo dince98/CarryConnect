@@ -1169,22 +1169,77 @@
         `;
     }
     
+    // ⭐ UPDATED: verifyPayment with AUTO-ASSIGN logic
     async function verifyPayment(paymentId, orderId) {
         if (!confirm('Verify this payment?')) return;
+        
         try {
+            // 1. Update payment status
             const { error: paymentError } = await supabase
                 .from('payments')
                 .update({ status: 'verified', verified_at: new Date().toISOString() })
                 .eq('payment_id', paymentId);
             if (paymentError) throw paymentError;
             
+            // 2. Fetch order to check for preferred_booster_id
+            const { data: order, error: fetchError } = await supabase
+                .from('orders')
+                .select('preferred_booster_id, booster_id, game_id')
+                .eq('order_id', orderId)
+                .single();
+            if (fetchError) throw fetchError;
+            
+            // 3. Prepare order update payload
+            const orderUpdate = { payment_status: 'verified' };
+            
+            // 4. ⭐ AUTO-ASSIGN logic
+            let autoAssigned = false;
+            let assignedBoosterName = '';
+            
+            if (order.preferred_booster_id && !order.booster_id) {
+                // Check if preferred booster is available (no in_progress orders)
+                const { data: activeOrders, error: checkError } = await supabase
+                    .from('orders')
+                    .select('order_id')
+                    .eq('booster_id', order.preferred_booster_id)
+                    .eq('status', 'in_progress');
+                if (checkError) throw checkError;
+                
+                if (!activeOrders || activeOrders.length === 0) {
+                    // ✅ Booster is available — auto-assign
+                    orderUpdate.booster_id = order.preferred_booster_id;
+                    orderUpdate.status = 'assigned';
+                    orderUpdate.assigned_at = new Date().toISOString();
+                    autoAssigned = true;
+                    
+                    // Get booster name
+                    const { data: booster } = await supabase
+                        .from('users')
+                        .select('username')
+                        .eq('user_id', order.preferred_booster_id)
+                        .single();
+                    assignedBoosterName = booster?.username || 'requested booster';
+                } else {
+                    console.log('⚠️ Preferred booster is busy — manual assignment needed');
+                }
+            }
+            
+            // 5. Update order
             const { error: orderError } = await supabase
                 .from('orders')
-                .update({ payment_status: 'verified' })
+                .update(orderUpdate)
                 .eq('order_id', orderId);
             if (orderError) throw orderError;
             
-            alert('✅ Payment verified!');
+            // 6. Show result to admin
+            if (autoAssigned) {
+                alert(`✅ Payment verified!\n⭐ Auto-assigned to: ${assignedBoosterName}`);
+            } else if (order.preferred_booster_id) {
+                alert('✅ Payment verified!\n⚠️ Requested booster is currently busy — please assign manually.');
+            } else {
+                alert('✅ Payment verified!');
+            }
+            
             loadPendingPayments();
             loadStats();
             loadAllOrders();
@@ -1366,9 +1421,28 @@
 
             const receiptUrl = resolveReceiptUrl(paymentsMap[order.order_id]);
 
-            // ===== Assignment block with preferred booster =====
+            // ===== ⭐ NEW: Assignment block with auto-assign awareness =====
             let assignmentHtml = '';
-            if (order.payment_status === 'verified' && !order.booster_id) {
+
+            // CASE 1: Order already has a booster assigned
+            if (order.booster_id) {
+                // Check if it was auto-assigned to the preferred booster
+                const wasPreferred = order.preferred_booster_id && order.preferred_booster_id === order.booster_id;
+                
+                if (wasPreferred) {
+                    assignmentHtml = `
+                        <div style="background: linear-gradient(135deg, #d1fae5, #a7f3d0); border: 2px solid #10b981; border-radius: 12px; padding: 14px 18px; margin-top: 15px; display: flex; align-items: center; gap: 12px;">
+                            <i class="fas fa-check-circle" style="color: #059669; font-size: 22px;"></i>
+                            <div>
+                                <div style="font-weight: 800; color: #065f46; font-size: 14px;">⭐ Auto-assigned to client's requested booster</div>
+                                <div style="font-size: 12px; color: #065f46; opacity: 0.8;">No manual assignment needed</div>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+            // CASE 2: No booster yet + payment verified → show manual assignment UI
+            else if (order.payment_status === 'verified' && !order.booster_id) {
                 const qualified = getQualifiedBoosters(order.game_id);
                 const orderGameName = gamesMap[order.game_id] || 'this game';
                 const preferredBoosterId = order.preferred_booster_id;
@@ -1390,16 +1464,18 @@
                         ];
                     }
                     
-                    assignmentHtml = `
-                        ${preferredBooster ? `
-                            <div style="background: linear-gradient(135deg, #fef3c7, #fde68a); border: 2px solid #f59e0b; border-radius: 12px; padding: 14px 18px; margin-top: 15px; display: flex; align-items: center; gap: 12px;">
-                                <i class="fas fa-star" style="color: #d97706; font-size: 20px;"></i>
-                                <div>
-                                    <div style="font-weight: 800; color: #92400e; font-size: 14px;">Client requested: ${preferredBooster.username}</div>
-                                    <div style="font-size: 12px; color: #92400e; opacity: 0.8;">Pre-selected below ↓</div>
-                                </div>
+                    const warningBanner = preferredBooster ? `
+                        <div style="background: linear-gradient(135deg, #fef3c7, #fde68a); border: 2px solid #f59e0b; border-radius: 12px; padding: 14px 18px; margin-top: 15px; display: flex; align-items: center; gap: 12px;">
+                            <i class="fas fa-exclamation-triangle" style="color: #d97706; font-size: 20px;"></i>
+                            <div>
+                                <div style="font-weight: 800; color: #92400e; font-size: 14px;">Client requested: ${preferredBooster.username}</div>
+                                <div style="font-size: 12px; color: #92400e; opacity: 0.8;">⚠️ Currently busy — assign manually or wait</div>
                             </div>
-                        ` : ''}
+                        </div>
+                    ` : '';
+                    
+                    assignmentHtml = `
+                        ${warningBanner}
                         <div class="action-buttons">
                             <select class="booster-select" id="booster-select-${order.order_id}">
                                 ${sortedQualified.map(b => `

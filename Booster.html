@@ -472,12 +472,11 @@
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     
     let gamesMap = {};
-    let gameToPage = {};  // game_id -> pricing page (for "Hire" redirect)
+    let gameToPage = {};
     let gameColors = { '1': '#c89b3c', '2': '#ff4655', '3': '#00b5e2' };
     let allBoosters = [];
     let currentFilter = 'all';
     
-    // Map game names to their pricing pages for smart "Hire" redirect
     const GAME_PAGES = {
         'League of Legends': 'LeaguePrices.html',
         'Valorant': 'ValorantPrices.html',
@@ -540,7 +539,6 @@
             
             data.forEach(g => { 
                 gamesMap[g.game_id] = g.game_name; 
-                // Map game → pricing page for hire redirect
                 if (GAME_PAGES[g.game_name]) {
                     gameToPage[g.game_id] = GAME_PAGES[g.game_name];
                 }
@@ -570,7 +568,6 @@
             
             allBoosters = data || [];
             
-            // Sort: rating desc → total ratings desc → username asc
             allBoosters.sort((a, b) => {
                 const ra = parseFloat(a.avg_rating) || 0;
                 const rb = parseFloat(b.avg_rating) || 0;
@@ -596,17 +593,14 @@
     
     async function loadPublicStats() {
         try {
-            // Count boosters
             document.getElementById('statBoosters').textContent = allBoosters.length;
             
-            // Count completed orders
             const { count: completedCount } = await supabase
                 .from('orders')
                 .select('*', { count: 'exact', head: true })
                 .eq('status', 'completed');
             document.getElementById('statOrders').textContent = completedCount || 0;
             
-            // Average rating across all boosters with ratings
             const ratedBoosters = allBoosters.filter(b => b.avg_rating > 0);
             if (ratedBoosters.length > 0) {
                 const avg = ratedBoosters.reduce((sum, b) => sum + parseFloat(b.avg_rating), 0) / ratedBoosters.length;
@@ -636,21 +630,17 @@
         renderBoosters(filtered);
     }
     
-    // Smart "Hire This Booster" redirect — goes to the right pricing page for their primary game
     function hireBooster(booster) {
         const specialties = booster.specialty || [];
         if (specialties.length === 0) {
-            // No specialty — send to Games hub
             window.location.href = 'Games.html';
             return;
         }
         
-        // Use first specialty
         const primaryGameId = String(specialties[0]);
         const page = gameToPage[primaryGameId];
         
         if (page) {
-            // Store selected booster in sessionStorage so pricing page can pre-select them
             sessionStorage.setItem('preferredBoosterId', booster.user_id);
             sessionStorage.setItem('preferredBoosterName', booster.username || '');
             window.location.href = page;
@@ -677,7 +667,6 @@
         boosters.forEach((booster, index) => {
             const hasRating = booster.avg_rating > 0;
             
-            // Rank medal — only for top 3 with ratings
             let rankBadge = '';
             if (hasRating && currentFilter === 'all') {
                 if (index === 0) rankBadge = '<div class="rank-badge rank-1">🥇</div>';
@@ -718,7 +707,6 @@
                 `;
             }
             
-            // Store booster as JSON string safely for onclick
             const boosterJson = JSON.stringify({
                 user_id: booster.user_id,
                 username: booster.username,
